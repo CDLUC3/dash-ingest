@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  subjectName: MyString
+  subjectScheme: MyString
+  record_id: 1
+
+two:
+  subjectName: MyString
+  subjectScheme: MyString
+  record_id: 1

@@ -1,0 +1,68 @@
+<%= render 'layouts/head1' %>
+<title>My Datasets: DataShare - Open data for the global research community</title>
+<%= render 'layouts/head2' %>
+
+<body>
+<!-- begin page id -->
+<div id="my-datasets-page"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%= render 'layouts/header' %>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+
+<div id=main>
+
+<p/>
+	<!-- begin content -->
+	<div id="content"> 	
+		<div class="single-column">
+			<h1>Submission Logs</h1>
+			<div class="instruction">Submission Logs for: <%= @record.title %>
+			</div>
+			<div class="dataset-table">
+				<table>
+					<tr>
+						<th class="data-title">Submission Logs</th>
+						<th class="data-title">Datashare Response</th>
+						<th class="data-title">Files</th>
+					</tr>
+					<% @record.submissionLogs.reverse.each do |s| %>
+					
+					<tr>
+						<td class="data-id"><%= s.created_at %></td>
+						<td class="data-title"><%= s.filtered_response %></td>
+						<td class="data-title">
+							
+							<% if s.uploadArchives.count > 0 %>
+
+										<% s.uploadArchives.each do |upload| %>
+											<%= upload.upload_file_name %> (<%= number_to_human_size(upload.upload_file_size) %>)<br/>
+										<% end %>
+
+
+							<% end %>
+							
+						</td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+				
+			<div id="add-new-dataset"><a href="/records"><%= image_tag "back-to-datasets-button.png",  :size => "203x57", :alt => "Add New Dataset" %></a> </div>
+		
+		</div>
+	</div>
+<!-- begin footer-->
+	<%= render 'layouts/footer' %> 
+<!-- end footer-->
+</div> <!-- end inner container -->
+</div> <!-- end outer container -->
+</div>
+</body>
+</html>

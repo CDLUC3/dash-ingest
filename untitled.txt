@@ -1,0 +1,10 @@
+drop down box for contributor and publisher
+change other to technical in description field
+references should be recommended (rework on this page)
+button for incomplete record to datashare
+Title should be log
+Confirmation page is going to old dev page (mock up a new confirmation page)
+Send eric and abhishek email about confirmation send page
+user friendly log info
+on metadata page, call it "Citations"
+new ctsi folder (in latest img folder)

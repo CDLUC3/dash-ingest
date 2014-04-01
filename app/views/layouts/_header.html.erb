@@ -1,0 +1,9 @@
+<div id="header">
+	<div id="logo"> <a href="<%=DATASHARE_CONFIG['datashare_url']%>"> 
+		<%= image_tag "datashare-logo3.gif",  :size => "320x63", :title => "DataShare: Open data for the global research community", :alt => "DataShare: Open data for the global research community" %></a> 
+		</a> </div>
+	<div id="logout">
+	<div class="logout-text">Logged in as <i><%= User.find(session[:user_id]).external_id %></i></div>
+		<%= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %> 
+	</div>
+</div>

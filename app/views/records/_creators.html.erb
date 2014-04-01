@@ -1,0 +1,12 @@
+<table class="table-container">
+	<tbody>
+		<% @record.creators.each do |creator| %>
+		  <tr>
+			<td class="italic"><%= creator.creatorName %></td>
+				<td>
+					<%= link_to "delete", "/delete_creator/#{@record.id}/#{creator.id}", :remote => true%>
+				</td>
+		  </tr>
+		<% end %>
+	</tbody>
+</table>

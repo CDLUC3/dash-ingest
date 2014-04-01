@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Login: DataShare - Open data for the global research community</title>
+<%= render 'layouts/head' %>
+</head>
+<body>
+<!-- begin page id -->
+<div id="login-page"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%= render 'layouts/header' %>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+		<!-- begin content -->
+		<div id="content"> 	
+		  <div id="login-content">	
+			<div id="left-container">
+			<div class="left-part"><h1>Log in</h1></div>
+			<div class="right-part">
+			<form id="login-form" name="login-form" action="POST" method="post">
+				<label for="username">Username</label><input id="username" name="username" type="text"/>
+				<label for="password">Password</label><input id="password" type="password" name="password" />
+				<div class="go">
+					<%= image_tag "go-login.gif", :alt => "Go" %>
+				</div>
+				<div class="note"><strong>Note</strong>: currently only UCSF MyAccess is supported. We plan to expand access to other institutions in the future</div>
+			</form>
+			</div>
+			</div>
+			<div id="right-container" >
+				<div class="why-only-UCSF">Why Only UCSF?</div>
+				<div class="para-text">
+					The DataShare system is being piloted at UCSF and therefore currently it is only configured to accept data submissions authenticated through UCSF's secure sign-on, MyAccess. We hope this system will be used by other institutions in future phases of the project.
+				</div>
+			</div>
+		</div>	
+		</div> <!-- end content-->
+	<!-- begin footer-->
+		<%= render 'layouts/footer' %>
+	<!-- end footer-->
+	</div> <!-- end inner container -->
+  </div> <!-- end outer container -->
+</div>
+</body>
+</html>

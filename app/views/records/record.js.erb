@@ -1,0 +1,7 @@
+$("#subjects_ajax").html("<%= escape_javascript(render partial: "subjects") %>");
+$("#creators_ajax").html("<%= escape_javascript(render partial: "creators") %>");
+$("#citations_ajax").html("<%= escape_javascript(render partial: "citations") %>");
+$('#flash').html(<%= flash[:notice].to_json %>);
+$('#subject_name').val('');
+$('#creator_name').val('');
+$('#citation').val('');

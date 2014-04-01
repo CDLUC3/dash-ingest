@@ -1,0 +1,19 @@
+defaults: &DEFAULTS
+    merritt_endpoint: "https://merritt-repository.cdlib.org/object/ingest"
+    merritt_username: "username"
+    merritt_password: "password"
+    merritt_profile: "repository_name_submitter_content"
+       
+development:
+    <<: *DEFAULTS
+    
+test:
+    merritt_endpoint: "localhost:3000"
+    merritt_username: "test_username"
+    merritt_password: "test_profile"
+    merritt_profile: "test_profile"
+
+production:
+    <<: *DEFAULTS
+
+

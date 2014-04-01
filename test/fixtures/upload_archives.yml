@@ -1,0 +1,12 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  upload_file_name: MyString
+  upload_file_size: MyString
+  submission_log_id: 1
+
+
+two:
+  upload_file_name: MyString
+  upload_file_size: MyString
+  submission_log_id: 1 

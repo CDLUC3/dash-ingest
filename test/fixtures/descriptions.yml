@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  descriptionType: MyString
+  descriptionText: MyText
+  record_id: 1
+
+two:
+  descriptionType: MyString
+  descriptionText: MyText
+  record_id: 1

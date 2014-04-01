@@ -1,0 +1,226 @@
+<%= render 'layouts/head1' %>
+<title>My Datasets: DataShare - Open data for the global research community</title>
+<%= render 'layouts/head2' %>
+<body>
+<!-- begin page id -->
+<div id="step-four-review-page"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%= render 'layouts/header-logout' %>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+		
+		<!-- begin content -->
+		<div id="content"> 
+			<div id="steps-container">
+				<div id="step-one" >
+					<div class="step-sm-off">STEP ONE:</div>
+					<div class="bold-title-off">Prepare</div>
+				</div>
+
+				<div id="step-two" >
+					<div class="step-sm-off">STEP TWO:</div>
+					<div class="bold-title-off">Describe</div>
+				</div>
+				<div id="step-three" >
+					<div class="step-sm-off">STEP THREE:</div>
+					<div class="bold-title-off">Upload</div>
+				</div>
+				<div id="step-four" >
+					<div class="step-sm-on">STEP FOUR:</div>
+					<div class="bold-title-on">Review & Submit</div>
+				</div>
+			</div>	
+			
+			<div class="single-column">
+			
+			<h1>Review before submitting to DataShare</h1>
+			<h2>Metadata</h2>
+			<div class="metadata-container">
+				<div class="content">
+					<div class="content-row">
+						<div class="field-left">Dataset Title:</div>
+						<div class="field-right"><%= @record.title %></div>
+					</div>
+					<div class="content-row">
+						<div class="field-left">Institution:</div>
+						<div class="field-right"><%= @record.publisher %></div>
+					</div>
+					<div class="content-row">
+						<div class="field-left">Publication Year:</div>
+						<div class="field-right"><%= @record.publicationyear %></div>
+					</div>
+					<div class="content-row">
+						<div class="field-left">Data Type:</div>
+						<div class="field-right"><%= @record.resourcetype %></div>
+					</div>
+					<div class="content-row">
+						<div class="field-left">Data Creator:</div>
+						<div class="field-right">	
+							<% if !@record.creators.first.nil? %>
+								<%= @record.creators.first.creatorName %>
+							<% end %>
+						
+							<% @record.creators.drop(1).each do |creator| %>
+								| <%= creator.creatorName %>
+							<% end %>
+						</div>
+					</div>
+					<!--
+					<div class="content-row">
+						<div class="field-left">At:</div>
+						<div class="field-right">
+							<% if !@record.contributors.first.nil? %>
+								<%= @record.contributors.first.contributorName %>
+							<% end%>
+						
+							<% @record.contributors.drop(1).each do |contributor| %>
+								| <%= contributor.contributorName %>
+							<% end %>
+							
+						</div>
+					</div>
+					-->
+					<div class="content-row">
+						<div class="field-left">Keywords:</div>
+						<div class="field-right">
+							<% if !@record.subjects.first.nil? %>
+								<%= @record.subjects.first.subjectName %>
+							<% end%>
+						
+							<% @record.subjects.drop(1).each do |subject| %>
+								| <%= subject.subjectName %>
+							<% end %>
+							
+						</div>
+					</div>
+					
+					<div class="content-row">
+							<div class="field-left">Citation(s):</div>
+							<div class="field-right">	
+							<div class="collapsible">
+						      <div class="collapse-control"><span class="indicator"></span> Citations</div>
+						      	<div class="collapse-content">
+							<% if !@record.descriptions.first.nil? %>
+								<%= @record.descriptions.first.descriptionText %>
+							<% end %>
+						
+							<% @record.descriptions.drop(1).each do |description| %>
+								<p/><%= description.descriptionText %>
+							<% end %>
+							  </div>
+						  </div>
+						</div>
+					</div>
+					
+					<div class="content-row">
+						<div class="field-left">Abstract:</div>
+						<div class="field-right">	
+						<div class="collapsible">
+					      <div class="collapse-control"><span class="indicator"></span> Abstract</div>
+					      	<div class="collapse-content">
+								<%= @record.abstract %>
+							  </div>
+						  </div>
+						</div>
+					</div>
+					
+					<div class="content-row">
+						<div class="field-left">Methods:</div>
+						<div class="field-right">	
+						<div class="collapsible">
+					      <div class="collapse-control"><span class="indicator"></span> Methods</div>
+					      	<div class="collapse-content">
+								<%= @record.methods %>
+							  </div>
+						  </div>
+						</div>
+					</div>
+						
+				
+				</div>
+			</div>
+			<div class="missing-fields">
+				
+					<div class="missing-fields-req">
+						<% if @record.required_fields.size > 0 %>
+							<h3>The following missing fields are <strong><u>required</u></strong>:</h3>
+							<ul>
+							<% @record.required_fields.each do |f|%>
+								<li><%= f %></li>
+							<% end %>
+							</ul>
+						<% else %>
+							<h3>Record contains all required fields</h3>
+						
+						<% end %>
+						
+						
+						<% if @record.recommended_fields.size > 0 %>
+						
+							<h3>Consider adding these missing recommended fields</h3>
+
+							<ul>
+							<% @record.recommended_fields.each do |f|%>
+								<li><%= f %></li>
+								<% end %>
+							</ul>
+						
+							
+							<% else %>
+								<h3>Record contains all recommended fields</strong></h3>
+							<% end %>
+						
+							<a href="/record/<%=@record.id%>">						
+								<%= image_tag "go-back-button.png",  :size => "203x57", :alt => "Go Back and edit metadata" %></a>
+					</div>
+				
+
+			
+			
+			</div>
+			
+			<h2>Uploaded Files</h2>
+			<% if @record.uploads.nil? || @record.uploads.empty? %>
+        		<h3>Record must include at least one file</h3>
+				<p/>
+      		<% end %>
+			<div class="uploaded-files-container">
+				<ul>
+				<% @record.uploads.each do |dataupload| %>
+					<li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>
+					
+				<% end %>
+				</ul>
+				<a href="/record/<%=@record.id%>/#{DATASHARE_CONFIG['uploads_dir']}">
+					<%= image_tag "upload-more-button.png",  :size => "203x57", :alt => "Upload more files" %>					
+				</a>
+			</div>
+			
+			
+			<h2>Ready to go?</h2>
+						
+			<% if (@record.required_fields.size == 0 && @record.uploads.size > 0) %>
+				<a href="/record/<%=@record.id%>/send_archive_to_merritt">
+					<%= image_tag "send-to-datashare-button.png",  :size => "250x75", :alt => "Send to DataShare" %>					
+				</a>
+			<% else %>
+				<%= image_tag "send-to-datashare-grayed-button.png",  :size => "250x75", :alt => "Send to DataShare" %>					
+			<% end %>
+			</div>
+			
+		</div> <!-- end content-->
+		
+	<!-- begin footer-->
+				<%= render 'layouts/footer' %>
+	<!-- end footer-->
+	</div> <!-- end inner container -->
+  </div> <!-- end outer container -->
+</div>
+</body>
+</html>

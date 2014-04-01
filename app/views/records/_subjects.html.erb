@@ -1,0 +1,12 @@
+<table class="table-container">
+	<tbody>
+		<% @record.subjects.each do |subject| %>
+		  <tr>
+			<td><%= subject.subjectName %></td>
+			<td>
+				<%= link_to "delete", "/delete_subject/#{@record.id}/#{subject.id}", :remote => true%>
+			</td>
+		  </tr>
+		<% end %>
+	</tbody>
+</table>

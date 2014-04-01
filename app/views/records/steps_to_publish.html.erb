@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Steps to share your data: DataShare - Open data for the global research community</title>
+<%= render 'layouts/head' %>
+</head>
+<body>
+<!-- begin page id -->
+<div id="steps-to-publish"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%= render 'layouts/header' %>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+		<!-- begin content -->
+		<div id="content"> 	
+		  <div id="steps-content">	
+			<div id="left-container">
+			<h1>Steps to Share Your Data</h1>
+			<div class="steps">
+			<ul>
+				<li><span class="title">1. Prepare </span><br />
+				Gather your data and information before starting. [<a href="/prepare_to_submit">Read More</a>]</li>
+				<li><span class="title">2. Describe Data </span> <br />
+				Create your metadata. [<a href="/metadata_basics">Read More</a>]</li>
+				<li><span class="title">3. Upload data </span><br />
+				Add your data and metadata to DataShare. [<a href="/upload_faq">Read More</a>]</li>
+				<li><span class="title">4. Get confirmation </span><br/>
+				Receive your data citation.</li>
+			</ul>
+			</div>
+			<div class="begin">
+				<a href="/records">
+					<%= image_tag "begin2.gif",  :size => "149x42", :alt => "Begin" %>
+				</a>
+			</div>
+			</div>
+			<div id="right-container">
+				<div class="why-share">Why Share?</div>
+				<div class="bullet-points">
+					<ul>
+						<li>Facilitates quality science </li>
+						<li>Increases the visibility of underlying research (<a href="http://www.plosone.org/article/info:doi%2F10.1371%2Fjournal.pone.0000308">69% increase in citations for articles associated with shared datasets</a>)</li>
+						<li>Allows credit for all research outputs, including unpublished work</li>
+						<li>Enables validation and reproducibility (<a href="http://www-stat.stanford.edu/~wavelab/Wavelab_850/wavelab.pdf">"An article ... in a scientific publication is not the scholarship itself, it is merely advertising of the scholarship." - D. Donoho</a>)</li>
+						<li>Enhances global collaborative opportunities</li>
+						<li>Data re-use maximizes efficiency of available resources</li>
+						<li>View the DataShare <a href="/data_use_agreement">Data Use Agreement</a></li>
+					</ul>
+				</div>
+			</div>
+		  </div>
+		</div> <!-- end content-->
+	<!-- begin footer-->
+		<%= render 'layouts/footer' %>
+	<!-- end footer-->
+	</div> <!-- end inner container -->
+  </div> <!-- end outer container -->
+</div>
+</body>
+</html>

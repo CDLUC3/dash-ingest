@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Metadata basics: DataShare - Open data for the global research community</title>
+<%= render 'layouts/head' %>
+</head>
+<body>
+<!-- begin page id -->
+<div id="metadata-basics-page"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%= render 'layouts/header' %>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+		
+		<!-- begin content -->
+		<div id="content"> 	
+			<div class="single-column">
+				<h1>Metadata basics</h1>
+				<div class="text-container">
+					<p>
+					Metadata, simply put, is data about data. Any descriptive information that helps people understand the data resource can be considered metadata. Metadata is important not only to help people understand and make proper use of a data resource, but metadata also makes the resource discoverable (for example through internet searches or data indexing services). DataShare requires only a few key pieces of metadata, however the more metadata available, the more useful and discoverable the resource becomes.
+					</p>
+					<p class="secondary-para">
+						DataShare employs a metadata schema developed by DataCite, an international organization devoted to promoting best practices around data re-use. Each metadata field on the 'Describe your Data' page serves a purpose, and therefore some of these fields have specifications for acceptable entries. See below for a full list of metadata accepted by DataShare.
+					</p>
+					<table width="641">
+					  <tr>
+					    <td width="157" valign="top"><p align="center"><strong>Metadata Fieldname</strong></p></td>
+					    <td width="484" valign="top"><p align="center"><strong>Description</strong></p></td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Title*</td>
+					    <td width="484" valign="top">Title of the data resource</td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Data Creator(s)*</td>
+					    <td width="484" valign="top">Main researcher(s) involved in producing the data,    or the authors of the publication, in priority order. (Last Name, First Name)</td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Description*</td>
+					    <td width="484" valign="top">An abstract or general description of the data    resource </td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Institution</td>
+					    <td width="484" valign="top">Name of the institution that supported creation of    the resource (DataShare currently pre-populates this field)</td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Date</td>
+					    <td width="484" valign="top">Date the data resource was    shared <br />
+					      (DataShare currently    pre-populates this field)</td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Methods</td>
+					    <td width="484" valign="top">Any technical or methodological info that helps to    understand how the data were generated and/or how they may be properly    re-used</td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Keywords</td>
+					    <td width="484" valign="top">Any keywords that help identify data domain(s)    (DataShare <strong>highly recommends </strong>using    a controlled vocabulary, such as <a href="http://www.ncbi.nlm.nih.gov/mesh">MeSH</a>) </td>
+				      </tr>
+					  <tr>
+					    <td width="157" valign="top">Citations</td>
+					    <td width="484" valign="top">This field may be used to indicate the existence of    any other resources that are associated with the data, for example    publications or grant numbers (All formats are acceptable, however for    publications an identifier is preferred e.g. PMID or DOI)</td>
+				      </tr>
+				  </table>
+					<p class="secondary-para">* Required for submission</p>
+					
+				</div>
+			</div>
+		</div> <!-- end content-->
+	<!-- begin footer-->
+		<%= render 'layouts/footer' %>
+	<!-- end footer-->
+	</div> <!-- end inner container -->
+  </div> <!-- end outer container -->
+</div>
+</body>
+</html>

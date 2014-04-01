@@ -1,0 +1,12 @@
+<table class="table-container">
+	<tbody>
+		<% @record.descriptions.each do |description| %>
+		  <tr>
+			<td><%= description.descriptionText %></td>
+			<td>
+				<%= link_to "delete", "/delete_description/#{@record.id}/#{description.id}", :remote => true%>
+			</td>
+		  </tr>
+		<% end %>
+	</tbody>
+</table>

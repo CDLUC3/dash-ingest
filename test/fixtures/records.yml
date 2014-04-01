@@ -1,0 +1,40 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  user_id: 1
+  identifier: abc123
+  identifierType: DOI
+  title: Study1
+  publisher: UCSF
+  publicationyear: 1994
+  resourcetype: Data
+  rights: UCSF
+  local_id: 1234567890
+
+
+    
+two:
+  id: 2
+  user_id: 2
+  identifier: def456
+  identifierType: DOI
+  title: Study2
+  publisher: Cambridge
+  publicationyear: 2006
+  resourcetype: Data
+  rights: Cambridge
+  local_id: 234567891
+  
+  
+three:
+    id: 3
+    user_id: 1
+    identifier: def456
+    identifierType: DOI
+    title: Study2
+    publisher: Cambridge
+    publicationyear: 2006
+    resourcetype: Data
+    rights: Cambridge
+    local_id: 234567891

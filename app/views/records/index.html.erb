@@ -1,0 +1,62 @@
+<%= render 'layouts/head1' %>
+<title>My Datasets: DataShare - Open data for the global research community</title>
+<%= render 'layouts/head2' %>
+
+<body>
+<!-- begin page id -->
+<div id="my-datasets-page"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%= render 'layouts/header' %>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+
+<div id=main>
+
+<p/>
+	<!-- begin content -->
+	<div id="content"> 	
+		<div class="single-column">
+			<h1>My Datasets</h1>
+			<div class="instruction">
+			</div>
+			<div class="dataset-table">
+				<table>
+					<tr>
+						<th class="data-title">Title</th>
+						<th class="data-publisher">Publisher</th>
+						<th class="data-year">Publication Year</th>
+						<th class="data-action">Action</th>
+					</tr>
+					<% @records.each do |record| %>
+					
+					<tr>
+						<td class="data-title"><%= record.title %></td>
+						<td class="data-publisher"><%= record.publisher %></td>
+						<td class="data-year"><%= record.publicationyear %></td>
+						<td class="data-action">
+							<%= link_to "Edit", "/record/#{record.id}" %> |
+							<%= link_to "Delete", "/record/#{record.id}/delete", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
+							<%= link_to "Log", "/record/#{record.id}/logs" %>
+						</td>
+					</tr>
+					<% end %>
+				</table>
+			</div>
+				
+			<div id="add-new-dataset"><a href="/record"><%= image_tag "add-new-dataset.gif",  :size => "203x57", :alt => "Add New Dataset" %></a> </div>
+		</div>
+	</div>
+<!-- begin footer-->
+	<%= render 'layouts/footer' %> 
+<!-- end footer-->
+</div> <!-- end inner container -->
+</div> <!-- end outer container -->
+</div>
+</body>
+</html>

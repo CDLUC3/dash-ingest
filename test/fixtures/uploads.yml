@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+      upload_file_name: datacite.xml
+      record_id: 1
+      created_at: <%=2.weeks.ago%>
+  
+two:
+    upload_file_name: datacite.xml
+    record_id: 3
+    
+three:
+    upload_file_name: datacite.xml
+    record_id: 2
+    
