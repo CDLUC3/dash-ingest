@@ -7,7 +7,7 @@ defaults: &DEFAULTS
 development:
     merritt_endpoint: "http://merritt-dev.cdlib.org/object/ingest"
     merritt_username: "mreyes"
-    merritt_password: "catdog"
+    merritt_password: "XXXXXX"
     merritt_profile: "demo_merritt_content"
     
 test:
