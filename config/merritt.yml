@@ -5,7 +5,10 @@ defaults: &DEFAULTS
     merritt_profile: "repository_name_submitter_content"
        
 development:
-    <<: *DEFAULTS
+    merritt_endpoint: "http://merritt-dev.cdlib.org/object/ingest"
+    merritt_username: "mreyes"
+    merritt_password: "catdog"
+    merritt_profile: "demo_merritt_content"
     
 test:
     merritt_endpoint: "localhost:3000"
