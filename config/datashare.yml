@@ -5,7 +5,11 @@ defaults: &DEFAULTS
     logout_path: "/logout_page"
        
 development:
-    <<: *DEFAULTS
+    uploads_dir: test_uploads
+    datashare_url: "http://dash-dev.cdlib.org:8085"
+    external_identifier: "eppn"
+    logout_path: "/logout_page"
+
     
 test:
     uploads_dir: test_uploads
