@@ -8,7 +8,7 @@ development:
     merritt_endpoint: "http://merritt-dev.cdlib.org/object/ingest"
     merritt_username: "mreyes"
     merritt_password: "XXXXXX"
-    merritt_profile: "demo_merritt_content"
+    merritt_profile: "dash_dev_content"
     
 test:
     merritt_endpoint: "localhost:3000"
