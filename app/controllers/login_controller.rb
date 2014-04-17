@@ -6,7 +6,8 @@ class LoginController < ApplicationController
     
     if user.nil?
       user = User.new
-      user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
+      user.external = request.headers[DATASHARE_CONFIG['external_identifier']]
+      user.epsa = request.headers['epsa']
       user.save
     end
 
