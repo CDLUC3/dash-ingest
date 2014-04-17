@@ -7,12 +7,14 @@
 development:
   adapter: mysql2
   encoding: utf8
-  reconnect: true
+  host: mysql-dev.cdlib.org
   database: dashingest
-  pool: 5
+  port: 3342
   username: dashingestrw
   password: XXXXX
-  host: mysql-dev.cdlib.org
+  reconnect: true
+  pool: 5
+
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
