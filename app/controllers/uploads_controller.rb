@@ -6,7 +6,10 @@ class UploadsController < ApplicationController
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])
-    @record.purge_temp_files
+
+    if ! @record.nil?
+      @record.purge_temp_files
+    end
 
     @uploads = Upload.find_all_by_record_id(params[:record_id])
 
