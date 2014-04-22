@@ -6,18 +6,18 @@ defaults: &DEFAULTS
        
 development:
     merritt_cdl_endpoint: "http://merritt-dev.cdlib.org/object/ingest"
-    merritt_cdl_username: "cdl_user"
-    merritt_cdl_password: "cdl_password"
+    merritt_cdl_username: "ucop_dash_submitter"
+    merritt_cdl_password: "ucop_dash_submitter_password"
     merritt_cdl_profile: "dash_cdl_content"
 
     merritt_ucb_endpoint: "http://merritt-dev.cdlib.org/object/ingest"
-    merritt_ucb_username: "ucb_user"
-    merritt_ucb_password: "ucb_password"
+    merritt_ucb_username: "ucb_dash_submitter"
+    merritt_ucb_password: "ucb_dash_submitter_password"
     merritt_ucb_profile: "dash_ucb_content"
 
     merritt_ucla_endpoint: "http://merritt-dev.cdlib.org/object/ingest"
-    merritt_ucla_username: "ucla_user"
-    merritt_ucla_password: "ucla_password"
+    merritt_ucla_username: "ucla_dash_submitter"
+    merritt_ucla_password: "ucla_dash_submitter_password"
     merritt_ucla_profile: "dash_ucla_content"
 test:
     merritt_endpoint: "localhost:3000"
