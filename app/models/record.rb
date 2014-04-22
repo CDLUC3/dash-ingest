@@ -207,23 +207,23 @@ class Record < ActiveRecord::Base
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
 
-     campus = id_to_campus(self.user.external_id)
+     campus = id_to_campus self.user.external_id
      if (!campus) then
 	return false
      end
-     merritt_endpoint = "merritt_#{campus}_endpoint"
-     merritt_username = "merritt_#{campus}_username"
-     merritt_password = "merritt_#{campus}_password"
-     merritt_profile = "merritt_#{campus}_profile"
-    
-     sys_output = "curl --insecure --verbose -u #{MERRITT_CONFIG[merritt_username]}:#{MERRITT_CONFIG[merritt_password]} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"type=container\" -F \"submitter=#{self.user.external_id}\" -F \"responseForm=xml\" -F \"profile=#{MERRITT_CONFIG[merritt_profile]}\" -F \"localIdentifier=#{self.local_id}\" #{MERRITT_CONFIG[merritt_endpoint]} 2>&1"
+     merritt_endpoint = MERRITT_CONFIG["merritt_#{campus}_endpoint"]
+     merritt_username = MERRITT_CONFIG["merritt_#{campus}_username"]
+     merritt_password = MERRITT_CONFIG["merritt_#{campus}_password"]
+     merritt_profile = MERRITT_CONFIG["merritt_#{campus}_profile"]
+
+     sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"type=container\" -F \"submitter=#{self.user.external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
           
      return sys_output  
    end
    
-   def id_to_campus
-     id = self.user.external_id
-     if id.include? "ucop.edu"; return "ucop" end
+   def id_to_campus (id=id)
+     if !id?; return false end
+     if id.include? "ucop.edu"; return "cdl" end
      if id.include? "uci.edu"; return "uci" end
      if id.include? "ucla.edu"; return "ucla" end
      if id.include? "ucsd.edu"; return "ucsd" end

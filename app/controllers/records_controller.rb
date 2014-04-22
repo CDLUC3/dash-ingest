@@ -159,7 +159,9 @@ class RecordsController < ApplicationController
       
       Thread.new do
         @record.generate_merritt_zip
+
         @merritt_request = @record.send_archive_to_merritt 
+
         if (!@merritt_request) then
 	  raise "Could not determine Merritt profile given user id." 
 	end
