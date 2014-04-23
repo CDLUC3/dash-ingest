@@ -99,7 +99,7 @@ class RecordsController < ApplicationController
     
     if File.exists?("#{file_path}")
        FileUtils.rm_rf("#{file_path}")
-     end
+    end
     
     @record.delete
     redirect_to "/records"
@@ -161,12 +161,14 @@ class RecordsController < ApplicationController
         @record.generate_merritt_zip
 
         @merritt_request = @record.send_archive_to_merritt 
+        submissionLog = SubmissionLog.new
 
         if (!@merritt_request) then
-	  raise "Could not determine Merritt profile given user id." 
+          @merritt_response = "User not authorized for Merritt submission"
+	else
+          @merritt_response = `#{@merritt_request}`
 	end
-        @merritt_response = `#{@merritt_request}`
-        submissionLog = SubmissionLog.new
+
         submissionLog.archiveresponse = @merritt_response
         submissionLog.record = @record
         submissionLog.save

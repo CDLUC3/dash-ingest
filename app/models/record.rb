@@ -209,32 +209,51 @@ class Record < ActiveRecord::Base
 
      campus = id_to_campus self.user.external_id
      if (!campus) then
-	return false
+       return false
      end
      merritt_endpoint = MERRITT_CONFIG["merritt_#{campus}_endpoint"]
      merritt_username = MERRITT_CONFIG["merritt_#{campus}_username"]
      merritt_password = MERRITT_CONFIG["merritt_#{campus}_password"]
      merritt_profile = MERRITT_CONFIG["merritt_#{campus}_profile"]
 
-     sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"type=container\" -F \"submitter=DASH/#{self.user.external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
+     sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"type=container\" -F \"submitter=Dash/#{self.user.external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
           
      return sys_output  
+
    end
    
    def id_to_campus (id=id)
      if !id?; return false end
-     if id.include? "ucop.edu"; return "cdl" end
-     if id.include? "uci.edu"; return "uci" end
-     if id.include? "ucla.edu"; return "ucla" end
-     if id.include? "ucsd.edu"; return "ucsd" end
-     if id.include? "ucsb.edu"; return "ucsb" end
-     if id.include? "berkeley.edu"; return "ucb" end
-     if id.include? "ucdavis.edu"; return "ucd" end
-     if id.include? "ucmerced.edu"; return "ucm" end
-     if id.include? "ucr.edu"; return "ucr" end
-     if id.include? "ucsf.edu"; return "ucsf" end
-     if id.include? "ucsc.edu"; return "ucsc" end
-     false
+
+     # external ID form: john.doe@someplace.edu
+     case id.strip
+     when /.*@.*ucop.edu$/
+       campus = "cdl"
+     when /.*@.*uci.edu$/
+       campus = "uci"
+     when /.*@.*ucla.edu$/
+       campus = "ucla"
+     when /.*@.*ucsd.edu$/
+       campus = "ucsd"
+     when /.*@.*ucsb.edu$/
+       campus = "ucsb"
+     when /.*@.*berkeley.edu$/
+       campus = "ucb"
+     when /.*@.*ucdavis.edu$/
+       campus = "ucd"
+     when /.*@.*ucmerced.edu$/
+       campus = "ucm"
+     when /.*@.*ucr.edu$/
+       campus = "ucr"
+     when /.*@.*ucsf.edu$/
+       campus = "ucsf"
+     when /.*@.*ucsc.edu$/
+       campus = "ucsc"
+     else	
+       campus = false
+     end
+
+     campus
    end
 
    def required_fields

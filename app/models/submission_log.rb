@@ -13,7 +13,7 @@ class SubmissionLog < ActiveRecord::Base
       elsif self.archiveresponse.include?("PROCESSING")
         return "Sending To Merritt (Processing)"
       else
-        return "Failed"# + self.archiveresponse
+        return "Failed: " + self.archiveresponse
       end
     end
     
