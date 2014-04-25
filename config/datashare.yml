@@ -6,7 +6,9 @@ defaults: &DEFAULTS
        
 development:
     uploads_dir: uploads
-    datashare_url: "http://dash-dev.cdlib.org"
+    datashare_cdl_url: "http://dash-dev.cdlib.org"
+    datashare_ucb_url: "http://dash-dev.berkeley.edu"
+    datashare_ucla_url: "http://dev.dash.ucla.edu"
     external_identifier: "eppn"
     logout_path: "/logout_page"
 
