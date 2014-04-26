@@ -3,6 +3,7 @@ module RecordHelper
     user = @user.external_id
   end
   def campus
-    campus = @records.first.id_to_campus(user)
+    # campus = @records.first.id_to_campus(user)
+    campus = Record.id_to_campus(user)
   end
 end

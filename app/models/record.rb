@@ -222,8 +222,10 @@ class Record < ActiveRecord::Base
 
    end
    
-   def id_to_campus (id=id)
-     if !id?; return false end
+   def Record.id_to_campus (id)
+     if ( id == nil )
+       return false
+      end
 
      # external ID form: john.doe@someplace.edu
      case id.strip
