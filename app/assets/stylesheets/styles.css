@@ -166,6 +166,14 @@ height: 49px;
 	border-right: 1px #c5c4c7 solid;
 }
 
+#footer-logos #cdl-logo-text {
+	float: left;
+	width: 300px;
+	padding-right: 10px;
+	margin-right: 10px;
+	font-size: 10px;
+}
+
 /* ES changed */
 #footer-logos #ucsf-lib {
 	float: left;
