@@ -225,7 +225,7 @@ height: 49px;
 
 	
 #nav-home-menu .menu {
-	background-color: #0B748A;
+	background-color: #888888;
 	padding: 5px 0 0 0;
 	float: left;
 	text-align: center;
@@ -591,10 +591,10 @@ width: 190px;
 }
 #step-three-upload-page .text-for-browse a:hover {
 	text-decoration: underline;
-	color : #0B748A;
+	color : #888888;
 }
 #step-three-upload-page .browse{
-	color : #0B748A;
+	color : #888888;
 	font-weight : bold;
 }
 
