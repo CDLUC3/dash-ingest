@@ -10,9 +10,6 @@ set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, 'default'
 
-# Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/apps/dash/apps/dash-ingest-test'
-
 # Default value for :scm is :git
 set :scm, 'hg'
 
