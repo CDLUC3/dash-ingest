@@ -56,7 +56,7 @@ namespace :deploy do
     on roles(:app) do
       within current_path do
         with rails_env: fetch(:rails_env) do
-          execute :bundle, "exec unicorn -c #{fetch(:unicorn_config)} -D"
+          execute :bundle, "exec unicorn -c #{fetch(:unicorn_config)} -p #{fetch(:unicorn_port)} -E #{fetch(:rails_env)} -D"
         end
       end
     end
