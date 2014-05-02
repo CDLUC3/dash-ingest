@@ -9,6 +9,18 @@ gem 'rails', '3.2.13'
 gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
+group :development do
+  gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+end
+
+group :test do
+  gem 'launchy'
+  gem 'capybara'
+  gem 'capybara-webkit', '0.14.2'
+  gem 'simplecov', '~> 0.7.1'
+end
+
 gem 'whenever', :require => false
 
 # Gems used only for assets and not required
@@ -38,17 +50,7 @@ gem 'less-rails', '2.3.3'
 # Use unicorn as the app server
 gem 'unicorn'
 
-# Deploy with Capistrano
-# gem 'capistrano'
-
 # To use debugger
 # gem 'debugger'
 gem 'carrierwave'
 
-
-group :test do
-  gem 'launchy'
-  gem 'capybara'
-  gem 'capybara-webkit', '0.14.2'
-  gem 'simplecov', '~> 0.7.1'
-end
