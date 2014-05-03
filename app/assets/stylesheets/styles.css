@@ -237,9 +237,11 @@ height: 49px;
 	height: 100%;
 }
 #nav-home-menu #about-nav {
+        background-color: #666666;
 	margin: 0 0 0 0;
 }
 #nav-home-menu #search-nav, #nav-home-menu #publish-nav, #nav-home-menu #my-datasets-nav  {
+        background-color: #666666;
 	margin: 0 0 0 4px;
 }
 
