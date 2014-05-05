@@ -1,4 +1,13 @@
+.collapsible .collapse-control .indicator:after{content:"▹ Show";}
+.collapsible .collapse-control.active .indicator:after{content:"▿ Hide";}
+.collapsible .collapse-content{margin:0.3em 0 0 0;}
+
 /* general styles  */
+.content.content-dataset .dataset-actions .dataset-action-buttons a{margin-bottom:1em;font-weight:bold;display:block;}
+.content.content-dataset .dataset-actions .dataset-action-download{text-align:center;border-top:1px solid #666666;background:#666666;background:-webkit-gradient(linear, left top, left bottom, from(#666666), to(#666666));background:-moz-linear-gradient(top, #666666, #666666);padding:12px 36px;-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;-webkit-box-shadow:#000000 0 1px 0;-moz-box-shadow:#000000 0 1px 0;box-shadow:#000000 0 1px 0;text-shadow:rgba(0, 0, 0, 0.4) 0 1px 0;color:white;font-size:12px;text-decoration:none;vertical-align:middle;}.content.content-dataset .dataset-actions .dataset-action-download:hover{border-top-color:#aaaaaa;background:#aaaaaa;color:white;}
+.content.content-dataset .dataset-actions .dataset-action-download:active{border-top-color:#353664;background:#353664;position:relative;top:1px;color:white;}
+.content.content-dataset .dataset-actions .dataset-action-cite{text-align:center;border-top:1px solid #666666;background:#666666;background:-webkit-gradient(linear, left top, left bottom, from(#666666), to(#666666));background:-moz-linear-gradient(top, #666666, #666666);padding:12px 36px;-webkit-border-radius:8px;-moz-border-radius:8px;border-radius:8px;-webkit-box-shadow:#000000 0 1px 0;-moz-box-shadow:#000000 0 1px 0;box-shadow:#000000 0 1px 0;text-shadow:rgba(0, 0, 0, 0.4) 0 1px 0;color:white;font-size:12px;text-decoration:none;vertical-align:middle;}.content.content-dataset .dataset-actions .dataset-action-cite:hover{border-top-color:#aaaaaa;background:#aaaaaa;color:white;}
+.content.content-dataset .dataset-actions .dataset-action-cite:active{border-top-color:#35644b;background:#35644b;position:relative;top:1px;color:white;}
 
 body {
 	color: #58595b;
@@ -24,7 +33,7 @@ a:hover, a:active {
 	 color: #cc242b; 
 	text-decoration: underline;
 }
-a img {
+a images {
 	border: none; 
 }	
 
@@ -82,7 +91,7 @@ h1 {
 #header #logout .logout-text {
 	margin: 20px 0 5px 0;
 }
-#header #logout img{
+#header #logout images{
 	float: right;
 }
 #footer {
@@ -149,15 +158,16 @@ height: 49px;
 	margin: 0 0 0 0;
 }
 
-/* ES changed */
+/* PW changed */
 #footer-logos {
-	float: right;
+	width: 952px; 
+	/* float: right; */
 	overflow: hidden;
 	margin: 14px 0 0 0;
 	/*border: 1px green solid;*/
 }
 
-/* ES changed */
+/* PW changed */
 #footer-logos #cdl-logo-sm {
 	float: left;
 	width: 73px;
@@ -183,6 +193,22 @@ height: 49px;
 	border-right: 1px #c5c4c7 solid;
 }
 
+#footer-logos #local-lib-sm {
+	float: right;
+	width: 73px;
+	padding-right: 10px;
+	margin-right: 10px;
+}
+
+#footer-logos #local-lib-text {
+	float: right;
+	width: 250px;
+	padding-right: 0px;
+	margin-right: 10px;
+	border-right: 1px #c5c4c7 solid;
+	font-size: 10px;
+}
+
 /* ES changed */
 #footer-logos #ctsi {
 	float: left;
@@ -206,6 +232,7 @@ height: 49px;
 }	
 	
 #nav-home-menu {
+	background-color: #666666;
 	width: 100%;
 	height: 25px;
 	overflow: hidden;
@@ -223,13 +250,12 @@ height: 49px;
 	}
 
 #nav-home-menu a:hover, #nav-home-menu a:active {
-	color: #a6ffff;
+	color: #bbbbbb;
 	text-decoration: none;
 	}
 
 	
 #nav-home-menu .menu {
-	background-color: #666666;
 	padding: 5px 0 0 0;
 	float: left;
 	text-align: center;
@@ -253,14 +279,15 @@ height: 49px;
 #left-column {
 	float:left;
 	overflow: hidden;
-	height: 430px;
+	height: 330px;
 	width: 437px;
 }
 
 #search-container {
+	padding-top: 30px;
 	margin: 36px auto 0 77px;
 	width: 359px;
-	height: 370px;
+	height: 300px;
 	border-right: 1px #c5c4c7 solid;
 }
 
@@ -326,9 +353,10 @@ height: 49px;
 }
 
 #publish-data {
+	padding-top: 30px;
 	margin: 36px auto 0 50px;
 	width: 458px;
-	height: 370px;
+	height: 295px;
 	float:left;
 }
 
@@ -352,6 +380,23 @@ height: 49px;
 	float: left;
 }
 
+
+#featured-dataset  a:link {
+	color: #064F3A; 
+	/*color:  #87C8C2;*/
+	text-decoration: none;
+}
+
+#featured-dataset  a:visited {
+	color: #064F3A; 
+	/*color:  #87C8C2;*/
+	text-decoration: none;
+}
+
+#featured-dataset a:hover {
+	text-decoration: underline;
+}
+
 #home .header {
 	width: 301px;
 	height: 21px;
@@ -368,6 +413,7 @@ height: 49px;
 	padding: 0 0 0 13px;
 	width: 279px;
 }
+
 
 #home .para p{
 	margin: 9px 0; 
@@ -413,7 +459,7 @@ height: 49px;
 	font-weight: bold;
 }
 
-#reasercher-voice img {
+#reasercher-voice images {
 	float: left;
 	margin: 3px 0 0 0;
 }
@@ -683,13 +729,13 @@ width: 190px;
 	margin: 45px 0; 
 	width: 203px;
 }
-#step-three-upload-page .large-button-container img{
+#step-three-upload-page .large-button-container images{
 	margin-bottom: 20px;
 }
 
 /* My Datasets page styles */
 #my-datasets-page h1 {
-	color : #0b748a;
+	color : #666666;
 }
 
 #my-datasets-page .instruction {
@@ -800,7 +846,7 @@ width: 190px;
 	margin-top: 4px;
 }
 #step-two-describe-page  h1, #step-three-upload-page  h1 {
-	color : #0b748a;
+	color : #666666;
 }
 #step-two-describe-page form {
 	margin: 0 auto;
@@ -814,25 +860,24 @@ width: 190px;
     float: left;
     font-weight: bold;
     text-align: right;
-    width: 142px;
-	margin: 15px 0 0 0px;
+    width: 132px;
+	margin: 15px 0 0 20px;
 }
 #step-two-describe-page form .input-text, #step-two-describe-page form textarea, #step-two-describe-page form select{
-	margin: 15px 0 0 10px;
+	margin: 15px 0 0 20px;
 	float: left;
 	color: #6E7074;
 	border: 1px solid #58595b;
-  height: 14px;
-  padding: 5px;
-  width: 300px;
+    height: 14px;
+    padding: 5px;
+    width: 144px;
 }
 
 #step-two-describe-page form textarea{
-	width: 300px;
-  height: 96px;	
+	width: 344px;
+    height: 96px;	
 	padding: 5px;
 	max-width: 460px;
-	display:inline-block;
 }
 
 #step-two-describe-page form select{
@@ -842,13 +887,14 @@ width: 190px;
 }
 
 #step-two-describe-page form .input-button {
-	padding: 15px 0 0 20px;
+	margin: 15px 0 0 173px;
 	float: left;
+	clear: left;
 }
 #step-two-describe-page .fieldset {
 	display: block;
 	overflow: hidden;
-	/* margin-bottom: 30px; */
+	margin-bottom: 30px;
 	height: 100%;
 	width: 100%;
 }
@@ -866,11 +912,10 @@ width: 190px;
 
 #step-two-describe-page .large-button-container {
 	clear: left; 
-	margin-left: 150px;
-	width: 480px;
+	margin-left: 172px;
+	width: 203px;
 }
-
-#step-two-describe-page .large-button-container img {
+#step-two-describe-page .large-button-container images {
 	margin-bottom: 20px;
 }
 
@@ -963,7 +1008,7 @@ width: 190px;
 }
 
 #login-page h1 {
-	color : #0b748a;
+	color : #666666;
 }
 
 #login-page .left-part { 
@@ -1110,14 +1155,16 @@ width: 190px;
 #browse-all-page  #content a:link,
 
 #browse-all-page #content  a:visited {
-	color: #064F3A; 
+	color: #666666;
+	/*color: #064F3A; */
 	/*color:  #87C8C2;*/
 	text-decoration: none;
 }
 	
 #browse-all-page #content a:hover,
 #browse-all-page #content a:active {
-	color: #064F3A; 
+	color: #666666;
+	/*color: #064F3A; */
 	/*color:  #87C8C2;*/
 	text-decoration: underline;
 }
@@ -1256,148 +1303,6 @@ width: 190px;
 	width: 220px;
 	margin-left: 34px;
 }
-#dataset-description-page .content.content-dataset .dataset-actions a img{
+#dataset-description-page .content.content-dataset .dataset-actions a images{
 	margin-bottom: 1em;
-}
-
-/* Styles added by Scott for new STEP 2 DESCRIBE layout */
-
-div.required {
-	margin: 2em 0 0 0;
-	font-size: smaller;
-}
-
-#smaller_container {
-	margin-top:2px;
-}
-
-.help_link img {
-	padding:0 0 0 5px;
-	vertical-align:text-bottom;
-}
-
-/* Styles for help popup "windows" */
-
-.help_window{
-	width:400px;
-	border:solid;
-	border-width: 1px;
-	border-color: #000000;
-	padding: 10px 20px 10px 20px;
-	position: absolute;
-	display: none;
-	background:#ffffff;
-	z-index:5;
-}
-
-.help_window div.close_button, #ustatus div.close_button {
-	/*
-	float: right;
-	position: relative;*/
-	position: absolute;
-	z-index: 11;
-	top: 2px;
-	right: 2px;
-	/*
-	top: -8px;
-	right: -10px; */
-	font-size: 70%;
-}
-
-.help_window div.close_button img, #ustatus div.close_button img {
-	width: 16px;
-	height: 16px;
-}
-
-.help_window>h1, .help_window>h2, .help_window>h3, .help_window>h4, .help_window>h5, .help_window>h6 {
-	margin: 0.5em 0 0.5em 0;
-}
-
-#upload_bg {
-	width: 502px;
-	height: 187px;
-	background-image:url('../images/dropper_bg.png');
-	background-repeat:no-repeat;
-	position:relative;
-}
-
-#upload-box {
-	width: 368px;
-	height: 90px;
-	background-image:url('../images/drop_area.png');
-	background-repeat:no-repeat;
-	position: absolute;
-	top: 27px;
-	left: 63px;
-}
-
-#browse_btn {
-	width: 145px;
-	height: 40px;
-	position: absolute;
-	top: 127px;
-	left: 256px;
-}
-
-# _image {
-	border:none;
-	width: 140px;
-	height: 32px;
-}
-
-table.upload_table {
-	border-spacing:0;
-  border-collapse:collapse;
-  margin: 24px 0 0 26px;
-  width: 447px;
-  table-layout: fixed;
-  border-color: #aaaaaa;
-}
-
-table.upload_table td {
-	border-color: #aaaaaa;
-	word-wrap: break-word;
-}
-
-table.upload_table .first {
-	text-align: left;
-	vertical-align: top;
-	width: 105px;
-}
-
-table.upload_table .second {
-	text-align: left;
-	vertical-align: top;
-		width: 55px;
-}
-
-table.upload_table .third {
-	
-}
-
-table.upload_table .fourth {
-	width:43px;
-}
-
-img.upload_progress {
-	width: 0px;
-	height: 40px;
-}
-
-table.upload_table .fifth {
-	width: 56px;
-}
-
-table.upload_table div.upload_widget {
-	border-style: solid;
-	border-width: 1px;
-	width: 140px;
-	height: 40px;
-	border-color: #dddddd;
-	text-align:left;
-	background-color: #ffffff;
-}
-
-div#step-four>div.bold-title-off, div#step-four>div.bold-title-on{
-	font-size: 130%;
 }
