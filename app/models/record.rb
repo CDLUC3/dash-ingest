@@ -207,7 +207,8 @@ class Record < ActiveRecord::Base
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
 
-     campus = id_to_campus self.user.external_id
+     campus = Record.id_to_campus (self.user.external_id)
+
      if (!campus) then
        return false
      end
