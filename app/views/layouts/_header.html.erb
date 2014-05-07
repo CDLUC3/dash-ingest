@@ -1,9 +1,9 @@
-<div id="header">
-	<div id="logo"> <a href="<%=DATASHARE_CONFIG["datashare_#{campus}_url"]%>"> 
-		<%= image_tag "dash_#{campus}_logo.png",  :width => "100", :title => "DataShare: Open data for the global research community", :alt => "DataShare: Open data for the global research community" %></a> 
-		</a> </div>
-	<div id="logout">
+<div id="logo">
+	<a href="<%=DATASHARE_CONFIG["datashare_#{campus}_url"]%>"> 
+		<%= image_tag "dash_#{campus}_logo.png",  :width => "100", :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
+	</a>
+</div>
+<div id="logout">
 	<div class="logout-text">Logged in as <i><%= user %></i></div>
-		<%= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %> 
-	</div>
+	<%= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %> 
 </div>
