@@ -1,5 +1,5 @@
 <%= render 'layouts/head1' %>
-<title>My Datasets: DataShare - Open data for the global research community</title>
+<title>Dash: My Datasets - Open data for the global research community</title>
 <link rel="stylesheet" href="/css/styles.css" type="text/css" />
 </head>
 <body>
@@ -10,12 +10,14 @@
     <!-- begin inner container -->
     <div id="inner-container"> 
        <!-- begin header -->
-		<!--#include virtual="includes/header-logout.html" --> 
-		<%= render 'layouts/header-logout' %>
-		
+		<div id="header">
+			<!--#include virtual="includes/header-logout.html" --> 
+			<%= render 'layouts/header-logout' %>
+		</div>
+		</div>
 	  <!-- end header -->
 		<!-- begin navigation-->
-					<%= render 'layouts/navigation' %>
+			<%= render 'layouts/navigation' %>
 		<!--end navigation-->
 		
 		<!-- begin content -->
@@ -40,7 +42,7 @@
 			</div>
 		
 			<div id="upload-content">
-			<h1>Upload your datasets to DataShare</h1>
+			<h1>Upload your datasets to Dash</h1>
 				
 			<div id="left-container">
 				
@@ -110,11 +112,11 @@
 					<div class="upload-faq">Upload FAQ</div>
 					<div class="no-bullet-points">
 						<ul>
-							<li>Be sure you have read the terms of the <a href="/data_use_agreement">DataShare Data Use Agreement</a></li>
+							<li>Be sure you have read the terms of the <a href="/data_use_agreement">Dash Data Use Agreement</a></li>
 							<li>Ensure that all data relating to human subjects has been properly de-identified</li>
 							<li>Ensure data files are the most up-to-date and complete versions</li>
-							<li>DataShare accepts all file formats.</li>
-							<li>Generally speaking, the data files you upload into DataShare should fall into one of the following types: text, spreadsheet (csv, tab-delimited, Excel), video, image, software code, pdf.
+							<li>Dash accepts all file formats.</li>
+							<li>Generally speaking, the data files you upload into Dash should fall into one of the following types: text, spreadsheet (csv, tab-delimited, Excel), video, image, software code, pdf.
 							</li>
 							<li>If the data files are of a specialized or proprietary nature, be sure to include any pertinent information that would allow the proper viewing and/or usage of the file(s) either as a separate 'Readme' document within the data set folder, or in the 'Technical Description'.</li>
 						</ul>
