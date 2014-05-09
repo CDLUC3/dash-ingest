@@ -46,7 +46,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "e.g., Gulf War Illness dataset" %>
+						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title" %>
 						<label for="publisher">
 							* Institution
 							<a href="#institution_help" name="help_link" class="help_link">
@@ -89,12 +89,12 @@
 						<%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %>
 						<div class="fieldset">
 							<label for="creator_name">
-								Data Creator(s)
+								* Data Creator(s)
 								<a href="#data_creator_help" name="help_link" class="help_link">
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "e.g., Weiner, Michael W." %>		
+							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname" %>		
 							<%= image_submit_tag("addl_creator.png", :alt => "Add Creator", :class => "input-button") %>
 							<div id="creators_ajax">
 							  	<%= render 'creators' %>
@@ -102,12 +102,12 @@
 						</div>
 						<div class="fieldset">
 							<label for="subject_name">
-								Keyword(s)
+								Keywords
 								<a href="#keyword_help" name="help_link" class="help_link">
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "subject_name", "", :size=>"20", :class=>"input-text", :placeholder => "e.g., Atrophy" %>
+							<%= text_field_tag "subject_name", "", :size=>"20", :class=>"input-text", :placeholder => "Keyword" %>
 							<%= image_submit_tag("addl_keyword.png", :alt => "Add Subject", :class => "input-button") %>
 							<div id="subjects_ajax">
 							  	<%= render 'subjects' %>
