@@ -23,7 +23,7 @@ set :deploy_to, '/apps/dash/apps/dash-ingest'
 # server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app}, my_property: :my_value
 server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app}
 
-set :unicorn_pid, "#{deploy_to}/unicorn.dash.pid"
+set :unicorn_pid, "#{deploy_to}/unicorn.pid"
 set :unicorn_config, "#{deploy_to}/config/unicorn.rb"
 set :unicorn_port, "8080"
 
