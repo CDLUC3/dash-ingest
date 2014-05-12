@@ -10,6 +10,9 @@ set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 set :branch, 'default'
 
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, '/apps/dash/apps/dash-ingest-test'
+
 # Default value for :scm is :git
 set :scm, 'hg'
 
@@ -53,7 +56,7 @@ namespace :deploy do
     on roles(:app) do
       within current_path do
         with rails_env: fetch(:rails_env) do
-          execute :bundle, "exec unicorn -c #{fetch(:unicorn_config)} -p #{fetch(:unicorn_port)} -E #{fetch(:rails_env)} -D"
+          execute :bundle, "exec unicorn -c #{fetch(:unicorn_config)} -D"
         end
       end
     end
@@ -80,7 +83,9 @@ namespace :bundle do
 
   desc "run bundle install and ensure all gem requirements are met"
   task :install do
-    run "cd #{current_path} && bundle install  --without=test"
+    on roles(:app) do
+      execute "cd #{current_path} && bundle install --without=test"
+    end
   end
 
 end
