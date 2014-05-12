@@ -78,7 +78,8 @@ class RecordsController < ApplicationController
     if params[:add_data] == "add_data"
       render :js => "window.location = '/record/#{@record.id}/uploads'"
     else
-      redirect_to :action => "record", :id=> @record.id
+      # redirect_to :action => "record", :id=> @record.id
+      render :action => "record", :id=> @record.id
     end
   end
     
@@ -102,14 +103,16 @@ class RecordsController < ApplicationController
     end
     
     @record.delete
-    redirect_to "/records"
+    # redirect_to "/records"
+    render "/records"
   end  
     
   def delete_creator
     @creator = Creator.find(params[:creator_id])
     @record = @creator.record
     @creator.delete
-    redirect_to :action => "record", :id=> @record.id, :anchor => "creator"
+    # redirect_to :action => "record", :id=> @record.id, :anchor => "creator"
+    render :action => "record", :id=> @record.id, :anchor => "creator"
   end
   
   # currently this is hard wired into the app, only one contributor per record
@@ -125,14 +128,16 @@ class RecordsController < ApplicationController
     description = Description.find(params[:description_id])
     @record = description.record
     description.delete
-    redirect_to :action => "record", :id=> @record.id, :anchor => "description"
+    # redirect_to :action => "record", :id=> @record.id, :anchor => "description"
+    render :action => "record", :id=> @record.id, :anchor => "description"
   end
   
   def delete_subject
     subject = Subject.find(params[:subject_id])
     @record = subject.record
     subject.delete
-    redirect_to :action => "record", :id=> @record.id, :anchor => "subject"
+    # redirect_to :action => "record", :id=> @record.id, :anchor => "subject"
+    render :action => "record", :id=> @record.id, :anchor => "subject"
   end
   
   def review
@@ -149,7 +154,8 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     
     if !@record.required_fields.empty?
-      redirect_to :action => "review", :id => @record.id
+      # redirect_to :action => "review", :id => @record.id
+      render :action => "review", :id => @record.id
     else    
       
       @merritt_response = "PROCESSING"
@@ -193,7 +199,8 @@ class RecordsController < ApplicationController
             submissionLog.save
       end
       
-      redirect_to :action => "submission_log", :id=> @record.id   
+      # redirect_to :action => "submission_log", :id=> @record.id   
+      render :action => "submission_log", :id=> @record.id   
     end
     
   end
@@ -205,7 +212,8 @@ class RecordsController < ApplicationController
     
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
-        redirect_to "/records"
+        # redirect_to "/records"
+        render "/records"
       end
     end
   end
