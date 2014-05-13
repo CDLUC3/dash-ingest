@@ -103,8 +103,8 @@ class RecordsController < ApplicationController
     end
     
     @record.delete
-    # redirect_to "/records"
-    render "/records"
+    redirect_to "/records"
+    # render "/records"
   end  
     
   def delete_creator
