@@ -77,7 +77,7 @@ h1 {
 #header #logo {
 	float: left;
 }
-#header #logo a {
+#header #logo img {
 	height: 78px;
 }
 
