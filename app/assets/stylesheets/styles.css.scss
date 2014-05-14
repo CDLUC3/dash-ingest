@@ -65,7 +65,9 @@ h1 {
 #header #logo {
 	float: left;
 }
-
+#header #logo a {
+	height: 78px;
+}
 #header #login {
 	float: right;
 	margin: 42px 0 0 0;
@@ -1245,4 +1247,13 @@ width: 190px;
 }
 #dataset-description-page .content.content-dataset .dataset-actions a img{
 	margin-bottom: 1em;
+}
+.help_window {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #000000;
+    display: none;
+    padding: 10px 20px;
+    position: absolute;
+    width: 400px;
+    z-index: 5;
 }
