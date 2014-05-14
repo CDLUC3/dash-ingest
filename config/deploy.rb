@@ -11,7 +11,7 @@ set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
 set :branch, 'default'
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/apps/dash/apps/dash-ingest-test'
+set :deploy_to, '/apps/dash/apps/dash-ingest'
 
 # Default value for :scm is :git
 set :scm, 'hg'
@@ -75,6 +75,7 @@ namespace :deploy do
 
   desc 'Restart Unicorn'
   task :restart
+  before "deploy:restart", "bundle:install"
   before :restart, :stop
   before :restart, :start
 end
@@ -90,4 +91,3 @@ namespace :bundle do
 
 end
 
-before "deploy:restart", "bundle:install"
