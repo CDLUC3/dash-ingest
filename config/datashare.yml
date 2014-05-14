@@ -1,11 +1,11 @@
 defaults: &DEFAULTS
-    uploads_dir: public/uploads
+    uploads_dir: uploads
     datashare_url: "http://localhost:8080"
     external_identifier: "eppn"
     logout_path: "/logout_page"
        
 development:
-    uploads_dir: public/uploads
+    uploads_dir: uploads
     datashare_cdl_url: "http://dash-dev.cdlib.org"
     datashare_ucb_url: "http://dash-dev.berkeley.edu"
     datashare_ucla_url: "http://dash-dev.ucla.edu"
