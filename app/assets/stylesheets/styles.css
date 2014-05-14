@@ -875,8 +875,8 @@ width: 190px;
 }
 
 #step-two-describe-page form textarea{
-	width: 344px;
-    height: 96px;	
+	width: 300px;
+	height: 96px;	
 	padding: 5px;
 	max-width: 460px;
 }
