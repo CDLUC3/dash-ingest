@@ -237,10 +237,10 @@ height: 49px;
 }	
 	
 #nav-home-menu {
-	background-color: #666666;
 	width: 100%;
 	height: 25px;
 	overflow: hidden;
+	margin: 14px 0 0 0;
 	color: #fff;
 }
 
