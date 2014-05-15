@@ -1310,12 +1310,127 @@ width: 190px;
 #dataset-description-page .content.content-dataset .dataset-actions a images{
 	margin-bottom: 1em;
 }
-.help_window {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #000000;
-    display: none;
-    padding: 10px 20px;
-    position: absolute;
-    width: 400px;
-    z-index: 5;
+
+/* Styles for help popup "windows" */
+
+.help_window{
+	width:400px;
+	border:solid;
+	border-width: 1px;
+	border-color: #000000;
+	padding: 10px 20px 10px 20px;
+	position: absolute;
+	display: none;
+	background:#ffffff;
+	z-index:5;
+}
+.help_window div.close_button, #ustatus div.close_button {
+	/*
+	float: right;
+	position: relative;*/
+	position: absolute;
+	z-index: 11;
+	top: 2px;
+	right: 2px;
+	/*
+	top: -8px;
+	right: -10px; */
+	font-size: 70%;
+}
+
+.help_window div.close_button img, #ustatus div.close_button img {
+	width: 16px;
+	height: 16px;
+}
+
+.help_window>h1, .help_window>h2, .help_window>h3, .help_window>h4, .help_window>h5, .help_window>h6 {
+	margin: 0.5em 0 0.5em 0;
+}
+#upload_bg {
+	width: 502px;
+	height: 187px;
+	background-image:url('../images/dropper_bg.png');
+	background-repeat:no-repeat;
+	position:relative;
+}
+
+#upload-box {
+	width: 368px;
+	height: 90px;
+	background-image:url('../images/drop_area.png');
+	background-repeat:no-repeat;
+	position: absolute;
+	top: 27px;
+	left: 63px;
+}
+
+#browse_btn {
+	width: 145px;
+	height: 40px;
+	position: absolute;
+	top: 127px;
+	left: 256px;
+}
+
+# _image {
+	border:none;
+	width: 140px;
+	height: 32px;
+}
+
+table.upload_table {
+	border-spacing:0;
+  border-collapse:collapse;
+  margin: 24px 0 0 26px;
+  width: 447px;
+  table-layout: fixed;
+  border-color: #aaaaaa;
+}
+
+table.upload_table td {
+	border-color: #aaaaaa;
+	word-wrap: break-word;
+}
+
+table.upload_table .first {
+	text-align: left;
+	vertical-align: top;
+	width: 105px;
+}
+
+table.upload_table .second {
+	text-align: left;
+	vertical-align: top;
+		width: 55px;
+}
+
+table.upload_table .third {
+
+}
+
+table.upload_table .fourth {
+	width:43px;
+}
+
+img.upload_progress {
+	width: 0px;
+	height: 40px;
+}
+
+table.upload_table .fifth {
+	width: 56px;
+}
+
+table.upload_table div.upload_widget {
+	border-style: solid;
+	border-width: 1px;
+	width: 140px;
+	height: 40px;
+	border-color: #dddddd;
+	text-align:left;
+	background-color: #ffffff;
+}
+
+div#step-four>div.bold-title-off, div#step-four>div.bold-title-on{
+	font-size: 130%;
 }
