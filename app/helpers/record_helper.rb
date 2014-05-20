@@ -5,5 +5,6 @@ module RecordHelper
   def campus
     # campus = @records.first.id_to_campus(user)
     campus = Record.id_to_campus(user)
+    campus = "cdl" if isTest
   end
 end
