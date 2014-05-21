@@ -165,7 +165,7 @@ class Records_integration_Test < ActiveSupport::TestCase
     
     id = records(:one).id
     visit "/record/#{id}/review"
-    assert page.has_content?("Review before submitting to DataShare")
+    assert page.has_content?("Review before submitting to Dash")
   end
   
   # this won't really do it, the config for test
