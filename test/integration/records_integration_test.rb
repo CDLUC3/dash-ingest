@@ -36,7 +36,7 @@ class Records_integration_Test < ActiveSupport::TestCase
     visit '/record'
         
     fill_in 'title', :with => 'Title1' 
-    select('UCSF', :from => 'publisher') 
+    select('UC Office of the President', :from => 'publisher')
     fill_in 'resourcetype', :with => 'data' 
     fill_in 'creator_name', :with => 'creator name' 
     fill_in 'subject_name', :with => 'subject name' 
