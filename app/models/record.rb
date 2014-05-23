@@ -290,7 +290,7 @@ class Record < ActiveRecord::Base
       # we will require contributors for datashare
 
       if self.contributors.nil? || self.contributors.empty?
-        required_fields << "Record must specify at least one contributor"
+        #required_fields << "Record must specify at least one contributor"
       end
     
       return required_fields
