@@ -38,7 +38,7 @@ class RecordsController < ApplicationController
       creator.save
     end
     
-    if !params[:contributor_name].empty?
+    if !params[:contributor_name].to_s.empty?
       
       # no duplicate contributor names
       if !@record.contributors.pluck(:contributorName).include? params[:contributor_name]
