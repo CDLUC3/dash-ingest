@@ -38,9 +38,9 @@ DataType = {
     DataType
   end
   def resourceType (x)
-     x.split(",")[0]
+     x.split(",")[1]
   end
   def resourceTypeGeneral (x)
-     x.split(",")[1]
+     x.split(",")[0]
   end
 end
