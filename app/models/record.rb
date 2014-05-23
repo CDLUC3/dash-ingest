@@ -78,8 +78,8 @@ class Record < ActiveRecord::Base
      
      # resourceType - datacite: optional
      # should have a resourceTypeGeneral and a resourceType, may need to modify this
-     #f.puts "<resourceType resourceTypeGeneral=\"#{self.resourcetype}\">#{self.resourcetype}</resourceType>"
-     f.puts "<resourceType resourceTypeGeneral=\"Dataset\">Dataset</resourceType>"
+     f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
+     #f.puts "<resourceType resourceTypeGeneral=\"Dataset\">Dataset</resourceType>"
      
      # alternate Identifiers - datacite: optional
      # this will be the localID

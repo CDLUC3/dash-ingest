@@ -54,19 +54,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<select id="publisher" name="publisher">
-							<option value="University of California, Berkeley">UC Berkeley</option>
-							<option value="University of California, Davis">UC Davis</option>
-							<option value="University of California, Irvine">UC Irvine</option>
-							<option value="University of California, Los Angeles">UC Los Angeles</option>
-							<option value="University of California, Merced">UC Merced</option>
-							<option value="University of California, Riverside">UC Riverside</option>
-							<option value="University of California, Santa Barbara">UC Santa Barbara</option>
-							<option value="University of California, Santa Cruz">UC Santa Cruz</option>
-							<option value="University of California, San Diego">UC San Diego</option>
-							<option value="University of California, San Francisco">UC San Francisco</option>
-							<option value="University of California, Office of the President">UC Office of the President</option>
-						</select>
+                                                <%= select_tag "publisher", options_for_select(institution, @record.publisher) %>
 						<br/>
 						<!--
 							<label for="publicationyear">
@@ -85,7 +73,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<%= text_field_tag "resourcetype", @record.resourcetype, :size=>"20", :class=>'input-text', :placeholder => "e.g., Dataset" %>
+						<%= select_tag "resourcetype", options_for_select(datatype, @record.resourcetype) %>
 						<br/>
 						<!-- <%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 						<div class="fieldset">
@@ -121,7 +109,7 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_area_tag "abstract", @record.abstract, :rows => 6, :cols => 60%>
+							<%= text_area_tag "abstract", @record.abstract, :rows => 6, :cols => 60 %>
 						</div>
 						<div class="fieldset">
 							<label for="description_methods">
@@ -139,7 +127,7 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_area_tag("citation", "", :rows => 6, :cols => 60, :placeholder => "e.g., Patterns of age-related water diffusion changes in human brain by concordance and discordance analysis. Zhang Y, Du AT, Hayasaka S, Jahng GH, Hlavin J, Zhan W, Weiner MW, Schuff N. Neurobiol Aging. 2010 Nov;31(11):1991-2001. doi: 10.1016/j.neurobiolaging.2008.10.009. Epub 2008 Nov 25. PMID: 19036473")%>
+							<%= text_area_tag("citation", "", :rows => 6, :cols => 60, :placeholder => "e.g., Patterns of age-related water diffusion changes in human brain by concordance and discordance analysis. Zhang Y, Du AT, Hayasaka S, Jahng GH, Hlavin J, Zhan W, Weiner MW, Schuff N. Neurobiol Aging. 2010 Nov;31(11):1991-2001. doi: 10.1016/j.neurobiolaging.2008.10.009. Epub 2008 Nov 25. PMID: 19036473") %>
 							<%= image_submit_tag("addl_citation.png", :alt => "Add Citation", :class => "input-button") %>
 							<div id="citations_ajax">
 								<%= render 'citations' %>
