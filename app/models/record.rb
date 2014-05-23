@@ -2,6 +2,8 @@ require 'rubygems'
 require 'zip/zip'
 
 class Record < ActiveRecord::Base    
+  include RecordHelper
+
   has_many :creators
   has_many :contributors
   has_many :descriptions
