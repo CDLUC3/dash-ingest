@@ -138,6 +138,15 @@ height: 49px;
 	border-right: 1px #707172 solid;
 	line-height: 8px;
 }
+#footer #policies {
+	width: 108px;
+	height: 10px;
+	float: left;
+	text-align: center;
+	margin: 19px 0;
+	border-right: 1px #707172 solid;
+	line-height: 8px;
+}
 
 #footer #contact-us {
 	height: 10px;
