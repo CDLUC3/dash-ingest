@@ -54,7 +54,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-                                                <%= select_tag "publisher", options_for_select(institution, @record.publisher) %>
+                                                <%= select_tag "publisher", options_for_select(institution, @record.publisher), prompt: "Choose institution:" %>
 						<br/>
 						<!--
 							<label for="publicationyear">
