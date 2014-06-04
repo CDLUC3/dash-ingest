@@ -4,6 +4,14 @@ defaults: &DEFAULTS
     external_identifier: "eppn"
     logout_path: "/logout_page"
        
+local:
+    uploads_dir: uploads
+    datashare_cdl_url: "http://dash-dev.cdlib.org"
+    datashare_ucb_url: "http://dash-dev.berkeley.edu"
+    datashare_ucla_url: "http://dash-dev.ucla.edu"
+    external_identifier: "eppn"
+    logout_path: "/logout_page"
+
 development:
     uploads_dir: uploads
     datashare_cdl_url: "http://dash-dev.cdlib.org"
@@ -15,7 +23,9 @@ development:
     
 test:
     uploads_dir: test_uploads
-    datashare_url: "http://hostname.ucsf.edu"
+    datashare_cdl_url: "http://dash-dev.cdlib.org"
+    datashare_ucb_url: "http://dash-dev.berkeley.edu"
+    datashare_ucla_url: "http://dash-dev.ucla.edu"
     external_identifier: "eppn"
     logout_path: "/logout_page"
 
