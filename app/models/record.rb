@@ -266,24 +266,24 @@ class Record < ActiveRecord::Base
       required_fields = Array.new
     
       if self.creators.nil? || self.creators.empty?
-        required_fields << "Record must specify at least one creator"
+        required_fields << "Record must specify at least one creator."
       end
 
       # should we allow multiple titles?  datacite does...
       # we're only allowing one title per record
 
       if self.title.nil? || self.title.blank?
-        required_fields << "Record must have a title"
+        required_fields << "Record must have a title."
       end
 
       # publisher - datacite: single, mandatory
       if self.publisher.nil? || self.publisher.blank?
-        required_fields << "Record must have a publisher"
+        required_fields << "Record must have a publisher."
       end
 
       # publication year - datacite: single, mandatory
       if self.publicationyear.nil?
-        required_fields << "Record must have a publication year"
+        required_fields << "Record must have a publication year."
       end
 
       #contributors - datacite: multiple, optional, mandatory contributorType attribute
@@ -302,7 +302,7 @@ class Record < ActiveRecord::Base
             
       # subjects - datacite: multiple, optional
       if self.subjects.nil? || self.subjects.empty?
-        recommended_fields << "Subject data is strongly recommended.  Your record may be ommitted from search and browse results withough a subject"
+        recommended_fields << "Keywords strongly recommended. Your record may be omitted from search and browse results without keywords."
       end
       
       #descriptions
