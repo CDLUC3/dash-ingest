@@ -2,7 +2,7 @@ require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
 def isTest
-    ENV['RAILS_ENV'] == "test"
+    ENV['RAILS_ENV'] == "development" || ENV['RAILS_ENV'] == "local"
 end
 
 if defined?(Bundler)
