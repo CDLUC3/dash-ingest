@@ -37,7 +37,7 @@ class Records_integration_Test < ActiveSupport::TestCase
         
     fill_in 'title', :with => 'Title1' 
     select('UC Office of the President', :from => 'publisher')
-    fill_in 'resourcetype', :with => 'data' 
+    select('Poster', :from => 'resourcetype') 
     fill_in 'creator_name', :with => 'creator name' 
     fill_in 'subject_name', :with => 'subject name' 
     fill_in 'abstract', :with => 'Data from healthy and cognitively impaired elderly, enriched for cerebrovascular disease.
@@ -86,7 +86,7 @@ class Records_integration_Test < ActiveSupport::TestCase
     click_button 'Save'    
     
     assert find_field('title').value == 'Title1' 
-    assert find_field('resourcetype').value == 'data'
+    assert find_field('resourcetype').value == 'Other,Poster'
     
     assert page.has_content?('creator name')
     assert page.has_content?('subject name')
