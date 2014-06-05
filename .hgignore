@@ -4,3 +4,7 @@ syntax: glob
 config/database.yml
 config/merritt.yml
 config/datashare.yml
+.sass-cache/
+Gemfile.lock
+log/
+tmp/
