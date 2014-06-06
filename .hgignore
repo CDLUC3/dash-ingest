@@ -8,3 +8,5 @@ config/datashare.yml
 Gemfile.lock
 log/
 tmp/
+uploads/
+test_uploads/
