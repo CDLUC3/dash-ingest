@@ -207,24 +207,34 @@
 			
 			<h2>Ready to go?</h2>
 						
-			<div class="form-inline">						
-				<% if (@record.required_fields.size == 0 && @record.uploads.size > 0) %>
-					<a href="/record/<%=@record.id%>/send_archive_to_merritt">
-						<%= image_tag "send-to-datashare-button.png", id: "submit_to_datashare", :size => "250x75", :alt => "Send to DataShare" %>					
-					</a>
-				<% else %>
-					<%= image_tag "send-to-datashare-grayed-button.png",  :size => "250x75", :alt => "Send to DataShare" %>					
-				<% end %>
+			<div class="ItemContainer" >	
 
-				<label class="checkbox">
-  				<input type="checkbox" id="agreement"> By clicking this checkbox, I certify that I agree to the Dash <%= link_to 'Terms of use', 'http://www.cdlib.org/about/terms.html' %>. 
-  				I understand that by submitting data to Dash, I am agreeing to release it under the terms of the 
-  				<%= link_to 'Creative Commons Attribution license (CC BY-4.0)', 'http://creativecommons.org/licenses/by/4.0/' %>. 
-  				I warrant that sharing my submission under these terms does not violate any privacy, copyright, or other rights of any person or third party. 
-  				For more information on why Dash requires CC-BY, see our 
-  				<%= link_to 'policies page', 'http://dash.ucop.edu/policies' %>.
-				</label>
+				<div class="ItemImage" style="float:left;">					
+					<% if (@record.required_fields.size == 0 && @record.uploads.size > 0) %>
+						<a href="/record/<%=@record.id%>/send_archive_to_merritt">
+							<%= image_tag "send-to-datashare-button.png", id: "submit_to_datashare", :size => "250x75", :alt => "Send to DataShare", :style => "display:block;"  %>					
+						</a>
+					<% else %>
+						<%= image_tag "send-to-datashare-grayed-button.png",  :size => "250x75", :alt => "Send to DataShare" %>					
+					<% end %>
+				</div>
+
+				<div class="ItemCheckbox" style="float:left; width:550px; margin-left:20px; " >
+					<input type="checkbox" id="agreement" style=" display:block;  float:left; ">
+					<label class="checkbox"  style=" display:block; margin-left:30px;">By clicking this checkbox, I certify that I agree to the Dash <%= link_to 'Terms of use', 'http://www.cdlib.org/about/terms.html' %>. 
+	  				I understand that by submitting data to Dash, I am agreeing to release it under the terms of the 
+	  				<%= link_to 'Creative Commons Attribution license (CC BY-4.0)', 'http://creativecommons.org/licenses/by/4.0/' %>. 
+	  				I warrant that sharing my submission under these terms does not violate any privacy, copyright, or other rights of any person or third party. 
+	  				For more information on why Dash requires CC-BY, see our 
+	  				<%= link_to 'policies page', 'http://dash.ucop.edu/policies' %>.
+	  			</label>		 
+	  		</div>
+					
 			</div>
+			<br>
+
+			
+
 
 			<!-- This inline javascript should be in a separate file, but for some reason it works only if its here -->
 			<script type="text/javascript">
