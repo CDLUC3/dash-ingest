@@ -89,19 +89,43 @@
 								<%= render 'creators' %>
 							</div>
 						</div>
-						<div class="fieldset">
-							<label for="subject_name">
-								Keywords
-								<a href="#keyword_help" name="help_link" class="help_link">
-									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-								</a>
-							</label>
-							<%= text_field_tag "subject_name", "", :size=>"20", :class=>"input-text", :placeholder => "Keyword" %>
-							<%= image_submit_tag("addl_keyword.png", :alt => "Add Subject", :class => "input-button") %>
-							<div id="subjects_ajax">
-								<%= render 'subjects' %>
+
+
+
+						<div style=" clear:both; width:800px;">
+
+							<div style="clear:both; float:left; width:160px; margin-left:-3px;">
+								<label for="subject_name">
+									Keywords
+									<a href="#keyword_help" name="help_link" class="help_link">
+										<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+									</a>
+								</label>
+							</div>			
+
+							<div style="float:left; width:280px; margin-left:11px;"> 
+								<%= text_field_tag "subject_name", "", :size=>"20", :placeholder => "Keyword" %>
 							</div>
+
+							<div style="clear:both; margin-left:169px; width:280px;">
+								<%= text_field_tag "subject_name2", "", :size=>"20", :placeholder => "Keyword" %>
+							</div>
+
+							<div style="clear:both; margin-left:169px;  width:280px; ">
+								<%= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
+							</div>							
+							
+							<div>
+								<%= image_submit_tag("addl_keyword.png", :alt => "Add Subject", :class => "input-button") %>
+								<div id="subjects_ajax">
+									<%= render 'subjects' %>
+								</div>
+							</div>							
+
 						</div>
+
+
+
 						<div class="fieldset">
 							<label for="description_abstract">
 								Abstract
