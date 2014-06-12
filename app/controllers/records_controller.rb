@@ -52,8 +52,14 @@ class RecordsController < ApplicationController
     end
     
     if !params[:subject_name].empty?
+      subject2 = []
+      subject3 = []
+      subject1 = params[:subject_name].split(",")
+      subject2 = (params[:subject_name2].split(",")) unless params[:subject_name2].empty?
+      subject3 = (params[:subject_name3].split(",")) unless params[:subject_name3].empty?
       
-      subjects = params[:subject_name].split(",")
+      # subjects = params[:subject_name].split(",")
+      subjects = subject1 + subject2 + subject3
       
       subjects.each do |s|
         subject = Subject.new
