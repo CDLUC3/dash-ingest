@@ -3,5 +3,7 @@ $("#creators_ajax").html("<%= escape_javascript(render partial: "creators") %>")
 $("#citations_ajax").html("<%= escape_javascript(render partial: "citations") %>");
 $('#flash').html(<%= flash[:notice].to_json %>);
 $('#subject_name').val('');
+$('#subject_name2').val('');
+$('#subject_name3').val('');
 $('#creator_name').val('');
 $('#citation').val('');
