@@ -48,13 +48,20 @@
 							</a>
 						</label>
 						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title" %>
+						
 						<label for="publisher">
 							* Institution
 							<a href="#institution_help" name="help_link" class="help_link">
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-                                                <%= select_tag "publisher", options_for_select(institution, @record.publisher), prompt: "Choose institution:" %>
+            <%#= select_tag "publisher", 
+            			options_for_select(institution, @record.publisher), 
+            			prompt: "Choose institution:" %>
+
+            <%= text_field_tag "publisher", @record.publisher, :size=>"20", :class=>"input-text", :placeholder => "#{@campus}" %>
+
+
 						<br/>
 						<!--
 							<label for="publicationyear">

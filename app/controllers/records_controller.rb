@@ -17,6 +17,7 @@ class RecordsController < ApplicationController
       @record.set_local_id
       @record.save
       @record.create_record_directory
+      @campus = campus
     end
   end
   
@@ -244,6 +245,10 @@ class RecordsController < ApplicationController
   end
   
   def data_use_agreement
+  end
+
+  def campus
+    isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
   end
   
 end
