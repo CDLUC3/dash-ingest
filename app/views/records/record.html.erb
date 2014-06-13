@@ -112,14 +112,25 @@
 							</div>
 
 							<div style="clear:both; margin-left:174px;  width:800px; ">
-								<%= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
-								<%= image_submit_tag("addl_keyword.png", :alt => "Add Subject") %>
-							</div>							
+								<div style="float:left; ">
+									<%= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
+								</div>
+								<div style="float:left; margin-left:80px;">
+									<%= image_submit_tag("addl_keyword.png", :alt => "Add Subject") %>
+								</div>
+							</div>
+
+
+
+							<!-- <div style="clear:both; margin-left:174px;  width:800px; ">
+								<%#= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
+								<%#= image_submit_tag("addl_keyword.png", :alt => "Add Subject") %>
+							</div> -->							
 							
 							<div id="subjects_ajax">
 								<%= render 'subjects' %>
 							</div>
-							<!-- </div>							 -->
+							
 
 						</div>
 
