@@ -10,3 +10,4 @@ log/
 tmp/
 uploads/
 test_uploads/
+.ruby-version
