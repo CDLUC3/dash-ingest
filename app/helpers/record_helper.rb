@@ -38,7 +38,7 @@ DataType = {
 
   #for displaying institution on Describe your dataset page
   def campus_short_name
-    isTest ? campus_short_name = "UC Office of the President" : campus_short_name = Record.campus_short_name(user)
+    isTest ? campus_short_name = "UC Office of the President" : campus_short_name = Record.id_to_campus_short_name(user)
   end
   
   def institution
