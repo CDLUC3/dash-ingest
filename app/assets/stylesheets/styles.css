@@ -1092,6 +1092,16 @@ width: 190px;
 	line-height: 160%;
 }
 
+/* logout page styles */
+#logout-content {
+	min-height: 20em;
+	padding: 5em;
+}
+
+#logout-content h1 {
+	margin-bottom: 1em;
+}
+
 /* Prepare to submit page style */
 #prepare-to-submit-page .text-container ul {
 	list-style-type: none;
