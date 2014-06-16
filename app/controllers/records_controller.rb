@@ -1,4 +1,5 @@
 class RecordsController < ApplicationController
+    include RecordHelper
   
   before_filter :verify_ownership
   
@@ -245,10 +246,6 @@ class RecordsController < ApplicationController
   end
   
   def data_use_agreement
-  end
-
-  def campus
-    isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
   end
   
 end

@@ -59,7 +59,8 @@
             			options_for_select(institution, @record.publisher), 
             			prompt: "Choose institution:" %>
 
-            <%= text_field_tag "publisher", @record.publisher, :size=>"20", :class=>"input-text", :placeholder => "#{@campus}" %>
+            <%= text_field_tag "publisher", @record.publisher, :size=>"20", :class=>"input-text", 
+            										:placeholder => "#{@campus}", :disabled => true %>
 
 
 						<br/>
