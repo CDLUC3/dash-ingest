@@ -225,6 +225,7 @@ class Record < ActiveRecord::Base
 
    end
    
+
    def Record.id_to_campus (id)
      if ( id == nil )
        return false
@@ -260,6 +261,42 @@ class Record < ActiveRecord::Base
 
      campus
    end
+
+
+   def Record.id_to_campus_full_name (id)
+     if ( id == nil )
+       return false
+      end
+     # external ID form: john.doe@someplace.edu
+     case id.strip
+     when /.*@.*ucop.edu$/
+       campus_full_name = "UC Office of the President"
+     when /.*@.*uci.edu$/
+       campus_full_name = "UC Irvine"
+     when /.*@.*ucla.edu$/
+       campus_full_name = "UC Los Angeles"
+     when /.*@.*ucsd.edu$/
+       campus_full_name = "UC San Diego"
+     when /.*@.*ucsb.edu$/
+       campus_full_name = "UC Santa Barbara"
+     when /.*@.*berkeley.edu$/
+       campus_full_name = "UC Berkeley"
+     when /.*@.*ucdavis.edu$/
+       campus_full_name = "UC Davis"
+     when /.*@.*ucmerced.edu$/
+       campus_full_name = "UC Merced"
+     when /.*@.*ucr.edu$/
+       campus_full_name = "UC Riverside"
+     when /.*@.*ucsf.edu$/
+       campus_full_name = "UC San Francisco"
+     when /.*@.*ucsc.edu$/
+       campus_full_name = "UC Santa Cruz"
+     else 
+       campus_full_name = false
+     end
+     campus_full_name
+   end
+
 
    def required_fields
     

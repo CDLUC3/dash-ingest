@@ -59,8 +59,8 @@
             			options_for_select(institution, @record.publisher), 
             			prompt: "Choose institution:" %>
 
-            <%= text_field_tag "publisher", @record.publisher, :size=>"20", :class=>"input-text", 
-            										:placeholder => "#{@campus}", :disabled => true %>
+            <%= text_field_tag "publisher", @record.publisher, :class=>"input-text", 
+            										:placeholder => "#{@campus_full_name}", :disabled => true, :style => "width:160px;" %>
 
 
 						<br/>
@@ -71,7 +71,7 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
+							<%#= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
 							<br/>
 						-->
 						<%= hidden_field_tag "publicationyear", @record.publicationyear, :value => Time.now.year %>

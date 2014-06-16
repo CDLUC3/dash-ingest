@@ -19,6 +19,7 @@ class RecordsController < ApplicationController
       @record.save
       @record.create_record_directory
       @campus = campus
+      @campus_full_name = campus_full_name
     end
   end
   

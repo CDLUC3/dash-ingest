@@ -30,6 +30,10 @@ DataType = {
   def campus
     isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
   end
+
+  def campus_full_name
+    isTest ? campus_full_name = "California Digital Library" : campus_full_name = Record.id_to_campus_full_name(user)
+  end
   
   def institution
     Institution
