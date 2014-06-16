@@ -1,4 +1,5 @@
 class RecordsController < ApplicationController
+    include RecordHelper
   
   before_filter :verify_ownership
   
@@ -17,13 +18,18 @@ class RecordsController < ApplicationController
       @record.set_local_id
       @record.save
       @record.create_record_directory
+      @campus = campus
+      @campus_full_name = campus_full_name
+      @campus_short_name = campus_short_name
     end
   end
   
   def update_record    
+    @campus_full_name = campus_full_name
     @record = Record.find(params[:id])
     @record.title = params[:title]
-    @record.publisher = params[:publisher]
+    #@record.publisher = params[:publisher]
+    @record.publisher = @campus_full_name
     @record.publicationyear = params[:publicationyear]
     @record.resourcetype = params[:resourcetype]
     @record.rights = params[:rights]

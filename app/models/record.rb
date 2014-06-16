@@ -225,11 +225,11 @@ class Record < ActiveRecord::Base
 
    end
    
+
    def Record.id_to_campus (id)
      if ( id == nil )
        return false
       end
-
      # external ID form: john.doe@someplace.edu
      case id.strip
      when /.*@.*ucop.edu$/
@@ -257,9 +257,81 @@ class Record < ActiveRecord::Base
      else	
        campus = false
      end
-
      campus
    end
+
+   
+   #this is how the institution will be displayed on the "Describe your dataset" page
+   def Record.id_to_campus_short_name (id)
+     if ( id == nil )
+       return false
+      end
+     # external ID form: john.doe@someplace.edu
+     case id.strip
+     when /.*@.*ucop.edu$/
+       campus_short_name = "UC Office of the President"
+     when /.*@.*uci.edu$/
+       campus_short_name = "UC Irvine"
+     when /.*@.*ucla.edu$/
+       campus_short_name = "UC Los Angeles"
+     when /.*@.*ucsd.edu$/
+       campus_short_name = "UC San Diego"
+     when /.*@.*ucsb.edu$/
+       campus_short_name = "UC Santa Barbara"
+     when /.*@.*berkeley.edu$/
+       campus_short_name = "UC Berkeley"
+     when /.*@.*ucdavis.edu$/
+       campus_short_name = "UC Davis"
+     when /.*@.*ucmerced.edu$/
+       campus_short_name = "UC Merced"
+     when /.*@.*ucr.edu$/
+       campus_short_name = "UC Riverside"
+     when /.*@.*ucsf.edu$/
+       campus_short_name = "UC San Francisco"
+     when /.*@.*ucsc.edu$/
+       campus_short_name = "UC Santa Cruz"
+     else 
+       campus_short_name = false
+     end
+     campus_short_name
+   end
+
+
+   #this is how the record.publisher (institution) will be set in the database, without passing through params, retrieved by the actual url
+   def Record.id_to_campus_full_name (id)
+     if ( id == nil )
+       return false
+      end
+     # external ID form: john.doe@someplace.edu
+     case id.strip
+     when /.*@.*ucop.edu$/
+       campus_full_name = "University of California, Office of the President"
+     when /.*@.*uci.edu$/
+       campus_full_name = "University of California, Irvine"
+     when /.*@.*ucla.edu$/
+       campus_full_name = "University of California, Los Angeles"
+     when /.*@.*ucsd.edu$/
+       campus_full_name = "University of California, San Diego"
+     when /.*@.*ucsb.edu$/
+       campus_full_name = "University of California, Santa Barbara"
+     when /.*@.*berkeley.edu$/
+       campus_full_name = "University of California, Berkeley"
+     when /.*@.*ucdavis.edu$/
+       campus_full_name = "University of California, Davis"
+     when /.*@.*ucmerced.edu$/
+       campus_full_name = "University of California, Merced"
+     when /.*@.*ucr.edu$/
+       campus_full_name = "University of California, Riverside"
+     when /.*@.*ucsf.edu$/
+       campus_full_name = "University of California, San Francisco"
+     when /.*@.*ucsc.edu$/
+       campus_full_name = "University of California, Santa Cruz"
+     else 
+       campus_full_name = false
+     end
+     campus_full_name
+   end
+
 
    def required_fields
     

@@ -48,13 +48,22 @@
 							</a>
 						</label>
 						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title" %>
+						
 						<label for="publisher">
 							* Institution
 							<a href="#institution_help" name="help_link" class="help_link">
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-                                                <%= select_tag "publisher", options_for_select(institution, @record.publisher), prompt: "Choose institution:" %>
+            <%#= select_tag "publisher", 
+            			options_for_select(institution, @record.publisher), 
+            			prompt: "Choose institution:" %>
+
+            <%= text_field_tag "publisher", @campus_short_name, 
+            										:disabled => true,
+            										:class=>"input-text", 
+            										:style => "width:180px;" %>
+
 						<br/>
 						<!--
 							<label for="publicationyear">
@@ -63,7 +72,7 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
+							<%#= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
 							<br/>
 						-->
 						<%= hidden_field_tag "publicationyear", @record.publicationyear, :value => Time.now.year %>

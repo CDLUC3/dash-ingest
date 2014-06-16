@@ -30,6 +30,16 @@ DataType = {
   def campus
     isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
   end
+
+  #for setting record.publisher
+  def campus_full_name
+    isTest ? campus_full_name = "University of California, Office of the President" : campus_full_name = Record.id_to_campus_full_name(user)
+  end
+
+  #for displaying institution on Describe your dataset page
+  def campus_short_name
+    isTest ? campus_short_name = "UC Office of the President" : campus_short_name = Record.id_to_campus_short_name(user)
+  end
   
   def institution
     Institution
