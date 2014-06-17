@@ -605,6 +605,7 @@ height: 49px;
  
 /* single column layout style */
 .single-column {
+	overflow: hidden;
 	margin: 58px 0 75px 79px;
  }
 .single-column .text-container {
