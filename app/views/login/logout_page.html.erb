@@ -1,1 +1,39 @@
-Logout Page
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Logout: Dash - Open data for the global research community</title>
+<%= render 'layouts/head' %>
+</head>
+<body>
+<!-- begin page id -->
+<div id="login-page"> 
+<!-- begin outer container -->  
+  <div id="outer-container"> 
+    <!-- begin inner container -->
+    <div id="inner-container"> 
+       <!-- begin header -->
+		<%#= render 'layouts/header' %>
+		<img src="assets/dash_ucop_logo.png" alt="UCOP Dash logo" height="78" class="your-logo" /></a>
+	  <!-- end header -->
+		<!-- begin navigation-->
+			<%= render 'layouts/navigation' %>
+		<!--end navigation-->
+		<!-- begin content -->
+		<div id="content">
+			<div id="banner">
+			<%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
+			</div>
+			<div id="logout-content">
+				<h1>Logged out</h1>
+				<p>You are now logged out of Dash.</p>
+			</div>
+		</div> <!-- end content-->
+	<!-- begin footer-->
+  <%#= render "layouts/brand/footer_#{campus}" %>
+	<!-- end footer-->
+	</div> <!-- end inner container -->
+  </div> <!-- end outer container -->
+</div>
+</body>
+</html>

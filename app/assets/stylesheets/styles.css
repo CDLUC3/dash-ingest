@@ -605,6 +605,7 @@ height: 49px;
  
 /* single column layout style */
 .single-column {
+	overflow: hidden;
 	margin: 58px 0 75px 79px;
  }
 .single-column .text-container {
@@ -1090,6 +1091,16 @@ width: 190px;
     padding: 15px 25px 0 17px;
     width: 300px;
 	line-height: 160%;
+}
+
+/* logout page styles */
+#logout-content {
+	min-height: 20em;
+	padding: 5em;
+}
+
+#logout-content h1 {
+	margin-bottom: 1em;
 }
 
 /* Prepare to submit page style */
