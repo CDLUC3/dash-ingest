@@ -53,6 +53,6 @@ gem 'less-rails', '2.3.3'
 gem 'unicorn'
 
 # To use debugger
-#gem 'debugger'
+gem 'debugger'
 gem 'carrierwave'
 
