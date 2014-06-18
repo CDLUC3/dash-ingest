@@ -9,27 +9,33 @@ class RecordsController < ApplicationController
   end
   
   def record
+    @campus_short_name = campus_short_name
     @user = User.find(session[:user_id])
     if(params[:id])
       @record = Record.find(params[:id])
     else
+      # @campus = campus
+      # @campus_full_name = campus_full_name
+      #@campus_short_name = campus_short_name
       @record = Record.new
       @record.user_id = session[:user_id]
       @record.set_local_id
+      @record.publisher = campus
       @record.save
       @record.create_record_directory
-      @campus = campus
-      @campus_full_name = campus_full_name
-      @campus_short_name = campus_short_name
+
     end
   end
   
-  def update_record    
-    @campus_full_name = campus_full_name
+  def update_record  
+    # @campus = campus  
+    # @campus_full_name = campus_full_name
+    @campus_short_name = campus_short_name
     @record = Record.find(params[:id])
     @record.title = params[:title]
-    #@record.publisher = params[:publisher]
-    @record.publisher = @campus_full_name
+    @record.publisher = @campus_short_name
+    #@record.publisher = @campus_full_name
+    #@record.publisher = @campus
     @record.publicationyear = params[:publicationyear]
     @record.resourcetype = params[:resourcetype]
     @record.rights = params[:rights]
