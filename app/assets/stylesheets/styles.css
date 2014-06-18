@@ -693,6 +693,11 @@ width: 190px;
 #step-three-upload-page .upload-button{
 	float: left;
 }
+
+#step-three-upload-page .fileinput-button label {
+	display: inline;
+}
+
 #step-three-upload-page #upload-faq-container {
 	margin: 0 0 0 52px;
 }
