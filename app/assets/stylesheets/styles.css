@@ -869,7 +869,7 @@ width: 190px;
 	clear: both;
 }
 
-#step-two-describe-page form label{
+#step-two-describe-page form label, #step-two-describe-page form .group-label {
 	clear: left;
     float: left;
     font-weight: bold;
@@ -877,6 +877,13 @@ width: 190px;
     width: 142px;
 	margin: 15px 0 0 20px;
 }
+
+#step-two-describe-page form label[aria-labelledby] {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}
+
 #step-two-describe-page form .input-text, #step-two-describe-page form textarea, #step-two-describe-page form select{
 	margin: 15px 0 0 20px;
 	float: left;
