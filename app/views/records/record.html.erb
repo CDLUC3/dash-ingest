@@ -47,7 +47,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title" %>
+						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
 						
 						<label for="publisher">
 							* Institution
@@ -82,7 +82,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<%= select_tag "resourcetype", options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:" %>
+						<%= select_tag "resourcetype", options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
 						<br/>
 						<!-- <%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 						<div class="fieldset">
@@ -92,7 +92,7 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname" %>		
+							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>		
 							<%= image_submit_tag("addl_creator.png", :alt => "Add Creator", :class => "input-button") %>
 							<div id="creators_ajax">
 								<%= render 'creators' %>
