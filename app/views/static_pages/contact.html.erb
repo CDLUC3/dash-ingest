@@ -1,0 +1,58 @@
+<!-- <h1>StaticPages#contact</h1>
+<p>Find me in app/views/static_pages/contact.html.erb</p>
+ -->
+
+<!-- begin page id -->
+<div id="contact-us-page"> 
+	<!-- begin outer container -->  
+	<div id="outer-container"> 
+		<!-- begin inner container -->
+		<div id="inner-container"> 
+			<%= render 'layouts/navigation' %>
+			<!--end navigation-->
+
+			<!-- begin content -->
+			<div id="content"> 	
+				
+				<div class="single-column">
+					<h1>Contact Us</h1>
+
+					<div class="contact-us-form">
+
+						<%= form_tag do %>
+
+							<%= label_tag :name, "Name:"%>
+							<%= text_field_tag :name, "",:class => "input-text" %>
+
+							<%= label_tag :affiliation, "Affiliation:"%>
+							<%= text_field_tag :affiliation, "",:class => "input-text" %>
+
+							<%= label_tag :email, "Email:"%>
+							<%= text_field_tag :email, "",:class => "input-text" %>
+
+							<%= label_tag :message, "Message:"%>
+							<%#= text_area_tag :message, "",:class => "input-text" %>
+							<%= text_field_tag :message, "", :class => "input-text" %>
+
+							<br />
+							<div class="button-container">
+  							<%#= submit_tag "Submit" ,:class => "input-button"  %>
+  							<%= image_submit_tag "submit-button.png" %>
+  							<%= image_submit_tag "reset-button.png" %>
+  						</div>
+
+						<%end%>
+						
+					</div>
+
+
+
+				</div>
+			</div>
+
+			<!-- begin footer-->
+			<%= render "layouts/brand/footer_cdl" %> 
+			<!-- end footer-->
+		</div> <!-- end inner container -->
+	</div> <!-- end outer container -->
+</div> <!-- end page -->
