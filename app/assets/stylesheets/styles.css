@@ -693,6 +693,11 @@ width: 190px;
 #step-three-upload-page .upload-button{
 	float: left;
 }
+
+#step-three-upload-page .fileinput-button label {
+	display: inline;
+}
+
 #step-three-upload-page #upload-faq-container {
 	margin: 0 0 0 52px;
 }
@@ -713,7 +718,6 @@ width: 190px;
     background-position: center bottom;
     background-repeat: repeat-x;
     color: #737373;
-    height: 353px;
     margin: 4px 0 0;
     padding: 0 25px 0 17px;
     width: 220px;
@@ -869,7 +873,7 @@ width: 190px;
 	clear: both;
 }
 
-#step-two-describe-page form label{
+#step-two-describe-page form label, #step-two-describe-page form .group-label {
 	clear: left;
     float: left;
     font-weight: bold;
@@ -877,6 +881,13 @@ width: 190px;
     width: 142px;
 	margin: 15px 0 0 20px;
 }
+
+#step-two-describe-page form label[aria-labelledby] {
+	position: absolute;
+	top: -9999px;
+	left: -9999px;
+}
+
 #step-two-describe-page form .input-text, #step-two-describe-page form textarea, #step-two-describe-page form select{
 	margin: 15px 0 0 20px;
 	float: left;
@@ -1454,5 +1465,3 @@ table.upload_table div.upload_widget {
 div#step-four>div.bold-title-off, div#step-four>div.bold-title-on{
 	font-size: 130%;
 }
-
-

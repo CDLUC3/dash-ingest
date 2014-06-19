@@ -47,7 +47,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title" %>
+						<%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
 						
 						<label for="publisher">
 							* Institution
@@ -59,7 +59,7 @@
             			options_for_select(institution, @record.publisher), 
             			prompt: "Choose institution:" %>
 
-            <%= text_field_tag "publisher", @campus_short_name, 
+            <%= text_field_tag "publisher", campus_short_name, 
             										:disabled => true,
             										:class=>"input-text", 
             										:style => "width:180px;" %>
@@ -82,7 +82,7 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-						<%= select_tag "resourcetype", options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:" %>
+						<%= select_tag "resourcetype", options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
 						<br/>
 						<!-- <%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 						<div class="fieldset">
@@ -92,7 +92,7 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname" %>		
+							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>		
 							<%= image_submit_tag("addl_creator.png", :alt => "Add Creator", :class => "input-button") %>
 							<div id="creators_ajax">
 								<%= render 'creators' %>
@@ -104,12 +104,15 @@
 						<div style=" clear:both; width:800px;">
 
 							<div style="clear:both; float:left; width:160px;">
-								<label for="subject_name">
+								<p id="keyword-group" class="group-label">
 									Keywords
 									<a href="#keyword_help" name="help_link" class="help_link">
 										<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 									</a>
-								</label>
+								</p>
+								<label for="subject_name" aria-labelledby="keyword-group">Keyword 1</label>
+								<label for="subject_name2" aria-labelledby="keyword-group">Keyword 2</label>
+								<label for="subject_name3" aria-labelledby="keyword-group">Keyword 3</label>
 							</div>			
 
 							<div style="float:left; width:280px; margin-left:22px;"> 
@@ -146,7 +149,7 @@
 
 
 						<div class="fieldset">
-							<label for="description_abstract">
+							<label for="abstract">
 								Abstract
 								<a href="#abstract_help" name="help_link" class="help_link">
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
@@ -155,7 +158,7 @@
 							<%= text_area_tag "abstract", @record.abstract, :rows => 6, :cols => 60 %>
 						</div>
 						<div class="fieldset">
-							<label for="description_methods">
+							<label for="methods">
 								Methods
 								<a href="#methods_help" name="help_link" class="help_link">
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
@@ -164,7 +167,7 @@
 							<%= text_area_tag "methods", @record.methods, :rows => 6, :cols => 60 %>
 						</div>
 						<div class="fieldset">
-							<label for="relation_relationText">
+							<label for="citation">
 								Citation(s)
 								<a href="#citations_help" name="help_link" class="help_link">
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
