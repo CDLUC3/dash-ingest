@@ -16,8 +16,10 @@
 				
 				<div class="single-column">
 					<h1>Contact Us</h1>
+					<%= flash[:notice] %>
 
 					<div class="contact-us-form">
+
 
 						<%= form_tag do %>
 
@@ -36,9 +38,10 @@
 
 							<br />
 							<div class="button-container">
-  							<%#= submit_tag "Submit" ,:class => "input-button"  %>
+  							
   							<%= image_submit_tag "submit-button.png" %>
-  							<%= image_submit_tag "reset-button.png" %>
+  							<%= image_submit_tag "reset-button.png", type: :reset, :class => "btn", id: "cancel_action" %>
+  							
   						</div>
 
 						<%end%>
