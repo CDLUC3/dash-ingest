@@ -20,7 +20,7 @@ class StaticPagesController < ApplicationController
 
       receipt = "shirin.faenza@ucop.edu"
 
-      GenericMailer.feedback_message(params, receipt).deliver
+      GenericMailer.feedback_message(params, receipt).deliver unless params[:content].present? # honeypot check
 
     	redirect_to :back, notice: "Your email message was sent to the Dash team."
     	return

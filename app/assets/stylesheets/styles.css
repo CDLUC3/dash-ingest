@@ -1465,3 +1465,10 @@ table.upload_table div.upload_widget {
 div#step-four>div.bold-title-off, div#step-four>div.bold-title-on{
 	font-size: 130%;
 }
+
+.honeypot {
+	margin-bottom: 1em;
+  width: 100%;
+  position: absolute;
+  left: -9999px;
+  }

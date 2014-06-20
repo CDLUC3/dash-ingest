@@ -21,7 +21,7 @@
 					<div class="contact-us-form">
 
 
-						<%= form_tag do %>
+						<%= form_tag contact_path, :honeypot => true do %>
 
 							<%= label_tag :name, "Name:"%>
 							<%= text_field_tag :name, "",:class => "input-text" %>
@@ -35,6 +35,12 @@
 							<%= label_tag :message, "Message:"%>
 							<%#= text_area_tag :message, "",:class => "input-text" %>
 							<%= text_field_tag :message, "", :class => "input-text" %>
+
+							<div class="honeypot">
+								<%#= label_tag :sweet_honey, "This is a honeypot, if you see this your CSS is turned off or you're a bot. If you're not a bot don't fill it in." %>
+      					<%= text_field_tag :content, nil, tabindex: '-1' %>
+      					<span class="help">Do not fill in this field. It is an anti-spam measure.</span>
+    					</div>
 
 							<br />
 							<div class="button-container">
