@@ -1,5 +1,4 @@
 DataIngest::Application.routes.draw do
-  get "static_pages/contact"
 
   resources :uploads
   root :to => 'login#login'
@@ -25,8 +24,6 @@ DataIngest::Application.routes.draw do
   match 'update_record/:id', :to => "records#update_record"
 
   match 'contact', to: 'static_pages#contact', :via => [:get, :post], as: 'contact'
-  match 'static_pages/contact', to: 'static_pages#contact', :via => [:get, :post], as: 'contact'
-  #match 'contact', to: 'static_pages#contact'
 
   match 'delete_creator/:id/:creator_id', :to => "records#delete_creator"
   match 'delete_contributor/:id/:contributor_id', :to => "records#delete_contributor"
