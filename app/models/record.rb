@@ -211,7 +211,7 @@ class Record < ActiveRecord::Base
 
      campus = Record.id_to_campus (external_id)
      
-     if (!@campus) then
+     if (!campus) then
        return false
      end
      merritt_endpoint = MERRITT_CONFIG["merritt_#{campus}_endpoint"]
