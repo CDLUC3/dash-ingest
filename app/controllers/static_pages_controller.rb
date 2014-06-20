@@ -18,13 +18,21 @@ class StaticPagesController < ApplicationController
                                  message: params[:message]) and return
       end
 
-      receipt = "shirin.faenza@ucop.edu"
+      all_emails = APP_CONFIG['feedback_email_to'] #You can set the emails in config/app_config.yml
+      all_emails.delete_if {|x| x.blank? } #delete any blank emails
 
-      GenericMailer.feedback_message(params, receipt).deliver unless params[:content].present? # honeypot check
+      unless params[:content].present? # honeypot check
+        all_emails.each do |email|
+          GenericMailer.feedback_message(params, email).deliver
+        end
+      end
+
+      #GenericMailer.feedback_message(params, email).deliver unless params[:content].present? # honeypot check
 
     	redirect_to :back, notice: "Your email message was sent to the Dash team."
     	return
-  	end
+  	
+    end
   end
 
 

@@ -1,0 +1,19 @@
+development:
+  
+  # feedback_email_to:      [pwillet.ucop.edu, mstrong@ucop.edu, sfisher@ucop.edu]
+  feedback_email_to:      [shirin.faenza@ucop.edu, cinzia.faenza@gmail.com]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  
+
+development_nonlocal:
+  development
+
+
+
+test:
+  
+  feedback_email_to:      [shirin.faenza@ucop.edu, cinzia.faenza@gmail.com]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  
+test_nonlocal:
+  development

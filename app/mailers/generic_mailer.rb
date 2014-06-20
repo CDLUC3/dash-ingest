@@ -1,5 +1,5 @@
 class GenericMailer < ActionMailer::Base
-  default from: "from@example.com",
+  default from: "ContacUs@dash.com",
           to: "shirin.faenza@ucop.edu"
 
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -11,23 +11,13 @@ class GenericMailer < ActionMailer::Base
     @greeting = "Hello,  #{email}"
     @form_hash = form_hash
     mail  to: email,
-          from: @form_hash[:email],
-          subject: 'Dash Contact Us Form'
+          reply_to: @form_hash[:email],
+          subject: 'Dash Contact Us Form',
+          from: @form_hash[:email]
   end
 end
 
 
-
-# class GenericMailer < ActionMailer::Base
-#   default :from => APP_CONFIG['feedback_email_from']
-
-#   def contact_email(form_hash, email)
-#     # values :question_about, :name, :email, :message
-#     @form_hash = form_hash
-#     mail :to => email,
-#          :reply_to => form_hash[:email],
-#          :subject => 'DMPTool2 Contact Us Form Feedback',
-#          :from => APP_CONFIG['feedback_email_from']
-#   end
-
-# end
+#All email should also go to uc3@ucop.edu
+#For Berkeley - Copy of email should go to webman@library.berkeley.edu
+#Email To fields should be configurable and based off of the campus URL. 
