@@ -33,8 +33,10 @@
 							<%= text_field_tag :email, "",:class => "input-text" %>
 
 							<%= label_tag :message, "Message:"%>
-							<%#= text_area_tag :message, "",:class => "input-text" %>
+					
 							<%= text_field_tag :message, "", :class => "input-text" %>
+
+							<%= hidden_field_tag :campus, @campus %>
 
 							<div class="honeypot">
 								<%#= label_tag :sweet_honey, "This is a honeypot, if you see this your CSS is turned off or you're a bot. If you're not a bot don't fill it in." %>

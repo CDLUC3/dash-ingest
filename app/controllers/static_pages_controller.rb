@@ -2,6 +2,10 @@ class StaticPagesController < ApplicationController
 	include RecordHelper
 
   def contact
+
+    @campus = campus
+    
+
   	if request.post?
   		 		
   		msg = []
@@ -26,8 +30,6 @@ class StaticPagesController < ApplicationController
           GenericMailer.feedback_message(params, email).deliver
         end
       end
-
-      #GenericMailer.feedback_message(params, email).deliver unless params[:content].present? # honeypot check
 
     	redirect_to :back, notice: "Your email message was sent to the Dash team."
     	return
