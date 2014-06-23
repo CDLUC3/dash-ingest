@@ -1,9 +1,9 @@
 class StaticPagesController < ApplicationController
 	include RecordHelper
-  before_filter :verify_ownership
+  
 
   def contact
-
+    @user = User.find_by_id(session[:user_id])
     @campus = campus
     @campus_email = [campus_email(@campus)]
     

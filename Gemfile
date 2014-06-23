@@ -54,6 +54,6 @@ gem 'honeypot-captcha'
 gem 'unicorn'
 
 # To use debugger
-gem 'debugger'
+#gem 'debugger'
 gem 'carrierwave'
 
