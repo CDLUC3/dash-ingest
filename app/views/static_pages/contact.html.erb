@@ -21,7 +21,6 @@
 
 					<div class="contact-us-form">
 
-
 						<%= form_tag contact_path, :honeypot => true do %>
 
 							<%= label_tag :name, "Name:"%>
@@ -56,14 +55,10 @@
 						<%end%>
 						
 					</div>
-
-
-
 				</div>
 			</div>
-
 			<!-- begin footer-->
-			<%= render "layouts/brand/footer_cdl" %> 
+			<%= render "layouts/brand/footer_#{campus}" %> 
 			<!-- end footer-->
 		</div> <!-- end inner container -->
 	</div> <!-- end outer container -->
