@@ -68,10 +68,7 @@ class StaticPagesController < ApplicationController
          campus_email = "cinzia.faenza@gmail.com"
       end
       campus_email
-  end
-
-
-  
+  end 
 
 
 end
