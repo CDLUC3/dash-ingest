@@ -1,6 +1,5 @@
 class GenericMailer < ActionMailer::Base
-  default from: "ContacUs@dash.com",
-          to: "shirin.faenza@ucop.edu"
+  default from: "ContacUs@dash.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -10,12 +9,12 @@ class GenericMailer < ActionMailer::Base
   def feedback_message(form_hash, email)
     @form_hash = form_hash
     @campus = @form_hash[:campus]
-    @greeting = "Hello,  #{email}, Im writing you from this campus: #{@campus}"
+    @greeting = "Hello,  #{email} "
     
     mail  to: email,
           reply_to: @form_hash[:email],
-          subject: 'Dash Contact Us Form',
-          from: @form_hash[:email]
+          subject: 'Dash Contact Us Form'#,
+          #from: @form_hash[:email]
   end
 end
 
