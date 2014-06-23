@@ -1,0 +1,69 @@
+<!-- <h1>StaticPages#contact</h1>
+<p>Find me in app/views/static_pages/contact.html.erb</p>
+ -->
+
+<!-- begin page id -->
+<div id="contact-us-page"> 
+	<!-- begin outer container -->  
+	<div id="outer-container"> 
+		<!-- begin inner container -->
+		<div id="inner-container"> 
+			<%= render 'layouts/navigation' %>
+			<!--end navigation-->
+
+			<!-- begin content -->
+			<div id="content"> 	
+				
+				<div class="single-column">
+					<h1>Contact Us</h1>
+					<%= flash[:notice] %>
+
+					<div class="contact-us-form">
+
+
+						<%= form_tag contact_path, :honeypot => true do %>
+
+							<%= label_tag :name, "Name:"%>
+							<%= text_field_tag :name, "",:class => "input-text" %>
+
+							<%= label_tag :affiliation, "Affiliation:"%>
+							<%= text_field_tag :affiliation, "",:class => "input-text" %>
+
+							<%= label_tag :email, "Email:"%>
+							<%= text_field_tag :email, "",:class => "input-text" %>
+
+							<%= label_tag :message, "Message:"%>
+					
+							<%= text_field_tag :message, "", :class => "input-text" %>
+
+							<%= hidden_field_tag :campus, @campus %>
+
+							<div class="honeypot">
+								<%#= label_tag :sweet_honey, "This is a honeypot, if you see this your CSS is turned off or you're a bot. If you're not a bot don't fill it in." %>
+      					<%= text_field_tag :content, nil, tabindex: '-1' %>
+      					<span class="help">Do not fill in this field. It is an anti-spam measure.</span>
+    					</div>
+
+							<br />
+							<div class="button-container">
+  							
+  							<%= submit_tag "Submit" , :class => "btn"%>
+  							<%= image_submit_tag "reset-button.png", type: :reset, :class => "btn", id: "cancel_action" %>
+  							
+  						</div>
+
+						<%end%>
+						
+					</div>
+
+
+
+				</div>
+			</div>
+
+			<!-- begin footer-->
+			<%= render "layouts/brand/footer_cdl" %> 
+			<!-- end footer-->
+		</div> <!-- end inner container -->
+	</div> <!-- end outer container -->
+</div> <!-- end page -->
