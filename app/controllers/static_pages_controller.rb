@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
 	include RecordHelper
-
+  before_filter :verify_ownership
 
   def contact
 
@@ -66,43 +66,12 @@ class StaticPagesController < ApplicationController
          campus_email = "cinzia.faenza@gmail.com"
        else 
          campus_email = "cinzia.faenza@gmail.com"
-    end
+      end
+      campus_email
   end
 
 
-  def Record.id_to_campus (id)
-     if ( id == nil )
-       return false
-      end
-     # external ID form: john.doe@someplace.edu
-     case id.strip
-     when /.*@.*ucop.edu$/
-       campus = "cdl"
-     when /.*@.*uci.edu$/
-       campus = "uci"
-     when /.*@.*ucla.edu$/
-       campus = "ucla"
-     when /.*@.*ucsd.edu$/
-       campus = "ucsd"
-     when /.*@.*ucsb.edu$/
-       campus = "ucsb"
-     when /.*@.*berkeley.edu$/
-       campus = "ucb"
-     when /.*@.*ucdavis.edu$/
-       campus = "ucd"
-     when /.*@.*ucmerced.edu$/
-       campus = "ucm"
-     when /.*@.*ucr.edu$/
-       campus = "ucr"
-     when /.*@.*ucsf.edu$/
-       campus = "ucsf"
-     when /.*@.*ucsc.edu$/
-       campus = "ucsc"
-     else 
-       campus = false
-     end
-     campus
-   end
+  
 
 
 end
