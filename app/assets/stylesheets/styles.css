@@ -906,11 +906,15 @@ width: 190px;
 #step-two-describe-page form .input-text, #step-two-describe-page form textarea, #step-two-describe-page form select{
 	margin: 15px 0 0 20px;
 	float: left;
-	color: #6E7074;
-	border: 1px solid #58595b;
+	color: #000;
+	border: 1px solid #999;
     height: 14px;
     padding: 5px;
     width: 300px;
+}
+
+#step-two-describe-page input[id^="subject_name"] {
+	border: 1px solid #999;
 }
 
 #step-two-describe-page form textarea{
@@ -957,7 +961,7 @@ width: 190px;
 
 #step-two-describe-page .large-button-container {
 	clear: left; 
-	margin-left: 172px;
+	margin-left: 186px;
 	/* width: 203px; */
 }
 #step-two-describe-page .large-button-container images {
@@ -965,20 +969,35 @@ width: 190px;
 }
 
 #step-two-describe-page .table-container {
-	clear: left; 
-	margin-left: 172px;
-	padding-top: 9px;
+	clear: left;
+	margin-left: 186px;
 }
 
-
-#step-two-describe-page table td{
+#step-two-describe-page .table-container td{
 	border: none;
 	text-align: left;
+	padding-right: 10px;
+	padding-bottom: 0.8em;
+	/*border: 1px solid blue;*/
 }
 
+#citations_ajax .table-container {
+	position: relative;
+	top: 10px;
+	margin-bottom: 10px;
+	width: 370px;
+}
+
+#citations_ajax td:last-child {
+	vertical-align: top;
+}
+
+/*
 #step-two-describe-page .description-data-container .table-container {
 	margin-left: 0px;
 }
+*/
+
 #step-two-describe-page .description-data-container{
 	width: 500px;
 	height: 100%;
