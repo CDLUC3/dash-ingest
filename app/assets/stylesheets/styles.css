@@ -767,15 +767,30 @@ width: 190px;
 	height: 100%;
 }
 
+/*
 #my-datasets-page .dataset-table table, #metadata-basics-page table{
 	width: 100%;
-	/*border-collapse:collapse;*/
+	border-collapse:collapse;
 }
 
 #my-datasets-page .dataset-table table, td, th, #metadata-basics-page table, td, th{
 		border: 1px solid #58585a;
 		text-align: center;
 		padding: 4px;
+}
+*/
+
+/* Bootstrap tables customization */ 
+.table th, .table td {
+	border-top: 1px solid #999;
+}
+
+.table-bordered {
+	border-color: #999;
+}
+
+.table-bordered th, .table-bordered td {
+	border-left: 1px solid #999;
 }
 
 #my-datasets-page .data-id {
