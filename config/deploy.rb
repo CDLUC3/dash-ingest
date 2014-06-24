@@ -8,8 +8,8 @@ set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-#set :branch, 'default'
-set :branch, 'shirin2'
+set :branch, 'default'
+#set :branch, 'shirin2'
 #set :branch, 'joel'
 #set :branch, 'contact_us'
 
