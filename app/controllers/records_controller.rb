@@ -5,9 +5,9 @@ class RecordsController < ApplicationController
   
   def index
     @user = User.find_by_id(session[:user_id])
-    # if !@user
-    #   login and return
-    # end
+    if !@user
+      login and return
+    end
     @records = Record.find_all_by_user_id(session[:user_id])
   end
   

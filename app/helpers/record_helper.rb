@@ -28,7 +28,11 @@ DataType = {
   end
 
   def campus
-    isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
+    if @user
+      isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
+    else
+      isTest ? campus = "cdl" : campus = url_to_campus 
+    end
   end
 
   #for setting record.publisher
