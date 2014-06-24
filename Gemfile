@@ -42,6 +42,7 @@ gem 'jquery-fileupload-rails'
 gem 'paperclip'
 gem 'twitter-bootstrap-rails', '2.1.7'
 gem 'less-rails', '2.3.3'
+gem 'honeypot-captcha'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

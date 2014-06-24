@@ -92,8 +92,10 @@
 									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 								</a>
 							</label>
-							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>		
-							<%= image_submit_tag("addl_creator.png", :alt => "Add Creator", :class => "input-button") %>
+							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>
+
+							<button class="btn">+ Additional Creator</button>
+
 							<div id="creators_ajax">
 								<%= render 'creators' %>
 							</div>
@@ -114,7 +116,7 @@
 								<label for="subject_name2" aria-labelledby="keyword-group">Keyword 2</label>
 								<label for="subject_name3" aria-labelledby="keyword-group">Keyword 3</label>
 							</div>			
-
+						
 							<div style="float:left; width:280px; margin-left:22px;"> 
 								<%= text_field_tag "subject_name", "", :size=>"20", :placeholder => "Keyword" %>
 							</div>
@@ -128,16 +130,9 @@
 									<%= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
 								</div>
 								<div style="float:left; margin-left:114px;">
-									<%= image_submit_tag("addl_keyword.png", :alt => "Add Subject") %>
+									<button class="btn">+ Additional Keyword</button>
 								</div>
-							</div>
-
-
-
-							<!-- <div style="clear:both; margin-left:174px;  width:800px; ">
-								<%#= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
-								<%#= image_submit_tag("addl_keyword.png", :alt => "Add Subject") %>
-							</div> -->							
+							</div>						
 							
 							<div id="subjects_ajax">
 								<%= render 'subjects' %>
@@ -174,14 +169,14 @@
 								</a>
 							</label>
 							<%= text_area_tag("citation", "", :rows => 6, :cols => 60, :placeholder => "e.g., Patterns of age-related water diffusion changes in human brain by concordance and discordance analysis. Zhang Y, Du AT, Hayasaka S, Jahng GH, Hlavin J, Zhan W, Weiner MW, Schuff N. Neurobiol Aging. 2010 Nov;31(11):1991-2001. doi: 10.1016/j.neurobiolaging.2008.10.009. Epub 2008 Nov 25. PMID: 19036473") %>
-							<%= image_submit_tag("addl_citation.png", :alt => "Add Citation", :class => "input-button") %>
+							<button class="btn">+ Additional Citation</button>
 							<div id="citations_ajax">
 								<%= render 'citations' %>
 							</div>
 						</div>
 						<div class="large-button-container">
-							<%= image_submit_tag "lrg_save.png",  :size => "203x57", :alt => "Save", :confirm => "Save Record?" %>
-							<%= image_submit_tag "lrg_save_cont.png",  :size => "203x57", :alt => "Save And Continue", :name => "add_data", :value => "add_data" , :confirm => "Save and Continue to Data Upload Page?" %>
+							<button class="btn btn-success btn-lg" data-confirm="Save Record?">Save</button>
+							<button class="btn btn-success btn-lg" value="add_data" name="add_data" data-confirm="Save and Continue to Data Upload Page?">Save and Continue</button>
 						</div>
 						<% end %>
 					</div>
