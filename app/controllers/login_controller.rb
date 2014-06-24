@@ -1,5 +1,5 @@
 class LoginController < ApplicationController
-  
+  include RecordHelper
   
   def login
     user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
@@ -15,9 +15,13 @@ class LoginController < ApplicationController
     redirect_to "/records"
   end
   
+
+
+
   def logout
     reset_session
-    redirect_to DATASHARE_CONFIG['logout_path']
+    #redirect_to DATASHARE_CONFIG['logout_path']
+    redirect_to logout_page_path
   end
   
   # login and logout pages aren't used in prod
@@ -28,6 +32,7 @@ class LoginController < ApplicationController
   end
   
   def logout_page
+    @campus = url_to_campus
     render :layout => false
   end
   
