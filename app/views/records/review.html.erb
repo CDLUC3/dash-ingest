@@ -178,8 +178,10 @@
 								<h3>Record contains all recommended fields</strong></h3>
 							<% end %>
 						
-							<a href="/record/<%=@record.id%>">						
-								<%= image_tag "go-back-button.png",  :size => "203x57", :alt => "Go Back and edit metadata" %></a>
+							<a href="/record/<%=@record.id%>">
+								<button class="btn">Go Back Edit Description</button>
+							</a>
+
 					</div>
 				
 
@@ -200,7 +202,7 @@
 				<% end %>
 				</ul>
 				<a href="/record/<%=@record.id%>/#{DATASHARE_CONFIG['uploads_dir']}">
-					<%= image_tag "upload-more-button.png",  :size => "203x57", :alt => "Upload more files" %>					
+					<button class="btn">Upload More Files</button>				
 				</a>
 			</div>
 			
@@ -212,10 +214,10 @@
 				<div class="ItemImage" style="float:left;">					
 					<% if (@record.required_fields.size == 0 && @record.uploads.size > 0) %>
 						<a href="/record/<%=@record.id%>/send_archive_to_merritt">
-							<%= image_tag "send-to-datashare-button.png", id: "submit_to_datashare", :size => "250x75", :alt => "Send to DataShare", :style => "display:block;"  %>					
+							<button class="btn btn-large btn-success">Submit to Dash</button>
 						</a>
 					<% else %>
-						<%= image_tag "send-to-datashare-grayed-button.png",  :size => "250x75", :alt => "Send to DataShare" %>					
+						<button class="btn btn-large btn-success">Submit to Dash</button>
 					<% end %>
 				</div>
 
