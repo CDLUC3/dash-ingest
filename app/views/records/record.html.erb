@@ -94,7 +94,7 @@
 							</label>
 							<%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>
 
-							<button type="button" class="btn">+ Additional Creator</button>
+							<button class="btn">+ Additional Creator</button>
 
 							<div id="creators_ajax">
 								<%= render 'creators' %>
@@ -130,7 +130,7 @@
 									<%= text_field_tag "subject_name3", "", :size=>"20", :placeholder => "Keyword" %>
 								</div>
 								<div style="float:left; margin-left:114px;">
-									<button type="button" class="btn">+ Additional Keyword</button>
+									<button class="btn">+ Additional Keyword</button>
 								</div>
 							</div>						
 							
@@ -169,14 +169,14 @@
 								</a>
 							</label>
 							<%= text_area_tag("citation", "", :rows => 6, :cols => 60, :placeholder => "e.g., Patterns of age-related water diffusion changes in human brain by concordance and discordance analysis. Zhang Y, Du AT, Hayasaka S, Jahng GH, Hlavin J, Zhan W, Weiner MW, Schuff N. Neurobiol Aging. 2010 Nov;31(11):1991-2001. doi: 10.1016/j.neurobiolaging.2008.10.009. Epub 2008 Nov 25. PMID: 19036473") %>
-							<button type="button" class="btn">+ Additional Citation</button>
+							<button class="btn">+ Additional Citation</button>
 							<div id="citations_ajax">
 								<%= render 'citations' %>
 							</div>
 						</div>
 						<div class="large-button-container">
-							<button type="button" class="btn btn-large btn-success" data-confirm="Save Record?">Save</button>
-							<button type="button" class="btn btn-large btn-success" value="add_data" name="add_data" data-confirm="Save and Continue to Data Upload Page?">Save and Continue</button>
+							<button class="btn btn-large btn-success" data-confirm="Save Record?">Save</button>
+							<button class="btn btn-large btn-success" value="add_data" name="add_data" data-confirm="Save and Continue to Data Upload Page?">Save and Continue</button>
 						</div>
 						<% end %>
 					</div>
