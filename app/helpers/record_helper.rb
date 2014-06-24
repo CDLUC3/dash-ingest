@@ -24,7 +24,11 @@ DataType = {
      "Text" => "Text,Text" }
 
   def user
-    user = @user.external_id
+    if @user
+      user = @user.external_id
+    else
+      user = request.headers[DATASHARE_CONFIG['external_identifier']]
+    end
   end
 
   def campus
