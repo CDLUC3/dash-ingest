@@ -1,4 +1,5 @@
 DataIngest::Application.routes.draw do
+
   resources :uploads
   root :to => 'login#login'
   
@@ -21,7 +22,9 @@ DataIngest::Application.routes.draw do
   match 'record/:id/logs', :to => "records#submission_log"
   
   match 'update_record/:id', :to => "records#update_record"
-  
+
+  match 'contact', to: 'static_pages#contact', :via => [:get, :post], as: 'contact'
+
   match 'delete_creator/:id/:creator_id', :to => "records#delete_creator"
   match 'delete_contributor/:id/:contributor_id', :to => "records#delete_contributor"
   match 'delete_description/:id/:description_id', :to => "records#delete_description"

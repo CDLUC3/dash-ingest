@@ -14,9 +14,7 @@ class RecordsController < ApplicationController
     if(params[:id])
       @record = Record.find(params[:id])
     else
-      # @campus = campus
-      # @campus_full_name = campus_full_name
-      #@campus_short_name = campus_short_name
+      
       @record = Record.new
       @record.user_id = session[:user_id]
       @record.set_local_id
@@ -28,8 +26,7 @@ class RecordsController < ApplicationController
   end
   
   def update_record  
-    # @campus = campus  
-    # @campus_full_name = campus_full_name
+    
     @campus_short_name = campus_short_name
     @record = Record.find(params[:id])
     @record.title = params[:title]
@@ -184,7 +181,8 @@ class RecordsController < ApplicationController
       Thread.new do
         @record.generate_merritt_zip
 
-        @merritt_request = @record.send_archive_to_merritt 
+        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
+
         submissionLog = SubmissionLog.new
 
         if (!@merritt_request) then
