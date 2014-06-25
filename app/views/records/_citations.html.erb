@@ -4,7 +4,7 @@
 		  <tr>
 			<td><%= description.descriptionText %></td>
 			<td>
-				<%= link_to "delete", "/delete_description/#{@record.id}/#{description.id}", :remote => true%>
+				<%= link_to "[delete]", "/delete_description/#{@record.id}/#{description.id}", :remote => true%>
 			</td>
 		  </tr>
 		<% end %>

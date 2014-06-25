@@ -4,7 +4,7 @@
 		  <tr>
 			<td aria-labelledby="keyword-group"><%= subject.subjectName %></td>
 			<td>
-				<%= link_to "delete", "/delete_subject/#{@record.id}/#{subject.id}", 'aria-label' => 'delete this keyword', :remote => true%>
+				<%= link_to "[delete]", "/delete_subject/#{@record.id}/#{subject.id}", 'aria-label' => 'delete this keyword', :remote => true%>
 			</td>
 		  </tr>
 		<% end %>
