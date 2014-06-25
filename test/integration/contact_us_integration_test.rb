@@ -21,9 +21,16 @@ class Contact_Us_integration_Test < ActiveSupport::TestCase
   end
   
   test "send message with success" do  
-    visit '/contact'    
-            
+    visit '/contact'             
     assert page.has_content?("Contact Us")
+    
+    fill_in "name", :with => "Joe"
+    fill_in "affiliation", :with => "Oxford"
+    fill_in "email", :with => "test@test.edu"
+    fill_in "message", :with => "How are you?"
+    click_button "Submit"
+    assert page.has_content?("Your email message was sent to the Dash team.")
+    
     
   end
 
