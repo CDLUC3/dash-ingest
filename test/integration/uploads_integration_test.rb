@@ -1,4 +1,4 @@
-require 'test_helper'
+# require 'test_helper'
 require "capybara/rails"
 
 class Uploads_integration_Test < ActiveSupport::TestCase

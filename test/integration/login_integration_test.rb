@@ -23,7 +23,7 @@ class Login_integration_Test < ActiveSupport::TestCase
   # also only used in development
   test "logout page" do
     visit '/logout'
-    assert page.has_content?("Logout Page")
+    assert page.has_content?("Logged out")
   end
   
   
