@@ -53,7 +53,7 @@ class StaticPagesController < ApplicationController
        when "ucsb"
         campus_email = ""
        when "ucb"
-         campus_email = ""
+         campus_email = "webman@library.berkeley.edu"
        when "ucd"
          campus_email = ""
        when "ucm"
