@@ -174,10 +174,18 @@
 								<%= render 'citations' %>
 							</div>
 						</div>
-						<div class="large-button-container">
+						<!-- <div class="large-button-container">
 							<button class="btn btn-large btn-success" data-confirm="Save Record?">Save</button>
 							<button class="btn btn-large btn-success" value="add_data" name="add_data" data-confirm="Save and Continue to Data Upload Page?">Save and Continue</button>
+						</div> -->
+
+
+						<div class="large-button-container">
+							<%= submit_tag "Save",  :class => "btn btn-large btn-success", :alt => "Save", :confirm => "Save Record?" %>
+							<%= submit_tag "Save And Continue",  :class => "btn btn-large btn-success", :alt => "Save And Continue", :name => "add_data", :value => "add_data" , :confirm => "Save and Continue to Data Upload Page?" %>
 						</div>
+
+
 						<% end %>
 					</div>
 				</div>
