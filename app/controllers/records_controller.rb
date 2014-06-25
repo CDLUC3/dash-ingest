@@ -93,7 +93,7 @@ class RecordsController < ApplicationController
     end
     
   
-    if params[:add_data] == "add_data"
+    if params[:add_data] == "Save And Continue"
       render :js => "window.location = '/record/#{@record.id}/uploads'"
     else
       # redirect_to :action => "record", :id=> @record.id
