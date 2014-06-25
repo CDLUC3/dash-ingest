@@ -30,8 +30,62 @@ class Contact_Us_integration_Test < ActiveSupport::TestCase
     fill_in "message", :with => "How are you?"
     click_button "Submit"
     assert page.has_content?("Your email message was sent to the Dash team.")
+  end
+
+  test "send message with incorrect data" do  
+    visit '/contact'             
+    click_button "Submit"
+    assert page.has_content?("Please enter your name")
+    assert page.has_content?("Please enter your email")
+    assert page.has_content?("Please enter a message")
+
+    fill_in "name", :with => "Joe"
+    click_button "Submit"
+    assert page.has_content?("Please enter your email")
+    assert page.has_content?("Please enter a message")
     
-    
+    fill_in "name", :with => "Joe"
+    fill_in "affiliation", :with => "Oxford"
+    fill_in "message", :with => "How are you?"
+    click_button "Submit"
+    assert page.has_content?("Please enter your email")
+
+    fill_in "name", :with => "Joe"
+    fill_in "affiliation", :with => "Oxford"
+    fill_in "email", :with => "test"
+    fill_in "message", :with => "How are you?"
+    click_button "Submit"
+    assert page.has_content?("Please enter a valid email address")
+
+    fill_in "name", :with => "Joe"
+    fill_in "affiliation", :with => "Oxford"
+    fill_in "email", :with => "test@test.edu"
+    click_button "Submit"
+    assert page.has_content?("Please enter a message")
+
   end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
