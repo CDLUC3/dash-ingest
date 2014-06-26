@@ -19,8 +19,7 @@ class LoginController < ApplicationController
 
 
   def logout
-    reset_session
-    #redirect_to DATASHARE_CONFIG['logout_path']
+    #reset_session
     redirect_to logout_page_path
   end
   
