@@ -1193,14 +1193,14 @@ width: 190px;
 	margin: 15px 50px 0 20px;
 	float: left;
 	color: #6E7074;
-	border: 1px solid #58595b;
+	border: 1px solid #999;
     height: 14px;
     padding: 5px;
     width: 144px;
 }
 
 #contact-us-page .contact-us-form textarea{
-	margin: 15px 0 0 20px;
+	margin: 15px 0 15px 20px;
 	width: 344px;
     height: 180px;	
 	padding: 5px;
@@ -1215,9 +1215,7 @@ width: 190px;
 }
 #contact-us-page .button-container {
 	float: left;
-	margin-left: 105px;
-	width: 254px;
-	height: 100%;
+	margin-left: 325px;
 }
 
 #contact-us-page #triangle {
