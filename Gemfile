@@ -16,6 +16,7 @@ group :development do
   gem 'capistrano-bundler'
   gem 'webrick', '~> 1.3.1'
   gem 'debugger', :git => 'https://github.com/cldwalker/debugger.git'
+  gem 'sextant' #you can go to http://localhost:3000/rails/routes to see routes
 end
 
 group :test do
