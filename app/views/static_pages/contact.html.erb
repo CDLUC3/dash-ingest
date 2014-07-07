@@ -34,7 +34,7 @@
 
 							<%= label_tag :message, "Message:"%>
 					
-							<%= text_field_tag :message, "", :class => "input-text" %>
+							<%= text_area_tag :message, "" %>
 
 							<%= hidden_field_tag :campus, @campus %>
 
@@ -44,7 +44,6 @@
       					<span class="help">Do not fill in this field. It is an anti-spam measure.</span>
     					</div>
 
-							<br />
 							<div class="button-container">
   							
   							<%= submit_tag "Submit" , :class => "btn"%>
