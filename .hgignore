@@ -11,8 +11,5 @@ tmp/
 uploads/
 test_uploads/
 .ruby-version
-<<<<<<< local
 .idea
-=======
->>>>>>> other
 config.codekit
