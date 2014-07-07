@@ -14,6 +14,8 @@ gem 'rubyzip',  "~> 0.9.9"
 group :development do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
+  gem 'webrick', '~> 1.3.1'
+  gem 'debugger', :git => 'https://github.com/cldwalker/debugger.git'
 end
 
 group :test do
