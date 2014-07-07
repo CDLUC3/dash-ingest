@@ -11,7 +11,7 @@ gem 'rails', '3.2.19'
 gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
-group :development do
+group :development, :local do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'webrick', '~> 1.3.1'
