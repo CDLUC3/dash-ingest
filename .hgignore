@@ -12,3 +12,4 @@ uploads/
 test_uploads/
 .ruby-version
 .idea
+.ruby-gemset
