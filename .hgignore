@@ -13,3 +13,4 @@ test_uploads/
 .ruby-version
 .idea
 .ruby-gemset
+config.codekit
