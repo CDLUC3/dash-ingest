@@ -12,7 +12,7 @@ class RecordsController < ApplicationController
   end
   
   def record
-    @campus_short_name = campus_short_name
+    @campus_short_name = campus_short_name(@user)
     @user = User.find(session[:user_id])
     if(params[:id])
       @record = Record.find(params[:id])
@@ -21,7 +21,7 @@ class RecordsController < ApplicationController
       @record = Record.new
       @record.user_id = session[:user_id]
       @record.set_local_id
-      @record.publisher = campus
+      @record.publisher = campus(@user)
       @record.save
       @record.create_record_directory
 
@@ -30,7 +30,7 @@ class RecordsController < ApplicationController
   
   def update_record  
     
-    @campus_short_name = campus_short_name
+    @campus_short_name = campus_short_name(@user)
     @record = Record.find(params[:id])
     @record.title = params[:title]
     @record.publisher = @campus_short_name
@@ -188,11 +188,11 @@ class RecordsController < ApplicationController
 
         submissionLog = SubmissionLog.new
 
-        if (!@merritt_request) then
+        if (!@merritt_request)
           @merritt_response = "User not authorized for Merritt submission"
-	else
+      	else
           @merritt_response = `#{@merritt_request}`
-	end
+	      end
 
         submissionLog.archiveresponse = @merritt_response
         submissionLog.record = @record

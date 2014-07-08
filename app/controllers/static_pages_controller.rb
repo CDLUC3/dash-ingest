@@ -4,7 +4,7 @@ class StaticPagesController < ApplicationController
 
   def contact
     @user = User.find_by_id(session[:user_id])
-    @campus = campus
+    @campus = campus(@user)
     @campus_email = [campus_email(@campus)]
     
   	if request.post?
