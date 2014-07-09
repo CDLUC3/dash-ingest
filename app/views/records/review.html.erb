@@ -201,9 +201,8 @@
 					
 				<% end %>
 				</ul>
-				<a href="/record/<%=@record.id%>/#{DATASHARE_CONFIG['uploads_dir']}">
-					<button class="btn">Upload More Files</button>				
-				</a>
+        <%= link_to button_tag("Upload More Files", :class => 'btn'),
+                    {:controller => :uploads, :action => :index, :record_id => params[:id]} %>
 			</div>
 			
 			
