@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
 
   def campus(user)
     if @user
-      isTest ? "cdl" : Record.id_to_campus(user)
+      isTest ? "cdl" : Record.id_to_campus(user.external_id)
     else
       isTest ? "cdl" : url_to_campus
     end
