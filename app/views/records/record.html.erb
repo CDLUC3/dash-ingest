@@ -1,7 +1,7 @@
 <!-- begin page id -->
 <div id="step-two-describe-page"> 
 	<!-- begin outer container -->  
-	<div id="outer-container"> 
+	<div id="outer-container">
 		<!-- begin inner container -->
 		<div id="inner-container"> 
 			<div id="header">
@@ -39,7 +39,7 @@
 						* Required Field
 					</div>
 					<div class="text-container" id="smaller_container">
-						<%= form_tag "/update_record/#{@record.id}" , { :multipart => true, :remote => true } do %>
+						<%= form_tag "/update_record/#{@record.id}" , { :multipart => true, :remote => true, :method => :post } do %>
 						<div class="clear"></div>
 						<label for="title">
 							* Dataset Title

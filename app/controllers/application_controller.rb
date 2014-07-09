@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
+  helper_method :campus, :campus_short_name
+
 
   def login
     user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
@@ -49,6 +51,17 @@ class ApplicationController < ActionController::Base
    	@campus
  	end
 
+  def campus(user)
+    if @user
+      isTest ? "cdl" : Record.id_to_campus(user)
+    else
+      isTest ? "cdl" : url_to_campus
+    end
+  end
 
+  #for displaying institution on Describe your dataset page
+  def campus_short_name(user)
+    isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user)
+  end
 
 end

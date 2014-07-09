@@ -1,5 +1,4 @@
 class LoginController < ApplicationController
-  include RecordHelper
   
   def login
     user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])

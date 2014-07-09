@@ -32,22 +32,9 @@ DataType = {
     end
   end
 
-  def campus(user)
-    if @user
-      isTest ? "cdl" : Record.id_to_campus(user)
-    else
-      isTest ? "cdl" : url_to_campus
-    end
-  end
-
   #for setting record.publisher
   def campus_full_name(user)
     isTest ? "University of California, Office of the President" : Record.id_to_campus_full_name(user)
-  end
-
-  #for displaying institution on Describe your dataset page
-  def campus_short_name(user)
-    isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user)
   end
   
   def institution
