@@ -17,24 +17,25 @@
 				
 				<div class="single-column">
 					<h1>Contact Us</h1>
-					<%= flash[:notice] %>
 
 					<div class="contact-us-form">
 
-						<%= form_tag contact_path, :honeypot => true do %>
+            <%= render :partial => 'shared/display_flash' %>
 
-							<%= label_tag :name, "Name:"%>
-							<%= text_field_tag :name, "",:class => "input-text" %>
+						<%= form_tag contact_path, :method => :post, :honeypot => true do %>
+
+							<%= label_tag :name, "Name:" %>
+							<%= text_field_tag :name, params[:name],:class => "input-text" %>
 
 							<%= label_tag :affiliation, "Affiliation:"%>
-							<%= text_field_tag :affiliation, "",:class => "input-text" %>
+							<%= text_field_tag :affiliation, params[:affiliation], :class => "input-text" %>
 
 							<%= label_tag :email, "Email:"%>
-							<%= text_field_tag :email, "",:class => "input-text" %>
+							<%= text_field_tag :email, params[:email],:class => "input-text" %>
 
 							<%= label_tag :message, "Message:"%>
 					
-							<%= text_area_tag :message, "" %>
+							<%= text_area_tag :message, params[:message] %>
 
 							<%= hidden_field_tag :campus, @campus %>
 
@@ -51,7 +52,7 @@
   							
   						</div>
 
-						<%end%>
+						<% end %>
 						
 					</div>
 				</div>
