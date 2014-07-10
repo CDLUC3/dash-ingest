@@ -16,6 +16,10 @@ test:
   feedback_email_to:      [shirin.faenza@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
 
+production:
+  feedback_email_to:      [uc3@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+
 
 campus_emails:
   cdl:        unknown@unknown.com
