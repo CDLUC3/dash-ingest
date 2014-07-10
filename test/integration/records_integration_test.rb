@@ -31,7 +31,7 @@ class Records_integration_Test < ActiveSupport::TestCase
   
   test 'display new record page' do
     visit '/record'    
-    assert page.has_content?("Describe your dataset")
+    assert page.has_content?("Describe Your Dataset")
   end
   
   test "create new record" do
@@ -167,7 +167,7 @@ class Records_integration_Test < ActiveSupport::TestCase
     
     id = records(:one).id
     visit "/record/#{id}/review"
-    assert page.has_content?("Review before submitting to Dash")
+    assert page.has_content?("Review Before Submitting")
   end
   
   # this won't really do it, the config for test
