@@ -13,8 +13,8 @@ class RecordsController < ApplicationController
 
   # GET form for new record
   def new
-    @campus_short_name = campus_short_name(@user)
     @user = User.find(session[:user_id])
+    @campus_short_name = campus_short_name(@user)
 
     @record = Record.new
     @record.user_id = session[:user_id]
@@ -50,8 +50,8 @@ class RecordsController < ApplicationController
 
   
   def record
-    @campus_short_name = campus_short_name(@user)
     @user = User.find(session[:user_id])
+    @campus_short_name = campus_short_name(@user)
     if(params[:id])
       @record = Record.find(params[:id])
     else
