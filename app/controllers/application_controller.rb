@@ -61,7 +61,7 @@ class ApplicationController < ActionController::Base
 
   #for displaying institution on Describe your dataset page
   def campus_short_name(user)
-    isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user)
+    isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user.external_id)
   end
 
 end
