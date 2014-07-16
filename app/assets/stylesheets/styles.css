@@ -782,6 +782,14 @@ width: 190px;
 
 /* idpSelect style customizations for discovery page */
 
+#idpSelectPreferredIdPTile .IdPSelectTextDiv:first-child {
+	margin-bottom: 1em;
+}
+
+#idpSelectIdPEntryTile .IdPSelectTextDiv, #idpSelectIdPListTile .IdPSelectTextDiv {
+	margin-top: 1em;
+}
+
 .IdPSelectHelpButton {
 	display: none;
 }
