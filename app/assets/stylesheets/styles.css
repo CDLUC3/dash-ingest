@@ -780,6 +780,12 @@ width: 190px;
 }
 */
 
+/* idpSelect style customizations for discovery page */
+
+.IdPSelectHelpButton {
+	display: none;
+}
+
 /* Bootstrap tables customization */ 
 .table th, .table td {
 	border-top: 1px solid #999;
