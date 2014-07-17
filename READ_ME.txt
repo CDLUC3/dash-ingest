@@ -1,3 +1,10 @@
+This Rails application allows for creation and definition of datasets which are ingested into the Merritt Repository.  
+Provides a metadata entry form to define metadata for the datasets.   
+
+
+The installation instructions below correspond to the datashare-ingest repository hosted on Github
+(formerly UCSF: https://github.com/CDLUC3/datashare-ingest)
+
 Installation Instructions:
 
 I. Development
