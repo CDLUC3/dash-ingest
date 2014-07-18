@@ -22,7 +22,7 @@ end
 group :test do
   gem 'launchy'
   gem 'capybara'
-  gem 'capybara-webkit', '0.14.2'
+  gem 'capybara-webkit'
   gem 'simplecov', '~> 0.7.1'
 end
 

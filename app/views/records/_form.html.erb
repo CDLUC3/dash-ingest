@@ -52,7 +52,7 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= text_field_tag "creator_name", "", :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>
+      <%= text_field_tag "creator_name", @creator.creatorName, :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>
 
       <button class="btn">+ Additional Creator</button>
 
