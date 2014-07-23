@@ -3,7 +3,7 @@ require 'zip/zip'
 
 class Record < ActiveRecord::Base    
   include RecordHelper
-  has_many :creators
+  has_many :creators, :inverse_of  =>:record
   has_many :contributors
   has_many :descriptions
   has_many :subjects
@@ -12,10 +12,11 @@ class Record < ActiveRecord::Base
   has_many :relations
   has_many :submissionLogs
   has_many :uploads
+  has_many :citations
   
   belongs_to :user
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, :resourcetype, :rights, :title, :local_id
-  validates :title, :presence => true
+  validates :title, :resourcetype, :presence => true
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
   end

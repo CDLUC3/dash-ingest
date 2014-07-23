@@ -13,63 +13,71 @@ class RecordsController < ApplicationController
 
   # GET form for new record
   def new
-    @user = User.find(session[:user_id])
-    @campus_short_name = campus_short_name(@user)
-
-    @record = Record.new
-    @record.user_id = session[:user_id]
-    @record.set_local_id
-    @record.publisher = campus(@user)
-
+    #@user = User.find(session[:user_id])
+   #@campus_short_name = campus_short_name(@user)
+   @record = Record.new
+   @creator = Creator.new
   end
 
   # POST - create new record
   def create
 
-  end
+    @record = Record.new(params[:record])
+    @record.user_id = session[:user_id]
+    @record.set_local_id
+    @record.id = (params[:id])
+    @record.publisher = campus(@user)
+    @record.title = (params[:title])
+    @record.resourcetype = (params[:resourcetype])
 
-  # GET - show a specific record
-  def show
+    @record.methods = (params[:methods])
+    @record.abstract = (params[:abstract])
+    @record.citation = (params[:citation])
+    @creator = Creator.new
+    @creator.creatorName =(params[:creatorName])
+    @creator.record_id = @record.id
+    @record.save
+    @record.create_record_directory
+    @creator.record_id = @record.id
+    @creator.save
 
-  end
+    if @record.save
 
-  # GET - edit a specific record
-  def edit
+      flash[:success] = "Record created!"
+     redirect_to "/record/#{@record.id}/uploads"
+     #redirect_to "/records/show"
 
-  end
-
-  # PUT - update a record
-  def update
-
-  end
-
-  # DELETE - delete a record
-  def destroy
-
-  end
-
-  
-  def record
-    @user = User.find(session[:user_id])
-    @campus_short_name = campus_short_name(@user)
-    if(params[:id])
-      @record = Record.find(params[:id])
     else
+      render "new"
+    end
+  end
+
+ def show
+   @records = Record.find_all_by_user_id(session[:user_id])
+ end
+
+
+   #def record
+    #@user = User.find(session[:user_id])
+    #@campus_short_name = campus_short_name(@user)
+    #if(params[:id])
+    #  @record = Record.find(params[:id])
+    #else
       
-      @record = Record.new
-      @record.user_id = session[:user_id]
-      @record.set_local_id
-      @record.publisher = campus(@user)
+      #@record = Record.new
+      #@record.user_id = session[:user_id]
+      #@record.set_local_id
+      #@record.publisher = campus(@user)
       # These shouldn't be created until we really know that the data should be saved.
       # This is why a new record is created each time, but I think the person who
       # created this code is creating a record so he can do AJAX on it and it has
       # to be created first, so in order to make the form work differently it needs
       # to be changed a lot.
-      @record.save
-      @record.create_record_directory
+      #@record.save
+      #@record.create_record_directory
 
-    end
-  end
+    #end
+  #end
 
 
   #this is really for both save and update
