@@ -96,9 +96,11 @@ h1 {
 	margin: 0px 0 5px 0;
 	/*differs from dash*/
 }
-#header #logout images{
-	float: right;
+
+#logout_link {
+
 }
+
 #footer {
 	width: 952px; 
 	margin: 0 0 0 0;
@@ -245,15 +247,20 @@ height: 49px;
 }
 
 #navbar {
-	background: #000;
-}
-
-nav ul {
-	margin: 0;
 	padding: 5px;
+	background: #000;
+	overflow: hidden;
 }
 
-nav li {
+nav {
+	float: left;
+}
+
+nav ul, #project_links ul {
+	margin: 0;
+}
+
+nav li, #project_links li {
 	display: inline;
 }
 
@@ -263,8 +270,22 @@ nav a {
 	color: #fff !important;
 }
 
-nav a:hover {
+#project_links a {
+	padding: 0 1em;
+	font-size: 1.2em !important;
+	color: #fff !important;
+}
+
+#project_links li:first-child a {
+	border-right: 1px solid #fff;
+}
+
+nav a:hover, #project_links a:hover {
 	text-decoration: none;
+}
+
+#project_links {
+	float: right;
 }
 
 #nav-home-menu {
