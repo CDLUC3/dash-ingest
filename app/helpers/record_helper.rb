@@ -24,6 +24,16 @@ DataType = {
      "Sound" => "Sound,Sound",
      "Text" => "Text,Text" }
 
+
+
+
+
+
+
+
+
+
+
   def user
     if @user
       user = @user.external_id

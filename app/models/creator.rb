@@ -1,4 +1,12 @@
 class Creator < ActiveRecord::Base
-  belongs_to :record
-  attr_accessible :creatorName
+  attr_accessible :creatorName, :record_id
+  validates :creatorName, :presence => true
+  #validates_associated :record
+  belongs_to :record, :inverse_of => :creators
+
+
+
+
+
+
 end

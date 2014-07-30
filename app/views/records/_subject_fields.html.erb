@@ -1,0 +1,14 @@
+<div class = fields >
+  <div style="clear:both; margin-left:22px; width:280px;">
+    <%= f.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
+  </div>
+  <div id ="remove_subject_field">
+      <% f.hidden_field "_destroy" %>
+      <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
+  </div>
+
+  </div>
+ </div>
+ <script>
+  $('#remove_subject_field').first().hide();
+ </script>
