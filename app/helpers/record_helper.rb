@@ -12,6 +12,7 @@ Institution = {
      "UC San Diego" => "University of California, San Diego",
      "UC San Francisco" => "University of California, San Francisco", 
      "UC Office of the President" => "University of California, Office of the President" }
+
 DataType = {
      "Audiovisual" => "Audiovisual,Audiovisual",
      "Collection (multiple file types)" => "Collection,Collection",
@@ -24,33 +25,32 @@ DataType = {
      "Text" => "Text,Text" }
 
   def user
-    user = @user.external_id
-  end
-
-  def campus
-    isTest ? campus = "cdl" : campus = Record.id_to_campus(user)
+    if @user
+      user = @user.external_id
+    else
+      user = request.headers[DATASHARE_CONFIG['external_identifier']]
+    end
   end
 
   #for setting record.publisher
-  def campus_full_name
-    isTest ? campus_full_name = "University of California, Office of the President" : campus_full_name = Record.id_to_campus_full_name(user)
-  end
-
-  #for displaying institution on Describe your dataset page
-  def campus_short_name
-    isTest ? campus_short_name = "UC Office of the President" : campus_short_name = Record.id_to_campus_short_name(user)
+  def campus_full_name(user)
+    isTest ? "University of California, Office of the President" : Record.id_to_campus_full_name(user)
   end
   
   def institution
     Institution
   end
+
   def datatype
     DataType
   end
-  def resourceType (x)
+
+  def resourceType(x)
      x.split(",")[1]
   end
-  def resourceTypeGeneral (x)
+
+  def resourceTypeGeneral(x)
      x.split(",")[0]
   end
+
 end

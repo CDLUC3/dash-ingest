@@ -39,7 +39,7 @@
 						</div>				
 					</div>
 					<div id="upload-content">
-						<h1>Upload your datasets to Dash</h1>
+						<h1>Upload Your Dataset(s)</h1>
 						<div id="left-container">
 							<% if @uploads.count > 0 %>
 							<h1>Existing Datasets</h1>
@@ -101,7 +101,7 @@
 					</div>
 				</div> <!-- end content-->
 				<!-- begin footer-->
-					<%= render "layouts/brand/footer_#{campus}" %>
+					<%= render "layouts/brand/footer_#{campus(@user)}" %>
 				<!-- end footer-->
 			</div> <!-- end inner container -->
 		</div> <!-- end outer container -->

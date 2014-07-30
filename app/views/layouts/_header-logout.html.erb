@@ -1,9 +1,11 @@
 <div id="logo">
-	<a href="<%=DATASHARE_CONFIG["datashare_#{campus}_url"]%>"> 
-		<%= image_tag "dash_#{campus}_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
+	<a href="<%=DATASHARE_CONFIG["datashare_#{campus(@user)}_url"]%>">
+		<%= image_tag "dash_#{campus(@user)}_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
 	</a> 
 </div>
 <div id="logout">
-	<div class="logout-text">Logged in as <i><%= User.find(session[:user_id]).external_id %></i></div>
-	<%= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %> 
+	<%# if @user %>
+		<div class="logout-text">Logged in as <i><%= user %></i></div>
+		<%= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %>
+	<%# end %> 
 </div>

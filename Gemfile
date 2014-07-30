@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '1.9.3'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.19'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -11,9 +11,12 @@ gem 'rails', '3.2.13'
 gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
-group :development do
+group :development, :local do
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
+  gem 'webrick', '~> 1.3.1'
+  gem 'debugger', :git => 'https://github.com/cldwalker/debugger.git'
+  gem 'sextant' #you can go to http://localhost:3000/rails/routes to see routes
 end
 
 group :test do

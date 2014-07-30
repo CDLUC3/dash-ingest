@@ -9,7 +9,7 @@ class GenericMailer < ActionMailer::Base
   def feedback_message(form_hash, email)
     @form_hash = form_hash
     @campus = @form_hash[:campus]
-    @greeting = "Hello,  #{email} "
+    @greeting = "Hello #{email}"
     
     mail  to: email,
           reply_to: @form_hash[:email],

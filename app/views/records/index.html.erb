@@ -41,14 +41,16 @@
 							</table>
 						</div>
 						<div id="add-new-dataset">
+
 							<a href="/record">
-								<button class="btn btn-large btn-success">Add New Dataset</button>
+								<%= submit_tag "Add New Dataset", :class =>  "btn btn-large btn-success" %>
 							</a>
+
 						</div>
 					</div>
 				</div>
 				<!-- begin footer-->
-				<%= render "layouts/brand/footer_#{campus}" %> 
+				<%= render "layouts/brand/footer_#{campus(@user)}" %>
 				<!-- end footer-->
 			</div> <!-- end inner container -->
 		</div> <!-- end outer container -->

@@ -1,16 +1,57 @@
 class RecordsController < ApplicationController
-    include RecordHelper
   
   before_filter :verify_ownership
-  
+
+  # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
+    if !@user
+      login and return
+    end
     @records = Record.find_all_by_user_id(session[:user_id])
   end
+
+  # GET form for new record
+  def new
+    @user = User.find(session[:user_id])
+    @campus_short_name = campus_short_name(@user)
+
+    @record = Record.new
+    @record.user_id = session[:user_id]
+    @record.set_local_id
+    @record.publisher = campus(@user)
+
+  end
+
+  # POST - create new record
+  def create
+
+  end
+
+  # GET - show a specific record
+  def show
+
+  end
+
+  # GET - edit a specific record
+  def edit
+
+  end
+
+  # PUT - update a record
+  def update
+
+  end
+
+  # DELETE - delete a record
+  def destroy
+
+  end
+
   
   def record
-    @campus_short_name = campus_short_name
     @user = User.find(session[:user_id])
+    @campus_short_name = campus_short_name(@user)
     if(params[:id])
       @record = Record.find(params[:id])
     else
@@ -18,16 +59,23 @@ class RecordsController < ApplicationController
       @record = Record.new
       @record.user_id = session[:user_id]
       @record.set_local_id
-      @record.publisher = campus
+      @record.publisher = campus(@user)
+      # These shouldn't be created until we really know that the data should be saved.
+      # This is why a new record is created each time, but I think the person who
+      # created this code is creating a record so he can do AJAX on it and it has
+      # to be created first, so in order to make the form work differently it needs
+      # to be changed a lot.
       @record.save
       @record.create_record_directory
 
     end
   end
-  
-  def update_record  
+
+
+  #this is really for both save and update
+  def update_record
     
-    @campus_short_name = campus_short_name
+    @campus_short_name = campus_short_name(@user)
     @record = Record.find(params[:id])
     @record.title = params[:title]
     @record.publisher = @campus_short_name
@@ -90,7 +138,7 @@ class RecordsController < ApplicationController
     end
     
   
-    if params[:add_data] == "add_data"
+    if params[:add_data] == "Save And Continue"
       render :js => "window.location = '/record/#{@record.id}/uploads'"
     else
       # redirect_to :action => "record", :id=> @record.id
@@ -185,11 +233,11 @@ class RecordsController < ApplicationController
 
         submissionLog = SubmissionLog.new
 
-        if (!@merritt_request) then
+        if (!@merritt_request)
           @merritt_response = "User not authorized for Merritt submission"
-	else
+      	else
           @merritt_response = `#{@merritt_request}`
-	end
+	      end
 
         submissionLog.archiveresponse = @merritt_response
         submissionLog.record = @record

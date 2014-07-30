@@ -1,0 +1,11 @@
+<% flash.keys.each do |k| %>
+  <div class="<%= k.to_s %>">
+    <% if flash[k].class == String %>
+      <p><%= flash[k] %></p>
+    <% else %>
+      <% flash[k].each do |i| %>
+        <p><%= i %></p>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

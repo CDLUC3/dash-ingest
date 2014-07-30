@@ -204,12 +204,12 @@ class Record < ActiveRecord::Base
    end
 
 
-   def send_archive_to_merritt (external_id)
+   def send_archive_to_merritt(external_id)
 
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
 
-     campus = Record.id_to_campus (external_id)
+     campus = Record.id_to_campus(external_id)
      
      if (!campus) then
        return false
@@ -226,7 +226,7 @@ class Record < ActiveRecord::Base
    end
    
 
-   def Record.id_to_campus (id)
+   def Record.id_to_campus(id)
      if ( id == nil )
        return false
       end
@@ -262,7 +262,7 @@ class Record < ActiveRecord::Base
 
    
    #this is how the institution will be displayed on the "Describe your dataset" page
-   def Record.id_to_campus_short_name (id)
+   def Record.id_to_campus_short_name(id)
      if ( id == nil )
        return false
       end
@@ -298,7 +298,7 @@ class Record < ActiveRecord::Base
 
 
    #this is how the record.publisher (institution) will be set in the database, without passing through params, retrieved by the actual url
-   def Record.id_to_campus_full_name (id)
+   def Record.id_to_campus_full_name(id)
      if ( id == nil )
        return false
       end

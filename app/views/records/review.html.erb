@@ -41,7 +41,7 @@
 			
 			<div class="single-column">
 			
-			<h1>Review before submitting to Dash</h1>
+			<h1>Review Before Submitting</h1>
 			<h2>Metadata</h2>
 			<div class="metadata-container">
 				<div class="content">
@@ -201,9 +201,8 @@
 					
 				<% end %>
 				</ul>
-				<a href="/record/<%=@record.id%>/#{DATASHARE_CONFIG['uploads_dir']}">
-					<button class="btn">Upload More Files</button>				
-				</a>
+        <%= link_to button_tag("Upload More Files", :class => 'btn'),
+                    {:controller => :uploads, :action => :index, :record_id => params[:id]} %>
 			</div>
 			
 			
@@ -224,13 +223,15 @@
 				<div class="ItemCheckbox" style="float:left; width:550px; margin-left:20px; " >
 					<input type="checkbox" id="agreement" style=" display:block;  float:left; ">
 					<label for="agreement" class="checkbox" style=" display:block; margin-left:30px;">
-						By clicking this checkbox, I certify that I agree to the Dash <%= link_to 'Terms of use', 'http://www.cdlib.org/about/terms.html' %>. 
+						By clicking this checkbox, I certify that I agree to the Dash
+            <%= link_to 'Terms of use', 'http://www.cdlib.org/about/terms.html', :target => "_blank" %>.
 	  				I understand that by submitting data to Dash, I am agreeing to release it under the terms of the 
-	  				<%= link_to 'Creative Commons Zero (CC0)', 'https://creativecommons.org/publicdomain/zero/1.0/' %> waiver. 
-	  				I warrant that sharing my submission under these terms does not violate any privacy, copyright, or other rights of any person or third party. 
-	  				For more information on why Dash requires CC0, see our 
-	  				<%= link_to 'policies page', 'http://dash.ucop.edu/policies' %>.
-	  			</label>	
+	  				<%= link_to 'Creative Commons Attribution license (CC BY-4.0)', 'http://creativecommons.org/licenses/by/4.0/', :target => "_blank" %>.
+	  				I warrant that sharing my submission under these terms does not violate any privacy, copyright, or other rights
+            of any person or third party.
+	  				For more information on why Dash requires CC-BY, see our
+	  				<%= link_to 'policies page', 'http://dash.ucop.edu/policies', :target => "_blank" %>.
+	  			</label>
 	  		</div>
 					
 			</div>
@@ -252,7 +253,7 @@
 		</div> <!-- end content-->
 		
 	<!-- begin footer-->
-                <%= render "layouts/brand/footer_#{campus}" %>
+                <%= render "layouts/brand/footer_#{campus(@user)}" %>
 	<!-- end footer-->
 	</div> <!-- end inner container -->
   </div> <!-- end outer container -->
