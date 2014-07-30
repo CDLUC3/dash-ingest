@@ -14,7 +14,8 @@ DataIngest::Application.routes.draw do
   
   match 'records', :to => "records#index"
   match 'record/:id', :to => "records#record"
-  match 'record/', :to => "records#record"
+  match 'record/', :to => "records#new"
+  #match 'record/show', :to => "records#show"
   
   match 'record/:id/review', :to => "records#review"
   match 'record/:id/delete', :to => "records#delete"

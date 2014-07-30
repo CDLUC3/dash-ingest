@@ -3,7 +3,6 @@ require 'zip/zip'
 
 class Record < ActiveRecord::Base    
   include RecordHelper
-
   has_many :creators
   has_many :contributors
   has_many :descriptions
@@ -13,10 +12,28 @@ class Record < ActiveRecord::Base
   has_many :relations
   has_many :submissionLogs
   has_many :uploads
-  
+  has_many :citations
+ # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
-  attr_accessible :identifier, :identifierType, :publicationyear, :publisher, :resourcetype, :rights, :title, :local_id
-  
+  attr_accessible :identifier, :identifierType, :publicationyear, :publisher, :resourcetype, :rights, :title, :local_id,:abstract, :methods
+  validates_associated :creators, :citations, :subjects
+  validates :title, :resourcetype, :presence => true
+
+  accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :creators_attributes
+
+  accepts_nested_attributes_for :citations, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :citations_attributes
+
+  accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :subjects_attributes
+
+
+
+
+
+
+
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
   end
