@@ -912,7 +912,7 @@ width: 190px;
 	background-repeat: no-repeat;
 }
 #step-two-describe-page #content, #step-three-upload-page #content {
-	margin-top: 4px;
+	/*margin-top: 4px;*/
 }
 #step-two-describe-page  h1, #step-three-upload-page  h1 {
 	color : #666666;
