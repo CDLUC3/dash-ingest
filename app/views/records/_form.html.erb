@@ -1,38 +1,17 @@
-<div class="text-container" id="smaller_container">
-  <%= form_for @record do |f| %>
-      <% if @record.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@record.errors.count, "error") %> prohibited
-              this article from being saved:</h2>
-            <ul>
-              <% @record.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
-       <% end %>
+<div class="text-container" id="smaller_container" xmlns="http://www.w3.org/1999/html">
 
-      <% if @creator.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@creator.errors.count, "error") %> prohibited
-              this article from being saved:</h2>
-            <ul>
-              <% @creator.errors.full_messages.each do |msg| %>
-                  <li><%= msg %></li>
-              <% end %>
-            </ul>
-          </div>
-           <% end %>
+  <%= form_for @record  do |f| %>
+      <%= render "shared/errors", :target => @record %>
+      <!-- <%#= render "shared/errors", :target => @creator %> -->
 
-
-    <div class="clear"></div>
+      <div class="clear"></div>
     <label for="title">
       * Dataset Title
       <a href="#dataset_title_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%= text_field_tag "title", @record.title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
+    <%= f.text_field :title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
 
     <label for="publisher">
       * Institution
@@ -44,8 +23,9 @@
             			options_for_select(institution, @record.publisher),
             			prompt: "Choose institution:" %>
 
-    <%= text_field_tag "publisher", campus_short_name(@user),
-                       :disabled => true,
+    <%= f.text_field :publisher,
+
+        :disabled => true,
                        :class=>"input-text",
                        :style => "width:180px;" %>
 
@@ -60,14 +40,14 @@
 							<%#= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
 							<br/>
 						-->
-    <%= hidden_field_tag "publicationyear", @record.publicationyear, :value => Time.now.year %>
+    <%= f.hidden_field :publicationyear, :value => Time.now.year%>
     <label for="resourcetype">
       * Data Type
       <a href="#data_type_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%= select_tag "resourcetype", options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
+    <%= f.select :resourcetype, options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
     <br/>
     <!-- <%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 
@@ -82,8 +62,8 @@
         </a>
       </label>
          <fieldset class="creator_name">
-         <%= f.fields_for :creators do  |builder| %>
-              <%= render 'creator_fields', :f =>  builder %>
+          <%= f.fields_for :creators do  |creator_builder| %>
+              <%= render 'creator_fields', f: creator_builder %>
            <% end %>
            <%= link_to_add_fields  '+Additional Creator', f, :creators %>
           </fieldset>
@@ -104,17 +84,20 @@
         <label for="subject_name3" aria-labelledby="keyword-group">Keyword 3</label>
       </div>
 
-      <div style="float:left; width:280px; margin-left:22px;">
-        <%= text_field_tag "subject_name", "", :size=>"20", :placeholder => "Keyword" %>
-      </div>
-
-      <div style="clear:both; margin-left:181px; width:280px;">
-        <%= text_field_tag "subject_name2", "", :size=>"20", :placeholder => "Keyword" %>
-      </div>
+      <%#= fields_for :subjects do |sub| %>
+      <%#end %>
 
        <fieldset class="subject_name">
-        <%= f.fields_for :subjects do  |builder| %>
-            <%= render 'subject_fields', :f =>  builder %>
+        <%= f.fields_for :subjects do  |subject_builder| %>
+            <%= render 'subject_fields', :f =>  subject_builder %>
+             <div style="clear:both; margin-left:181px; width:280px;">
+               <%= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
+             </div>
+             <div style="clear:both; margin-left:181px;  width:800px; ">
+               <div style="float:left; ">
+                 <%= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
+               </div>
+
         <% end %>
         <%= link_to_add_fields  '+Additional Creator', f, :subjects %>
       </fieldset>
@@ -129,7 +112,7 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= text_area_tag "abstract", @record.abstract, :rows => 6, :cols => 60 %>
+      <%= f.text_area :abstract, :rows => 6, :cols => 60 %>
     </div>
     <div class="fieldset">
       <label for="methods">
@@ -138,7 +121,7 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= text_area_tag "methods", @record.methods, :rows => 6, :cols => 60 %>
+      <%= f.text_area :methods, :rows => 6, :cols => 60 %>
     </div>
     <div class="fieldset">
       <label for="citation">
@@ -147,28 +130,24 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= text_area_tag("citation", "", :rows => 6, :cols => 60, :placeholder => "e.g., Patterns of age-related water diffusion changes in human brain by concordance and discordance analysis. Zhang Y, Du AT, Hayasaka S, Jahng GH, Hlavin J, Zhan W, Weiner MW, Schuff N. Neurobiol Aging. 2010 Nov;31(11):1991-2001. doi: 10.1016/j.neurobiolaging.2008.10.009. Epub 2008 Nov 25. PMID: 19036473") %>
-      <button class="btn">+ Additional Citation</button>
-      <div id="citations_ajax">
-        <%= render 'citation_fields' %>
-      </div>
-    </div>
-    <!-- <div class="large-button-container">
-      <button class="btn btn-large btn-success" data-confirm="Save Record?">Save</button>
-      <button class="btn btn-large btn-success" value="add_data" name="add_data" data-confirm="Save and Continue to Data Upload Page?">Save and Continue</button>
-    </div> -->
+      <fieldset class="citation_name">
+        <%= f.fields_for :citations do  |citation_builder| %>
+            <%= render 'citation_fields', :f => citation_builder %>
+        <% end %>
+        <%= link_to_add_fields  '+Additional Creator', f, :citations %>
+      </fieldset>
 
+    </div>
 
     <div class="large-button-container">
 
-      <%= submit_tag "Save",  :class => "btn btn-large btn-success", :alt => "Save", :confirm => "Save Record?" %>
-      <!--<%= link_to  "Save", new_record_path, class: "btn btn-large btn-success" %> -->
-      <!--<%= link_to 'Save and Continue', "uploads/index",:method => :get,  :class=>'btn btn-large btn-success', :confirm => "Save and Continue?" %> -->
-      <%= submit_tag "Save And Continue",  :class => "btn btn-large btn-success", :alt => "Save And Continue", :name => "add_data", :value => "Save And Continue"   %> </a>
+      <%= f.submit "Save",:class => "btn btn-large btn-success", :name => "commit"%>
+      <%= f.submit "Save And Continue",  :class => "btn btn-large btn-success",:alt => "Save And Continue", :name => "commit"%>
 
     </div>
-
-
-  <% end %>
+<% end %>
 </div>
+
+
+
 
