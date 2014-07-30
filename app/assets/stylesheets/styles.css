@@ -241,10 +241,32 @@ height: 49px;
 	width: 952px;
 	overflow: hidden;
 	background-color: #f4f4f4;
-	margin: 4px 0 0 0;
-	/* border: 1px green solid; */	
-}	
-	
+	/*margin: 4px 0 0 0;*/
+}
+
+#navbar {
+	background: #000;
+}
+
+nav ul {
+	margin: 0;
+	padding: 5px;
+}
+
+nav li {
+	display: inline;
+}
+
+nav a {
+	margin: 0 2em;
+	font-size: 1.2em !important;
+	color: #fff !important;
+}
+
+nav a:hover {
+	text-decoration: none;
+}
+
 #nav-home-menu {
 	width: 100%;
 	height: 25px;
