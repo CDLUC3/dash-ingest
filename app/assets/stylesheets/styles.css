@@ -246,6 +246,8 @@ height: 49px;
 	/*margin: 4px 0 0 0;*/
 }
 
+/* new nav bar */
+
 #navbar {
 	padding: 5px;
 	background: #000;
@@ -256,37 +258,40 @@ nav {
 	float: left;
 }
 
-nav ul, #project_links ul {
+#navbar ul {
 	margin: 0;
 }
 
-nav li, #project_links li {
+#navbar li {
 	display: inline;
+}
+
+#navbar a {
+	font-size: 1.2em !important;
+	color: #fff !important;
+}
+
+#navbar a:hover {
+	text-decoration: none;
 }
 
 nav a {
 	margin: 0 2em;
-	font-size: 1.2em !important;
-	color: #fff !important;
 }
 
 #project_links a {
 	padding: 0 1em;
-	font-size: 1.2em !important;
-	color: #fff !important;
 }
 
 #project_links li:first-child a {
 	border-right: 1px solid #fff;
 }
 
-nav a:hover, #project_links a:hover {
-	text-decoration: none;
-}
-
 #project_links {
 	float: right;
 }
+
+/* old nav bar */
 
 #nav-home-menu {
 	width: 100%;
