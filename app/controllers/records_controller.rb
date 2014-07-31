@@ -31,6 +31,7 @@ class RecordsController < ApplicationController
 
     @record = Record.new(params[:record])
     @record.user_id = session[:user_id]
+    @record.publisher = campus_short_name(@user) if @record.publisher.blank?
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
@@ -64,15 +65,44 @@ class RecordsController < ApplicationController
    @records = Record.find_all_by_user_id(session[:user_id])
  end
 
+def edit
+
+  @record = Record.find(params[:id])
+  @record.creators.build() if @record.creators.blank?
+  @record.citations.build() if @record.citations.blank?
+  @record.subjects.build() if @record.subjects.blank?
 
 
-  #private
-  #def record_params
-    #params.require(:record).permit(
-    #:id, :title, :resourcetype, :publisher,
-    #creators_attributes: [:id, :record_id, :creatorName, :_destroy])
+end
 
-  #end
+
+  def update
+
+    @record = Record.find(params[:id])
+    if @record.update_attributes(record_params)
+      #redirect_to  @record
+ if params[:commit] == 'Save'
+        redirect_to "/records/show"
+      elsif params[:commit] =='Save And Continue'
+        redirect_to "/record/#{@record.id}/uploads"
+end
+
+    else
+
+      render 'edit'
+  end
+
+  end
+
+  private
+  def record_params
+    params.require(:record).permit(
+    :id, :title, :resourcetype, :publisher,
+    creators_attributes: [ :creatorName, :_destroy],
+    subjects_attributes: [ :subjectName, :_destroy],
+    citation_attributes: [ :citationName, :_destroy])
+
+    end
 
 
   #this is really for both save and update

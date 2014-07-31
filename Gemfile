@@ -46,6 +46,7 @@ gem 'paperclip'
 gem 'twitter-bootstrap-rails', '2.1.7'
 gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
+gem 'strong_parameters'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
