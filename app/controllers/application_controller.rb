@@ -51,6 +51,43 @@ class ApplicationController < ActionController::Base
    	@campus
  	end
 
+  def url_to_campus_short 
+    id = request.headers[DATASHARE_CONFIG['external_identifier']]
+    if ( id == nil )
+      @campus_short_name = "UC Office of the President"
+    else
+      case id.strip
+      when /.*@.*ucop.edu$/
+        @campus_short_name = "UC Office of the President"
+       when /.*@.*uci.edu$/
+         @campus_short_name = "UC Irvine"
+       when /.*@.*ucla.edu$/
+         @campus_short_name = "UC Los Angeles"
+       when /.*@.*ucsd.edu$/
+         @campus_short_name = "UC San Diego"
+       when /.*@.*ucsb.edu$/
+         @campus_short_name = "UC Santa Barbara"
+       when /.*@.*berkeley.edu$/
+         @campus_short_name = "UC Berkeley"
+       when /.*@.*ucdavis.edu$/
+         @campus_short_name = "UC Davis"
+       when /.*@.*ucmerced.edu$/
+         @campus_short_name = "UC Merced"
+       when /.*@.*ucr.edu$/
+         @campus_short_name = "UC Riverside"
+       when /.*@.*ucsf.edu$/
+         @campus_short_name = "UC San Francisco"
+       when /.*@.*ucsc.edu$/
+         @campus_short_name = "UC Santa Cruz"
+       else  
+         @campus_short_name = "UC Office of the President"
+       end
+    end
+    @campus_short_name
+  end
+
+
+
   def campus(user)
     if @user
       isTest ? "cdl" : Record.id_to_campus(user.external_id)
@@ -61,7 +98,11 @@ class ApplicationController < ActionController::Base
 
   #for displaying institution on Describe your dataset page
   def campus_short_name(user)
-    isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user.external_id)
+    if @user
+      isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user.external_id)
+    else
+      isTest ? "UC Office of the President" : url_to_campus_short
+    end
   end
 
 end
