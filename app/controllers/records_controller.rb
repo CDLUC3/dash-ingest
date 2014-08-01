@@ -3,6 +3,17 @@ class RecordsController < ApplicationController
 
   before_filter :verify_ownership
 
+
+
+
+
+
+
+
+
+
+
+
   # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
@@ -76,19 +87,28 @@ def edit
 end
 
 
+  def delete
+
+    @record = Record.find(params[:id])
+    @record.delete
+
+    redirect_to records_path
+
+  end
+
+
+
   def update
 
     @record = Record.find(params[:id])
     if @record.update_attributes(record_params)
       #redirect_to  @record
- if params[:commit] == 'Save'
+  if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
-end
-
+  end
     else
-
       render 'edit'
   end
 
@@ -178,8 +198,20 @@ end
       render :action => "record", :id=> @record.id
     end
   end
-    
-  def delete
+
+
+
+
+
+=begin def destroy
+
+     Record.find(params[:id]).destroy
+     flash[:notice] = "Record Deleted Successfully!"
+     redirect_to records_path
+end
+=end
+
+=begin  def delete
     @record = Record.find(params[:id])
     
     # because we don't have separate controllers, we have to 
@@ -235,7 +267,10 @@ end
     # redirect_to :action => "record", :id=> @record.id, :anchor => "subject"
     render :action => "record", :id=> @record.id, :anchor => "subject"
   end
-  
+=end
+
+
+
   def review
     @record = Record.find(params[:id])
     
@@ -245,7 +280,8 @@ end
     
     render :review, :layout => false
   end
-  
+
+  public
   def send_archive_to_merritt
     @record = Record.find(params[:id])
     
@@ -301,12 +337,12 @@ end
     end
     
   end
-  
-    
-  def verify_ownership 
+
+
+  def verify_ownership
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:id])
-    
+
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
         # redirect_to "/records"
@@ -314,6 +350,9 @@ end
       end
     end
   end
+  
+    
+
   
   def submission_log
     @record = Record.find_by_id(params[:id])
