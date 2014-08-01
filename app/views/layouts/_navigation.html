@@ -1,6 +1,26 @@
-<div id="nav-home-menu">
+<!-- <div id="nav-home-menu">
   <div id="about-nav" class="menu"><a href="/xtf/search?smode=aboutPage">About</a></div>
   <div id="search-nav" class="menu"><a href="/xtf/search">Search Data</a></div>
   <div id="publish-nav" class="menu"><a href="/xtf/search?smode=stepsPage">Share Data</a></div>
   <div id="my-datasets-nav" class="menu"><a href="/records.html">My Datasets</a></div>
+</div> -->
+
+<div id="navbar">
+
+	<nav>
+		<ul>
+			<li><a href="/xtf/search?smode=aboutPage">About</a></li>
+			<li><a href="/xtf/search">Search Data</a></li>
+			<li><a href="/xtf/search?smode=stepsPage">Share Data</a></li>
+			<li><a href="/records.html">My Datasets</a></li>
+		</ul>
+	</nav>
+
+	<div id="project_links">
+		<ul>
+			<li><%= link_to ("#{campus_to_url_name("#{campus(@user)}")} Dash"), campus_to_url("#{campus(@user)}") %></li>
+			<li><a href="/logout">Log Out</a></li>
+		</ul>
+	</div>
+
 </div>

@@ -78,7 +78,7 @@ h1 {
 	float: left;
 }
 #header #logo img {
-	height: 78px;
+	/*height: 78px;*/
 }
 
 #header #login {
@@ -96,9 +96,11 @@ h1 {
 	margin: 0px 0 5px 0;
 	/*differs from dash*/
 }
-#header #logout images{
-	float: right;
+
+#logout_link {
+
 }
+
 #footer {
 	width: 952px; 
 	margin: 0 0 0 0;
@@ -241,10 +243,56 @@ height: 49px;
 	width: 952px;
 	overflow: hidden;
 	background-color: #f4f4f4;
-	margin: 4px 0 0 0;
-	/* border: 1px green solid; */	
-}	
-	
+	/*margin: 4px 0 0 0;*/
+}
+
+/* new nav bar */
+
+#navbar {
+	padding: 5px;
+	background: #000;
+	overflow: hidden;
+}
+
+nav {
+	float: left;
+}
+
+#navbar ul {
+	margin: 0;
+}
+
+#navbar li {
+	display: inline;
+}
+
+#navbar a {
+	font-size: 1.2em !important;
+	color: #fff !important;
+}
+
+#navbar a:hover {
+	text-decoration: none;
+}
+
+nav a {
+	margin: 0 2em;
+}
+
+#project_links a {
+	padding: 0 1em;
+}
+
+#project_links li:first-child a {
+	border-right: 1px solid #fff;
+}
+
+#project_links {
+	float: right;
+}
+
+/* old nav bar */
+
 #nav-home-menu {
 	width: 100%;
 	height: 25px;
@@ -890,7 +938,7 @@ width: 190px;
 	background-repeat: no-repeat;
 }
 #step-two-describe-page #content, #step-three-upload-page #content {
-	margin-top: 4px;
+	/*margin-top: 4px;*/
 }
 #step-two-describe-page  h1, #step-three-upload-page  h1 {
 	color : #666666;

@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :campus, :campus_short_name
+  helper_method :campus, :campus_short_name, :campus_to_url, :campus_to_url_name
 
 
   def login
@@ -51,6 +51,45 @@ class ApplicationController < ActionController::Base
    	@campus
  	end
 
+  
+
+  def url_to_campus_short 
+    id = request.headers[DATASHARE_CONFIG['external_identifier']]
+    if ( id == nil )
+      @campus_short_name = "UC Office of the President"
+    else
+      case id.strip
+      when /.*@.*ucop.edu$/
+        @campus_short_name = "UC Office of the President"
+       when /.*@.*uci.edu$/
+         @campus_short_name = "UC Irvine"
+       when /.*@.*ucla.edu$/
+         @campus_short_name = "UC Los Angeles"
+       when /.*@.*ucsd.edu$/
+         @campus_short_name = "UC San Diego"
+       when /.*@.*ucsb.edu$/
+         @campus_short_name = "UC Santa Barbara"
+       when /.*@.*berkeley.edu$/
+         @campus_short_name = "UC Berkeley"
+       when /.*@.*ucdavis.edu$/
+         @campus_short_name = "UC Davis"
+       when /.*@.*ucmerced.edu$/
+         @campus_short_name = "UC Merced"
+       when /.*@.*ucr.edu$/
+         @campus_short_name = "UC Riverside"
+       when /.*@.*ucsf.edu$/
+         @campus_short_name = "UC San Francisco"
+       when /.*@.*ucsc.edu$/
+         @campus_short_name = "UC Santa Cruz"
+       else  
+         @campus_short_name = "UC Office of the President"
+       end
+    end
+    @campus_short_name
+  end
+
+
+
   def campus(user)
     if @user
       isTest ? "cdl" : Record.id_to_campus(user.external_id)
@@ -61,7 +100,63 @@ class ApplicationController < ActionController::Base
 
   #for displaying institution on Describe your dataset page
   def campus_short_name(user)
-    isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user.external_id)
+    if @user
+      isTest ? "UC" : Record.id_to_campus_short_name(user.external_id)
+    else
+      isTest ? "UC" : url_to_campus_short
+    end
+  end
+
+#used as a link in the header
+  def campus_to_url(campus)
+    case campus
+      when  "cdl"
+        url = "http://dash-dev.ucop.edu"
+      when "ucb"
+        url = "https://dash-dev.berkeley.edu"
+      when "ucla"
+        url = "http://dev.dash.ucla.edu"  
+      else 
+       url = "http://dash-dev.cdlib.org"
+    end
+    url
+  end
+
+
+#used as a link in the header
+  def campus_to_url_name(campus)
+    case campus
+      when  "cdl"
+        name = "UC"
+      when "ucb"
+        name = "Berkeley"
+      when "ucla"
+        name = "UCLA"  
+      else 
+       name = "UC"
+    end
+    name
   end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
