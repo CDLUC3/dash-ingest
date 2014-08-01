@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :campus, :campus_short_name, :campus_to_url
+  helper_method :campus, :campus_short_name, :campus_to_url, :campus_to_url_name
 
 
   def login
@@ -101,9 +101,9 @@ class ApplicationController < ActionController::Base
   #for displaying institution on Describe your dataset page
   def campus_short_name(user)
     if @user
-      isTest ? "UC Office of the President" : Record.id_to_campus_short_name(user.external_id)
+      isTest ? "UC" : Record.id_to_campus_short_name(user.external_id)
     else
-      isTest ? "UC Office of the President" : url_to_campus_short
+      isTest ? "UC" : url_to_campus_short
     end
   end
 
@@ -115,11 +115,27 @@ class ApplicationController < ActionController::Base
       when "ucb"
         url = "https://dash-dev.berkeley.edu"
       when "ucla"
-        url = "http://dash-dev.ucla.edu"  
+        url = "http://dev.dash.ucla.edu"  
       else 
        url = "http://dash-dev.cdlib.org"
     end
     url
+  end
+
+
+#used as a link in the header
+  def campus_to_url_name(campus)
+    case campus
+      when  "cdl"
+        name = "UC"
+      when "ucb"
+        name = "Berkeley"
+      when "ucla"
+        name = "UCLA"  
+      else 
+       name = "UC"
+    end
+    name
   end
 
 end
