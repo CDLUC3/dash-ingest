@@ -18,7 +18,11 @@
 
 	<div id="project_links">
 		<ul>
-			<li><%= link_to ("#{campus_short_name(@user)} Dash"), DATASHARE_CONFIG["datashare_#{campus(@user)}_url"] %></li>
+			<!-- <li><%#= link_to ("#{campus_short_name(@user)} Dash"), DATASHARE_CONFIG["datashare_#{campus(@user)}_url"] %></li> -->
+
+			<li><%= link_to ("#{campus_short_name(@user)} Dash"), campus_to_url("#{campus(@user)}") %></li>
+			<!-- "http://dash-dev.ucop.edu" %></li> -->
+			<!-- https://dash-dev.berkeley.edu/xtf/search -->
 			<li><a href="/logout">Log Out</a></li>
 		</ul>
 	</div>

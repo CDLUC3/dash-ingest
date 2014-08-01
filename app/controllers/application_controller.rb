@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :campus, :campus_short_name
+  helper_method :campus, :campus_short_name, :campus_to_url
 
 
   def login
@@ -50,6 +50,8 @@ class ApplicationController < ActionController::Base
 	  end
    	@campus
  	end
+
+  
 
   def url_to_campus_short 
     id = request.headers[DATASHARE_CONFIG['external_identifier']]
@@ -105,4 +107,40 @@ class ApplicationController < ActionController::Base
     end
   end
 
+#used as a link in the header
+  def campus_to_url(campus)
+    case campus
+      when  "cdl"
+        url = "http://dash-dev.ucop.edu"
+      when "ucb"
+        url = "https://dash-dev.berkeley.edu"
+      when "ucla"
+        url = "http://dash-dev.ucla.edu"  
+      else 
+       url = "http://dash-dev.cdlib.org"
+    end
+    url
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
