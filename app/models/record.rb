@@ -245,7 +245,6 @@ class Record < ActiveRecord::Base
                     -F \"submitter=Dash/#{external_id}\" 
                     -F \"responseForm=xml\" 
                     -F \"profile=#{merritt_profile}\" 
-                    -F \"notification=['shirin.faenza@ucop.edu']\"
                     -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
        
      return sys_output  

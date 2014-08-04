@@ -1,16 +1,31 @@
 <div id="logo">
-	<!-- <a href#DATASHARE_CONFIG["datashare_#{campus(@user)}_url"]%>">
-		<%#= image_tag "dash_#{campus(@user)}_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
-	</a> -->
+	
+	 <a href="<%=DATASHARE_CONFIG["datashare_cdl_url"]%>">
+		<%= image_tag "dash_cdl_logo.png",  
+									:title => "Dash: Open data for the global research community", 
+									:alt => "Dash: Open data for the global research community" %>
+	</a>  
 
-	<a href="<%=DATASHARE_CONFIG["datashare_cdl_url"]%>">
-		<%= image_tag "dash_cdl_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
-	</a> 
 </div>
+
 <div id="logout">
+
 	<% if campus(@user) == "cdl" %>
+
 		<p>[UCOP logo goes here]</p>
-	<%else%>
-		<p><%= image_tag "dash_#{campus(@user)}_logo.png", :size => "120x70",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %></p>
+	
+	<%elsif ['ucla','ucb'].include?(campus(@user))  %>
+		
+		<p><%= image_tag "dash_#{campus(@user)}_logo.png", 
+										:size => "120x70",  
+										:title => "Dash: Open data for the global research community", 
+										:alt => "Dash: Open data for the global research community" %>
+		</p>
+	
+	<%else%>	
+	
+		<%= image_tag "blank_institution_logo.png", :size => "120x70" %>
+	
 	<%end%>
+
 </div>
