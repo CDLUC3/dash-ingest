@@ -3,18 +3,7 @@ class RecordsController < ApplicationController
 
   before_filter :verify_ownership
 
-
-
-
-
-
-
-
-
-
-
-
-  # GET list all records
+# GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
     if !@user
@@ -31,17 +20,16 @@ class RecordsController < ApplicationController
    @record.creators.build()
    @record.citations.build
    #3.times do
-    @record.subjects.build
+   @record.subjects.build
    #end
-  @record.publisher = campus_short_name(@user)
-
+   @record.publisher = campus_short_name(@user)
   end
 
   # POST - create new record
   def create
-
     @record = Record.new(params[:record])
     @record.user_id = session[:user_id]
+    @record.set_local_id
     @record.publisher = campus_short_name(@user) if @record.publisher.blank?
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
