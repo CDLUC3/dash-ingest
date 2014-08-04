@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
 
   before_filter :verify_ownership
 
-  # GET list all records
+# GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
     if !@user
@@ -20,17 +20,17 @@ class RecordsController < ApplicationController
    @record.creators.build()
    @record.citations.build
    #3.times do
-    @record.subjects.build
+   @record.subjects.build
    #end
-  @record.publisher = campus_short_name(@user)
-
+   @record.publisher = campus_short_name(@user)
   end
 
   # POST - create new record
   def create
-
     @record = Record.new(params[:record])
     @record.user_id = session[:user_id]
+    @record.set_local_id
+    @record.publisher = campus_short_name(@user) if @record.publisher.blank?
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
@@ -64,15 +64,53 @@ class RecordsController < ApplicationController
    @records = Record.find_all_by_user_id(session[:user_id])
  end
 
+def edit
+
+  @record = Record.find(params[:id])
+  @record.creators.build() if @record.creators.blank?
+  @record.citations.build() if @record.citations.blank?
+  @record.subjects.build() if @record.subjects.blank?
 
 
-  #private
-  #def record_params
-    #params.require(:record).permit(
-    #:id, :title, :resourcetype, :publisher,
-    #creators_attributes: [:id, :record_id, :creatorName, :_destroy])
+end
 
-  #end
+
+  def delete
+
+    @record = Record.find(params[:id])
+    @record.delete
+
+    redirect_to records_path
+
+  end
+
+
+
+  def update
+
+    @record = Record.find(params[:id])
+    if @record.update_attributes(record_params)
+      #redirect_to  @record
+  if params[:commit] == 'Save'
+        redirect_to "/records/show"
+      elsif params[:commit] =='Save And Continue'
+        redirect_to "/record/#{@record.id}/uploads"
+  end
+    else
+      render 'edit'
+  end
+
+  end
+
+  private
+  def record_params
+    params.require(:record).permit(
+    :id, :title, :resourcetype, :publisher,
+    creators_attributes: [ :creatorName, :_destroy],
+    subjects_attributes: [ :subjectName, :_destroy],
+    citation_attributes: [ :citationName, :_destroy])
+
+    end
 
 
   #this is really for both save and update
@@ -148,8 +186,20 @@ class RecordsController < ApplicationController
       render :action => "record", :id=> @record.id
     end
   end
-    
-  def delete
+
+
+
+
+
+=begin def destroy
+
+     Record.find(params[:id]).destroy
+     flash[:notice] = "Record Deleted Successfully!"
+     redirect_to records_path
+end
+=end
+
+=begin  def delete
     @record = Record.find(params[:id])
     
     # because we don't have separate controllers, we have to 
@@ -205,7 +255,10 @@ class RecordsController < ApplicationController
     # redirect_to :action => "record", :id=> @record.id, :anchor => "subject"
     render :action => "record", :id=> @record.id, :anchor => "subject"
   end
-  
+=end
+
+
+
   def review
     @record = Record.find(params[:id])
     
@@ -215,7 +268,8 @@ class RecordsController < ApplicationController
     
     render :review, :layout => false
   end
-  
+
+  public
   def send_archive_to_merritt
     @record = Record.find(params[:id])
     
@@ -271,12 +325,12 @@ class RecordsController < ApplicationController
     end
     
   end
-  
-    
-  def verify_ownership 
+
+
+  def verify_ownership
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:id])
-    
+
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
         # redirect_to "/records"
@@ -284,6 +338,9 @@ class RecordsController < ApplicationController
       end
     end
   end
+  
+    
+
   
   def submission_log
     @record = Record.find_by_id(params[:id])

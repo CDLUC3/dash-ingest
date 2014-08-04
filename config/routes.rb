@@ -13,7 +13,7 @@ DataIngest::Application.routes.draw do
   match 'record/:id/datauploads/:dataupload_id/delete', :to => "datauploads#destroy"
   
   match 'records', :to => "records#index"
-  match 'record/:id', :to => "records#record"
+  match 'record/:id', :to => "records#edit"
   match 'record/', :to => "records#new"
   #match 'record/show', :to => "records#show"
   

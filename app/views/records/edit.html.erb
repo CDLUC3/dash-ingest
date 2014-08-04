@@ -1,0 +1,110 @@
+<!-- begin page id -->
+<div id="step-two-describe-page">
+  <!-- begin outer container -->
+  <div id="outer-container">
+    <!-- begin inner container -->
+    <div id="inner-container">
+      <div id="header">
+        <!-- begin header -->
+        <%= render 'layouts/header' %>
+        <!-- end header -->
+      </div>
+      <!-- begin navigation-->
+      <%= render 'layouts/navigation' %>
+      <!--end navigation-->
+      <!-- begin content -->
+
+      <div id="content">
+        <%= render :partial => 'four_steps' %>
+
+        <div class="single-column">
+          <h1>Describe Your Dataset</h1>
+          <div class="required">
+            * Required Field
+          </div>
+
+          <%= render :partial => 'form' %>
+
+        </div>
+        <!-- end content-->
+        <!-- begin footer-->
+        <%= render 'layouts/footer' %>
+        <!-- end footer-->
+      </div>
+      <!-- end inner container -->
+    </div>
+    <!-- end outer container -->
+  </div>
+</div>
+
+<div id="dataset_title_help" class="help_window">
+  <h2>Dataset Title</h2>
+  <p>Title of the dataset. Be as descriptive as possible: consider including information important for understanding and identifying the dataset.</p>
+  <p>Examples of bad titles:</p>
+  <ul>
+    <li>mydata</li>
+    <li>2001 data</li>
+  </ul>
+  <p>Examples of good titles:</p>
+  <ul>
+    <li>Growth rate and age distribution of Waquoit Bay softshell clams</li>
+    <li>MCSF Biomarker and PIB-PET Derived Beta-Amyloid Signature in Non-Demented Subjects</li>
+  </ul>
+</div>
+
+<div id="institution_help" class="help_window">
+  <h2>Institution</h2>
+  <p>Name of the institution that supported creation of the dataset. This will be auto-populated to match your institutional login information. </p>
+</div>
+
+<div id="publication_year_help" class="help_window">
+  <h2>Publication Year</h2>
+  <p>Current year, in the format YYYY.</p>
+</div>
+
+<div id="data_type_help" class="help_window">
+  <h2>Data Type</h2>
+  <p>Type of data. This entry is constrained to a dropdown list, corresponding to the DataCite metadata standard. Choices include:</p>
+  <ul>
+    <li><strong>Audiovisual</strong>: A series of visual representations imparting an impression of motion when shown in succession. May or may not include sound.</li>
+    <li><strong>Collection</strong> (multiple file types): An aggregation of resources of various types. If a collection exists of a single type, use the single type to describe it.</li>
+    <li><strong>Dataset</strong>: Data encoded in a defined structure.</li>
+    <li><strong>Image</strong>: visual representation other than text.</li>
+    <li><strong>Poster</strong>: research output that summarizes work for a conference or meeting.</li>
+    <li><strong>Presentation</strong>: slides or visuals used to explain a research project or outcome.</li>
+    <li><strong>Software</strong>: A computer program in source code (text) or compiled form.</li>
+    <li><strong>Sound</strong>: A resource primarily intended to be heard.</li>
+    <li><strong>Text</strong>: A resource consisting primarily of words for reading.</li>
+  </ul>
+  <p>We recommend including a “readme.txt” document alongside your dataset that provides a human-readable explanation of the files you are uploading. </p>
+  <p>If the dataset consists of multiple files, we recommend, but do not require, that you put all of the files into a single compressed folder (e.g. zip, tar) before uploading it to Dash.</p>
+</div>
+
+<div id="data_creator_help" class="help_window">
+  <h2>Data Creator(s)</h2>
+  <p>Provide the names of the main researcher(s) involved in producing the data. To add more than one creator, enter the first creator and click the &quot;+ Additional creator&quot; button to the right of the field. Format is LastName, FirstName.</p>
+</div>
+
+<div id="keyword_help" class="help_window">
+  <h2>Keywords</h2>
+  <p>Provide keywords that will help other researchers find your dataset. We recommend you use a controlled vocabulary appropriate to the research domain when choosing keywords.</p>
+  <p>Add one keyword per entry box. Click &quot;+ Additional keyword&quot; to add more than three (recommended).
+  </p>
+</div>
+
+<div id="abstract_help" class="help_window">
+  <h2>Abstract</h2>
+  <p>Use this space to describe your dataset. You may include information about the study that resulted in this dataset, temporal or spatial information about data collection, or other information that might help researchers determine whether they are interested in downloading your dataset.</p>
+</div>
+
+<div id="methods_help" class="help_window">
+  <h2>Methods</h2>
+  <p>Use this field to provide any technical or methodological info that helps other researchers understand how the data were generated and/or how they may be properly re-used.</p>
+</div>
+
+<div id="citations_help" class="help_window">
+  <h2>Citation(s) related to this dataset</h2>
+  <p>This field may be used to indicate the existence of any other resources that are associated with the data, for example publications, posters or grant numbers. All citation formats are acceptable. Where applicable, please provide any relevant identifiers within the citation, e.g., PMID or DOI. To add more than one citation, enter the first citation and click the &quot;+ Additional citation&quot; button to the right of the field.</p>
+</div>
+
+
