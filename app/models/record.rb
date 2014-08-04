@@ -84,7 +84,8 @@ class Record < ActiveRecord::Base
      # subject scheme is optional and open
      #self.subjects.each { |a| f.puts "<subject subjectScheme=\"#{a.subjectScheme.gsub(/\r/,"")}\">#{a.subjectName.gsub(/\r/,"")}</subject>"}
      # for now, just use the subject without a scheme
-     self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>"}
+
+     self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
      f.puts "</subjects>"
          
      #contributors - datacite: multiple, optional, mandatory contributorType attribute
@@ -155,8 +156,8 @@ class Record < ActiveRecord::Base
    end
    
    def generate_merritt_zip
+    
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
-
     
      if File.exists?("#{file_path}/#{self.local_id}.zip")
        File.delete("#{file_path}/#{self.local_id}.zip")
@@ -240,7 +241,7 @@ class Record < ActiveRecord::Base
      merritt_profile = MERRITT_CONFIG["merritt_#{campus}_profile"]
 
      sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"type=container\" -F \"submitter=Dash/#{external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
-       
+     
      return sys_output  
 
    end
