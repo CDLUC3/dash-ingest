@@ -1,7 +1,11 @@
 <div id="logo">
-	<a href="<%=DATASHARE_CONFIG["datashare_#{campus(@user)}_url"]%>">
-		<%= image_tag "dash_#{campus(@user)}_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
-	</a>
+	<!-- <a href#DATASHARE_CONFIG["datashare_#{campus(@user)}_url"]%>">
+		<%#= image_tag "dash_#{campus(@user)}_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
+	</a> -->
+
+	<a href="<%=DATASHARE_CONFIG["datashare_cdl_url"]%>">
+		<%= image_tag "dash_cdl_logo.png",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %>
+	</a> 
 </div>
 <div id="logout">
 	<% if campus(@user) == "cdl" %>
