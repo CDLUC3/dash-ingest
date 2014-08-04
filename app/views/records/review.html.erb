@@ -197,10 +197,10 @@
 				<div class="ItemImage" style="float:left;">					
 					<% if (@record.required_fields.size == 0 && @record.uploads.size > 0) %>
 						<a href="/record/<%=@record.id%>/send_archive_to_merritt">
-							<button class="btn btn-large btn-success">Submit to Dash</button>
+							<button class="btn btn-large btn-success" id="submit_to_datashare">Submit to Dash</button>
 						</a>
 					<% else %>
-						<button class="btn btn-large btn-success">Submit to Dash</button>
+						<button class="btn btn-large btn-success" id="submit_to_datashare">Submit to Dash</button>
 					<% end %>
 				</div>
 
