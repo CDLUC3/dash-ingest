@@ -4,7 +4,16 @@
 	</a>
 </div>
 <div id="logout">
-	<p>[Institution logo goes here]</p>
+	<% if campus(@user) == "cdl" %>
+		<p>[UCOP logo goes here]</p>
+		<!-- <p><%#= image_tag "dash_ucb_logo.png", :size => "120x70",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %></p> -->
+
+
+	<%else%>
+		<p><%= image_tag "dash_#{campus(@user)}_logo.png", :size => "120x70",  :title => "Dash: Open data for the global research community", :alt => "Dash: Open data for the global research community" %></p>
+		
+
+	<%end%>
 	<!-- <div class="logout-text">Logged in as <i><%= user %></i></div>
-	<%= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %>  -->
+	<%#= link_to (image_tag "logout.gif"), "/logout",  :size => "92x21", :alt => "Logout" %>  -->
 </div>
