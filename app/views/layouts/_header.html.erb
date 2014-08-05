@@ -10,11 +10,7 @@
 
 <div id="logout">
 
-	<% if campus(@user) == "cdl" %>
-
-		<p>[UCOP logo goes here]</p>
-	
-	<%elsif ['ucla','ucb'].include?(campus(@user))  %>
+	<%if ['ucla','ucb'].include?(campus(@user))  %>
 		
 		<p><%= image_tag "dash_#{campus(@user)}_logo.png", 
 										:size => "120x70",  
