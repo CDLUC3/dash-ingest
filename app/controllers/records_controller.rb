@@ -283,7 +283,7 @@ end
       # processing of large files can take a long time
       # so we will handle this in a separate thread
 
-      # @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       # @step = 0
       
       Thread.new do 
