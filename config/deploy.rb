@@ -11,7 +11,7 @@ set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
 set :branch, 'default'
 #set :branch, 'shirin2'
 #set :branch, 'joel'
-#set :branch, 'contact_us'
+#set :branch, 'email'
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
