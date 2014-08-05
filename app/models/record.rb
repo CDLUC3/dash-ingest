@@ -229,18 +229,18 @@ class Record < ActiveRecord::Base
 
      campus = Record.id_to_campus(external_id)
 
-     #-F "notification=[email]
-     #-F \"notification=['shirin.faenza@ucop.edu']\"
+     #-F "notification=email
      
      if (!campus) then
        return false
      end
+     user_email = "shirin.faenza@ucop.edu"
      merritt_endpoint = MERRITT_CONFIG["merritt_#{campus}_endpoint"]
      merritt_username = MERRITT_CONFIG["merritt_#{campus}_username"]
      merritt_password = MERRITT_CONFIG["merritt_#{campus}_password"]
      merritt_profile = MERRITT_CONFIG["merritt_#{campus}_profile"]
-
-     sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"notification=shirin.faenza@ucop.edu\" -F \"type=container\" -F \"submitter=Dash/#{external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
+     
+     sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"notification=#{user_email}\" -F \"type=container\" -F \"submitter=Dash/#{external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
      
      return sys_output  
 
