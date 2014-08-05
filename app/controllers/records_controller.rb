@@ -19,9 +19,9 @@ class RecordsController < ApplicationController
    @record = Record.new
    @record.creators.build()
    @record.citations.build
-   #3.times do
+   3.times do
    @record.subjects.build
-   #end
+   end
    @record.publisher = campus_short_name(@user)
   end
 

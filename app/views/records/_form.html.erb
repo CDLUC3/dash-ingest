@@ -90,17 +90,17 @@
        <fieldset class="subject_name">
         <%= f.fields_for :subjects do  |subject_builder| %>
             <%= render 'subject_fields', :f =>  subject_builder %>
-             <div style="clear:both; margin-left:181px; width:280px;">
-               <%= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
-             </div>
-             <div style="clear:both; margin-left:181px;  width:800px; ">
+            <!-- <div style="clear:both; margin-left:150px; width:280px;">
+               <%#= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
+             </div> -->
+             <div style="clear:both; margin-left:160px;  width:800px; ">
                <div style="float:left; ">
-                 <%= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
+                 <%#= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
                </div>
 
         <% end %>
 
-        <%= link_to_add_fields  '+Additional Creator', f, :subjects %>
+        <%= link_to_add_fields  '+Additional Keyword', f, :subjects %>
       </fieldset>
      </div>
 
@@ -135,7 +135,7 @@
         <%= f.fields_for :citations do  |citation_builder| %>
             <%= render 'citation_fields', :f => citation_builder %>
         <% end %>
-        <%= link_to_add_fields  '+Additional Creator', f, :citations %>
+        <%= link_to_add_fields  '+Additional Citations', f, :citations %>
       </fieldset>
 
     </div>
