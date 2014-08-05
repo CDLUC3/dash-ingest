@@ -282,6 +282,9 @@ end
 
       # processing of large files can take a long time
       # so we will handle this in a separate thread
+
+      @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      @user_email_class = @user_email.class
       
       Thread.new do 
 
@@ -292,7 +295,7 @@ end
         submissionLog = SubmissionLog.new
 
         if (!@merritt_request)
-          @merritt_response = "User not authorized for Merritt submission"
+          @merritt_response = "User not authorized for Merritt submission @USER_EMAIL: #{@user_email} user_email_class: #{@user_email_class}"
       	else
           @merritt_response = `#{@merritt_request}`
 	      end
