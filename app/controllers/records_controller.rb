@@ -304,7 +304,7 @@ end
         if (!@merritt_request)
           @merritt_response = "User not authorized for Merritt submission"
       	else
-          @merritt_response = `#{@merritt_request}`+"@user_email: #{@user_email} @user.email: #{@user.email}"
+          @merritt_response = `#{@merritt_request}`
 	      end
 
         submissionLog.archiveresponse = @merritt_response

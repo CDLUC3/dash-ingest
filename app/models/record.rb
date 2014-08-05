@@ -229,7 +229,13 @@ class Record < ActiveRecord::Base
       # note that the 2>&1 is to redirect sterr to stout
     #@user_email = DATASHARE_CONFIG['user_email_from_shibboleth']
     #@user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-    @user_email = "shirin.faenza@ucop.edu"
+    #@user_email = "shirin.faenza@ucop.edu"
+
+    if @user
+      @user_email = @user.email
+    else
+      @user_email = "cinzia.faenza@gmail.com"
+    end
 
      campus = Record.id_to_campus(external_id)
      
