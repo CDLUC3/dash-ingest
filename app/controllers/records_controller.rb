@@ -283,7 +283,8 @@ end
       # processing of large files can take a long time
       # so we will handle this in a separate thread
       
-      Thread.new do
+      Thread.new do 
+
         @record.generate_merritt_zip
 
         @merritt_request = @record.send_archive_to_merritt (@user.external_id)

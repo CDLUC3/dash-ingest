@@ -31,7 +31,10 @@ DataType = {
 
 
 
-
+def user_email
+  user_email = request.headers['mail']
+  
+end
 
 
   def user
