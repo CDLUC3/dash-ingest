@@ -9,11 +9,11 @@ class ApplicationController < ActionController::Base
     if user.nil?
       user = User.new
       user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
-      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      user.email = DATASHARE_CONFIG['user_email_from_shibboleth']
       user.save
     end
     if user.email.nil?
-      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      user.email = DATASHARE_CONFIG['user_email_from_shibboleth']
       user.save
     end
     session[:user_id] = user.id
