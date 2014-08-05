@@ -294,7 +294,6 @@ end
 
         @merritt_request = @record.send_archive_to_merritt (@user.external_id)
 
-        
 
         submissionLog = SubmissionLog.new
 
