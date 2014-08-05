@@ -284,18 +284,24 @@ end
       # so we will handle this in a separate thread
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-      @user_email_class = @user_email.class
+      @step = 0
       
       Thread.new do 
 
+        @step=1
+
         @record.generate_merritt_zip
 
+        @step=2
+
         @merritt_request = @record.send_archive_to_merritt (@user.external_id)
+
+        @step=3
 
         submissionLog = SubmissionLog.new
 
         if (!@merritt_request)
-          @merritt_response = "User not authorized for Merritt submission @USER_EMAIL: #{@user_email} user_email_class: #{@user_email_class}"
+          @merritt_response = "User not authorized for Merritt submission @USER_EMAIL: #{@user_email} step: #{@step}"
       	else
           @merritt_response = `#{@merritt_request}`
 	      end

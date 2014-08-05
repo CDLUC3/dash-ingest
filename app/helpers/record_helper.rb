@@ -26,14 +26,9 @@ DataType = {
 
 
 
-
-
-
-
-
-def user_email
-  user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-end
+# def user_email
+#   user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+# end
 
 
   def user

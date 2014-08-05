@@ -227,8 +227,8 @@ class Record < ActiveRecord::Base
     
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
-    @user_email = user_email
-    @user_email_class = @user_email.class
+    @user_email = DATASHARE_CONFIG['user_email_from_shibboleth']
+    
 
      campus = Record.id_to_campus(external_id)
      
@@ -244,10 +244,9 @@ class Record < ActiveRecord::Base
     if (!@user_email.nil? && !@user_email.blank? && @user_email != [] && @user_email != "")
 
       sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"notification=#{@user_email}\" -F \"type=container\" -F \"submitter=Dash/#{external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
-     @user_email_class = @user_email.class
-     @user_email = "wrong"
+     
     else
-      @user_email_class = @user_email.class
+      
       sys_output = "curl --insecure --verbose -u #{merritt_username}:#{merritt_password} -F \"file=@./#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/#{self.local_id}.zip\" -F \"type=container\" -F \"submitter=Dash/#{external_id}\" -F \"responseForm=xml\" -F \"profile=#{merritt_profile}\" -F \"localIdentifier=#{self.local_id}\" #{merritt_endpoint} 2>&1"
 
     end
