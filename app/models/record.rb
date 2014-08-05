@@ -231,6 +231,8 @@ class Record < ActiveRecord::Base
     #@user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
     #@user_email = "shirin.faenza@ucop.edu"
 
+    @user = User.find_by_external_id(external_id)
+
     if @user
       @user_email = @user.email
     else
