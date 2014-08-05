@@ -284,6 +284,10 @@ end
       # so we will handle this in a separate thread
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      if @user
+        @user.email =  @user_email
+        @user.save
+      end
       
       Thread.new do 
      

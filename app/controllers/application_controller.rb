@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
       user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
       user.save
     end
+    
     session[:user_id] = user.id
     redirect_to "/records"
   end
