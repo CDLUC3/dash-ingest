@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
       user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       user.save
     end
+    if user.email.nil?
+      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+    end
     session[:user_id] = user.id
     redirect_to "/records"
   end
