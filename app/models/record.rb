@@ -223,13 +223,13 @@ class Record < ActiveRecord::Base
    end
 
 
-   def send_archive_to_merritt(external_id)
+   def send_archive_to_merritt(external_id, user_email)
     
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
     #@user_email = DATASHARE_CONFIG['user_email_from_shibboleth']
-    @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-    
+    #@user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+    @user_email = user_email
 
      campus = Record.id_to_campus(external_id)
      

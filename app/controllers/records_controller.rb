@@ -294,7 +294,7 @@ end
 
         # @step=2
 
-        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
+        @merritt_request = @record.send_archive_to_merritt (@user.external_id, @user_email)
 
         # @step=3
 
