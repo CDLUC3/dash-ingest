@@ -227,22 +227,14 @@ class Record < ActiveRecord::Base
     
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
-
-    #@user_email = user_email
-    @user_email = "shirin.faenza@ucop.edu"
+    @user_email = user_email
 
      campus = Record.id_to_campus(external_id)
      
      if (!campus) then
        return false
      end
-     #user_email = "shirin.faenza@ucop.edu"
-     #request.headers[DATASHARE_CONFIG['external_identifier']]
-
-
-
      
-     #user_email = request.headers[HTTP_MAIL]
      merritt_endpoint = MERRITT_CONFIG["merritt_#{campus}_endpoint"]
      merritt_username = MERRITT_CONFIG["merritt_#{campus}_username"]
      merritt_password = MERRITT_CONFIG["merritt_#{campus}_password"]
