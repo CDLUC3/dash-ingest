@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
       user.save
     end
     if user.email.nil?
-      user.email = DATASHARE_CONFIG['user_email_from_shibboleth']
+      user.email = "shirin.faenza@ucop.edu"
       user.save
     end
     session[:user_id] = user.id
