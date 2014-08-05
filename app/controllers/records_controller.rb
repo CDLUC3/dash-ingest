@@ -106,15 +106,15 @@ end
   def record_params
     params.require(:record).permit(
     :id, :title, :resourcetype, :publisher,
-    creators_attributes: [ :creatorName, :_destroy],
-    subjects_attributes: [ :subjectName, :_destroy],
-    citation_attributes: [ :citationName, :_destroy])
+    creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
+    subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
+    citation_attributes: [ :id, :record_id, :citationName, :_destroy])
 
     end
 
 
   #this is really for both save and update
-  def update_record
+=begin  def update_record
     
     @campus_short_name = campus_short_name(@user)
     @record = Record.find(params[:id])
@@ -187,7 +187,7 @@ end
     end
   end
 
-
+=end
 
 
 
