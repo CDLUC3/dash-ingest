@@ -284,6 +284,10 @@ end
       # so we will handle this in a separate thread
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      if @user
+        @user.email =  @user_email
+        @user.save
+      end
       
       Thread.new do 
      
@@ -300,7 +304,7 @@ end
         if (!@merritt_request)
           @merritt_response = "User not authorized for Merritt submission"
       	else
-          @merritt_response = `#{@merritt_request}`
+          @merritt_response = `#{@merritt_request}`+"@user_email: #{@user_email} @user.email: #{@user.email}"
 	      end
 
         submissionLog.archiveresponse = @merritt_response
