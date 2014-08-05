@@ -32,8 +32,12 @@ DataType = {
 
 
 def user_email
-  user_email = request.headers['mail']
-  
+  #user_email = request.headers['mail']
+  # user_email = request.headers[HTTP_MAIL]
+  # if !(request.headers[HTTP_MAIL])
+  #   request.headers['HTTP_MAIL']
+  # end
+  user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
 end
 
 
