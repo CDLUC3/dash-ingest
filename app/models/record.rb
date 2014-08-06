@@ -13,9 +13,14 @@ class Record < ActiveRecord::Base
   has_many :submissionLogs
   has_many :uploads
   has_many :citations
+
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
-  attr_accessible :identifier, :identifierType, :publicationyear, :publisher, :resourcetype, :rights, :title, :local_id,:abstract, :methods
+  
+  attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
+                  :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
+                  :methods
+  
   validates_associated :creators, :citations, :subjects
   validates :title, :resourcetype, :presence => true
 
@@ -27,10 +32,6 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
-
-
-
-
 
 
 
