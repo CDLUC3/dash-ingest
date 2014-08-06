@@ -34,12 +34,6 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
 
-
-
-
-
-
-
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
   end
