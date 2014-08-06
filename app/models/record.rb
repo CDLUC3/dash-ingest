@@ -133,7 +133,7 @@ class Record < ActiveRecord::Base
     # f.puts "<rights rightsURI=”[RightsURI]”>[Rights]</rights>"
     # f.puts "</rightsList>"
 
-    debugger
+    
      
     f.puts "<rightsList>"
     f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
