@@ -23,6 +23,9 @@ class RecordsController < ApplicationController
    @record.subjects.build
    end
    @record.publisher = campus_short_name(@user)
+   
+   @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+   @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
   # POST - create new record

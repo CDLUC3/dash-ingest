@@ -143,10 +143,6 @@
 
 
 
-
-
-
-
     <div class="fieldset">
       <label for="title">
         * Rights
@@ -154,7 +150,7 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= f.text_field :rights, :size=>"20", :class=>'input-text', 'aria-required' => 'true' %>
+      <%= f.text_field :rights, :readonly => true, :size=>"20", :class=>'input-text', 'aria-required' => 'true' %>
     </div>
 
 
@@ -165,7 +161,7 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= f.text_field :rights_uri, :size=>"20", :class=>'input-text', 'aria-required' => 'true' %>
+      <%= f.text_field :rights_uri, :readonly => true, :size=>"20", :class=>'input-text', 'aria-required' => 'true'  %>
     </div>
 
 
