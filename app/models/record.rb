@@ -3,16 +3,16 @@ require 'zip/zip'
 
 class Record < ActiveRecord::Base
   include RecordHelper
-  has_many :creators
+  has_many :creators, :dependent => :destroy
   has_many :contributors
   has_many :descriptions
-  has_many :subjects
+  has_many :subjects, :dependent => :destroy
   has_many :alternateIdentifiers
   has_many :datauploads
   has_many :relations
   has_many :submissionLogs
   has_many :uploads
-  has_many :citations
+  has_many :citations, :dependent => :destroy
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, :resourcetype, :rights, :title, :local_id,:abstract, :methods

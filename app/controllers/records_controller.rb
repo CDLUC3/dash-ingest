@@ -60,34 +60,30 @@ class RecordsController < ApplicationController
   end
 
 
-   def show
+  def show
    @records = Record.find_all_by_user_id(session[:user_id])
- end
+   end
 
-def edit
-
+  def edit
   @record = Record.find(params[:id])
   @record.creators.build() if @record.creators.blank?
   @record.citations.build() if @record.citations.blank?
+  3.times do
   @record.subjects.build() if @record.subjects.blank?
+  end
 
 
 end
 
 
   def delete
-
     @record = Record.find(params[:id])
-    @record.delete
-
+    @record.destroy
     redirect_to records_path
-
   end
 
 
-
   def update
-
     @record = Record.find(params[:id])
     if @record.update_attributes(record_params)
       #redirect_to  @record
@@ -261,39 +257,28 @@ end
 
   def review
     @record = Record.find(params[:id])
-    
     @record.purge_temp_files
-    
     @xmlout = @record.review
-    
     render :review, :layout => false
   end
 
   public
   def send_archive_to_merritt
     @record = Record.find(params[:id])
-    
     if !@record.required_fields.empty?
       # redirect_to :action => "review", :id => @record.id
       render :action => "review", :id => @record.id
     else    
-      
       @merritt_response = "PROCESSING"
 
       # processing of large files can take a long time
       # so we will handle this in a separate thread
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-      
-      Thread.new do 
-     
+      Thread.new do
+      @record.generate_merritt_zip
 
-        @record.generate_merritt_zip
-
-       
-
-        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
-
+       @merritt_request = @record.send_archive_to_merritt (@user.external_id)
 
         submissionLog = SubmissionLog.new
 
