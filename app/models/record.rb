@@ -136,7 +136,7 @@ class Record < ActiveRecord::Base
     debugger
      
     f.puts "<rightsList>"
-    f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
+    f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri.gsub(/\r/,""))}\">#{CGI::escapeHTML(self.rights.gsub(/\r/,""))}</rights>"
     f.puts "</rightsList>"
 
 
