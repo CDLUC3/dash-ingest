@@ -3,6 +3,7 @@ require 'zip/zip'
 
 class Record < ActiveRecord::Base
   include RecordHelper
+  
   has_many :creators
   has_many :contributors
   has_many :descriptions
@@ -22,7 +23,7 @@ class Record < ActiveRecord::Base
                   :methods
   
   validates_associated :creators, :citations, :subjects
-  validates :title, :resourcetype, :presence => true
+  validates :title, :rights, :rights_uri, :resourcetype, :presence => true
 
   accepts_nested_attributes_for :creators, update_only: true, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
