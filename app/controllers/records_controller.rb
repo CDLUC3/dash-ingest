@@ -23,6 +23,9 @@ class RecordsController < ApplicationController
    @record.subjects.build
    end
    @record.publisher = campus_short_name(@user)
+   
+   @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+   @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
   # POST - create new record
@@ -101,7 +104,7 @@ end
   private
   def record_params
     params.require(:record).permit(
-    :id, :title, :resourcetype, :publisher,
+    :id, :title, :resourcetype, :publisher, :rights, :rights_uri,
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citation_attributes: [ :id, :record_id, :citationName, :_destroy])
