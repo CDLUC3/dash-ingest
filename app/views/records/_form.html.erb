@@ -144,7 +144,7 @@
 
 
     <div class="fieldset">
-      <label for="title">
+      <label for="rights">
         * Rights
         <a href="#rights_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
@@ -155,16 +155,20 @@
 
 
     <div class="fieldset">
-      <label for="title">
+      <label for="rights_uri">
         * Rights URI
         <a href="#rights_uri_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
       
-      <%= f.hidden_field :rights_uri %>
-      <%= link_to @record.rights_uri, @record.rights_uri, :readonly => true, 'aria-required' => 'true'  %>
+      <div>
+        <%= link_to @record.rights_uri, @record.rights_uri, :readonly => true, 'aria-required' => 'true'  %>
+      </div>
     </div>
+
+
+    <%= f.hidden_field :rights_uri %>
 
 
 
