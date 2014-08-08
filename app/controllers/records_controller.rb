@@ -9,10 +9,21 @@ class RecordsController < ApplicationController
     if !@user
       login and return
     end
-    if ( @user && (Institution.find_by_external_id_strip(@external_id_strip))  )
-      @external_id_strip = institution_external_id(@user) 
-      @institution = Institution.find_by_external_id_strip(@external_id_strip)
-      session[:institution_id] = @institution.id
+    
+    @external_id_strip = eval(institution_external_id(@user)) 
+    
+
+    if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
+      
+      
+      @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
+
+      if @institution
+        session[:institution_id] = @institution.id
+      else
+        session[:institution_id] = 1
+      end
+
       @institution = Institution.find_by_id(session[:institution_id])
     end
 

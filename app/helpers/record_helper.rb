@@ -46,7 +46,7 @@ DataType = {
 
 #for setting record.publisher
   def institution_external_id(user)
-    isTest ? ".@.ucop.edu" : request.headers[DATASHARE_CONFIG['external_identifier']]
+    isTest ? "/.*@.*ucop.edu$/" : (request.headers[DATASHARE_CONFIG['external_identifier']]).strip
   end
   
   def institution

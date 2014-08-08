@@ -61,4 +61,5 @@ gem 'unicorn'
 # To use debugger
 #gem 'debugger'
 gem 'carrierwave'
+gem 'wherex' #to handle regular expressions in queries
 
