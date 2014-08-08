@@ -10,24 +10,27 @@ class RecordsController < ApplicationController
       login and return
     end
     
-    #@external_id_strip = eval(institution_external_id(@user)) 
-    @external_id_strip = institution_external_id(@user)
-    @external_id_strip_class =  institution_external_id(@user).class
+    @external_id_strip = eval(institution_external_id(@user)) 
+    #@external_id_strip = institution_external_id(@user)
     
 
-    # if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
+    #@external_id_strip = Regexp.new @external_id_strip
+    #@external_id_strip_class = @external_id_strip.class
+    
+
+    if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
       
       
-    #   @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
+      @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
 
-    #   if @institution
-    #     session[:institution_id] = @institution.id
-    #   else
-    #     session[:institution_id] = 1
-    #   end
+      if @institution
+        session[:institution_id] = @institution.id
+      else
+        session[:institution_id] = 1
+      end
 
-    #   @institution = Institution.find_by_id(session[:institution_id])
-    # end
+      @institution = Institution.find_by_id(session[:institution_id])
+    end
 
     @records = Record.find_all_by_user_id(session[:user_id])
   end
