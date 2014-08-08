@@ -10,7 +10,7 @@ class RecordsController < ApplicationController
       login and return
     end
     
-    @external_id_strip = eval(institution_external_id(@user)) 
+    @external_id_strip = eval(institution_external_id(@user.external_id)) 
     #@external_id_strip = institution_external_id(@user)
     
 
