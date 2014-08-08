@@ -1162,11 +1162,7 @@ width: 190px;
 }
 
 #login-page input {
-	border: 1px solid #58595b;
-	margin: 0 0 11px 0;
-	width: 144px;
-	/*height: 14px;*/
-	padding: 5px;
+	
 }
 
 #login-page .go input {
