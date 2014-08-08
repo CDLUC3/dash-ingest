@@ -13,6 +13,7 @@ class DatauploadsController < ApplicationController
    def verify_ownership 
      @user = User.find_by_id(session[:user_id])
      @record = Record.find_by_id(params[:id])
+     
 
      if !@user.nil? && !@record.nil?
        if @record.user_id != @user.id

@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
 
-
+  include RecordHelper
   before_filter :verify_ownership
 
 # GET list all records
@@ -9,6 +9,12 @@ class RecordsController < ApplicationController
     if !@user
       login and return
     end
+    
+    @external_id_strip = institution_external_id(@user) 
+    @institution = Institution.find_by_external_id_strip(@external_id_strip)
+    session[:institution_id] = @institution.id
+    @institution = Institution.find_by_id(session[:institution_id])
+    
     @records = Record.find_all_by_user_id(session[:user_id])
   end
 

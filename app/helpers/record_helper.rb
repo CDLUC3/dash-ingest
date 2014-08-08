@@ -1,6 +1,6 @@
 module RecordHelper
 # pull down menus
-Institution = {
+Institutions = {
      "UC Berkeley" => "University of California, Berkeley",
      "UC Davis" => "University of California, Davis",
      "UC Irvine" => "University of California, Irvine",
@@ -43,9 +43,14 @@ DataType = {
   def campus_full_name(user)
     isTest ? "University of California, Office of the President" : Record.id_to_campus_full_name(user)
   end
+
+#for setting record.publisher
+  def institution_external_id(user)
+    isTest ? ".@.ucop.edu" : request.headers[DATASHARE_CONFIG['external_identifier']]
+  end
   
   def institution
-    Institution
+    Institutions
   end
 
   def datatype
