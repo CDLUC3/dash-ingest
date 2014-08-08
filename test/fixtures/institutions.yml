@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  abbreviation: MyString
+  short_name: MyString
+  long_name: MyString
+  landing_page: MyString
+  external_id_strip: MyString
+
+two:
+  abbreviation: MyString
+  short_name: MyString
+  long_name: MyString
+  landing_page: MyString
+  external_id_strip: MyString

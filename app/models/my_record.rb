@@ -4,17 +4,16 @@ require 'zip/zip'
 class Record < ActiveRecord::Base
   include RecordHelper
   
-  has_many :creators, :dependent => :destroy
+  has_many :creators
   has_many :contributors
   has_many :descriptions
-  has_many :subjects, :dependent => :destroy
+  has_many :subjects
   has_many :alternateIdentifiers
   has_many :datauploads
   has_many :relations
   has_many :submissionLogs
   has_many :uploads
-  has_many :citations, :dependent => :destroy
- 
+  has_many :citations
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
@@ -26,7 +25,7 @@ class Record < ActiveRecord::Base
   validates_associated :creators, :citations, :subjects
   validates :title, :rights, :rights_uri, :resourcetype, :presence => true
 
-  accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  accepts_nested_attributes_for :creators, update_only: true, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
 
   accepts_nested_attributes_for :citations, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
@@ -34,6 +33,8 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
+
+
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
@@ -128,18 +129,7 @@ class Record < ActiveRecord::Base
      #rights
      #not required
      #f.puts "<rights>#{self.rights}</rights>"
-    
-    # f.puts "<rightsList>"
-    # f.puts "<rights rightsURI=”[RightsURI]”>[Rights]</rights>"
-    # f.puts "</rightsList>"
-
-    
      
-    f.puts "<rightsList>"
-    f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
-    f.puts "</rightsList>"
-
-
      #descriptions
      f.puts "<descriptions>" 
      
@@ -377,42 +367,6 @@ class Record < ActiveRecord::Base
        campus_full_name = false
      end
      campus_full_name
-   end
-
-
-
-   def Record.institutions_db(id)
-     if ( id == nil )
-       return false
-      end
-     # external ID form: john.doe@someplace.edu
-     case id.strip
-     when /.*@.*ucop.edu$/
-       result = "/.*@.*ucop.edu$/"
-     when /.*@.*uci.edu$/
-       result = "/.*@.*uci.edu$/"
-     when /.*@.*ucla.edu$/
-       result = "/.*@.*ucla.edu$/"
-     when /.*@.*ucsd.edu$/
-       result = "/.*@.*ucsd.edu$/"
-     when /.*@.*ucsb.edu$/
-       result = "/.*@.*ucsb.edu$/"
-     when /.*@.*berkeley.edu$/
-       result = "/.*@.*berkeley.edu$/"
-     when /.*@.*ucdavis.edu$/
-       result = "/.*@.*ucdavis.edu$/"
-     when /.*@.*ucmerced.edu$/
-       result = "/.*@.*ucmerced.edu$/"
-     when /.*@.*ucr.edu$/
-       result = "/.*@.*ucr.edu$/"
-     when /.*@.*ucsf.edu$/
-       result = "/.*@.*ucsf.edu$/"
-     when /.*@.*ucsc.edu$/
-       result = "/.*@.*ucsc.edu$/"
-     else 
-       result = "/.*@.*ucop.edu$/"
-     end
-     result
    end
 
 

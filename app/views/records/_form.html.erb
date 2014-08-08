@@ -127,6 +127,7 @@
       </label>
       <%= f.text_area :methods, :rows => 6, :cols => 60 %>
     </div>
+    
     <div class="fieldset">
       <label for="citation">
         Citation(s)
@@ -140,14 +141,43 @@
         <% end %>
         <%= link_to_add_fields  '+Additional Citations', f, :citations %>
       </fieldset>
-
     </div>
 
-    <div class="large-button-container">
 
+
+
+    <div class="fieldset">
+      <label for="rights">
+        * Rights
+        <a href="#rights_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+      <%= f.text_area :rights, :readonly => true,  'aria-required' => 'true' %>
+    </div>
+
+
+    <div class="fieldset">
+      <label for="rights_uri">
+        * Rights URI
+        <a href="#rights_uri_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+      
+      <div>
+        <%= link_to @record.rights_uri, @record.rights_uri, :readonly => true, 'aria-required' => 'true'  %>
+      </div>
+    </div>
+
+
+    <%= f.hidden_field :rights_uri %>
+
+
+
+    <div class="large-button-container">
       <%= f.submit "Save",:class => "btn btn-large btn-success", :name => "commit"%>
       <%= f.submit "Save And Continue",  :class => "btn btn-large btn-success",:alt => "Save And Continue", :name => "commit"%>
-
     </div>
 <% end %>
 </div>
