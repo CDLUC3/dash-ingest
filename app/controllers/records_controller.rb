@@ -6,26 +6,25 @@ class RecordsController < ApplicationController
 # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
-    if !@user
+    #@institution = Institution.find_by_id(session[:institution_id])
+    if !@user 
       login and return
     end
     
-    @external_id_strip = eval(institution_external_id(@user.external_id)) 
+    set_session_institution(@user.external_id)
+
+    # @external_id_strip = eval(institution_external_id(@user.external_id)) 
+      
+    # @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
+
+    # if @institution
+    #   session[:institution_id] = @institution.id
+    # else
+    #   session[:institution_id] = 1
+    # end
+
+    @institution = Institution.find_by_id(session[:institution_id])
     
-
-    #if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
-      
-      
-      @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
-
-      if @institution
-        session[:institution_id] = @institution.id
-      else
-        session[:institution_id] = 1
-      end
-
-      @institution = Institution.find_by_id(session[:institution_id])
-    #end
 
     @records = Record.find_all_by_user_id(session[:user_id])
   end
@@ -130,6 +129,8 @@ end
     citation_attributes: [ :id, :record_id, :citationName, :_destroy])
 
     end
+
+
 
 
   #this is really for both save and update
