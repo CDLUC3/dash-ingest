@@ -11,14 +11,9 @@ class RecordsController < ApplicationController
     end
     
     @external_id_strip = eval(institution_external_id(@user.external_id)) 
-    #@external_id_strip = institution_external_id(@user)
     
 
-    #@external_id_strip = Regexp.new @external_id_strip
-    #@external_id_strip_class = @external_id_strip.class
-    
-
-    if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
+    #if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
       
       
       @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
@@ -30,7 +25,7 @@ class RecordsController < ApplicationController
       end
 
       @institution = Institution.find_by_id(session[:institution_id])
-    end
+    #end
 
     @records = Record.find_all_by_user_id(session[:user_id])
   end
@@ -38,14 +33,16 @@ class RecordsController < ApplicationController
   # GET form for new record
   def new
    @user = User.find(session[:user_id])
-   @campus_short_name = campus_short_name(@user)
+   @institution = Institution.find(session[:institution_id])
+   #@campus_short_name = campus_short_name(@user)
+   @campus_short_name = @institution.short_name
    @record = Record.new
    @record.creators.build()
    @record.citations.build
    3.times do
    @record.subjects.build
    end
-   @record.publisher = campus_short_name(@user)
+   @record.publisher = @campus_short_name
    
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
