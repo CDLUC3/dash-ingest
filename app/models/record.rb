@@ -19,7 +19,7 @@ class Record < ActiveRecord::Base
   validates_associated :creators, :citations, :subjects
   validates :title, :resourcetype, :presence => true
 
-  accepts_nested_attributes_for :creators, update_only: true, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
 
   accepts_nested_attributes_for :citations, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }

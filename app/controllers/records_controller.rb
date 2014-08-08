@@ -2,6 +2,7 @@ class RecordsController < ApplicationController
 
 
   before_filter :verify_ownership
+  #before_save :update_creator
 
 # GET list all records
   def index
@@ -84,19 +85,49 @@ end
 
 
   def update
+
     @record = Record.find(params[:id])
+
     if @record.update_attributes(record_params)
       #redirect_to  @record
-  if params[:commit] == 'Save'
+      if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
-  end
+      end
     else
       render 'edit'
   end
 
   end
+
+
+   def update_creators
+     r = Record.find(params[:record_id])
+     names =r.creators.map{|i|  i.record_id == r.record_id}
+     names.delete
+     @record.creators.build()
+end
+
+
+
+  def delete_creator
+
+  @creator = Creator.find_by_record_id(@record_id)
+    @creator.delete
+
+  respond_to do |format|
+    format.html { redirect_to(records_url) }
+    format.js   { render :nothing => true }
+  end
+
+
+
+     render 'edit'
+
+    end
+
+
 
   private
   def record_params
