@@ -9,21 +9,18 @@
 <!-- begin page id -->
 <div id="login-page"> 
 <!-- begin outer container -->  
-  <div id="outer-container"> 
+  <div id="outer-container">
     <!-- begin inner container -->
-    <div id="inner-container"> 
-       <!-- begin header -->
-		<%#= render 'layouts/header' %>
-		<img src="assets/dash_ucop_logo.png" alt="UCOP Dash logo" height="78" class="your-logo" /></a>
-	  <!-- end header -->
-		<!-- begin navigation-->
-			<%= render 'layouts/navigation' %>
-		<!--end navigation-->
-		<!-- begin content -->
-		<div id="content">
-			<div id="banner">
-			<%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
+		<div id="inner-container"> 
+			<div id="header">
+				<%= render 'layouts/header' %>			
 			</div>
+			<%= render 'layouts/navigation' %>
+			<div id="banner">
+				<%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
+			</div>
+			<div id="content">
+			
 			<div id="logout-content" style="text-align:center;">
 				<h2>You are now logged out.</h2>
 				<h2>You MUST close your browser</h2>
