@@ -4,7 +4,7 @@ DataIngest::Application.routes.draw do
   root :to => 'login#login'
 
   resources :records
-  
+
   match 'record/:record_id/uploads', :to => "uploads#index"
   match 'record/:record_id/uploads/new', :to => "uploads#new"
   

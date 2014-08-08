@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140728193940) do
+ActiveRecord::Schema.define(:version => 20140808185217) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -59,13 +59,24 @@ ActiveRecord::Schema.define(:version => 20140728193940) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "institutions", :force => true do |t|
+    t.string   "abbreviation"
+    t.string   "short_name"
+    t.string   "long_name"
+    t.string   "landing_page"
+    t.string   "external_id_strip"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "campus"
+  end
+
   create_table "records", :force => true do |t|
     t.string   "identifier"
     t.string   "identifierType"
     t.string   "publisher"
     t.string   "publicationyear"
     t.string   "resourcetype"
-    t.string   "rights"
+    t.text     "rights"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
     t.integer  "user_id"
@@ -73,6 +84,7 @@ ActiveRecord::Schema.define(:version => 20140728193940) do
     t.string   "local_id"
     t.text     "abstract"
     t.text     "methods"
+    t.text     "rights_uri"
   end
 
   create_table "relations", :force => true do |t|
@@ -120,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20140728193940) do
     t.string   "external_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "email"
   end
 
 end

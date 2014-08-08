@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
 
-
+  include RecordHelper
   before_filter :verify_ownership
 
 # GET list all records
@@ -9,6 +9,26 @@ class RecordsController < ApplicationController
     if !@user
       login and return
     end
+    
+    #@external_id_strip = eval(institution_external_id(@user)) 
+    @external_id_strip = institution_external_id(@user)
+    @external_id_strip_class =  institution_external_id(@user).class
+    
+
+    # if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
+      
+      
+    #   @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
+
+    #   if @institution
+    #     session[:institution_id] = @institution.id
+    #   else
+    #     session[:institution_id] = 1
+    #   end
+
+    #   @institution = Institution.find_by_id(session[:institution_id])
+    # end
+
     @records = Record.find_all_by_user_id(session[:user_id])
   end
 
@@ -19,10 +39,13 @@ class RecordsController < ApplicationController
    @record = Record.new
    @record.creators.build()
    @record.citations.build
-   #3.times do
+   3.times do
    @record.subjects.build
-   #end
+   end
    @record.publisher = campus_short_name(@user)
+   
+   @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+   @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
   # POST - create new record
@@ -60,34 +83,30 @@ class RecordsController < ApplicationController
   end
 
 
-   def show
+  def show
    @records = Record.find_all_by_user_id(session[:user_id])
- end
+   end
 
-def edit
-
+  def edit
   @record = Record.find(params[:id])
   @record.creators.build() if @record.creators.blank?
   @record.citations.build() if @record.citations.blank?
+  3.times do
   @record.subjects.build() if @record.subjects.blank?
+  end
 
 
 end
 
 
   def delete
-
     @record = Record.find(params[:id])
-    @record.delete
-
+    @record.destroy
     redirect_to records_path
-
   end
 
 
-
   def update
-
     @record = Record.find(params[:id])
     if @record.update_attributes(record_params)
       #redirect_to  @record
@@ -105,16 +124,16 @@ end
   private
   def record_params
     params.require(:record).permit(
-    :id, :title, :resourcetype, :publisher,
-    creators_attributes: [ :creatorName, :_destroy],
-    subjects_attributes: [ :subjectName, :_destroy],
-    citation_attributes: [ :citationName, :_destroy])
+    :id, :title, :resourcetype, :publisher, :rights, :rights_uri,
+    creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
+    subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
+    citation_attributes: [ :id, :record_id, :citationName, :_destroy])
 
     end
 
 
   #this is really for both save and update
-  def update_record
+=begin  def update_record
     
     @campus_short_name = campus_short_name(@user)
     @record = Record.find(params[:id])
@@ -187,7 +206,7 @@ end
     end
   end
 
-
+=end
 
 
 
@@ -261,32 +280,28 @@ end
 
   def review
     @record = Record.find(params[:id])
-    
     @record.purge_temp_files
-    
     @xmlout = @record.review
-    
     render :review, :layout => false
   end
 
   public
   def send_archive_to_merritt
     @record = Record.find(params[:id])
-    
     if !@record.required_fields.empty?
       # redirect_to :action => "review", :id => @record.id
       render :action => "review", :id => @record.id
     else    
-      
       @merritt_response = "PROCESSING"
 
       # processing of large files can take a long time
       # so we will handle this in a separate thread
-      
-      Thread.new do
-        @record.generate_merritt_zip
 
-        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
+      @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+      Thread.new do
+      @record.generate_merritt_zip
+
+       @merritt_request = @record.send_archive_to_merritt (@user.external_id)
 
         submissionLog = SubmissionLog.new
 

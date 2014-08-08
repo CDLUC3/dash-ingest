@@ -4,17 +4,16 @@ require 'zip/zip'
 class Record < ActiveRecord::Base
   include RecordHelper
   
-  has_many :creators, :dependent => :destroy
+  has_many :creators
   has_many :contributors
   has_many :descriptions
-  has_many :subjects, :dependent => :destroy
+  has_many :subjects
   has_many :alternateIdentifiers
   has_many :datauploads
   has_many :relations
   has_many :submissionLogs
   has_many :uploads
-  has_many :citations, :dependent => :destroy
- 
+  has_many :citations
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
@@ -34,6 +33,8 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
+
+
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
@@ -128,18 +129,7 @@ class Record < ActiveRecord::Base
      #rights
      #not required
      #f.puts "<rights>#{self.rights}</rights>"
-    
-    # f.puts "<rightsList>"
-    # f.puts "<rights rightsURI=”[RightsURI]”>[Rights]</rights>"
-    # f.puts "</rightsList>"
-
-    
      
-    f.puts "<rightsList>"
-    f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
-    f.puts "</rightsList>"
-
-
      #descriptions
      f.puts "<descriptions>" 
      

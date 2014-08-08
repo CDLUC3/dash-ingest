@@ -10,7 +10,8 @@ $(function() {
 
       $("form").on('click', '.remove_fields', function (event) {
        $(this).prev('input[type=hidden]').val('1');
-       $(this).closest('.fields').hide();
+       $(this).closest('.fields').remove();
+
        event.preventDefault();
     });
 

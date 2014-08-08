@@ -85,6 +85,20 @@
 							
 						</div>
 					</div>
+
+
+
+					<div class="content-row">
+						<div class="field-left">Rights:</div>
+						<div class="field-right"><%= @record.rights %></div>
+					</div>
+					
+					
+					<div class="content-row">
+						<div class="field-left">Rights URI:</div>
+						<div class="field-right"><%= link_to @record.rights_uri, @record.rights_uri %></div>
+					</div>
+
 					
 					<div class="content-row">
 							<div class="field-left">Citation(s):</div>
