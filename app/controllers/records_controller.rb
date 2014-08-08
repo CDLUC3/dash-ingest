@@ -11,6 +11,8 @@ class RecordsController < ApplicationController
     end
     
     #@external_id_strip = eval(institution_external_id(@user)) 
+    @external_id_strip = institution_external_id(@user)
+    @external_id_strip_class =  institution_external_id(@user).class
     
 
     # if (        @user && (  Institution.where('external_id_strip REGEXP ?', @external_id_strip.source) )      )
