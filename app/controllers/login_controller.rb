@@ -38,6 +38,10 @@ class LoginController < ApplicationController
   end
   
   def logout_page
+    if @user
+      set_session_institution(@user.external_id)
+      @institution = Institution.find_by_id(session[:institution_id])
+    end
     @campus = url_to_campus
     render :layout => false
   end
