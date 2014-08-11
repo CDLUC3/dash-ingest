@@ -453,6 +453,7 @@ class Record < ActiveRecord::Base
       return required_fields
    end
    
+
    def recommended_fields
    
       recommended_fields = Array.new
@@ -471,6 +472,7 @@ class Record < ActiveRecord::Base
       return recommended_fields
    
    end
+  
   
   # temp files created for multipart uploads
   def purge_temp_files

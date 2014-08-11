@@ -46,7 +46,7 @@ DataType = {
     isTest ? "/.*@.*ucop.edu$/" : Record.institutions_db(user)
   end
 
-
+#sets institution in session. If local the institution is defaulted to ucop
   def set_session_institution(user)
     @external_id_strip = eval(institution_external_id(user))      
     @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first

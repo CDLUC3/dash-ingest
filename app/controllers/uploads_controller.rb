@@ -6,6 +6,7 @@ class UploadsController < ApplicationController
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])
+    @institution = Institution.find_by_id(session[:institution_id])
 
     if ! @record.nil?
       @record.purge_temp_files

@@ -26,6 +26,7 @@ class LoginController < ApplicationController
     redirect_to logout_page_path
   end
   
+  
   # login and logout pages aren't used in prod
   # shib will protect the directory
   # these methods are available for runnign theapp
