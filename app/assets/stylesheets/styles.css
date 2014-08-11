@@ -218,11 +218,12 @@ height: 49px;
 
 #footer-logos #local-lib-text {
 	float: right;
-	width: 250px;
-	padding-right: 0px;
-	margin-right: 10px;
+	/*width: 250px;*/
+	padding-right: 10px;
+	margin-right: 5px;
 	border-right: 1px #c5c4c7 solid;
 	font-size: 10px;
+	text-align: right;
 }
 
 /* ES changed */
