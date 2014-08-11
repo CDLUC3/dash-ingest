@@ -1162,11 +1162,7 @@ width: 190px;
 }
 
 #login-page input {
-	border: 1px solid #58595b;
-	margin: 0 0 11px 0;
-	width: 144px;
-	/*height: 14px;*/
-	padding: 5px;
+	
 }
 
 #login-page .go input {
@@ -1213,12 +1209,24 @@ width: 190px;
 
 /* logout page styles */
 #logout-content {
-	min-height: 20em;
-	padding: 5em;
+	margin: 0 auto;
+	padding: 100px 0;
+	width: 24.5em;
+	text-align: center;
 }
 
 #logout-content h1 {
-	margin-bottom: 1em;
+	font-size: 2em;
+}
+
+#logout-content p {
+	font-size: 1.6em;
+	font-weight: bold;
+	line-height: 1.3em;
+}
+
+#logout-content strong {
+	text-transform: uppercase;
 }
 
 /* Prepare to submit page style */
