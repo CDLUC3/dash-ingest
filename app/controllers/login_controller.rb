@@ -22,7 +22,7 @@ class LoginController < ApplicationController
 
 
   def logout
-    #reset_session
+    @institution = Institution.find_by_id(session[:institution_id])
     redirect_to logout_page_path
   end
   
