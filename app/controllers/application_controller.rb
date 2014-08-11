@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :campus, :campus_short_name, :campus_to_url, :institution_external_id
+  helper_method :campus, :campus_short_name, :institution_external_id
 
 
   def login
@@ -110,19 +110,19 @@ class ApplicationController < ActionController::Base
   end
 
 #used as a link in the header
-  def campus_to_url(campus)
-    case campus
-      when  "cdl"
-        url = "http://dash-dev.ucop.edu"
-      when "ucb"
-        url = "https://dash-dev.berkeley.edu"
-      when "ucla"
-        url = "http://dev.dash.ucla.edu"  
-      else 
-       url = "http://dash-dev.cdlib.org"
-    end
-    url
-  end
+  # def campus_to_url(campus)
+  #   case campus
+  #     when  "cdl"
+  #       url = "http://dash-dev.ucop.edu"
+  #     when "ucb"
+  #       url = "https://dash-dev.berkeley.edu"
+  #     when "ucla"
+  #       url = "http://dev.dash.ucla.edu"  
+  #     else 
+  #      url = "http://dash-dev.cdlib.org"
+  #   end
+  #   url
+  # end
 
 
 #used as a link in the header
