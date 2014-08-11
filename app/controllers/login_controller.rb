@@ -22,7 +22,10 @@ class LoginController < ApplicationController
 
 
   def logout
-    @institution = Institution.find_by_id(session[:institution_id])
+    if @user
+      set_session_institution(@user.external_id)
+      @institution = Institution.find_by_id(session[:institution_id])
+    end
     redirect_to logout_page_path
   end
   
