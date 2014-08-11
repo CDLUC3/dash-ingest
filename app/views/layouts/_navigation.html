@@ -19,7 +19,7 @@
 	<div id="project_links">
 		<ul>
 			<!-- <li><%#= link_to ("#{campus_to_url_name("#{campus(@user)}")} Dash"), campus_to_url("#{campus(@user)}") %></li> -->
-			<li><%= link_to ("#{@institution.abbreviation} Dash"), campus_to_url("#{campus(@user)}") %></li>
+			<li><%= link_to ("#{@institution.abbreviation} Dash"), ("#{@institution.landing_page}") %></li>
 			<li><a href="/logout">Log Out</a></li>
 		</ul>
 	</div>

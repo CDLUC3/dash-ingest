@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :campus, :campus_short_name, :campus_to_url, :campus_to_url_name, :institution_external_id
+  helper_method :campus, :campus_short_name, :campus_to_url, :institution_external_id
 
 
   # def login
@@ -125,19 +125,19 @@ class ApplicationController < ActionController::Base
 
 
 #used as a link in the header
-  def campus_to_url_name(campus)
-    case campus
-      when  "cdl"
-        name = "UC"
-      when "ucb"
-        name = "Berkeley"
-      when "ucla"
-        name = "UCLA"  
-      else 
-       name = "UC"
-    end
-    name
-  end
+  # def campus_to_url_name(campus)
+  #   case campus
+  #     when  "cdl"
+  #       name = "UC"
+  #     when "ucb"
+  #       name = "Berkeley"
+  #     when "ucla"
+  #       name = "UCLA"  
+  #     else 
+  #      name = "UC"
+  #   end
+  #   name
+  # end
 
 end
 
