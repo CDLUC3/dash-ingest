@@ -7,6 +7,7 @@ class RecordsController < ApplicationController
 # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
+    if !@user
       login and return
     end
     
@@ -16,22 +17,19 @@ class RecordsController < ApplicationController
 
   # GET form for new record
   def new
-   @user = User.find(session[:user_id])
+     @user = User.find(session[:user_id])
 
-   @institution = Institution.find(session[:institution_id])
-   
-  # @campus_short_name = @institution.short_name
-   @record = Record.new
-   @record.creators.build()
-   @record.citations.build
-   
-   3.times do
-    @record.subjects.build
-   end
-   #@record.publisher = @campus_short_name
-   @record.publisher = @institution.short_name
-   @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-   @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+     @institution = Institution.find(session[:institution_id])
+     @record = Record.new
+     @record.creators.build()
+     @record.citations.build
+     
+     3.times do
+      @record.subjects.build
+     end
+     @record.publisher = @institution.short_name
+     @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
   # POST - create new record
@@ -61,7 +59,7 @@ class RecordsController < ApplicationController
 
   def show
    @records = Record.find_all_by_user_id(session[:user_id])
-   end
+  end
 
   def edit
     @record = Record.find(params[:id])
@@ -76,9 +74,9 @@ class RecordsController < ApplicationController
     @record.citations.build()if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
     if @record.subjects.count() == 1
-    2.times do
-      @record.subjects.build()
-    end
+      2.times do
+        @record.subjects.build()
+      end
     elsif @record.subjects.count() == 2
       1.times do
         @record.subjects.build()
