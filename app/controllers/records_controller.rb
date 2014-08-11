@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
   include RecordHelper
   before_filter :verify_ownership
   #before_save :update_creator
-
+ 
 # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
@@ -43,7 +43,9 @@ class RecordsController < ApplicationController
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
-    @record.subjects.build() if @record.subjects.blank?
+    3.times do
+    	@record.subjects.build() if @record.subjects.blank?
+    end
 
     if @record.save
       if params[:commit] == 'Save'
@@ -68,6 +70,21 @@ class RecordsController < ApplicationController
     3.times do
       @record.subjects.build() if @record.subjects.blank?
     end
+
+    @record = Record.find(params[:id])
+    @record.creators.build() if @record.creators.blank?
+    @record.citations.build()if @record.citations.blank?
+    @record.subjects.build() if @record.subjects.blank?
+    if @record.subjects.count() == 1
+    2.times do
+      @record.subjects.build()
+    end
+    elsif @record.subjects.count() == 2
+      1.times do
+        @record.subjects.build()
+      end
+    end
+
   end
 
 
@@ -81,45 +98,18 @@ class RecordsController < ApplicationController
   def update
     @institution = Institution.find(session[:institution_id])
     @record = Record.find(params[:id])
-
-    if @record.update_attributes(record_params)
+   if @record.update_attributes(record_params)
       #redirect_to  @record
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
       end
-    else
+      else
       render 'edit'
-  end
 
   end
-
-
-   def update_creators
-     r = Record.find(params[:record_id])
-     names =r.creators.map{|i|  i.record_id == r.record_id}
-     names.delete
-     @record.creators.build()
-end
-
-
-
-  def delete_creator
-
-  @creator = Creator.find_by_record_id(@record_id)
-    @creator.delete
-
-  respond_to do |format|
-    format.html { redirect_to(records_url) }
-    format.js   { render :nothing => true }
   end
-
-
-
-     render 'edit'
-
-    end
 
 
 
@@ -131,7 +121,7 @@ end
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citation_attributes: [ :id, :record_id, :citationName, :_destroy])
 
-    end
+  end
 
 
 
