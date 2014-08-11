@@ -168,6 +168,7 @@ class Record < ActiveRecord::Base
      File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
    end
    
+
    def generate_merritt_zip
     
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
@@ -207,6 +208,7 @@ class Record < ActiveRecord::Base
      FileUtils.rm Dir[file_path + "/temp_*"]
 
    end
+
 
    # keep metadata records, but get rid of files that are no longer needed for local storate
    # (storage is intended only until records are uploaded to merritt)
@@ -451,6 +453,7 @@ class Record < ActiveRecord::Base
       return required_fields
    end
    
+
    def recommended_fields
    
       recommended_fields = Array.new
@@ -469,6 +472,7 @@ class Record < ActiveRecord::Base
       return recommended_fields
    
    end
+  
   
   # temp files created for multipart uploads
   def purge_temp_files
