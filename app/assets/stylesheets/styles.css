@@ -195,6 +195,7 @@ height: 49px;
 	padding-left: 10px;
 	font-size: 10px;
 	border-left: 1px solid #c5c4c7;
+	line-height: normal;
 }
 
 /* ES changed */
@@ -221,6 +222,7 @@ height: 49px;
 	border-right: 1px #c5c4c7 solid;
 	font-size: 10px;
 	text-align: right;
+	line-height: normal;
 }
 
 /* ES changed */
