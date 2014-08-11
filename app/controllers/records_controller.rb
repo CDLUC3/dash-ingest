@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
   include RecordHelper
   before_filter :verify_ownership
   #before_save :update_creator
- 
+
 # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
@@ -77,7 +77,7 @@ class RecordsController < ApplicationController
 =end
         if @record.save
         if params[:commit] == 'Save'
-        redirect_to "/records/show"
+        render 'show'
         elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
         end
