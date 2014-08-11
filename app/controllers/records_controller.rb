@@ -79,6 +79,7 @@ class RecordsController < ApplicationController
 
 
   def update
+    @institution = Institution.find(session[:institution_id])
     @record = Record.find(params[:id])
     if @record.update_attributes(record_params)
       #redirect_to  @record
@@ -110,6 +111,7 @@ class RecordsController < ApplicationController
 
 
   def review
+    @institution = Institution.find(session[:institution_id])
     @record = Record.find(params[:id])
     @record.purge_temp_files
     @xmlout = @record.review
@@ -118,6 +120,7 @@ class RecordsController < ApplicationController
 
   public
   def send_archive_to_merritt
+    @institution = Institution.find(session[:institution_id])
     @record = Record.find(params[:id])
     if !@record.required_fields.empty?
       # redirect_to :action => "review", :id => @record.id
@@ -174,6 +177,7 @@ class RecordsController < ApplicationController
 
 
   def verify_ownership
+    @institution = Institution.find(session[:institution_id])
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:id])
 
@@ -189,6 +193,7 @@ class RecordsController < ApplicationController
 
   
   def submission_log
+    @institution = Institution.find(session[:institution_id])
     @record = Record.find_by_id(params[:id])
   end
   
