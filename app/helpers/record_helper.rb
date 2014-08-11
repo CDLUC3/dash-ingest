@@ -26,11 +26,6 @@ DataType = {
 
 
 
-# def user_email
-#   user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-# end
-
-
   def user
     if @user
       user = @user.external_id
@@ -39,15 +34,18 @@ DataType = {
     end
   end
 
+
   #for setting record.publisher
   def campus_full_name(user)
     isTest ? "University of California, Office of the President" : Record.id_to_campus_full_name(user)
   end
 
+
 #for setting record.publisher
   def institution_external_id(user)
     isTest ? "/.*@.*ucop.edu$/" : Record.institutions_db(user)
   end
+
 
   def set_session_institution(user)
     @external_id_strip = eval(institution_external_id(user))      
