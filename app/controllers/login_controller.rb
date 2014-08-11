@@ -1,4 +1,6 @@
 class LoginController < ApplicationController
+
+  include RecordHelper
   
   def login
     user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
@@ -10,7 +12,7 @@ class LoginController < ApplicationController
     end
 
     session[:user_id] = user.id
-    
+    set_session_institution(user.external_id)
     
 
     redirect_to "/records"

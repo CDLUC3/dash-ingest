@@ -11,17 +11,8 @@ class RecordsController < ApplicationController
       login and return
     end
     
-    set_session_institution(@user.external_id)
+    #set_session_institution(@user.external_id)
 
-    # @external_id_strip = eval(institution_external_id(@user.external_id)) 
-      
-    # @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
-
-    # if @institution
-    #   session[:institution_id] = @institution.id
-    # else
-    #   session[:institution_id] = 1
-    # end
 
     @institution = Institution.find_by_id(session[:institution_id])
     
@@ -41,7 +32,8 @@ class RecordsController < ApplicationController
    3.times do
    @record.subjects.build
    end
-   @record.publisher = @campus_short_name
+   #@record.publisher = @campus_short_name
+   @record.publisher = @institution.short_name
    
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
