@@ -4,17 +4,18 @@ class ApplicationController < ActionController::Base
   helper_method :campus, :campus_short_name, :campus_to_url, :institution_external_id
 
 
-  # def login
-  #   user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
-  #   if user.nil?
-  #     user = User.new
-  #     user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
-  #     user.save
-  #   end  
+  def login
+    user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
+    if user.nil?
+      user = User.new
+      user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
+      user.save
+    end  
 
-  #   session[:user_id] = user.id
-  #   redirect_to "/records"
-  # end
+    session[:user_id] = user.id
+    set_session_institution(user.external_id)
+    redirect_to "/records"
+  end
 
 
   def url_to_campus 
