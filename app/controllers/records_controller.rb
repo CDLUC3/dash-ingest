@@ -197,8 +197,7 @@ class RecordsController < ApplicationController
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:id])
-    set_session_institution(@user.external_id)
-    @institution = Institution.find(session[:institution_id])
+    
 
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
