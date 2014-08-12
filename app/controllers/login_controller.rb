@@ -8,10 +8,13 @@ class LoginController < ApplicationController
     if user.nil?
       user = User.new
       user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
+      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
       user.save
     end
 
     if user.institution_id.nil?
+      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
+      user.save
     end
 
     session[:user_id] = user.id
