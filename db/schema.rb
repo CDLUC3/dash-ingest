@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140811213557) do
+ActiveRecord::Schema.define(:version => 20140812180735) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -131,9 +131,12 @@ ActiveRecord::Schema.define(:version => 20140811213557) do
 
   create_table "users", :force => true do |t|
     t.string   "external_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "email"
+    t.integer  "institution_id"
   end
+
+  add_index "users", ["institution_id"], :name => "index_users_on_institution_id"
 
 end
