@@ -36,9 +36,9 @@ DataType = {
 
 
   #for setting record.publisher
-  def campus_full_name(user)
-    isTest ? "University of California, Office of the President" : Record.id_to_campus_full_name(user)
-  end
+  # def campus_full_name(user)
+  #   isTest ? "University of California, Office of the President" : Record.id_to_campus_full_name(user)
+  # end
 
 
 #for setting record.publisher
@@ -61,15 +61,15 @@ DataType = {
   #   end
   # end
 
-  def set_session_institution(user)
+  # def set_session_institution(user)
          
-    @institution = institution_external_id(user)
-    if @institution
-      session[:institution_id] = @institution.id
-    else
-      session[:institution_id] = 1
-    end
-  end
+  #   @institution = institution_external_id(user)
+  #   if @institution
+  #     session[:institution_id] = @institution.id
+  #   else
+  #     session[:institution_id] = 1
+  #   end
+  # end
   
   
   def institution

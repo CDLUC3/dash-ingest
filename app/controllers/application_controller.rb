@@ -20,7 +20,6 @@ class ApplicationController < ActionController::Base
     end
 
     session[:user_id] = user.id
-    #set_session_institution(user.external_id) 
     redirect_to "/records"
   end
 
@@ -99,22 +98,22 @@ class ApplicationController < ActionController::Base
 
 
 
-  def campus(user)
-    if @user
-      isTest ? "cdl" : Record.id_to_campus(user.external_id)
-    else
-      isTest ? "cdl" : url_to_campus
-    end
-  end
+  # def campus(user)
+  #   if @user
+  #     isTest ? "cdl" : Record.id_to_campus(user.external_id)
+  #   else
+  #     isTest ? "cdl" : url_to_campus
+  #   end
+  # end
 
   #for displaying institution on Describe your dataset page
-  def campus_short_name(user)
-    if @user
-      isTest ? "UC" : Record.id_to_campus_short_name(user.external_id)
-    else
-      isTest ? "UC" : url_to_campus_short
-    end
-  end
+  # def campus_short_name(user)
+  #   if @user
+  #     isTest ? "UC" : Record.id_to_campus_short_name(user.external_id)
+  #   else
+  #     isTest ? "UC" : url_to_campus_short
+  #   end
+  # end
 
 #used as a link in the header
   # def campus_to_url(campus)

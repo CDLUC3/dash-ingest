@@ -11,7 +11,6 @@ class RecordsController < ApplicationController
       login and return
     end
     
-    #@institution = Institution.find_by_id(session[:institution_id])
     @institution = @user.institution
     @records = Record.find_all_by_user_id(session[:user_id])
   end
@@ -19,7 +18,6 @@ class RecordsController < ApplicationController
   # GET form for new record
   def new
      @user = User.find(session[:user_id])
-     #@institution = Institution.find(session[:institution_id])
      @institution = @user.institution
      @record = Record.new
      @record.creators.build()
@@ -38,7 +36,6 @@ class RecordsController < ApplicationController
     @record = Record.new(params[:record])
     @record.user_id = session[:user_id]
     @user = User.find(session[:user_id])
-    #@institution = Institution.find(session[:institution_id])
     @institution = @user.institution
     @record.set_local_id
     @record.publisher = @institution.short_name if @record.publisher.blank?
