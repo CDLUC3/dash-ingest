@@ -23,8 +23,13 @@ class Record < ActiveRecord::Base
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
   
-  validates_associated :creators, :citations, :subjects
-  validates :title, :rights, :rights_uri, :resourcetype, :presence => true
+  #validates_associated :creators, :citations, :subjects
+  validates_associated :citations, :subjects
+  
+  #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
+  validates_presence_of :title, :message => "^You must include a title for your submission."
+  validates_presence_of :resourcetype, :message => "^Please specify the data type."
+  validates_presence_of :rights, :rights_uri
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
