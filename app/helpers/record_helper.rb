@@ -42,14 +42,28 @@ DataType = {
 
 
 #for setting record.publisher
+  # def institution_external_id(user)
+  #   isTest ? "/.*@.*ucop.edu$/" : Record.institutions_db(user)
+  # end
+
   def institution_external_id(user)
-    isTest ? "/.*@.*ucop.edu$/" : Record.institutions_db(user)
+    User.institution_from_shibboleth(user)
   end
 
 #sets institution in session. If local the institution is defaulted to ucop
+  # def set_session_institution(user)
+  #   @external_id_strip = eval(institution_external_id(user))      
+  #   @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
+  #   if @institution
+  #     session[:institution_id] = @institution.id
+  #   else
+  #     session[:institution_id] = 1
+  #   end
+  # end
+
   def set_session_institution(user)
-    @external_id_strip = eval(institution_external_id(user))      
-    @institution = Institution.where('external_id_strip REGEXP ?', @external_id_strip.source).first
+         
+    @institution = institution_external_id(user)
     if @institution
       session[:institution_id] = @institution.id
     else

@@ -11,6 +11,9 @@ class LoginController < ApplicationController
       user.save
     end
 
+    if user.institution_id.nil?
+    end
+
     session[:user_id] = user.id
     set_session_institution(user.external_id)
     
