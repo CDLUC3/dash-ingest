@@ -31,6 +31,7 @@ class LoginController < ApplicationController
     if @user
       @institution = @user.institution
     end
+    session[:user_id] = nil
     redirect_to logout_page_path
   end
   
@@ -43,12 +44,12 @@ class LoginController < ApplicationController
   end
   
   def logout_page
-    @user = User.find_by_id(session[:user_id])
-    if !@user
-      login and return
-    end
-    @institution = @user.institution
-    @campus = url_to_campus
+    # @user = User.find_by_id(session[:user_id])
+    # if !@user
+    #   login and return
+    # end
+    # @institution = @user.institution
+    #@campus = url_to_campus
     render :layout => false
   end
   
