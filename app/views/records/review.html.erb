@@ -148,18 +148,6 @@
 			<div class="missing-fields">
 				
 					<div class="missing-fields-req">
-						<% if @record.required_fields.size > 0 %>
-							<h3>The following missing fields are <strong><u>required</u></strong>:</h3>
-							<ul>
-							<% @record.required_fields.each do |f|%>
-								<li><%= f %></li>
-							<% end %>
-							</ul>
-						<% else %>
-							<h3>Record contains all required fields</h3>
-						
-						<% end %>
-						
 						
 						<% if @record.recommended_fields.size > 0 %>
 						
