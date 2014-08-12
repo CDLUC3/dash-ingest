@@ -11,15 +11,16 @@ class RecordsController < ApplicationController
       login and return
     end
     
-    @institution = Institution.find_by_id(session[:institution_id])
+    #@institution = Institution.find_by_id(session[:institution_id])
+    @institution = @user.institution
     @records = Record.find_all_by_user_id(session[:user_id])
   end
 
   # GET form for new record
   def new
      @user = User.find(session[:user_id])
-
-     @institution = Institution.find(session[:institution_id])
+     #@institution = Institution.find(session[:institution_id])
+     @institution = @user.institution
      @record = Record.new
      @record.creators.build()
      @record.citations.build
@@ -36,7 +37,9 @@ class RecordsController < ApplicationController
   def create
     @record = Record.new(params[:record])
     @record.user_id = session[:user_id]
-    @institution = Institution.find(session[:institution_id])
+    @user = User.find(session[:user_id])
+    #@institution = Institution.find(session[:institution_id])
+    @institution = @user.institution
     @record.set_local_id
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.creators.build() if @record.creators.blank?
@@ -94,7 +97,9 @@ class RecordsController < ApplicationController
 
 
   def update
-    @institution = Institution.find(session[:institution_id])
+    @user = User.find(session[:user_id])
+    #@institution = Institution.find(session[:institution_id])
+    @institution = @user.institution
     @record = Record.find(params[:id])
    if @record.update_attributes(record_params)
       #redirect_to  @record
@@ -128,7 +133,9 @@ class RecordsController < ApplicationController
 
 
   def review
-    @institution = Institution.find(session[:institution_id])
+    @user = User.find(session[:user_id])
+    #@institution = Institution.find(session[:institution_id])
+    @institution = @user.institution
     @record = Record.find(params[:id])
     @record.purge_temp_files
     @xmlout = @record.review
@@ -137,7 +144,9 @@ class RecordsController < ApplicationController
 
   public
   def send_archive_to_merritt
-    @institution = Institution.find(session[:institution_id])
+    @user = User.find(session[:user_id])
+    #@institution = Institution.find(session[:institution_id])
+    @institution = @user.institution
     @record = Record.find(params[:id])
     if !@record.required_fields.empty?
       # redirect_to :action => "review", :id => @record.id
@@ -198,8 +207,7 @@ class RecordsController < ApplicationController
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:id])
     if @user
-      set_session_institution(@user.external_id)
-      @institution = Institution.find_by_id(session[:institution_id])
+      @institution = @user.institution
     end
 
     if !@user.nil? && !@record.nil?
@@ -216,8 +224,7 @@ class RecordsController < ApplicationController
   def submission_log
     @user = User.find_by_id(session[:user_id])
     if @user
-      set_session_institution(@user.external_id)
-      @institution = Institution.find_by_id(session[:institution_id])
+      @institution = @user.institution
     end
     @record = Record.find_by_id(params[:id])
   end

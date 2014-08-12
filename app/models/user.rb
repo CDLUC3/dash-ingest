@@ -1,5 +1,8 @@
 class User < ActiveRecord::Base
+  
   has_many :records
+  belongs_to :institution
+  
   attr_accessible :external_id, :epsa, :email
 
 

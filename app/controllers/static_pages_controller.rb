@@ -2,7 +2,11 @@ class StaticPagesController < ApplicationController
 
   def contact
     @user = User.find_by_id(session[:user_id])
-    @institution = Institution.find_by_id(session[:institution_id])
+    if @user
+      @institution = @user.institution
+    else
+      @institution = Institution.find_by_id(1)
+    end
     @campus = campus(@user)
     @campus_email = [campus_email(@campus)]
     
