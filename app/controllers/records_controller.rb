@@ -7,7 +7,7 @@ class RecordsController < ApplicationController
 # GET list all records
   def index
     @user = User.find_by_id(session[:user_id])
-    if !@user
+    if !@user || !@user.institution_id
       login and return
     end
     

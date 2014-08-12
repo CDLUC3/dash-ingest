@@ -6,14 +6,21 @@ class ApplicationController < ActionController::Base
 
   def login
     user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
+    
     if user.nil?
       user = User.new
       user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
+      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
       user.save
-    end  
+    end
+
+    if user.institution_id.nil?
+      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
+      user.save
+    end
 
     session[:user_id] = user.id
-    set_session_institution(user.external_id)
+    #set_session_institution(user.external_id) 
     redirect_to "/records"
   end
 
