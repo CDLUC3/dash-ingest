@@ -124,20 +124,19 @@ class RecordsController < ApplicationController
   end
 
 
-
-
-  
+ 
 
 
   def review
     @user = User.find(session[:user_id])
-    #@institution = Institution.find(session[:institution_id])
     @institution = @user.institution
     @record = Record.find(params[:id])
     @record.purge_temp_files
-    @xmlout = @record.review
+    @xmlout = @record.review   
     render :review, :layout => false
   end
+
+
 
   public
   def send_archive_to_merritt

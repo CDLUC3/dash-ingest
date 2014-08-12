@@ -6,6 +6,7 @@ class UploadsController < ApplicationController
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])
+
     if @user
       @institution = @user.institution
     else

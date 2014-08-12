@@ -51,6 +51,8 @@ class Record < ActiveRecord::Base
 
   def review
 
+    
+
     # can we define the character encoding at UTF without a byte recorder marker
     # ANSI encoding right now 
     
