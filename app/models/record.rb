@@ -48,6 +48,7 @@ class Record < ActiveRecord::Base
     FileUtils.mkdir("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}")
   end
   
+
   def review
 
     # can we define the character encoding at UTF without a byte recorder marker
@@ -246,12 +247,9 @@ class Record < ActiveRecord::Base
     
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
-    #@user_email = DATASHARE_CONFIG['user_email_from_shibboleth']
-    #@user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-    #@user_email = "shirin.faenza@ucop.edu"
 
-    #@user = User.find_by_external_id(external_id)
-    @user = User.find(session[:user_id])
+    @user = User.find_by_external_id(external_id)
+    #@user = User.find(session[:user_id])
 
     if @user
       @user_email = @user.email
