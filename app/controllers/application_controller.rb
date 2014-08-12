@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  helper_method :campus, :campus_short_name, :institution_external_id
+  helper_method  :institution_external_id
 
 
   def login
@@ -24,77 +24,77 @@ class ApplicationController < ActionController::Base
   end
 
 
-  def url_to_campus 
-  	id = request.headers[DATASHARE_CONFIG['external_identifier']]
-   	if ( id == nil )
-     	@campus = "cdl"
-    else
-	     case id.strip
-	     when /.*@.*ucop.edu$/
-	       @campus = "cdl"
-	     when /.*@.*uci.edu$/
-	       @campus = "uci"
-	     when /.*@.*ucla.edu$/
-	       @campus = "ucla"
-	     when /.*@.*ucsd.edu$/
-	       @campus = "ucsd"
-	     when /.*@.*ucsb.edu$/
-	       @campus = "ucsb"
-	     when /.*@.*berkeley.edu$/
-	       @campus = "ucb"
-	     when /.*@.*ucdavis.edu$/
-	       @campus = "ucd"
-	     when /.*@.*ucmerced.edu$/
-	       @campus = "ucm"
-	     when /.*@.*ucr.edu$/
-	       @campus = "ucr"
-	     when /.*@.*ucsf.edu$/
-	       @campus = "ucsf"
-	     when /.*@.*ucsc.edu$/
-	       @campus = "ucsc"
-	     else	
-	       @campus = "cdl"
-	     end
-	  end
-   	@campus
- 	end
+  # def url_to_campus 
+  # 	id = request.headers[DATASHARE_CONFIG['external_identifier']]
+  #  	if ( id == nil )
+  #    	@campus = "cdl"
+  #   else
+	 #     case id.strip
+	 #     when /.*@.*ucop.edu$/
+	 #       @campus = "cdl"
+	 #     when /.*@.*uci.edu$/
+	 #       @campus = "uci"
+	 #     when /.*@.*ucla.edu$/
+	 #       @campus = "ucla"
+	 #     when /.*@.*ucsd.edu$/
+	 #       @campus = "ucsd"
+	 #     when /.*@.*ucsb.edu$/
+	 #       @campus = "ucsb"
+	 #     when /.*@.*berkeley.edu$/
+	 #       @campus = "ucb"
+	 #     when /.*@.*ucdavis.edu$/
+	 #       @campus = "ucd"
+	 #     when /.*@.*ucmerced.edu$/
+	 #       @campus = "ucm"
+	 #     when /.*@.*ucr.edu$/
+	 #       @campus = "ucr"
+	 #     when /.*@.*ucsf.edu$/
+	 #       @campus = "ucsf"
+	 #     when /.*@.*ucsc.edu$/
+	 #       @campus = "ucsc"
+	 #     else	
+	 #       @campus = "cdl"
+	 #     end
+	 #  end
+  #  	@campus
+ 	# end
 
   
 
-  def url_to_campus_short 
-    id = request.headers[DATASHARE_CONFIG['external_identifier']]
-    if ( id == nil )
-      @campus_short_name = "UC Office of the President"
-    else
-      case id.strip
-      when /.*@.*ucop.edu$/
-        @campus_short_name = "UC Office of the President"
-       when /.*@.*uci.edu$/
-         @campus_short_name = "UC Irvine"
-       when /.*@.*ucla.edu$/
-         @campus_short_name = "UC Los Angeles"
-       when /.*@.*ucsd.edu$/
-         @campus_short_name = "UC San Diego"
-       when /.*@.*ucsb.edu$/
-         @campus_short_name = "UC Santa Barbara"
-       when /.*@.*berkeley.edu$/
-         @campus_short_name = "UC Berkeley"
-       when /.*@.*ucdavis.edu$/
-         @campus_short_name = "UC Davis"
-       when /.*@.*ucmerced.edu$/
-         @campus_short_name = "UC Merced"
-       when /.*@.*ucr.edu$/
-         @campus_short_name = "UC Riverside"
-       when /.*@.*ucsf.edu$/
-         @campus_short_name = "UC San Francisco"
-       when /.*@.*ucsc.edu$/
-         @campus_short_name = "UC Santa Cruz"
-       else  
-         @campus_short_name = "UC Office of the President"
-       end
-    end
-    @campus_short_name
-  end
+  # def url_to_campus_short 
+  #   id = request.headers[DATASHARE_CONFIG['external_identifier']]
+  #   if ( id == nil )
+  #     @campus_short_name = "UC Office of the President"
+  #   else
+  #     case id.strip
+  #     when /.*@.*ucop.edu$/
+  #       @campus_short_name = "UC Office of the President"
+  #      when /.*@.*uci.edu$/
+  #        @campus_short_name = "UC Irvine"
+  #      when /.*@.*ucla.edu$/
+  #        @campus_short_name = "UC Los Angeles"
+  #      when /.*@.*ucsd.edu$/
+  #        @campus_short_name = "UC San Diego"
+  #      when /.*@.*ucsb.edu$/
+  #        @campus_short_name = "UC Santa Barbara"
+  #      when /.*@.*berkeley.edu$/
+  #        @campus_short_name = "UC Berkeley"
+  #      when /.*@.*ucdavis.edu$/
+  #        @campus_short_name = "UC Davis"
+  #      when /.*@.*ucmerced.edu$/
+  #        @campus_short_name = "UC Merced"
+  #      when /.*@.*ucr.edu$/
+  #        @campus_short_name = "UC Riverside"
+  #      when /.*@.*ucsf.edu$/
+  #        @campus_short_name = "UC San Francisco"
+  #      when /.*@.*ucsc.edu$/
+  #        @campus_short_name = "UC Santa Cruz"
+  #      else  
+  #        @campus_short_name = "UC Office of the President"
+  #      end
+  #   end
+  #   @campus_short_name
+  # end
 
 
 
