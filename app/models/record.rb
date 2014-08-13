@@ -132,11 +132,12 @@ class Record < ActiveRecord::Base
     # <% @record.uploads.each do |dataupload| %>
         # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
     # <% end %>
-    total_size = 0
-    self.uploads.each do |u|
-      total_size += u.upload_file_size
-    end
-    f.puts "<size>#{total_size}</size>"
+    # total_size = 0
+    # self.uploads.each do |u|
+    #   total_size += u.upload_file_size
+    # end
+    #f.puts "<size>#{total_size}</size>"
+    f.puts "<size>This is a test</size>"
      
      # formats ?
      
