@@ -60,6 +60,7 @@ class UploadsController < ApplicationController
        end
        
      end
+     debugger
     
     p = params[:upload]
     name = p[:upload].original_filename
