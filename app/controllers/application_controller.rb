@@ -3,10 +3,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :campus, :campus_short_name, :campus_to_url, :campus_to_url_name
 
-
-
-
-
   def login
     user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
     if user.nil?
