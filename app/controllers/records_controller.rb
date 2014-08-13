@@ -39,6 +39,7 @@ class RecordsController < ApplicationController
     @institution = @user.institution
     @record.set_local_id
     @record.publisher = @institution.short_name if @record.publisher.blank?
+    @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
     3.times do
@@ -98,17 +99,19 @@ class RecordsController < ApplicationController
     #@institution = Institution.find(session[:institution_id])
     @institution = @user.institution
     @record = Record.find(params[:id])
-   if @record.update_attributes(record_params)
+    if !@record.institution_id
+      @record.institution_id = @user.institution_id
+    end
+    if @record.update_attributes(record_params)
       #redirect_to  @record
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
       end
-      else
+    else
       render 'edit'
-
-  end
+    end
   end
 
 
