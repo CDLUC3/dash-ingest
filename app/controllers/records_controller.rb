@@ -59,9 +59,8 @@ class RecordsController < ApplicationController
     @record.publisher = campus_short_name(@user) if @record.publisher.blank?
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
-    3.times do
     @record.subjects.build() if @record.subjects.blank?
-    end
+
 
 =begin
     @record.user_id = session[:user_id]
@@ -77,7 +76,7 @@ class RecordsController < ApplicationController
 =end
         if @record.save
         if params[:commit] == 'Save'
-        render 'show'
+        redirect_to "/records/show"
         elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
         end

@@ -24,6 +24,7 @@ group :test do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'simplecov', '~> 0.7.1'
+  gem 'rspec-rails', '~> 3.0.0'
 end
 
 gem 'whenever', :require => false
