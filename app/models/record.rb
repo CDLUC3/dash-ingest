@@ -51,7 +51,7 @@ class Record < ActiveRecord::Base
 
   def review
 
-    
+
 
     # can we define the character encoding at UTF without a byte recorder marker
     # ANSI encoding right now 
@@ -128,6 +128,15 @@ class Record < ActiveRecord::Base
      #f.puts "</relatedIdentifiers>"
      
      #<sizes>... this will be exported from merritt, but do we need it in the metadata?
+     
+    # <% @record.uploads.each do |dataupload| %>
+        # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
+    # <% end %>
+    total_size = 0
+    self.uploads.each do |u|
+      total_size += u.upload_file_size
+    end
+    f.puts "<size>#{total_size}</size>"
      
      # formats ?
      

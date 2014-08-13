@@ -58,6 +58,7 @@ class UploadsController < ApplicationController
        else
          @upload.upload_file_size += @temp_upload.upload_file_size
        end
+       
      end
     
     p = params[:upload]
