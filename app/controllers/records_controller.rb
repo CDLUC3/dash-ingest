@@ -131,8 +131,6 @@ class RecordsController < ApplicationController
     @user = User.find(session[:user_id])
     @institution = @user.institution
     @record = Record.find(params[:id])
-    
-    #@file_size = params[:file_size]
     @record.purge_temp_files
     @xmlout = @record.review   
     render :review, :layout => false

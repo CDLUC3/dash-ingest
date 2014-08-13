@@ -29,7 +29,8 @@ class Record < ActiveRecord::Base
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
-  validates_presence_of :rights, :rights_uri
+  validates_presence_of :rights, :message => "^Please specify the rights."
+  validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
@@ -132,11 +133,11 @@ class Record < ActiveRecord::Base
     # <% @record.uploads.each do |dataupload| %>
         # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
     # <% end %>
-    # total_size = 0
+    # @total_size = 0
     # self.uploads.each do |u|
-    #   total_size += u.upload_file_size
+    #   @total_size = @total_size + u.upload_file_size
     # end
-    #f.puts "<size>#{total_size}</size>"
+    #f.puts "<size>#{@total_size}</size>"
     f.puts "<size>This is a test</size>"
      
      # formats ?
@@ -173,8 +174,7 @@ class Record < ActiveRecord::Base
      
      # citation
        
-     self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }
-       
+     self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
      
      f.puts "</descriptions>"
 
