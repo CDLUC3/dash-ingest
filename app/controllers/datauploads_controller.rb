@@ -11,14 +11,14 @@ class DatauploadsController < ApplicationController
    end
 
    def verify_ownership 
-     @user = User.find_by_id(session[:user_id])
+     #@user = User.find_by_id(session[:user_id])
      @record = Record.find_by_id(params[:id])
      #@institution = Institution.find_by_id(session[:institution_id])
-     if @user
-      @institution = @user.institution
+     if current_user
+      @institution = current_user.institution
     end
-     if !@user.nil? && !@record.nil?
-       if @record.user_id != @user.id
+     if !current_user.nil? && !@record.nil?
+       if @record.user_id != current_user.id
          redirect_to "/records"
        end
      end

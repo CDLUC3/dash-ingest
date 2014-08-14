@@ -260,9 +260,9 @@ class Record < ActiveRecord::Base
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
 
-    @user = User.find_by_external_id(external_id)
-    #@user = User.find(session[:user_id])
-
+    #@user = User.find_by_external_id(external_id)
+    @user = current_user
+    
     if @user
       @user_email = @user.email
     else
@@ -292,39 +292,7 @@ class Record < ActiveRecord::Base
    end
    
 
-   # def Record.id_to_campus(id)
-   #   if ( id == nil )
-   #     return false
-   #    end
-   #   # external ID form: john.doe@someplace.edu
-   #   case id.strip
-   #   when /.*@.*ucop.edu$/
-   #     campus = "cdl"
-   #   when /.*@.*uci.edu$/
-   #     campus = "uci"
-   #   when /.*@.*ucla.edu$/
-   #     campus = "ucla"
-   #   when /.*@.*ucsd.edu$/
-   #     campus = "ucsd"
-   #   when /.*@.*ucsb.edu$/
-   #     campus = "ucsb"
-   #   when /.*@.*berkeley.edu$/
-   #     campus = "ucb"
-   #   when /.*@.*ucdavis.edu$/
-   #     campus = "ucd"
-   #   when /.*@.*ucmerced.edu$/
-   #     campus = "ucm"
-   #   when /.*@.*ucr.edu$/
-   #     campus = "ucr"
-   #   when /.*@.*ucsf.edu$/
-   #     campus = "ucsf"
-   #   when /.*@.*ucsc.edu$/
-   #     campus = "ucsc"
-   #   else	
-   #     campus = false
-   #   end
-   #   campus
-   # end
+   
 
    
    #this is how the institution will be displayed on the "Describe your dataset" page

@@ -4,11 +4,11 @@ class UploadsController < ApplicationController
 
     @record_id = params[:record_id]
 
-    @user = User.find_by_id(session[:user_id])
+    @user = current_user
     @record = Record.find_by_id(params[:record_id])
 
-    if @user
-      @institution = @user.institution
+    if current_user && current_user.institution
+      @institution = current_user.institution
     else
       @institution = Institution.find_by_id(1)
     end
@@ -22,7 +22,7 @@ class UploadsController < ApplicationController
     if @record.nil?
       redirect_to "/records"
 
-    elsif @record.user_id != @user.id
+    elsif @record.user_id != current_user.id
         redirect_to "/records"
     else 
 
@@ -60,8 +60,7 @@ class UploadsController < ApplicationController
        end
        
      end
-     debugger
-    
+     
     p = params[:upload]
     name = p[:upload].original_filename
     directory = "#{DATASHARE_CONFIG['uploads_dir']}/" + Record.find(@upload.record_id).local_id
@@ -96,13 +95,13 @@ class UploadsController < ApplicationController
     @upload = Upload.find(params[:id])
     @upload.destroy
 
-    @user = User.find_by_id(session[:user_id])
+    @user = current_user
     @record = @upload.record
 
     if @record.nil?
       redirect_to "/records"
 
-    elsif @record.user_id != @user.id
+    elsif @record.user_id != current_user.id
         redirect_to "/records"
     else
       respond_to do |format|
