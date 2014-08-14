@@ -23,10 +23,10 @@ class LoginController < ApplicationController
   
 
   def logout
-    if current_user
-      @institution = current_user.institution
+    if @user
+      @institution = @user.institution
     end
-    @current_user = session[:user_id] = nil
+    session[:user_id] = nil
     redirect_to logout_page_path
   end
   

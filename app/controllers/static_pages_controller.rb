@@ -1,9 +1,9 @@
 class StaticPagesController < ApplicationController
 
   def contact
-    @user = current_user
-    if current_user && current_user.institution
-      @institution = current_user.institution
+    @user = User.find_by_id(session[:user_id])
+    if @user
+      @institution = @user.institution
     else
       @institution = Institution.find_by_id(1)
     end

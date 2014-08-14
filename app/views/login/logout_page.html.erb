@@ -29,8 +29,8 @@
 
 		</div> <!-- end content-->
 	<!-- begin footer-->
-	<%if current_user%>
-  	<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+	<%if @user%>
+  	<%= render "layouts/brand/footer_#{@user.institution.campus}" %>
   <%else%>
   	<%= render "layouts/brand/footer_cdl" %>
   <%end%>
