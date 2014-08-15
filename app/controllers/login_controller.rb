@@ -33,6 +33,7 @@ class LoginController < ApplicationController
     session[:user_id] = nil
     @user = nil
     @current_user = nil
+    @institution = nil
     redirect_to logout_page_path
   end
   

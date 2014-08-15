@@ -8,11 +8,11 @@ class RecordsController < ApplicationController
   def index
     @user = User.find_by_id(session[:user_id])
     if !@user || !@user.institution_id
-      login and return
+      redirect_to login_path and return
     end
     
     @institution = @user.institution
-    @records = Record.find_all_by_user_id(session[:user_id])
+    @records = Record.find_all_by_user_id(@user.id)
   end
 
   # GET form for new record
@@ -96,7 +96,6 @@ class RecordsController < ApplicationController
 
   def update
     @user = User.find(session[:user_id])
-    #@institution = Institution.find(session[:institution_id])
     @institution = @user.institution
     @record = Record.find(params[:id])
     if !@record.institution_id
