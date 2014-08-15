@@ -973,12 +973,12 @@ width: 190px;
 
 }
 
-#step-two-describe-page .remove_fields {
+#step-two-describe-page .creator_name .remove_fields {
 	display: block;
-	margin: 18px 0 8px 0;
+	margin: 22px 0 8px 0;
 }
 
-#step-two-describe-page .add_fields {
+#step-two-describe-page .creator_name .add_fields {
 	margin: 15px 0 0 0;
 }
 
