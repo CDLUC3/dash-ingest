@@ -7,6 +7,12 @@ class UploadsController < ApplicationController
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])
 
+    if @user
+      @institution = @user.institution
+    else
+      @institution = Institution.find_by_id(1)
+    end
+
     if ! @record.nil?
       @record.purge_temp_files
     end
@@ -52,7 +58,9 @@ class UploadsController < ApplicationController
        else
          @upload.upload_file_size += @temp_upload.upload_file_size
        end
+       
      end
+     
     
     p = params[:upload]
     name = p[:upload].original_filename

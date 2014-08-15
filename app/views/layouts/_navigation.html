@@ -1,9 +1,3 @@
-<!-- <div id="nav-home-menu">
-  <div id="about-nav" class="menu"><a href="/xtf/search?smode=aboutPage">About</a></div>
-  <div id="search-nav" class="menu"><a href="/xtf/search">Search Data</a></div>
-  <div id="publish-nav" class="menu"><a href="/xtf/search?smode=stepsPage">Share Data</a></div>
-  <div id="my-datasets-nav" class="menu"><a href="/records.html">My Datasets</a></div>
-</div> -->
 
 <div id="navbar">
 
@@ -18,8 +12,13 @@
 
 	<div id="project_links">
 		<ul>
-			<li><%= link_to ("#{campus_to_url_name("#{campus(@user)}")} Dash"), campus_to_url("#{campus(@user)}") %></li>
-			<li><a href="/logout">Log Out</a></li>
+			<%if @institution%>
+				<li><%= link_to ("#{@institution.abbreviation} Dash"), ("#{@institution.landing_page}") %></li>
+				<li><a href="/logout">Log Out</a></li>
+			<%else%>
+				<li></li>
+				<li></li>
+			<%end%>
 		</ul>
 	</div>
 
