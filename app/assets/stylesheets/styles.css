@@ -963,7 +963,7 @@ width: 190px;
 }
 
 #step-two-describe-page form .input-text, #step-two-describe-page form textarea, #step-two-describe-page form select{
-	margin: 15px 0 0 20px;
+	margin: 15px 20px 0 20px;
 	float: left;
 	color: #000;
 	border: 1px solid #999;
@@ -973,10 +973,14 @@ width: 190px;
 
 }
 
+#step-two-describe-page .remove_fields {
+	display: block;
+	margin: 18px 0 8px 0;
+}
 
-
-
-
+#step-two-describe-page .add_fields {
+	margin: 15px 0 0 0;
+}
 
 #step-two-describe-page input[id^="subject_name"] {
 	border: 1px solid #999;
