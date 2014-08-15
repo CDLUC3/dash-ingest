@@ -982,6 +982,17 @@ width: 190px;
 	margin: 15px 0 0 0;
 }
 
+#step-two-describe-page #remove_subject_field .remove_fields {
+	display: block;
+	float: right;
+	width: 200px;
+	margin: -36px 335px 0 0;
+}
+
+#step-two-describe-page .add_keyword .add_fields {
+	margin: 0 0 30px 22px;
+}
+
 #step-two-describe-page input[id^="subject_name"] {
 	border: 1px solid #999;
 }
