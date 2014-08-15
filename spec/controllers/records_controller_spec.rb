@@ -36,9 +36,12 @@ describe RecordsController do
   describe "POST create" do
 
   before(:each) do
+
+
     @record = FactoryGirl.create(:record, :title => "sss", :identifierType => "nil", :identifier => "nil",  :publisher => "UC Office of the president",
                                  :publicationyear =>"2014",:resourcetype => "Image,Image",:rights => "Creative Commons Attribution 4.0 International (CC-...",
                                  :created_at => "2014-08-11 19:31:52",:updated_at => "2014-08-11 19:31:52",:local_id =>"uzkmimntnn", :rights_uri => "https://creativecommons.org/licenses/by/4.0/")
+    @user = FactoryGirl.create(:user )
     @record.user_id = @user.id
     puts @record.id
     @record.save
@@ -50,7 +53,7 @@ describe RecordsController do
   end
 
   it "should create new record " do
-    post :create , :record => @record_attributes
+    post :create, {:record => @record_attributes}
   end
 
 
