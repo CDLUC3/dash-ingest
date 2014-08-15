@@ -12,7 +12,7 @@
 
 	<div id="project_links">
 		<ul>
-			<%if @institution%>
+			<%if @institution && current_user %>
 				<li><%= link_to ("#{@institution.abbreviation} Dash"), ("#{@institution.landing_page}") %></li>
 				<li><a href="/logout">Log Out</a></li>
 			<%else%>
