@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
     end
 
     session[:user_id] = user.id
+    @current_user = user
     redirect_to "/records"
   end
 
