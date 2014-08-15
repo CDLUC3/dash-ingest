@@ -23,4 +23,16 @@ describe RecordsController do
 
     #end
   end
+
+  describe "GET new" do
+    it "assigns a new record as @records" do
+      #visit records_new_path(:id => @user.id)
+      get(:new, {}, {user_id: @user.id})
+      #get :new, :id => @user.id
+      assigns(:record).should be_a_new(Record)
+    end
+  end
+
+
+
 end
