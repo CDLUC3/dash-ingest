@@ -39,6 +39,7 @@ class RecordsController < ApplicationController
     @record.user_id = @user.id
     @institution = @user.institution
     @record.set_local_id
+
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
@@ -71,7 +72,11 @@ class RecordsController < ApplicationController
       @record.subjects.build() if @record.subjects.blank?
     end
 
-    @record = Record.find(params[:id])
+    #@record = Record.find(params[:id])
+    if @record.rights.nil?
+      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    end
     @record.creators.build() if @record.creators.blank?
     @record.citations.build()if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
