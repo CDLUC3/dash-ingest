@@ -993,6 +993,12 @@ width: 190px;
 	margin: 0 0 30px 22px;
 }
 
+#step-two-describe-page #rights_url {
+	position: relative;
+	left: 22px;
+	top: 18px;
+}
+
 #step-two-describe-page input[id^="subject_name"] {
 	border: 1px solid #999;
 }
