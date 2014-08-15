@@ -25,9 +25,13 @@ group :test do
   gem 'capybara-webkit'
   gem 'simplecov', '~> 0.7.1'
   gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails'
+  gem 'sqlite3'
 end
 
 gem 'whenever', :require => false
+
+
 
 # Gems used only for assets and not required
 # in production environments by default.
