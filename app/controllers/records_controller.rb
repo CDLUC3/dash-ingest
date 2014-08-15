@@ -6,7 +6,7 @@ class RecordsController < ApplicationController
  
 # GET list all records
   def index
-    @user = User.find_by_id(session[:user_id])
+    @user = current_user
     if !@user || !@user.institution_id
       redirect_to login_path and return
     end
@@ -17,7 +17,7 @@ class RecordsController < ApplicationController
 
   # GET form for new record
   def new
-     @user = User.find(session[:user_id])
+     @user = current_user
      @institution = @user.institution
      @record = Record.new
      @record.creators.build()
@@ -34,8 +34,8 @@ class RecordsController < ApplicationController
   # POST - create new record
   def create
     @record = Record.new(params[:record])
-    @record.user_id = session[:user_id]
-    @user = User.find(session[:user_id])
+    @user = current_user
+    @record.user_id = @user.id
     @institution = @user.institution
     @record.set_local_id
     @record.publisher = @institution.short_name if @record.publisher.blank?
@@ -95,7 +95,7 @@ class RecordsController < ApplicationController
 
 
   def update
-    @user = User.find(session[:user_id])
+    @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
     if !@record.institution_id
@@ -130,7 +130,7 @@ class RecordsController < ApplicationController
 
 
   def review
-    @user = User.find(session[:user_id])
+    @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
     @record.purge_temp_files
@@ -142,12 +142,10 @@ class RecordsController < ApplicationController
 
   public
   def send_archive_to_merritt
-    @user = User.find(session[:user_id])
-    #@institution = Institution.find(session[:institution_id])
+    @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
     if !@record.required_fields.empty?
-      # redirect_to :action => "review", :id => @record.id
       render :action => "review", :id => @record.id
     else    
       @merritt_response = "PROCESSING"
@@ -202,7 +200,7 @@ class RecordsController < ApplicationController
 
   def verify_ownership
 
-    @user = User.find_by_id(session[:user_id])
+    @user = current_user
     @record = Record.find_by_id(params[:id])
     if @user
       @institution = @user.institution
@@ -220,7 +218,7 @@ class RecordsController < ApplicationController
 
   
   def submission_log
-    @user = User.find_by_id(session[:user_id])
+    @user = current_user
     if @user
       @institution = @user.institution
     end
