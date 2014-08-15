@@ -12,7 +12,8 @@ class RecordsController < ApplicationController
     end
     
     @institution = @user.institution
-    @records = Record.find_all_by_user_id(@user.id)
+    #@records = Record.find_all_by_user_id(@user.id)
+    @records = Record.find_all_by_user_id(current_user.id)
   end
 
   # GET form for new record

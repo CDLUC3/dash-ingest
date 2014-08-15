@@ -240,8 +240,8 @@
 		</div> <!-- end content-->
 		
 	<!-- begin footer-->
-				<%if @user%>
-			  	<%= render "layouts/brand/footer_#{@user.institution.campus}" %>
+				<%if current_user%>
+			  	<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
 			  <%else%>
 			  	<%= render "layouts/brand/footer_cdl" %>
 			  <%end%>	<!-- end footer-->
