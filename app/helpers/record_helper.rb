@@ -1,17 +1,17 @@
 module RecordHelper
 # pull down menus
-Institutions = {
-     "UC Berkeley" => "University of California, Berkeley",
-     "UC Davis" => "University of California, Davis",
-     "UC Irvine" => "University of California, Irvine",
-     "UC Los Angeles" => "University of California, Los Angeles",
-     "UC Merced" => "University of California, Merced",
-     "UC Riverside" => "University of California, Riverside",
-     "UC Santa Barbara" => "University of California, Santa Barbara",
-     "UC Santa Cruz" => "University of California, Santa Cruz",
-     "UC San Diego" => "University of California, San Diego",
-     "UC San Francisco" => "University of California, San Francisco", 
-     "UC Office of the President" => "University of California, Office of the President" }
+# Institutions = {
+#      "UC Berkeley" => "University of California, Berkeley",
+#      "UC Davis" => "University of California, Davis",
+#      "UC Irvine" => "University of California, Irvine",
+#      "UC Los Angeles" => "University of California, Los Angeles",
+#      "UC Merced" => "University of California, Merced",
+#      "UC Riverside" => "University of California, Riverside",
+#      "UC Santa Barbara" => "University of California, Santa Barbara",
+#      "UC Santa Cruz" => "University of California, Santa Cruz",
+#      "UC San Diego" => "University of California, San Diego",
+#      "UC San Francisco" => "University of California, San Francisco", 
+#      "UC Office of the President" => "University of California, Office of the President" }
 
 DataType = {
      "Audiovisual" => "Audiovisual,Audiovisual",
@@ -72,9 +72,9 @@ DataType = {
   # end
   
   
-  def institution
-    Institutions
-  end
+  # def institution
+  #   Institutions
+  # end
 
   def datatype
     DataType
