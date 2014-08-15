@@ -46,9 +46,9 @@ DataType = {
   #   isTest ? "/.*@.*ucop.edu$/" : Record.institutions_db(user)
   # end
 
-  def institution_external_id(user)
-    User.institution_from_shibboleth(user)
-  end
+  # def institution_external_id(user)
+  #   User.institution_from_shibboleth(user)
+  # end
 
 #sets institution in session. If local the institution is defaulted to ucop
   # def set_session_institution(user)
