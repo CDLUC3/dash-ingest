@@ -1,4 +1,5 @@
 require "rails_helper"
+require "ruby-debug"
 
 describe RecordsController do
   render_views
@@ -42,16 +43,34 @@ describe RecordsController do
     end
 end
 
+
   describe "POST create" do
+=begin
+    debugger
 
-  before(:each) do
+      it "creates a new Record" do
+        expect {
+    post :create, :record => FactoryGirl.attributes_for(:record), user_id: @user.id
+        }.to change(Record, :count).by(1)
+      end
 
+    end
+=end
+
+
+
+
+
+
+   before(:each) do
+
+    debugger
     @record = FactoryGirl.create(:record)
     #@record.save
     @creator = FactoryGirl.create(:creator)
     @creator.save
     @subject = FactoryGirl.create(:subject)
-    @user = FactoryGirl.create(:user )
+    #@user = FactoryGirl.create(:user )
     @record.user_id = @user.id
     puts @record.id
     #puts @record.title
@@ -63,11 +82,14 @@ end
 
   end
   it "should create new record " do
-    post :create, :record => @record_atrributes, user_id: @user.id
+    #post :create, :record => FactoryGirl.attributes_for(:record)
+
+    post :create, :record_id => @record.id, :record => @record_attributes, user_id: @user.id
     assigns(:record).should be_a(Record)
     #expect(response).to redirect_to(Record.last)
   end
   end
+
 
 
 
@@ -135,7 +157,7 @@ end
      end
 
 
-   describe "DELETE destroy" do
+ describe "DELETE destroy" do
     it "destroys the requested record" do
       @record = Record.create! valid_attributes
       expect {
@@ -147,9 +169,12 @@ end
       @record = Record.create! valid_attributes
       delete :delete, {:id => @record.to_param}
       response.should redirect_to(records_url)
-      puts @record.id
+      #puts @record.id
     end
   end
+
+
+
 
 
 end
