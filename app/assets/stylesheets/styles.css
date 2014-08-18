@@ -993,6 +993,17 @@ width: 190px;
 	margin: 0 0 30px 22px;
 }
 
+#step-two-describe-page .citation_name .remove_fields {
+	display: block;
+	float: right;
+	width: 100px;
+	margin: 15px 55px 10px 0;
+}
+
+#step-two-describe-page .citation_name .add_fields {
+	margin: 15px 0 0 0;
+}
+
 #step-two-describe-page #rights_url {
 	position: relative;
 	left: 22px;
