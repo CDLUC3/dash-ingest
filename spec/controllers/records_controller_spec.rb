@@ -46,16 +46,15 @@ end
 
   before(:each) do
 
-
-    @record = FactoryGirl.create(:record, :title => "sss", :identifierType => "nil", :identifier => "nil",  :publisher => "UC Office of the president",
-                                 :publicationyear =>"2014",:resourcetype => "Image,Image",:rights => "Creative Commons Attribution 4.0 International (CC-...",
-                                 :created_at => "2014-08-11 19:31:52",:updated_at => "2014-08-11 19:31:52",:local_id =>"uzkmimntnn", :rights_uri => "https://creativecommons.org/licenses/by/4.0/")
-    @creator = FactoryGirl.create(:creator, :creatorName => "xcv")
+    @record = FactoryGirl.create(:record)
+    #@record.save
+    @creator = FactoryGirl.create(:creator)
     @creator.save
     @subject = FactoryGirl.create(:subject)
     @user = FactoryGirl.create(:user )
     @record.user_id = @user.id
     puts @record.id
+    #puts @record.title
     @record.save
     @record_attributes = FactoryGirl.attributes_for(:record, :record_id => @record.id)
     @creator_attributes = FactoryGirl.attributes_for(:creator, :record_id => @record.id)
@@ -63,7 +62,6 @@ end
     @citation_attributes = FactoryGirl.attributes_for(:citation,:record_id => @record.id)
 
   end
-
   it "should create new record " do
     post :create, :record => @record_atrributes, user_id: @user.id
     assigns(:record).should be_a(Record)
@@ -76,7 +74,7 @@ end
     describe "GET show" do
       it "assigns the requested record as @record" do
       @record =  Record.create! valid_attributes
-      get :show, :id => @record.id, user_id: @user.id
+      get :show, :id => @record.to_param, user_id: @user.id
       expect(response.status).to  eq(200)
 
 
@@ -87,7 +85,7 @@ end
   describe "GET edit" do
     it "assigns the requested record as @record" do
       @record = Record.create! valid_attributes
-      get :edit, :id => @record.id, user_id: @user.id
+      get :edit, :id => @record.to_param, user_id: @user.id
       assigns(:record).should be_a(Record)
   end
   end
@@ -118,19 +116,41 @@ end
 =end
 
    describe 'PUT update' do
-     before :each do
+     it  "record update succeeds" do
+     #before :each do
+      @record = Record.create! valid_attributes
+       put :update, :id => @record.to_param
+       assigns(:record).should eq(@record)
+     end
 
-       @record = valid_attributes
+     it "user update does not succeed" do
+      @record = Record.create! valid_attributes
+       Record.stub(:update_attribute).and_return(false)
+       put :update, {:id => @record.to_param}
+       assigns(:record).should eq(@record)
+       #expect(response).to redirect_to(record_edit_path)
 
      end
 
-     context "valid attributes" do
-       it "located the requested @record" do
-         put :update, id: @record.id, record: valid_attributes, user_id: @user.id
-         assigns(:record).should eq(@record)
-       end
      end
-   end
+
+
+=begin describe "DELETE destroy" do
+    it "destroys the requested record" do
+      @record = Record.create! valid_attributes
+      expect {
+        delete :delete, {:id => @record.to_param}
+      }.to change(Record, :count).by(-1)
+    end
+
+    it "redirects to the records list" do
+      @record = Record.create! valid_attributes
+      delete :delete, {:id => @record.to_param}
+      response.should redirect_to(records_url)
+      puts @record.id
+    end
+  end
+=end
 
 
 end
