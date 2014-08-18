@@ -10,8 +10,10 @@
 
 <div id="logout">
 
-	<%if @institution%>
-		<p><%= image_tag "#{@institution.logo}", 
+	<%#if @institution%>
+	<%if current_user && current_user.institution %>
+
+		<p><%= image_tag "#{current_user.institution.logo}", 
 											:size => "120x70",  
 											:title => "Dash: Open data for the global research community", 
 											:alt => "Dash: Open data for the global research community" %>

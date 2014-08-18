@@ -18,15 +18,22 @@ class LoginController < ApplicationController
     end
 
     session[:user_id] = user.id
+    @current_user = user
     redirect_to "/records"
   end
+
+
+  
   
 
   def logout
-    if @user
-      @institution = @user.institution
+    if current_user
+      @institution = current_user.institution
     end
     session[:user_id] = nil
+    @user = nil
+    @current_user = nil
+    @institution = nil
     redirect_to logout_page_path
   end
   
@@ -43,3 +50,29 @@ class LoginController < ApplicationController
   end
   
 end
+
+
+
+# helper_method :current_user,  :require_login
+
+#   protected
+
+#     def current_user
+#       @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
+#     end
+
+#     def require_login
+#       if session[:user_id].blank?
+#         flash[:error] = "You must be logged in to access this page."
+#         session[:return_to] = request.original_url
+#         redirect_to choose_institution_path and return
+#       end
+#     end
+
+#     #require that a user is logged out
+#     def require_logout
+#       if session && !session[:user_id].blank?
+#         flash[:error] = "The page you're trying to access is only available to logged out users."
+#         redirect_to dashboard_path and return
+#       end
+#     end

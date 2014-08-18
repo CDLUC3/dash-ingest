@@ -10,9 +10,9 @@
 			<!-- begin inner container -->
 			<div id="inner-container"> 
 				<!-- begin header -->
-				<div id="header">
-					<!--#include virtual="includes/header-logout.html" --> 
-					<%= render 'layouts/header-logout' %>
+				<div id="header"> 
+					<%#= render 'layouts/header-logout' %>
+					<%= render 'layouts/header' %>
 				</div>
 				<!-- end header -->
 				<!-- begin navigation-->
@@ -89,8 +89,8 @@
 						</div>
 					</div> <!-- end content-->
 					<!-- begin footer-->
-					<%if @user%>
-				  	<%= render "layouts/brand/footer_#{@user.institution.campus}" %>
+					<%if current_user%>
+				  	<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
 				  <%else%>
 				  	<%= render "layouts/brand/footer_cdl" %>
 				  <%end%>				<!-- end footer-->

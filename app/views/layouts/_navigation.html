@@ -4,7 +4,11 @@
 	<nav>
 		<ul>
 			<li><a href="/xtf/search?smode=aboutPage">About</a></li>
-			<li><a href="/xtf/search">Search Data</a></li>
+			<%if current_user %>
+				<li><%= link_to "Search Data", "#{current_user.institution.landing_page}/xtf/search?browse-all=yes" %></li>
+			<% else %>
+				<li><%= link_to "Search Data", "http://dash-dev.ucop.edu/xtf/search?browse-all=yes" %></li>
+			<% end %>
 			<li><a href="/xtf/search?smode=stepsPage">Share Data</a></li>
 			<li><a href="/records.html">My Datasets</a></li>
 		</ul>
@@ -12,8 +16,8 @@
 
 	<div id="project_links">
 		<ul>
-			<%if @institution%>
-				<li><%= link_to ("#{@institution.abbreviation} Dash"), ("#{@institution.landing_page}") %></li>
+			<%if current_user %>
+				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), ("#{current_user.institution.landing_page}") %></li>
 				<li><a href="/logout">Log Out</a></li>
 			<%else%>
 				<li></li>
@@ -23,3 +27,5 @@
 	</div>
 
 </div>
+
+
