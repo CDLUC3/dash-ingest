@@ -135,7 +135,7 @@ end
      end
 
 
-=begin describe "DELETE destroy" do
+   describe "DELETE destroy" do
     it "destroys the requested record" do
       @record = Record.create! valid_attributes
       expect {
@@ -150,7 +150,6 @@ end
       puts @record.id
     end
   end
-=end
 
 
 end
