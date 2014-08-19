@@ -18,6 +18,7 @@ class Record < ActiveRecord::Base
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
+  belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 

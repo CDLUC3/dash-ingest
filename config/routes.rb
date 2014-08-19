@@ -1,5 +1,7 @@
 DataIngest::Application.routes.draw do
 
+
+
   resources :uploads
   root :to => 'login#login'
 
