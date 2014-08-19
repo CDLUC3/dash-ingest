@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140808185217) do
+ActiveRecord::Schema.define(:version => 20140813182405) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20140808185217) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.string   "campus"
+    t.string   "logo"
   end
 
   create_table "records", :force => true do |t|
@@ -85,7 +86,10 @@ ActiveRecord::Schema.define(:version => 20140808185217) do
     t.text     "abstract"
     t.text     "methods"
     t.text     "rights_uri"
+    t.integer  "institution_id"
   end
+
+  add_index "records", ["institution_id"], :name => "index_records_on_institution_id"
 
   create_table "relations", :force => true do |t|
     t.string   "relationText"
@@ -130,9 +134,12 @@ ActiveRecord::Schema.define(:version => 20140808185217) do
 
   create_table "users", :force => true do |t|
     t.string   "external_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "email"
+    t.integer  "institution_id"
   end
+
+  add_index "users", ["institution_id"], :name => "index_users_on_institution_id"
 
 end
