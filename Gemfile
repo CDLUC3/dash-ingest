@@ -23,7 +23,6 @@ group :test do
   gem 'launchy'
   gem 'capybara'
   gem 'capybara-webkit'
-  #gem 'simplecov', '~> 0.7.1'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
   gem 'sqlite3'

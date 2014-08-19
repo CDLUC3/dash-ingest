@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
   include RecordHelper
   before_filter :verify_ownership
   #before_save :update_creator
- 
+
 # GET list all records
   def index
     @user = current_user
@@ -44,9 +44,8 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
-    3.times do
-    	@record.subjects.build() if @record.subjects.blank?
-    end
+
+    @record.subjects.build() if @record.subjects.blank?
 
     if @record.save
       if params[:commit] == 'Save'
