@@ -9,11 +9,17 @@ class LoginController < ApplicationController
       user = User.new
       user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
       user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
+      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       user.save
     end
 
     if user.institution_id.nil?
       user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
+      user.save
+    end
+
+    if user.email.nil?
+      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       user.save
     end
 
