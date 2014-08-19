@@ -7,7 +7,7 @@ describe RecordsController do
   before(:all) do
     @user = FactoryGirl.create(:user )
     @institution = FactoryGirl.create(:institution)
-    @record = FactoryGirl.create(:record)
+    @record = FactoryGirl.create(:record,:institution_id => @institution.id)
     @creator = @record.creators.create(FactoryGirl.attributes_for(:creator))
     @subject = @record.subjects.create(FactoryGirl.attributes_for(:subject))
     @citation = @record.citations.create(FactoryGirl.attributes_for(:citation))
