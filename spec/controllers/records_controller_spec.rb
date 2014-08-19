@@ -8,10 +8,13 @@ describe RecordsController do
     @user = FactoryGirl.create(:user )
     @institution = FactoryGirl.create(:institution)
     @record = FactoryGirl.create(:record)
-    @record.creators.build(FactoryGirl.attributes_for(:creator))
+    @creator = @record.creators.create(FactoryGirl.attributes_for(:creator))
+    @subject = @record.subjects.create(FactoryGirl.attributes_for(:subject))
+    @citation = @record.citations.create(FactoryGirl.attributes_for(:citation))
+
     #puts @institution.id
     #puts @institution.logo
-    puts @user.id
+    #puts @user.id
   end
 
 
@@ -68,7 +71,7 @@ end
     @subject = FactoryGirl.create(:subject)
     #@user = FactoryGirl.create(:user )
     @record.user_id = @user.id
-    puts @record.id
+    #puts @record.id
     @record.save
     @record_attributes = FactoryGirl.attributes_for(:record, :record_id => @record.id)
     @creator_attributes = @record.creators.build(FactoryGirl.attributes_for(:creator))
@@ -153,8 +156,21 @@ end
 
      end
 
-     end
+   end
 
+=begin
+  describe 'PUT update' do
+    before :each do
+      @record = Record.create! valid_attributes
+    end
+    context "valid attributes" do
+      it "located the requested @contact" do
+        put :update, {id: @record, record: @record_attributes}
+        assigns(:record).should eq(@record)
+      end
+ end
+end
+=end
 
  describe "DELETE destroy" do
     it "destroys the requested record" do
