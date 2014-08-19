@@ -10,18 +10,16 @@
 
 <div id="logout">
 
-	<%if ['ucla','ucb'].include?(campus(@user))  %>
-		
-		<p><%= image_tag "dash_#{campus(@user)}_logo.png", 
-										:size => "120x70",  
-										:title => "Dash: Open data for the global research community", 
-										:alt => "Dash: Open data for the global research community" %>
+	<%#if @institution%>
+	<%if current_user && current_user.institution %>
+
+		<p><%= image_tag "#{current_user.institution.logo}", 
+											:size => "120x70",  
+											:title => "Dash: Open data for the global research community", 
+											:alt => "Dash: Open data for the global research community" %>
 		</p>
-	
-	<%else%>	
-	
+	<%else%>
 		<%= image_tag "blank_institution_logo.png", :size => "120x70" %>
-	
-	<%end%>
+	<%end%>	
 
 </div>

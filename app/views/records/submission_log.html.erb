@@ -23,7 +23,7 @@
 					<%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
 				</div>
 				<div class="single-column">
-					<h1>Submission Logs (Rights Branch)</h1>
+					<h1>Submission Logs</h1>
 					<div class="instruction">
 						Submission Logs for: <%= @record.title %>
 					</div>
@@ -57,8 +57,11 @@
 				</div>
 			</div>
 			<!-- begin footer-->
-				<%= render "layouts/brand/footer_#{campus(@user)}" %>
-			<!-- end footer-->
+<%if current_user %>
+  		<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+  	<%else%>
+  		<%= render "layouts/brand/footer_cdl" %>
+  	<%end%>
 		</div> <!-- end inner container -->
 	</div> <!-- end outer container -->
 </div>

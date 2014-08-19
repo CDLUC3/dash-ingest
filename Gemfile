@@ -23,7 +23,6 @@ group :test do
   gem 'launchy'
   gem 'capybara'
   gem 'capybara-webkit'
-  gem 'simplecov', '~> 0.7.1'
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
   gem 'sqlite3'
@@ -64,9 +63,7 @@ gem "omniauth-google-oauth2", "~> 0.2.1"
 
 # Use unicorn as the app server
 gem 'unicorn'
-
-# To use debugger
-#gem 'debugger'
 gem 'carrierwave'
-gem 'wherex' #to handle regular expressions in queries
+gem 'custom_error_message', '~> 1.1.1'
+
 

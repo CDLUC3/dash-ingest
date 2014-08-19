@@ -1,16 +1,14 @@
-<!-- <div id="nav-home-menu">
-  <div id="about-nav" class="menu"><a href="/xtf/search?smode=aboutPage">About</a></div>
-  <div id="search-nav" class="menu"><a href="/xtf/search">Search Data</a></div>
-  <div id="publish-nav" class="menu"><a href="/xtf/search?smode=stepsPage">Share Data</a></div>
-  <div id="my-datasets-nav" class="menu"><a href="/records.html">My Datasets</a></div>
-</div> -->
 
 <div id="navbar">
 
 	<nav>
 		<ul>
 			<li><a href="/xtf/search?smode=aboutPage">About</a></li>
-			<li><a href="/xtf/search">Search Data</a></li>
+			<%if current_user %>
+				<li><%= link_to "Search Data", "#{current_user.institution.landing_page}/xtf/search?browse-all=yes" %></li>
+			<% else %>
+				<li><%= link_to "Search Data", "http://dash-dev.ucop.edu/xtf/search?browse-all=yes" %></li>
+			<% end %>
 			<li><a href="/xtf/search?smode=stepsPage">Share Data</a></li>
 			<li><a href="/records.html">My Datasets</a></li>
 		</ul>
@@ -18,9 +16,16 @@
 
 	<div id="project_links">
 		<ul>
-			<li><%= link_to ("#{campus_to_url_name("#{campus(@user)}")} Dash"), campus_to_url("#{campus(@user)}") %></li>
-			<li><a href="/logout">Log Out</a></li>
+			<%if current_user %>
+				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), ("#{current_user.institution.landing_page}") %></li>
+				<li><a href="/logout">Log Out</a></li>
+			<%else%>
+				<li></li>
+				<li></li>
+			<%end%>
 		</ul>
 	</div>
 
 </div>
+
+

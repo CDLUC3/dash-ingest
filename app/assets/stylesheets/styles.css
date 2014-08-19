@@ -180,24 +180,22 @@ height: 49px;
 	/* float: right; */
 	overflow: hidden;
 	margin: 14px 0 0 0;
-	/*border: 1px green solid;*/
 }
 
 /* PW changed */
 #footer-logos #cdl-logo-sm {
 	float: left;
 	width: 73px;
-	padding-right: 10px;
 	margin-right: 10px;
-	border-right: 1px #c5c4c7 solid;
 }
 
 #footer-logos #cdl-logo-text {
 	float: left;
-	width: 300px;
-	padding-right: 10px;
-	margin-right: 10px;
+	width: 450px;
+	padding-left: 10px;
 	font-size: 10px;
+	border-left: 1px solid #c5c4c7;
+	line-height: normal;
 }
 
 /* ES changed */
@@ -211,18 +209,17 @@ height: 49px;
 
 #footer-logos #local-lib-sm {
 	float: right;
-	width: 73px;
-	padding-right: 10px;
-	margin-right: 10px;
 }
 
 #footer-logos #local-lib-text {
 	float: right;
-	width: 250px;
-	padding-right: 0px;
-	margin-right: 10px;
+	/*width: 250px;*/
+	padding-right: 10px;
+	margin-right: 5px;
 	border-right: 1px #c5c4c7 solid;
 	font-size: 10px;
+	text-align: right;
+	line-height: normal;
 }
 
 /* ES changed */
@@ -966,7 +963,7 @@ width: 190px;
 }
 
 #step-two-describe-page form .input-text, #step-two-describe-page form textarea, #step-two-describe-page form select{
-	margin: 15px 0 0 20px;
+	margin: 15px 20px 0 20px;
 	float: left;
 	color: #000;
 	border: 1px solid #999;
@@ -976,10 +973,42 @@ width: 190px;
 
 }
 
+#step-two-describe-page .creator_name .remove_fields {
+	display: block;
+	margin: 22px 0 8px 0;
+}
 
+#step-two-describe-page .creator_name .add_fields {
+	margin: 15px 0 0 0;
+}
 
+#step-two-describe-page #remove_subject_field .remove_fields {
+	display: block;
+	float: right;
+	width: 200px;
+	margin: -36px 335px 0 0;
+}
 
+#step-two-describe-page .add_keyword .add_fields {
+	margin: 0 0 30px 22px;
+}
 
+#step-two-describe-page .citation_name .remove_fields {
+	display: block;
+	float: right;
+	width: 100px;
+	margin: 15px 55px 10px 0;
+}
+
+#step-two-describe-page .citation_name .add_fields {
+	margin: 15px 0 0 0;
+}
+
+#step-two-describe-page #rights_url {
+	position: relative;
+	left: 22px;
+	top: 18px;
+}
 
 #step-two-describe-page input[id^="subject_name"] {
 	border: 1px solid #999;

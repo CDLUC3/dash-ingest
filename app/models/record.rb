@@ -18,13 +18,20 @@ class Record < ActiveRecord::Base
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
+  belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
   
-  validates_associated :creators, :citations, :subjects
-  validates :title, :rights, :rights_uri, :resourcetype, :presence => true
+  #validates_associated :creators, :citations, :subjects
+  validates_associated :citations, :subjects
+  
+  #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
+  validates_presence_of :title, :message => "^You must include a title for your submission."
+  validates_presence_of :resourcetype, :message => "^Please specify the data type."
+  validates_presence_of :rights, :message => "^Please specify the rights."
+  validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
@@ -43,7 +50,10 @@ class Record < ActiveRecord::Base
     FileUtils.mkdir("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}")
   end
   
+
   def review
+
+
 
     # can we define the character encoding at UTF without a byte recorder marker
     # ANSI encoding right now 
@@ -121,6 +131,16 @@ class Record < ActiveRecord::Base
      
      #<sizes>... this will be exported from merritt, but do we need it in the metadata?
      
+    # <% @record.uploads.each do |dataupload| %>
+        # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
+    # <% end %>
+    @total_size = 0
+    self.uploads.each do |u|
+      @total_size = @total_size + u.upload_file_size
+    end
+    f.puts "<size>#{@total_size}</size>"
+    #f.puts "<size>This is a test</size>"
+     
      # formats ?
      
      # version?
@@ -155,8 +175,7 @@ class Record < ActiveRecord::Base
      
      # citation
        
-     self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }
-       
+     self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
      
      f.puts "</descriptions>"
 
@@ -168,6 +187,7 @@ class Record < ActiveRecord::Base
      File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
    end
    
+
    def generate_merritt_zip
     
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
@@ -208,6 +228,7 @@ class Record < ActiveRecord::Base
 
    end
 
+
    # keep metadata records, but get rid of files that are no longer needed for local storate
    # (storage is intended only until records are uploaded to merritt)
    def purge_files(submission_log_id)
@@ -239,11 +260,9 @@ class Record < ActiveRecord::Base
     
      # tics will execute, for now, just print to screen
       # note that the 2>&1 is to redirect sterr to stout
-    #@user_email = DATASHARE_CONFIG['user_email_from_shibboleth']
-    #@user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-    #@user_email = "shirin.faenza@ucop.edu"
 
     @user = User.find_by_external_id(external_id)
+    #@user = User.find(session[:user_id])
 
     if @user
       @user_email = @user.email
@@ -251,7 +270,8 @@ class Record < ActiveRecord::Base
       @user_email = nil
     end
 
-     campus = Record.id_to_campus(external_id)
+     #campus = Record.id_to_campus(external_id)
+     campus = @user.institution.campus
      
      if (!campus) then
        return false
@@ -273,147 +293,7 @@ class Record < ActiveRecord::Base
    end
    
 
-   def Record.id_to_campus(id)
-     if ( id == nil )
-       return false
-      end
-     # external ID form: john.doe@someplace.edu
-     case id.strip
-     when /.*@.*ucop.edu$/
-       campus = "cdl"
-     when /.*@.*uci.edu$/
-       campus = "uci"
-     when /.*@.*ucla.edu$/
-       campus = "ucla"
-     when /.*@.*ucsd.edu$/
-       campus = "ucsd"
-     when /.*@.*ucsb.edu$/
-       campus = "ucsb"
-     when /.*@.*berkeley.edu$/
-       campus = "ucb"
-     when /.*@.*ucdavis.edu$/
-       campus = "ucd"
-     when /.*@.*ucmerced.edu$/
-       campus = "ucm"
-     when /.*@.*ucr.edu$/
-       campus = "ucr"
-     when /.*@.*ucsf.edu$/
-       campus = "ucsf"
-     when /.*@.*ucsc.edu$/
-       campus = "ucsc"
-     else	
-       campus = false
-     end
-     campus
-   end
-
-   
-   #this is how the institution will be displayed on the "Describe your dataset" page
-   def Record.id_to_campus_short_name(id)
-     if ( id == nil )
-       return false
-      end
-     # external ID form: john.doe@someplace.edu
-     case id.strip
-     when /.*@.*ucop.edu$/
-       campus_short_name = "UC Office of the President"
-     when /.*@.*uci.edu$/
-       campus_short_name = "UC Irvine"
-     when /.*@.*ucla.edu$/
-       campus_short_name = "UC Los Angeles"
-     when /.*@.*ucsd.edu$/
-       campus_short_name = "UC San Diego"
-     when /.*@.*ucsb.edu$/
-       campus_short_name = "UC Santa Barbara"
-     when /.*@.*berkeley.edu$/
-       campus_short_name = "UC Berkeley"
-     when /.*@.*ucdavis.edu$/
-       campus_short_name = "UC Davis"
-     when /.*@.*ucmerced.edu$/
-       campus_short_name = "UC Merced"
-     when /.*@.*ucr.edu$/
-       campus_short_name = "UC Riverside"
-     when /.*@.*ucsf.edu$/
-       campus_short_name = "UC San Francisco"
-     when /.*@.*ucsc.edu$/
-       campus_short_name = "UC Santa Cruz"
-     else 
-       campus_short_name = false
-     end
-     campus_short_name
-   end
-
-
-   #this is how the record.publisher (institution) will be set in the database, without passing through params, retrieved by the actual url
-   def Record.id_to_campus_full_name(id)
-     if ( id == nil )
-       return false
-      end
-     # external ID form: john.doe@someplace.edu
-     case id.strip
-     when /.*@.*ucop.edu$/
-       campus_full_name = "University of California, Office of the President"
-     when /.*@.*uci.edu$/
-       campus_full_name = "University of California, Irvine"
-     when /.*@.*ucla.edu$/
-       campus_full_name = "University of California, Los Angeles"
-     when /.*@.*ucsd.edu$/
-       campus_full_name = "University of California, San Diego"
-     when /.*@.*ucsb.edu$/
-       campus_full_name = "University of California, Santa Barbara"
-     when /.*@.*berkeley.edu$/
-       campus_full_name = "University of California, Berkeley"
-     when /.*@.*ucdavis.edu$/
-       campus_full_name = "University of California, Davis"
-     when /.*@.*ucmerced.edu$/
-       campus_full_name = "University of California, Merced"
-     when /.*@.*ucr.edu$/
-       campus_full_name = "University of California, Riverside"
-     when /.*@.*ucsf.edu$/
-       campus_full_name = "University of California, San Francisco"
-     when /.*@.*ucsc.edu$/
-       campus_full_name = "University of California, Santa Cruz"
-     else 
-       campus_full_name = false
-     end
-     campus_full_name
-   end
-
-
-
-   def Record.institutions_db(id)
-     if ( id == nil )
-       return false
-      end
-     # external ID form: john.doe@someplace.edu
-     case id.strip
-     when /.*@.*ucop.edu$/
-       result = "/.*@.*ucop.edu$/"
-     when /.*@.*uci.edu$/
-       result = "/.*@.*uci.edu$/"
-     when /.*@.*ucla.edu$/
-       result = "/.*@.*ucla.edu$/"
-     when /.*@.*ucsd.edu$/
-       result = "/.*@.*ucsd.edu$/"
-     when /.*@.*ucsb.edu$/
-       result = "/.*@.*ucsb.edu$/"
-     when /.*@.*berkeley.edu$/
-       result = "/.*@.*berkeley.edu$/"
-     when /.*@.*ucdavis.edu$/
-       result = "/.*@.*ucdavis.edu$/"
-     when /.*@.*ucmerced.edu$/
-       result = "/.*@.*ucmerced.edu$/"
-     when /.*@.*ucr.edu$/
-       result = "/.*@.*ucr.edu$/"
-     when /.*@.*ucsf.edu$/
-       result = "/.*@.*ucsf.edu$/"
-     when /.*@.*ucsc.edu$/
-       result = "/.*@.*ucsc.edu$/"
-     else 
-       result = "/.*@.*ucop.edu$/"
-     end
-     result
-   end
+  
 
 
    def required_fields
@@ -451,6 +331,7 @@ class Record < ActiveRecord::Base
       return required_fields
    end
    
+
    def recommended_fields
    
       recommended_fields = Array.new
@@ -469,6 +350,7 @@ class Record < ActiveRecord::Base
       return recommended_fields
    
    end
+  
   
   # temp files created for multipart uploads
   def purge_temp_files

@@ -18,8 +18,8 @@
 					</div>
 					<div class="single-column">
 						<h1>My Datasets</h1>
-						<!-- <p><%= @external_id_strip%></p>
-						<p><%= @external_id_strip_class %></p> -->
+						<!-- <p>(This is not the Default Branch)</p> -->
+						
 						<div class="dataset-table">
 							<table class="table table-bordered">
 								<tr>
@@ -52,7 +52,11 @@
 					</div>
 				</div>
 				<!-- begin footer-->
-				<%= render "layouts/brand/footer_#{campus(@user)}" %>
+				<%if current_user %>
+  		<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+  	<%else%>
+  		<%= render "layouts/brand/footer_cdl" %>
+  	<%end%>
 				<!-- end footer-->
 			</div> <!-- end inner container -->
 		</div> <!-- end outer container -->

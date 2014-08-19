@@ -10,7 +10,8 @@
     <div id="inner-container"> 
        <!-- begin header -->
 		<div id="header">
-			<%= render 'layouts/header-logout' %>
+			<%#= render 'layouts/header-logout' %>
+			<%= render 'layouts/header' %>
 		</div>
 		<!-- end header -->
 		<!-- begin navigation-->
@@ -148,18 +149,6 @@
 			<div class="missing-fields">
 				
 					<div class="missing-fields-req">
-						<% if @record.required_fields.size > 0 %>
-							<h3>The following missing fields are <strong><u>required</u></strong>:</h3>
-							<ul>
-							<% @record.required_fields.each do |f|%>
-								<li><%= f %></li>
-							<% end %>
-							</ul>
-						<% else %>
-							<h3>Record contains all required fields</h3>
-						
-						<% end %>
-						
 						
 						<% if @record.recommended_fields.size > 0 %>
 						
@@ -218,41 +207,44 @@
 					<% end %>
 				</div>
 
-				<div class="ItemCheckbox" style="float:left; width:550px; margin-left:20px; " >
+				<!-- <div class="ItemCheckbox" style="float:left; width:550px; margin-left:20px; " >
 					<input type="checkbox" id="agreement" style=" display:block;  float:left; ">
 					<label for="agreement" class="checkbox" style=" display:block; margin-left:30px;">
 						By clicking this checkbox, I certify that I agree to the Dash
-            <%= link_to 'Terms of use', 'http://www.cdlib.org/about/terms.html', :target => "_blank" %>.
+            <%#= link_to 'Terms of use', 'http://www.cdlib.org/about/terms.html', :target => "_blank" %>.
 	  				I understand that by submitting data to Dash, I am agreeing to release it under the terms of the 
-	  				<%= link_to 'Creative Commons Attribution license (CC BY-4.0)', 'http://creativecommons.org/licenses/by/4.0/', :target => "_blank" %>.
+	  				<%#= link_to 'Creative Commons Attribution license (CC BY-4.0)', 'http://creativecommons.org/licenses/by/4.0/', :target => "_blank" %>.
 	  				I warrant that sharing my submission under these terms does not violate any privacy, copyright, or other rights
             of any person or third party.
 	  				For more information on why Dash requires CC-BY, see our
-	  				<%= link_to 'policies page', 'http://dash.ucop.edu/policies', :target => "_blank" %>.
+	  				<%#= link_to 'policies page', 'http://dash.ucop.edu/policies', :target => "_blank" %>.
 	  			</label>
-	  		</div>
+	  		</div> -->
 					
 			</div>
 			
 
 			
 			<script type="text/javascript">
-				$(function() {
-					$('#submit_to_datashare').click(function(){
-						if (!$('#agreement').is(':checked')) { 
-							alert("You must agree to the terms of Dash by checking the box before submission.")
-							return false;
-						};
-					});
-				});
+				// $(function() {
+				// 	$('#submit_to_datashare').click(function(){
+				// 		if (!$('#agreement').is(':checked')) { 
+				// 			alert("You must agree to the terms of Dash by checking the box before submission.")
+				// 			return false;
+				// 		};
+				// 	});
+				// });
 			</script>
 			
 			
 		</div> <!-- end content-->
 		
 	<!-- begin footer-->
-                <%= render "layouts/brand/footer_#{campus(@user)}" %>
-	<!-- end footer-->
+				<%if current_user%>
+			  	<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+			  <%else%>
+			  	<%= render "layouts/brand/footer_cdl" %>
+			  <%end%>	<!-- end footer-->
 	</div> <!-- end inner container -->
   </div> <!-- end outer container -->
 </div>

@@ -10,9 +10,9 @@
 			<!-- begin inner container -->
 			<div id="inner-container"> 
 				<!-- begin header -->
-				<div id="header">
-					<!--#include virtual="includes/header-logout.html" --> 
-					<%= render 'layouts/header-logout' %>
+				<div id="header"> 
+					<%#= render 'layouts/header-logout' %>
+					<%= render 'layouts/header' %>
 				</div>
 				<!-- end header -->
 				<!-- begin navigation-->
@@ -36,61 +36,67 @@
 								</ul>
 							</div>
 							<% end %>
+							
 							<%= form_for Upload.new, :html => { :multipart => true, :id => "fileupload"  } do |f| %>
-							<div id="upload_bg">
-								<div id="upload-box" title="Drag &amp; drop files here">
+								<div id="upload_bg">
+									<div id="upload-box" title="Drag &amp; drop files here">
+									</div>
+									<div id="browse_btn">
+										<span class="btn btn-success fileinput-button">
+											<i class="icon-plus icon-white"></i>
+											<%= label_tag(:upload_upload, "Add files...") %>
+											<%= file_field_tag 'upload[upload]', multiple: 'true'%>
+											<%= f.hidden_field :record_id, :value => @record_id%>
+										</span>
+									</div>
 								</div>
-								<div id="browse_btn">
-									<span class="btn btn-success fileinput-button">
-										<i class="icon-plus icon-white"></i>
-										<%= label_tag(:upload_upload, "Add files...") %>
-										<%= file_field_tag 'upload[upload]', multiple: 'true'%>
-										<%= f.hidden_field :record_id, :value => @record_id%>
-									</span>
+								<!-- The loading indicator is shown during image processing -->
+								<div class="fileupload-loading"></div>
+								<br/>
+								<!-- The table listing the files available for upload/download -->
+								<table class="table table-striped">
+									<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
+								</table>
+							<% end %>
+
+							<div class="clear"></div>
+							<div class="large-button-container">				
+								<a href="/record/<%=@record_id%>">
+									<button type="button" class="btn btn-large">Go Back Edit Description</button>
+								</a>
+								<br/>
+								<br/>
+								<a href="/record/<%=@record_id%>/review">
+									<%#= hidden_filed_tag :file_size, :value => @upload.upload_file_size %>
+									<button type="button" class="btn btn-large btn-success">Review and Submit</button>
+								</a>
 							</div>
 						</div>
-						<!-- The loading indicator is shown during image processing -->
-						<div class="fileupload-loading"></div>
-						<br/>
-						<!-- The table listing the files available for upload/download -->
-						<table class="table table-striped">
-							<tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody>
-						</table>
-						<% end %>
-						<div class="clear"></div>
-						<div class="large-button-container">				
-							<a href="/record/<%=@record_id%>">
-								<button type="button" class="btn btn-large">Go Back Edit Description</button>
-							</a>
-							<br/>
-							<br/>
-							<a href="/record/<%=@record_id%>/review">
-								<button type="button" class="btn btn-large btn-success">Review and Submit</button>
-							</a>
-						</div>
-					</div>
-					<div id="right-container">
-						<div id="upload-faq-container">
-							<div class="upload-faq"><em>Upload FAQ</em></div>
-								<div class="no-bullet-points">
-									<ul>
-										<li>See <a href="/xtf/search?smode=policiesPage">Policies</a> for more information on uploading datasets to Dash.</li>
-										<li>All file formats are accepted by Dash, although it is good practice to share data using open formats. See the UK Data Archive for a <a href="http://www.data-archive.ac.uk/create-manage/format/formats-table" target="_blank">list of optimal file formats</a>.</li>
-										<li>Include any files that may help others to use your data. This includes readme files, formal metadata files, or other critical information.</li>
-										<li>Any data submitted via Dash will be under a <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 (CC BY-4.0)</a> license. We do not currently support any other license types, nor do we allow for restrictions on data access or use.</li>
-										<li>It is your responsibility to ensure your data are being shared responsibly and ethically. Please be careful of sharing sensitive data and ensure you are complying with institutional and governmental regulations.</li>
-									</ul>
+						<div id="right-container">
+							<div id="upload-faq-container">
+								<div class="upload-faq"><em>Upload FAQ</em></div>
+									<div class="no-bullet-points">
+										<ul>
+											<li>See <a href="/xtf/search?smode=policiesPage">Policies</a> for more information on uploading datasets to Dash.</li>
+											<li>All file formats are accepted by Dash, although it is good practice to share data using open formats. See the UK Data Archive for a <a href="http://www.data-archive.ac.uk/create-manage/format/formats-table" target="_blank">list of optimal file formats</a>.</li>
+											<li>Include any files that may help others to use your data. This includes readme files, formal metadata files, or other critical information.</li>
+											<li>Any data submitted via Dash will be under a <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons Attribution 4.0 (CC BY-4.0)</a> license. We do not currently support any other license types, nor do we allow for restrictions on data access or use.</li>
+											<li>It is your responsibility to ensure your data are being shared responsibly and ethically. Please be careful of sharing sensitive data and ensure you are complying with institutional and governmental regulations.</li>
+										</ul>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div> <!-- end content-->
-				<!-- begin footer-->
-					<%= render "layouts/brand/footer_#{campus(@user)}" %>
-				<!-- end footer-->
-			</div> <!-- end inner container -->
-		</div> <!-- end outer container -->
-	</div>
+					</div> <!-- end content-->
+					<!-- begin footer-->
+					<%if current_user%>
+				  	<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+				  <%else%>
+				  	<%= render "layouts/brand/footer_cdl" %>
+				  <%end%>				<!-- end footer-->
+				</div> <!-- end inner container -->
+			</div> <!-- end outer container -->
+		</div>
 </body>
 </html>
 

@@ -40,26 +40,15 @@
 								<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
 							</a>
 						</label>
-            <%#= select_tag "publisher", 
-            			options_for_select(institution, @record.publisher), 
-            			prompt: "Choose institution:" %>
+            
 
-            <%= text_field_tag "publisher", campus_short_name(@user),
+            <%= text_field_tag "publisher", current_user.short_name,
             										:disabled => true,
             										:class=>"input-text", 
             										:style => "width:180px;" %>
 
 						<br/>
-						<!--
-							<label for="publicationyear">
-								* Publication Year
-								<a href="#publication_year_help" name="help_link" class="help_link">
-									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-								</a>
-							</label>
-							<%#= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
-							<br/>
-						-->
+						
 						<%= hidden_field_tag "publicationyear", @record.publicationyear, :value => Time.now.year %>
 						<label for="resourcetype">
 							* Data Type

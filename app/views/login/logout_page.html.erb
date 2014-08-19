@@ -29,7 +29,11 @@
 
 		</div> <!-- end content-->
 	<!-- begin footer-->
-  <%= render "layouts/brand/footer_#{campus(@user)}" %>
+	<%if current_user %>
+  		<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+  	<%else%>
+  		<%= render "layouts/brand/footer_cdl" %>
+  	<%end%>
   <%#= render "layouts/brand/footer_cdl" %>
 	<!-- end footer-->
 	</div> <!-- end inner container -->
