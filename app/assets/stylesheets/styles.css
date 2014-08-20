@@ -25,12 +25,12 @@ a:link, a:hover, a:visited, a:active {
 	}
 
 a:link, a:visited {
-	color: #cc242b; 
+	color: #0066FF; 
 	text-decoration: none;
 	}
 	
 a:hover, a:active {
-	 color: #cc242b; 
+	 color: #0066FF; 
 	text-decoration: underline;
 }
 a img {
