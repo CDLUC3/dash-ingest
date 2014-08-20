@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140813182405) do
+ActiveRecord::Schema.define(:version => 20140820180228) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20140813182405) do
     t.datetime "updated_at",     :null => false
     t.string   "email"
     t.integer  "institution_id"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["institution_id"], :name => "index_users_on_institution_id"

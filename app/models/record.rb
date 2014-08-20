@@ -103,11 +103,34 @@ class Record < ActiveRecord::Base
      #contributors - datacite: multiple, optional, mandatory contributorType attribute
      # do we have a default value for contributorType?  
      # is this something we plan to use?
-     f.puts "<contributors>"
-     #self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
-     self.contributors.each { |a| f.puts "<contributor contributorType=\"ResearchGroup\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
-     f.puts "</contributors>"
+    
+
+
+
+
+
+self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
+
+
+    # f.puts "<contributors>"
+    # self.contributors.each do |c| 
+    #   f.puts "<contributor contributorType=\"ResearchGroup\">"
+    #   f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
+    # end
+    #  f.puts "</contributors>"
      
+
+# #<contributors>
+#  <contributor contributorType="DataManager">
+#   <contributorName>Abrams, Stephen</contributerName>
+#  </contributor>
+# </contributors>
+
+
+
+
+
+
      # resourceType - datacite: optional
      # should have a resourceTypeGeneral and a resourceType, may need to modify this
      f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
@@ -139,21 +162,11 @@ class Record < ActiveRecord::Base
       @total_size = @total_size + u.upload_file_size
     end
     f.puts "<size>#{@total_size}</size>"
-    #f.puts "<size>This is a test</size>"
      
      # formats ?
      
      # version?
      
-     #rights
-     #not required
-     #f.puts "<rights>#{self.rights}</rights>"
-    
-    # f.puts "<rightsList>"
-    # f.puts "<rights rightsURI=”[RightsURI]”>[Rights]</rights>"
-    # f.puts "</rightsList>"
-
-    
      
     f.puts "<rightsList>"
     f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
