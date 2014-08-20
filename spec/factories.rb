@@ -33,7 +33,7 @@ FactoryGirl.define do
     title              "sss"
     local_id           "uzkmimntnn"
     abstract           ""
-    #methods            ""
+    #methods            "fgf"
     rights_uri         "https://creativecommons.org/licenses/by/4.0/"
 
   end

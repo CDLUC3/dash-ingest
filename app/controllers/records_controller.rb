@@ -112,6 +112,8 @@ class RecordsController < ApplicationController
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads"
+      else
+        render 'edit'
       end
     else
       render 'edit'
@@ -213,8 +215,8 @@ class RecordsController < ApplicationController
 
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
-        # redirect_to "/records"
-        render "/records"
+         redirect_to "/records"
+        #render "/records"
       end
     end
   end
