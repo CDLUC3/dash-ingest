@@ -114,7 +114,7 @@ class Record < ActiveRecord::Base
 
     f.puts "<contributors>"
     self.contributors.each do |c| 
-      f.puts "<contributor contributorType=\"ResearchGroup\">"
+      f.puts "<contributor contributorType=\"DataManager\">"
       f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
     end
      f.puts "</contributors>"
