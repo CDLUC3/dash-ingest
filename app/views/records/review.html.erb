@@ -145,14 +145,20 @@
 						
 				
 				</div>
+
+				<a href="/record/<%=@record.id%>">
+					<button class="btn">Edit Description</button>
+				</a>
+				
 			</div>
+
 			<div class="missing-fields">
 				
 					<div class="missing-fields-req">
 						
 						<% if @record.recommended_fields.size > 0 %>
 						
-							<h3>Consider adding these missing recommended fields</h3>
+							<h3>Consider adding these recommended fields</h3>
 
 							<ul>
 							<% @record.recommended_fields.each do |f|%>
@@ -166,7 +172,7 @@
 							<% end %>
 						
 							<a href="/record/<%=@record.id%>">
-								<button class="btn">Go Back Edit Description</button>
+								<button class="btn">Edit Description</button>
 							</a>
 
 					</div>
