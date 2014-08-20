@@ -1,13 +1,15 @@
 require "rails_helper"
-require "ruby-debug"
+#require "ruby-debug"
 
 describe RecordsController do
   render_views
 
   before(:all) do
-    @user = FactoryGirl.create(:user )
     @institution = FactoryGirl.create(:institution)
-    @record = FactoryGirl.create(:record)
+
+    @user = FactoryGirl.create(:user,:institution_id => @institution.id )
+    @record = FactoryGirl.create(:record,:institution_id => @institution.id,:user_id => @user.id)
+    puts @institution.id
     @creator = @record.creators.create(FactoryGirl.attributes_for(:creator))
     @subject = @record.subjects.create(FactoryGirl.attributes_for(:subject))
     @citation = @record.citations.create(FactoryGirl.attributes_for(:citation))
@@ -22,7 +24,7 @@ describe RecordsController do
 
     {:title => "sss", :identifierType => "nil", :identifier => "nil",  :publisher => "UC Office of the president",
         :publicationyear =>"2014",:resourcetype => "Image,Image",:rights => "Creative Commons Attribution 4.0 International (CC-...",
-        :created_at => "2014-08-11 19:31:52",:updated_at => "2014-08-11 19:31:52",:local_id =>"uzkmimntnn", :rights_uri => "https://creativecommons.org/licenses/by/4.0/"}
+        :created_at => "2014-08-11 19:31:52",:updated_at => "2014-08-11 19:31:52",:local_id =>"uzkmimntnn", :rights_uri => "https://creativecommons.org/licenses/by/4.0/",:institution_id => @user.institution_id}
 
   end
 
@@ -131,15 +133,14 @@ end
     end
   end
 =end
-
+=begin
    describe 'PUT update' do
      it  "record update succeeds" do
      #before :each do
       @record = Record.create! valid_attributes
-       put :update, {:id => @record.to_param}
+       put :update, {:id => @record, record: @record_attributes}, {user_id: @user.id}
        assigns(:record).should eq(@record)
      end
-
 
      #it "redirects to the record" do
        #@record = Record.create! valid_attributes
@@ -157,20 +158,34 @@ end
      end
 
    end
+=end
 
-=begin
   describe 'PUT update' do
     before :each do
-      @record = Record.create! valid_attributes
+
+    @record = FactoryGirl.create(:record)
+    @record.institution_id = @institution.id
+    @record.user_id = @user.id
+
     end
-    context "valid attributes" do
-      it "located the requested @contact" do
-        put :update, {id: @record, record: @record_attributes}
+      it "located the requested record" do
+        put :update, {id: @record.id, record: @record}, {user_id: @user.id}
         assigns(:record).should eq(@record)
       end
+
+    it "user update does not succeed" do
+      @record = FactoryGirl.create(:record)
+      Record.stub(:update_attribute).and_return(false)
+      put :update, {:id => @record.id, record: @record},{user_id: @user.id}
+      assigns(:record).should eq(@record)
+      #expect(response).to redirect_to(record_edit_path)
+
+    end
+
+
  end
-end
-=end
+
+
 
  describe "DELETE destroy" do
     it "destroys the requested record" do
