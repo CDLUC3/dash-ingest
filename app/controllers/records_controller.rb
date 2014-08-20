@@ -41,6 +41,16 @@ class RecordsController < ApplicationController
     @record.set_local_id
 
     @record.publisher = @institution.short_name if @record.publisher.blank?
+
+    if @user.last_name
+    
+      @contributor = Contributor.new(record_id: @record.id, 
+                                    contributor_type: "DataManager", 
+                                    contributor_name: @user.last_name + ", " + @user.first_name)
+      @contributor.save
+
+    end
+    
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
