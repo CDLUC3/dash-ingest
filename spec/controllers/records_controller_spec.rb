@@ -1,5 +1,5 @@
 require "rails_helper"
-require "ruby-debug"
+#require "ruby-debug"
 
 describe RecordsController do
   render_views
