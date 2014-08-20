@@ -7,21 +7,30 @@ class LoginController < ApplicationController
     
     if user.nil?
       user = User.new
-      user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
-      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
-      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-      user.save
     end
+    
+    user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
+    user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
+    user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+    user.first_name = request.headers[DATASHARE_CONFIG['first_name_from_shibboleth']]
+    user.last_name = request.headers[DATASHARE_CONFIG['last_name_from_shibboleth']]
+    user.save
+    
 
-    if user.institution_id.nil?
-      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
-      user.save
-    end
+    # if user.institution_id.nil?
+    #   user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
+    #   user.save
+    # end
 
-    if user.email.nil?
-      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-      user.save
-    end
+    # if user.email.nil?
+    #   user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
+    #   user.save
+    # end
+
+    # if user.first_name.nil? || user.first_name.blank?
+    #   user.first_name = request.headers[DATASHARE_CONFIG['first_name_from_shibboleth']]
+    #   user.last_name = request.headers[DATASHARE_CONFIG['last_name_from_shibboleth']]
+    # end
 
     session[:user_id] = user.id
     @current_user = user

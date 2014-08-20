@@ -48,6 +48,17 @@ class RecordsController < ApplicationController
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.save
+      if @user.last_name
+        @contributor = Contributor.new(record_id: @record.id, 
+                                      contributorType: "DataManager", 
+                                      contributorName: @user.last_name + ", " + @user.first_name)
+
+        # @contributor = Contributor.new(record_id: @record.id, 
+        #                               contributorType: "DataManager", 
+        #                               contributorName: "test_last" + ", " + "test_first")
+        @contributor.save
+      end
+      
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
@@ -91,9 +102,11 @@ class RecordsController < ApplicationController
 
   end
 
-
+#deletes also one contributor
   def delete
     @record = Record.find(params[:id])
+    @contributor = Contributor.find_all_by_record_id(@record.id).first
+    @contributor.destroy if @contributor
     @record.destroy
     redirect_to records_path
   end
@@ -107,7 +120,6 @@ class RecordsController < ApplicationController
       @record.institution_id = @user.institution_id
     end
     if @record.update_attributes(record_params)
-      #redirect_to  @record
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
@@ -128,7 +140,8 @@ class RecordsController < ApplicationController
     :id, :title, :resourcetype, :publisher, :rights, :rights_uri,
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-    citation_attributes: [ :id, :record_id, :citationName, :_destroy])
+    citation_attributes: [ :id, :record_id, :citationName, :_destroy],
+    contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
 
   end
 

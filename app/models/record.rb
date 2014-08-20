@@ -109,15 +109,15 @@ class Record < ActiveRecord::Base
 
 
 
-self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
+# self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
 
 
-    # f.puts "<contributors>"
-    # self.contributors.each do |c| 
-    #   f.puts "<contributor contributorType=\"ResearchGroup\">"
-    #   f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
-    # end
-    #  f.puts "</contributors>"
+    f.puts "<contributors>"
+    self.contributors.each do |c| 
+      f.puts "<contributor contributorType=\"DataManager\">"
+      f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
+    end
+     f.puts "</contributors>"
      
 
 # #<contributors>
