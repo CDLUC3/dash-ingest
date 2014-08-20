@@ -50,8 +50,8 @@ class RecordsController < ApplicationController
     if @record.save
       if @user.last_name
         @contributor = Contributor.new(record_id: @record.id, 
-                                      contributor_type: "DataManager", 
-                                      contributor_name: @user.last_name + ", " + @user.first_name)
+                                      contributorType: "DataManager", 
+                                      contributorName: @user.last_name + ", " + @user.first_name)
 
         # @contributor = Contributor.new(record_id: @record.id, 
         #                               contributorType: "DataManager", 
