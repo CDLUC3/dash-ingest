@@ -42,6 +42,14 @@ h1 {
 	margin: 0.5em 0 1.5em 0;
 }
 
+h2 {
+	font-size: 1.8em;
+}
+
+h3 {
+	font-size: 1.4em;
+}
+
 .clear { 
 	clear: both;
 }
