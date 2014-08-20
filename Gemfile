@@ -64,6 +64,6 @@ gem "omniauth-google-oauth2", "~> 0.2.1"
 # Use unicorn as the app server
 gem 'unicorn'
 gem 'carrierwave'
-gem 'custom_error_message', '~> 1.1.1'
+gem 'custom_error_message'
 
 
