@@ -97,8 +97,9 @@ h1 {
 	/*differs from dash*/
 }
 
-#logout_link {
-
+#logout img {
+	width: auto;
+	height: 60px;
 }
 
 #footer {
