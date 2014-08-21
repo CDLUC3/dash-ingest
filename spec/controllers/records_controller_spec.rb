@@ -22,7 +22,7 @@ describe RecordsController do
 
   def valid_attributes
 
-    { |variable|  :title => "sss", :identifierType => "nil", :identifier => "nil",  
+    { :title => "sss", :identifierType => "nil", :identifier => "nil",  
       :publisher => "UC Office of the president",
       :publicationyear =>"2014",:resourcetype => "Image,Image",
       :rights => "Creative Commons Attribution 4.0 International (CC-...",
