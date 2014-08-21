@@ -1171,6 +1171,29 @@ width: 190px;
 	width: 44em;
 }
 
+#step-four-review-page .metadata-container button {
+	margin-top: 1em;
+}
+
+#step-four-review-page .missing-fields-req p {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+#step-four-review-page .fa-check {
+	margin-right: 0.3em;
+	color: #009933;
+}
+
+#step-four-review-page .fa-exclamation-triangle {
+	margin-right: 0.3em;
+	color: #FFCC00;
+}
+
+#step-four-review-page .missing-fields-req p + ul {
+	margin-top: 1.5em;
+}
+
 /*Login page styles */
 #login-page #login-content {
 	margin: 58px 0 58px 79px;
