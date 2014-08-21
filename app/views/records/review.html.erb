@@ -166,14 +166,13 @@
 								<% end %>
 							</ul>
 						
-							
-							<% else %>
-								<h3>Record contains all recommended fields</strong></h3>
-							<% end %>
-						
 							<a href="/record/<%=@record.id%>">
 								<button class="btn">Edit Description</button>
 							</a>
+							
+						<% else %>
+							<p>Record contains all recommended fields</p>
+						<% end %>
 
 					</div>
 				

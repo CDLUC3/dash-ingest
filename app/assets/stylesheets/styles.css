@@ -1175,6 +1175,11 @@ width: 190px;
 	margin-top: 1em;
 }
 
+#step-four-review-page .missing-fields-req p {
+	font-size: 1.6em;
+	font-weight: bold;
+}
+
 /*Login page styles */
 #login-page #login-content {
 	margin: 58px 0 58px 79px;
