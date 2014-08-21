@@ -1171,6 +1171,10 @@ width: 190px;
 	width: 44em;
 }
 
+#step-four-review-page .metadata-container button {
+	margin-top: 1em;
+}
+
 /*Login page styles */
 #login-page #login-content {
 	margin: 58px 0 58px 79px;
