@@ -1,4 +1,4 @@
-if File.exists?(File.join(Rails.root, 'config', 'app_config.yml'))
+if File.exist?(File.join(Rails.root, 'config', 'app_config.yml'))
   env = YAML.load_file(File.join(Rails.root, 'config', 'app_config.yml'))[Rails.env]
 
   #this if allows for indirection and have one environment reference another if it is the same then it's a simple string

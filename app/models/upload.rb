@@ -41,7 +41,7 @@ class Upload < ActiveRecord::Base
       # delete each uploads corresponding file, then delete the upload metadata from the db
       uploads.each do |u| 
         file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{u.record.local_id}"
-        if File.exists?("#{file_path}")
+        if File.exist?("#{file_path}")
            FileUtils.rm_rf Dir.glob("#{file_path}/*")
         end
         u.delete
