@@ -5,25 +5,25 @@
   
 #   include Capybara::DSL
   
-#   setup do
-#   end
+#   # setup do
+#   # end
   
-#   teardown do
-#   end
+#   # teardown do
+#   # end
   
 #   # only used in development
 #   # in production, covered with shib or other external
 #   # login system which sets the session credentials
 #   test "login and login without credentials" do  
-#     visit '/login'    
+#     visit '/records'    
             
-#     assert page.has_content?("Logged in as")
+#     assert page.has_content?("My Datasets")
 #   end
   
 #   # also only used in development
 #   test "logout page" do
 #     visit '/logout'
-#     assert page.has_content?("logged out")
+#     assert page.has_content?("You are now logged out.")
 #   end
   
   

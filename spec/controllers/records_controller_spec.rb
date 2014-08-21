@@ -22,9 +22,15 @@ describe RecordsController do
 
   def valid_attributes
 
-    {:title => "sss", :identifierType => "nil", :identifier => "nil",  :publisher => "UC Office of the president",
-        :publicationyear =>"2014",:resourcetype => "Image,Image",:rights => "Creative Commons Attribution 4.0 International (CC-...",
-        :created_at => "2014-08-11 19:31:52",:updated_at => "2014-08-11 19:31:52",:local_id =>"uzkmimntnn", :rights_uri => "https://creativecommons.org/licenses/by/4.0/",:institution_id => @user.institution_id}
+    { |variable|  :title => "sss", :identifierType => "nil", :identifier => "nil",  
+      :publisher => "UC Office of the president",
+      :publicationyear =>"2014",:resourcetype => "Image,Image",
+      :rights => "Creative Commons Attribution 4.0 International (CC-...",
+      :created_at => "2014-08-11 19:31:52",
+      :updated_at => "2014-08-11 19:31:52",
+      :local_id =>"uzkmimntnn", 
+      :rights_uri => "https://creativecommons.org/licenses/by/4.0/",
+      :institution_id => @user.institution_id}
 
   end
 

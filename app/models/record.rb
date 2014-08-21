@@ -205,7 +205,7 @@ class Record < ActiveRecord::Base
     
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
     
-     if File.exists?("#{file_path}/#{self.local_id}.zip")
+     if File.exist?("#{file_path}/#{self.local_id}.zip")
        File.delete("#{file_path}/#{self.local_id}.zip")
      end
      
@@ -263,7 +263,7 @@ class Record < ActiveRecord::Base
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
 
      # delete the files from local storage now that they have been submitted to merritt
-     if File.exists?("#{file_path}")
+     if File.exist?("#{file_path}")
        FileUtils.rm_rf Dir.glob("#{file_path}/*")
      end
    end

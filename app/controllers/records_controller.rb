@@ -1,18 +1,23 @@
 class RecordsController < ApplicationController
 
   include RecordHelper
+  
   before_filter :verify_ownership
-  #before_save :update_creator
+  
 
-# GET list all records
   def index
+
+    # if ENV["RAILS_ENV"] == "test"
+    #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
+    #   session[:user_id] = @user.id
+    # end
+    
     @user = current_user
     if !@user || !@user.institution_id
       redirect_to login_path and return
     end
     
     @institution = @user.institution
-    #@records = Record.find_all_by_user_id(@user.id)
     @records = Record.find_all_by_user_id(current_user.id)
   end
 
@@ -220,7 +225,13 @@ class RecordsController < ApplicationController
 
   def verify_ownership
 
-    @user = current_user
+    # if ENV["RAILS_ENV"] == "test"
+    #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
+    #   session[:user_id] = @user.id
+    # else
+      @user = current_user
+    # end
+    
     @record = Record.find_by_id(params[:id])
     if @user
       @institution = @user.institution
@@ -229,7 +240,6 @@ class RecordsController < ApplicationController
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
          redirect_to "/records"
-        #render "/records"
       end
     end
   end
