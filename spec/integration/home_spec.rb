@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'database_cleaner'
 
 describe 'home page' do
   it 'displays users datasets' do
@@ -14,5 +15,7 @@ describe 'home page' do
 
     visit '/records'
     page.should have_content('My Datasets')
+
+    
   end
 end
