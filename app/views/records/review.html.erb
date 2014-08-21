@@ -27,7 +27,7 @@
 			<div class="single-column">
 			
 			<h1>Review Before Submitting</h1>
-			<h2>Metadata</h2>
+			<h1>Description</h1>
 			<div class="metadata-container">
 				<div class="content">
 					<div class="content-row">
@@ -158,7 +158,7 @@
 						
 						<% if @record.recommended_fields.size > 0 %>
 						
-							<h3>Consider adding these recommended fields</h3>
+							<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
 
 							<ul>
 							<% @record.recommended_fields.each do |f|%>
@@ -166,14 +166,13 @@
 								<% end %>
 							</ul>
 						
-							
-							<% else %>
-								<h3>Record contains all recommended fields</strong></h3>
-							<% end %>
-						
 							<a href="/record/<%=@record.id%>">
 								<button class="btn">Edit Description</button>
 							</a>
+							
+						<% else %>
+							<p><i class="fa fa-check"></i>Record contains all recommended fields</p>
+						<% end %>
 
 					</div>
 				
