@@ -31,7 +31,9 @@
 							<div>
 								<ul>
 									<% @uploads.each do |upload| %>
-									<li><%= upload.upload_file_name %> <%= link_to "delete", "datauploads/#{upload.id}/delete", :confirm => "Are you sure?" %></li>
+									<li id="delete_link">
+										<%= upload.upload_file_name %> <%= link_to "delete", "datauploads/#{upload.id}/delete", :confirm => "Are you sure?" %>
+									</li>
 								<% end %>
 								</ul>
 							</div>
@@ -68,7 +70,9 @@
 								<br/>
 								<a href="/record/<%=@record_id%>/review">
 									<%#= hidden_filed_tag :file_size, :value => @upload.upload_file_size %>
-									<button type="button" class="btn btn-large btn-success">Review and Submit</button>
+									<button type="button" class="btn btn-large btn-success" id="submit_button">
+										Review and Submit
+									</button>
 								</a>
 							</div>
 						</div>
@@ -156,7 +160,7 @@
         <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
         {% } %}
       <td class="delete">
-        <button class="btn btn-danger" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
+        <button class="btn btn-danger" id="delete_button" data-type="{%=file.delete_type%}" data-url="{%=file.delete_url%}">
           <i class="icon-trash icon-white"></i>
           <span>{%=locale.fileupload.destroy%}</span>
         </button>
@@ -193,3 +197,17 @@
 
   });
 </script>
+
+<script type="text/javascript">
+	$(function() {
+		$('#submit_button').click(function(){
+			if (	($('#delete_button').length == 0) && ($('#delete_link').length == 0)		) {
+				alert("You must upload at least one file.")
+				return false;
+			};
+		});
+	});
+</script>
+
+
+
