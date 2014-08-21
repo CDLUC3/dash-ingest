@@ -1176,12 +1176,29 @@ width: 190px;
 }
 
 #step-four-review-page .missing-fields-req p {
-	font-size: 1.8em;
+	font-size: 2em;
 	font-weight: bold;
 }
 
 #step-four-review-page .missing-fields-req .icon-checkmark {
-	background-image: url('../images/green_checkmark.png');
+	display: table-cell;
+	vertical-align: bottom;
+	height: 25px;
+	padding-left: 40px;
+	/* background: url(<%= asset_path 'green_checkmark.png' %>) no-repeat; */
+	background: url('green_checkmark.png') no-repeat;
+}
+
+#step-four-review-page .missing-fields-req .icon-warning {
+	display: table-cell;
+	vertical-align: bottom;
+	height: 25px;
+	padding-left: 40px;
+	background: url('yellow_warning.png') no-repeat;
+}
+
+#step-four-review-page .missing-fields-req .icon-warning + ul {
+	margin-top: 1.5em;
 }
 
 /*Login page styles */
