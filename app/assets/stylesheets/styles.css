@@ -1176,8 +1176,12 @@ width: 190px;
 }
 
 #step-four-review-page .missing-fields-req p {
-	font-size: 1.6em;
+	font-size: 1.8em;
 	font-weight: bold;
+}
+
+#step-four-review-page .missing-fields-req .icon-checkmark {
+	background-image: url('../images/green_checkmark.png');
 }
 
 /*Login page styles */
