@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'database_cleaner'
-# require "selenium-webdriver"
 
 feature 'user uploads file' do
 
@@ -26,17 +25,25 @@ feature 'user uploads file' do
   end
 
 
-  scenario 'triggers validation error if file is not present' , :js => true do
-    # puts page.html
-  	# click_on 'upload_upload'
-    # attach_file('upload_upload', '/Users/sfaenza/Desktop/dash-images/rose.jpg')
-    page.find("#upload_upload").trigger("click")
-    # select "rose.jpg"
-    # save_and_open_page
-    # click_on 'start_button'
-    # click_on 'submit_button'
+  scenario 'triggers validation error if file is not present' , :js => true do 
+    page.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
+    file = Rails.root + "app/assets/images/dash_cdl_logo.png"
+    attach_file('upload_upload', file)
+    click_on 'submit_button'
+
+    expect(page).not_to have_content 'Review Before Submitting'  
 	end
 
 
+  scenario 'uploads file if file is present' , :js => true do 
+    page.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
+    file = Rails.root + "app/assets/images/dash_cdl_logo.png"
+    attach_file('upload_upload', file)
+    click_on 'start_button'
+    expect(page).to have_css('#delete_button')
+    click_on 'submit_button'
+
+    expect(page).to have_content 'Review Before Submitting'  
+  end
 
 end

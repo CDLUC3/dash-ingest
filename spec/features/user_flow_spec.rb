@@ -58,6 +58,15 @@ feature 'user' do
   	expect(page).to have_content "Upload Your Dataset"
 	end
 
+	scenario 'logs out' do
+    click_on "Log Out"
+
+    expect(page).to have_content 'You are now logged out.' 
+    expect(page).not_to have_content 'Log Out'
+
+    click_on 'Return to Home'
+
+  end
 
 
 end
