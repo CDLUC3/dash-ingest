@@ -23,18 +23,22 @@ class RecordsController < ApplicationController
 
   # GET form for new record
   def new
-     @user = current_user
-     @institution = @user.institution
-     @record = Record.new
-     @record.creators.build()
-     @record.citations.build
-     
-     3.times do
-      @record.subjects.build
-     end
-     @record.publisher = @institution.short_name
-     @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    if ENV["RAILS_ENV"] == "test"
+      @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
+      session[:user_id] = @user.id
+    end
+   @user = current_user
+   @institution = @user.institution
+   @record = Record.new
+   @record.creators.build()
+   @record.citations.build
+   
+   3.times do
+    @record.subjects.build
+   end
+   @record.publisher = @institution.short_name
+   @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+   @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
   # POST - create new record

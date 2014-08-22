@@ -21,12 +21,17 @@ end
 
 group :test do
   gem 'launchy'
-  gem 'capybara'
-  gem 'capybara-webkit'
-  gem 'rspec-rails', '~> 3.0.0'
-  gem 'factory_girl_rails'
+  gem 'capybara', '>= 2.2.0'
+  gem 'capybara-webkit', github: 'thoughtbot/capybara-webkit', branch: 'master'
+  #gem 'selenium-webdriver'
   gem 'sqlite3'
   gem 'database_cleaner'
+end
+
+
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'factory_girl_rails'
 end
 
 gem 'whenever', :require => false
