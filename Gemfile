@@ -22,8 +22,8 @@ end
 group :test do
   gem 'launchy'
   gem 'capybara', '>= 2.2.0'
-  gem 'capybara-webkit', github: 'thoughtbot/capybara-webkit', branch: 'master'
-  #gem 'selenium-webdriver'
+  gem 'capybara-webkit', '~> 1.1.0'
+  # gem 'selenium-webdriver'
   gem 'sqlite3'
   gem 'database_cleaner'
 end

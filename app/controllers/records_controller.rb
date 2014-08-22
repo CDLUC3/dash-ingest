@@ -57,7 +57,7 @@ class RecordsController < ApplicationController
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.save
-      if @user.last_name
+      unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id, 
                                       contributorType: "DataManager", 
                                       contributorName: @user.last_name + ", " + @user.first_name)
