@@ -142,7 +142,7 @@ class RecordsController < ApplicationController
   private
   def record_params
     params.require(:record).permit(
-    :id, :title, :resourcetype, :publisher, :rights, :rights_uri,
+    :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citation_attributes: [ :id, :record_id, :citationName, :_destroy],
