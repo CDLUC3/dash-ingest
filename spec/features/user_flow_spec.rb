@@ -58,6 +58,23 @@ feature 'user' do
   	expect(page).to have_content "Upload Your Dataset"
 	end
 
+
+	scenario 'Contact Us page is reachable' do
+    click_on "Contact Us"
+
+    expect(page).to have_selector('h1', text: 'Contact Us') 
+    
+    # fill_in 'name', :with => 'Test Email'
+    # fill_in 'affiliation', :with => 'UCOP'
+    # fill_in 'email', :with => 'test@test.edu'
+    # fill_in 'message', :with => 'This is an automated test for the contact us page.'
+
+    # expect(page).to have_content "Your email message was sent to the Dash team."
+
+    # click_on "Submit"
+  end
+
+
 	scenario 'logs out' do
     click_on "Log Out"
 
@@ -65,7 +82,6 @@ feature 'user' do
     expect(page).not_to have_content 'Log Out'
 
     click_on 'Return to Home'
-
   end
 
 
