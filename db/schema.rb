@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140820180228) do
+ActiveRecord::Schema.define(:version => 20140825172548) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -69,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20140820180228) do
     t.datetime "updated_at",        :null => false
     t.string   "campus"
     t.string   "logo"
+    t.string   "data_one"
   end
 
   create_table "records", :force => true do |t|
