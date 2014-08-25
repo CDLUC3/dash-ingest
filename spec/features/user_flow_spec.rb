@@ -71,6 +71,8 @@ feature 'user' do
 
     click_on "Submit"
 
+    assert !ActionMailer::Base.deliveries.empty?
+
     expect(page).to have_content "Your email message was sent to the Dash team."
   end
 
