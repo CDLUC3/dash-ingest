@@ -59,19 +59,19 @@ feature 'user' do
 	end
 
 
-	scenario 'Contact Us page is reachable' do
+	scenario 'Sends email through Contact Us page.' do
     click_on "Contact Us"
 
     expect(page).to have_selector('h1', text: 'Contact Us') 
     
-    # fill_in 'name', :with => 'Test Email'
-    # fill_in 'affiliation', :with => 'UCOP'
-    # fill_in 'email', :with => 'test@test.edu'
-    # fill_in 'message', :with => 'This is an automated test for the contact us page.'
+    fill_in 'name', :with => 'Test Email'
+    fill_in 'affiliation', :with => 'UCOP'
+    fill_in 'email', :with => 'test@test.edu'
+    fill_in 'message', :with => 'This is an automated test for the contact us page.'
 
-    # expect(page).to have_content "Your email message was sent to the Dash team."
+    click_on "Submit"
 
-    # click_on "Submit"
+    expect(page).to have_content "Your email message was sent to the Dash team."
   end
 
 
