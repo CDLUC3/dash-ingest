@@ -4,11 +4,13 @@ lock '3.2.1'
 set :application, 'dash-ingest'
 # set :repo_url, 'git@example.com:me/my_repo.git'
 # Internal mercurial server
-set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
+# set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
+set :repo_url,  'git@github.com:mxsstrong/dash-ingest.git'
 
 # Default branch is :master
+
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'default'
+set :branch, 'master'
 #set :branch, 'joel'
 #set :branch, 'institutions'
 
@@ -16,7 +18,7 @@ set :branch, 'default'
 set :deploy_to, '/apps/dash/apps/dash-ingest'
 
 # Default value for :scm is :git
-set :scm, 'hg'
+set :scm, :git
 
 # Default value for :format is :pretty
 set :format, :pretty
