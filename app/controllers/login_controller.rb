@@ -1,7 +1,7 @@
 class LoginController < ApplicationController
 
   include RecordHelper
-  
+
   def login
 
     if ENV["RAILS_ENV"] == "test"
@@ -23,6 +23,7 @@ class LoginController < ApplicationController
       user.save
 
     end
+
       
 
     # if user.institution_id.nil?
@@ -46,7 +47,6 @@ class LoginController < ApplicationController
   end
 
 
-  
   
 
   def logout
