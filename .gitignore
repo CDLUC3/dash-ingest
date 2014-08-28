@@ -32,3 +32,4 @@ test_uploads/
 .idea
 config.codekit
 commands  
+*.DS_Store
