@@ -46,7 +46,14 @@ class LoginController < ApplicationController
     redirect_to "/records"
   end
 
+    def index
 
+      if current_user
+
+        redirect_to '/records'
+      end
+
+    end
   
 
   def logout
