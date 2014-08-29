@@ -1,9 +1,22 @@
 DataIngest::Application.routes.draw do
 
+  get  "login/index"
+  get "sessions/create"
+
+  get "sessions/destroy"
+
+
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'signout', to: 'sessions#destroy', as: 'signout'
+
+  resources :sessions, only: [:create, :destroy]
+  resources :login, only: [:index]
+  root :to => 'login#index'
+
 
 
   resources :uploads
-  root :to => 'login#login'
 
   resources :records
 
