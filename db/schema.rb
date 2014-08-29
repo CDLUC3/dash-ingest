@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140825185803) do
+
+ActiveRecord::Schema.define(:version => 20140821171518) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -145,6 +146,8 @@ ActiveRecord::Schema.define(:version => 20140825185803) do
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
     t.string   "provider"
+
+
   end
 
   add_index "users", ["institution_id"], :name => "index_users_on_institution_id"
