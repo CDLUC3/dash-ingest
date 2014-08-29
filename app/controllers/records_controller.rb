@@ -3,7 +3,12 @@ class RecordsController < ApplicationController
   include RecordHelper
   
   before_filter :verify_ownership
+  # before_filter :check_review, :only => [:review]
   
+  # def check_review
+  #   i = 0
+  #   byebug
+  # end
 
   def index
 
@@ -162,12 +167,13 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    @first_submission = @record.submissionLogs.empty? ? true : false
-    
+    # @first_submission = @record.submissionLogs.empty? ? true : false
+
+    @first_submission = (@record.submissionLogs.archiveresponse.include?("QUEUED") || @record.submissionLogs.archiveresponse.include?("PENDING")) ? false : true
+
     @record.purge_temp_files
     @xmlout = @record.review 
 
-    # @record.required_fields.size == 0 && @record.uploads.size > 0) 
     render :review, :layout => false
   end
 

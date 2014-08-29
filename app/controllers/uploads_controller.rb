@@ -5,9 +5,14 @@ class UploadsController < ApplicationController
     @record_id = params[:record_id]
     @record = Record.find(@record_id)
 
-      
 
-    @new_submission = @record.submissionLogs.empty? ? 1 : 0
+    if @record.submissionLogs.empty? || @record.submissionLogs.nil?
+      @new_submission = true
+    else
+      @log_length = @record.submissionLogs.length
+      @array_position = @log_length - 1
+      @new_submission = @record.submissionLogs[@array_position].filtered_response.to_s.include?("Success") ? false : true
+    end
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])

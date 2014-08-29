@@ -39,7 +39,7 @@
 							</div>
 							<% end %>
 							
-							<% if @new_submission == 1 %>
+							<% if @new_submission %>
 								<div id="first_submission"><%= hidden_field_tag :first_submission, :value => @new_submission%>
 								</div>
 							<%end%>
