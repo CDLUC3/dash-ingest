@@ -3,6 +3,11 @@ class UploadsController < ApplicationController
   def index
 
     @record_id = params[:record_id]
+    @record = Record.find(@record_id)
+
+      
+
+    @new_submission = @record.submissionLogs.empty? ? 1 : 0
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])
