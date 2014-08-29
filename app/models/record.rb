@@ -202,6 +202,8 @@ class Record < ActiveRecord::Base
    
 
    def generate_merritt_zip
+
+    
     
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
     

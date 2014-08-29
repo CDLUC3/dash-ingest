@@ -163,8 +163,11 @@ class RecordsController < ApplicationController
     @institution = @user.institution
     @record = Record.find(params[:id])
     @first_submission = @record.submissionLogs.empty? ? true : false
+    
     @record.purge_temp_files
-    @xmlout = @record.review   
+    @xmlout = @record.review 
+
+    # @record.required_fields.size == 0 && @record.uploads.size > 0) 
     render :review, :layout => false
   end
 
