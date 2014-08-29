@@ -182,7 +182,7 @@
 			</div>
 			
 			<h2>Uploaded Files</h2>
-			<% if @record.uploads.nil? || @record.uploads.empty? %>
+			<% if  @new_submission && (@record.uploads.nil? || @record.uploads.empty?) %>
         		<h3>Record must include at least one file</h3>
 				<p/>
       		<% end %>

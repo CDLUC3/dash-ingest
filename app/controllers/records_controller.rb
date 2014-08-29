@@ -162,6 +162,7 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
+    @first_submission = @record.submissionLogs.empty? ? true : false
     @record.purge_temp_files
     @xmlout = @record.review   
     render :review, :layout => false
