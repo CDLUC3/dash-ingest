@@ -169,7 +169,16 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     # @first_submission = @record.submissionLogs.empty? ? true : false
 
-    @first_submission = (@record.submissionLogs.archiveresponse.include?("QUEUED") || @record.submissionLogs.archiveresponse.include?("PENDING")) ? false : true
+    # @first_submission = (@record.submissionLogs.archiveresponse.include?("QUEUED") || @record.submissionLogs.archiveresponse.include?("PENDING")) ? false : true
+
+    if @record.submissionLogs.empty? || @record.submissionLogs.nil?
+      @new_submission = true
+    else
+      @log_length = @record.submissionLogs.length
+      @array_position = @log_length - 1
+      @first_submission = @record.submissionLogs[@array_position].filtered_response.to_s.include?("Success") ? false : true
+    end
+
 
     @record.purge_temp_files
     @xmlout = @record.review 
