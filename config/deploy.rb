@@ -5,7 +5,7 @@ set :application, 'dash-ingest'
 # set :repo_url, 'git@example.com:me/my_repo.git'
 # Internal mercurial server
 # set :repo_url, 'https://auto:automaton@hg.cdlib.org/dash-ingest'
-set :repo_url,  'git@github.com:mxsstrong/dash-ingest.git'
+set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 
 # Default branch is :master
 
