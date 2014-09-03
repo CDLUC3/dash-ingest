@@ -1,6 +1,6 @@
 development:
-  # feedback_email_to:      [pwillet.ucop.edu, mstrong@ucop.edu, sfisher@ucop.edu]
-  feedback_email_to:      [shirin.faenza@ucop.edu, pwillet.ucop.edu, mstrong@ucop.edu]
+  # feedback_email_to:      [pwillett@ucop.edu, mstrong@ucop.edu, sfisher@ucop.edu]
+  feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
 
 development_nonlocal:
