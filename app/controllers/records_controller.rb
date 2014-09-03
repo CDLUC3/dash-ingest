@@ -167,10 +167,7 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    # @first_submission = @record.submissionLogs.empty? ? true : false
-
-    # @first_submission = (@record.submissionLogs.archiveresponse.include?("QUEUED") || @record.submissionLogs.archiveresponse.include?("PENDING")) ? false : true
-
+   
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
       @new_submission = true
     else

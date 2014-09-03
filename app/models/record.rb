@@ -162,17 +162,20 @@ class Record < ActiveRecord::Base
       @total_size = @total_size + u.upload_file_size
     end
 
-    
 
-    # if self.submissionLogs
-    #   self.submissionLogs.each do |log|
-    #     if log.upload_archives
-    #       log.upload_archives.each do |a|
-    #         @total_size = @total_size + a.upload_file_size
-    #       end
-    #     end
-    #   end
-    # end
+    if self.submissionLogs
+      self.submissionLogs.each do |log|
+
+        if log.filtered_response.to_s.include?("Success")
+          if log.uploadArchives
+            log.uploadArchives.each do |a|
+              @total_size = @total_size + a.upload_file_size.to_i
+            end
+          end
+        end
+
+      end
+    end
 
 
 
