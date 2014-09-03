@@ -10,7 +10,8 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 # Default branch is :master
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'master'
+#set :branch, 'master'
+ set :branch, 'oauth'
 #set :branch, 'joel'
 #set :branch, 'institutions'
 
@@ -35,6 +36,8 @@ set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/
 
 set :stages, ["development", "staging", "production"]
 set :default_stage, "development"
+set :filter, :hosts => %w{dash-dev.cdlib.org,dash-dev2.cdlib.org}
+
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}

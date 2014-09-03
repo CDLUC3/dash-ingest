@@ -20,9 +20,9 @@ set :rails_env, "development"
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
 
-# server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app}, my_property: :my_value
-server 'dash-dev.cdlib.org', 
-	user: 'dash', 
+  server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app}, my_property: :my_value
+  server 'dash-dev2.cdlib.org',
+	user: 'dash',
 	roles: %w{web app}
 
 set :unicorn_pid, "#{deploy_to}/unicorn.pid"
