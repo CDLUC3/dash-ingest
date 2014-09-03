@@ -164,15 +164,15 @@ class Record < ActiveRecord::Base
 
     
 
-    if self.submissionLogs
-      self.submissionLogs.each do |log|
-        if log.upload_archives
-          log.upload_archives.each do |a|
-            @total_size = @total_size + a.upload_file_size
-          end
-        end
-      end
-    end
+    # if self.submissionLogs
+    #   self.submissionLogs.each do |log|
+    #     if log.upload_archives
+    #       log.upload_archives.each do |a|
+    #         @total_size = @total_size + a.upload_file_size
+    #       end
+    #     end
+    #   end
+    # end
 
 
 
