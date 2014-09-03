@@ -163,13 +163,16 @@ class Record < ActiveRecord::Base
     end
 
 
-    if self.submissionLogs
+
+    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+      
       self.submissionLogs.each do |log|
 
         if log.filtered_response.to_s.include?("Success")
-          if log.uploadArchives
+          if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+
             log.uploadArchives.each do |a|
-              @total_size = @total_size + a.upload_file_size.to_i
+              @total_size = @total_size + a.upload_file_size.to_i     
             end
           end
         end
