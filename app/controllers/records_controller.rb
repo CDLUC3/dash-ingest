@@ -181,6 +181,7 @@ class RecordsController < ApplicationController
     @xmlout = @record.review 
 
     render :review, :layout => false
+    
   end
 
 
@@ -200,7 +201,7 @@ class RecordsController < ApplicationController
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       Thread.new do
-      @record.generate_merritt_zip
+        @record.generate_merritt_zip
 
        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
 
@@ -223,7 +224,7 @@ class RecordsController < ApplicationController
         ActiveRecord::Base.connection.close
       end
 
-      sleep(5)
+      # sleep(5)
 
       submissionLog = SubmissionLog.new
 
@@ -237,7 +238,8 @@ class RecordsController < ApplicationController
       end
       
       # redirect_to :action => "submission_log", :id=> @record.id   
-      render :action => "submission_log", :id=> @record.id   
+      # render :action => "submission_log", :id=> @record.id  
+      redirect_to logs_path(@record.id) 
     end
     
   end

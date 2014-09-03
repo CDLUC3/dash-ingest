@@ -24,7 +24,7 @@ DataIngest::Application.routes.draw do
   
   match 'record/:id/send_archive_to_merritt', :to => "records#send_archive_to_merritt"
   
-  match 'record/:id/logs', :to => "records#submission_log"
+  match 'record/:id/logs', :to => "records#submission_log", as: 'logs'
   
   match 'update_record(/:id)', :to => "records#update_record", :via => :post
 
