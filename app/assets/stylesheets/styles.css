@@ -60,6 +60,11 @@ h3 {
 .italic {
 	font-style: italic;
 }
+
+.btn:focus {
+	outline: none;
+}
+
 #outer-container {
 	width: 1024px;
 	margin: 0 auto 30px auto;
