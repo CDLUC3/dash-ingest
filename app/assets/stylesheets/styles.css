@@ -849,8 +849,34 @@ width: 190px;
 }
 
 /* Bootstrap tables customization */ 
+
+.table {
+	border: 1px solid #000;
+	border-radius: 10px;
+	border-collapse: separate;
+	overflow: hidden;
+}
+
+.table th {
+	color: #fff;
+	background: #EA792A;
+	border-bottom: 1px solid #000;
+}
+
+.table th, table td {
+	border-left: 1px solid #000;
+}
+
+.table th:first-child, table td:first-child {
+	border-left: none;
+}
+
+.table tr:nth-child(even) {
+	background: #fff;
+}
+
 .table th, .table td {
-	border-top: 1px solid #999;
+	border-top: none;
 }
 
 .table-bordered {
