@@ -1,24 +1,35 @@
-development:
-  # feedback_email_to:      [pwillett@ucop.edu, mstrong@ucop.edu, sfisher@ucop.edu]
-  feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
-  feedback_email_from:    no-reply-dash@ucop.edu
-
-development_nonlocal:
-  development
-
-local:
-  development
-
-test_nonlocal:
-  development
 
 test:
   feedback_email_to:      [shirin.faenza@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-dev
+
+
+local:
+  feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-dev
+
+
+development:
+  feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-dev
+
+
+stage:
+  feedback_email_to:      [uc3@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-stg          
+
 
 production:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash
+
+
+
 
 
 campus_emails:

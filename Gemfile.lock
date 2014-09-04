@@ -243,6 +243,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
+  capistrano (~> 3.2.1)
   capistrano-bundler
   capistrano-rails
   capybara (>= 2.2.0)
