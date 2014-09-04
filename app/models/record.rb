@@ -380,7 +380,7 @@ class Record < ActiveRecord::Base
       #descriptions
  
       if self.abstract == "" || self.methods == ""
-        recommended_fields << "While not required, an abstract and technical description are strongly recommended."
+        recommended_fields << "While not required, an abstract and methods are strongly recommended."
       end
  
       return recommended_fields
