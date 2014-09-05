@@ -156,15 +156,19 @@
 				
 					<div class="missing-fields-req">
 						
-						<% if @record.recommended_fields.size > 0 %>
+						<%# if @record.recommended_fields.size > 0 %>
+						<% unless @record.recommended_fields.empty? %>
+
 						
 							<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
 
-							<ul>
-							<% @record.recommended_fields.each do |f|%>
-								<li><%= f %></li>
-								<% end %>
-							</ul>
+							<!-- <ul>
+							<%# @record.recommended_fields.each do |f|%>
+								<li><%#= f %></li>
+								<%# end %>
+							</ul> -->
+
+							<div><%= @record.recommended_fields%></div>
 						
 							<a href="/record/<%=@record.id%>">
 								<button class="btn">Edit Description</button>

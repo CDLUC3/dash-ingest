@@ -94,7 +94,7 @@ institution_list = [
   	'.uci.edu',
   	'.*@.*uci.edu$',
   	'uci',
-  	'blank_institution_logo.png']
+  	'dash_uci_logo.png']
 ]
 
 institution_list.each do |abbreviation, short_name, 
