@@ -33,14 +33,14 @@ production:
 
 
 campus_emails:
-  cdl:        unknown@unknown.com
-  uci:        unknown@unknown.com
+  cdl:        uc3@ucop.edu
+  uci:        mjmckinl@uci.edu
   ucla:       unknown@unknown.com
   ucsd:       unknown@unknown.com
   ucsb:       unknown@unknown.com
   ucb:        webman@library.berkeley.edu
   ucd:        unknown@unknown.com
-  ucm:        unknown@unknown.com
+  ucm:        curation@ucmerced.edu
   ucr:        unknown@unknown.com
   ucsf:       unknown@unknown.com
   ucsc:       unknown@unknown.com
