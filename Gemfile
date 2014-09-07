@@ -4,14 +4,11 @@ ruby '2.1.2'
 
 gem 'rails', '3.2.19'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-# gem 'sqlite3'
 gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
 group :development, :local do
+  gem 'capistrano', '~> 3.2.1'
   gem 'capistrano-rails'
   gem 'capistrano-bundler'
   gem 'webrick', '~> 1.3.1'
@@ -23,7 +20,6 @@ group :test do
   gem 'launchy'
   gem 'capybara', '>= 2.2.0'
   gem 'capybara-webkit', '~> 1.1.0'
-  # gem 'selenium-webdriver'
   gem 'sqlite3'
   gem 'database_cleaner'
 end

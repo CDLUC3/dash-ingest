@@ -62,7 +62,7 @@ h3 {
 }
 
 .btn:focus {
-	outline: none;
+	outline: none !important;
 }
 
 #outer-container {
