@@ -10,10 +10,12 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 # Default branch is :master
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
- #set :branch, 'master'
- set :branch, ENV['BRANCH'] || "oauth"
+ set :branch, ENV['BRANCH'] || 'master'
+ set  :filter,  :branches => %w{oauth,joel,institutions}
  #set :branch, 'joel'
  #set :branch, 'institutions'
+
+
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
