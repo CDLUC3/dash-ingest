@@ -39,7 +39,7 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :citations, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :citations_attributes
 
-  accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  accepts_nested_attributes_for :subjects, allow_destroy: true,  reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
 
   def set_local_id

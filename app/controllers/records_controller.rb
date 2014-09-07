@@ -56,6 +56,7 @@ class RecordsController < ApplicationController
 
     @record.subjects.build() if @record.subjects.blank?
 
+
     if @record.save
       unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id, 
