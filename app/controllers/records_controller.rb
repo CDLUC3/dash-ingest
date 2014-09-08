@@ -76,7 +76,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
     else
       render "new"
@@ -137,7 +137,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       else
         render 'edit'
       end
