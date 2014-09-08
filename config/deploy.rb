@@ -10,7 +10,8 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 # Default branch is :master
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
-set :branch, 'master'
+#set :branch, 'master'
+set :branch, 'stage'
 #set :branch, 'joel'
 #set :branch, 'institutions'
 
