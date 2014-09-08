@@ -1,0 +1,62 @@
+defaults: &DEFAULTS
+    uploads_dir: uploads
+    datashare_url: "http://localhost:8080"
+    external_identifier: "eppn"
+    user_email_from_shibboleth: "mail"
+    first_name_from_shibboleth: "givenName"
+    last_name_from_shibboleth: "sn"
+    logout_path: "/logout_page"
+       
+local:
+    uploads_dir: uploads
+    datashare_cdl_url: "http://dash-dev.cdlib.org"
+    datashare_ucb_url: "http://dash-dev.berkeley.edu"
+    datashare_ucla_url: "http://dash-dev.ucla.edu"
+    external_identifier: "eppn"
+    user_email_from_shibboleth: "mail"
+    first_name_from_shibboleth: "givenName"
+    last_name_from_shibboleth: "sn"
+    logout_path: "/logout_page"
+
+development:
+    uploads_dir: uploads
+    datashare_cdl_url: "http://dash-dev.cdlib.org"
+    datashare_ucb_url: "http://dash-dev.berkeley.edu"
+    datashare_ucla_url: "http://dash-dev.ucla.edu"
+    external_identifier: "eppn"
+    user_email_from_shibboleth: "mail"
+    first_name_from_shibboleth: "givenName"
+    last_name_from_shibboleth: "sn"
+    logout_path: "/logout_page"
+
+stage:
+    uploads_dir: uploads
+    datashare_cdl_url: "http://dash-stg.cdlib.org"
+    datashare_ucb_url: "http://dash-stg.berkeley.edu"
+    datashare_ucla_url: "http://dash-stg.ucla.edu"
+    external_identifier: "eppn"
+    user_email_from_shibboleth: "mail"
+    first_name_from_shibboleth: "givenName"
+    last_name_from_shibboleth: "sn"
+    logout_path: "/logout_page"    
+
+    
+test:
+    uploads_dir: test_uploads
+    datashare_cdl_url: "http://dash-dev.cdlib.org"
+    datashare_ucb_url: "http://dash-dev.berkeley.edu"
+    datashare_ucla_url: "http://dash-dev.ucla.edu"
+    external_identifier: "eppn"
+    user_email_from_shibboleth: "mail"
+    first_name_from_shibboleth: "givenName"
+    last_name_from_shibboleth: "sn"
+    logout_path: "/logout_page"
+
+production:
+    uploads_dir: uploads
+    datashare_url: "http://hostname.ucsf.edu"
+    external_identifier: "eppn"
+    user_email_from_shibboleth: "mail"
+    first_name_from_shibboleth: "givenName"
+    last_name_from_shibboleth: "sn"
+    logout_path: "/Shibboleth.sso/Logout"
