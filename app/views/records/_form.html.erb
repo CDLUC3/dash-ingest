@@ -51,7 +51,7 @@
     </label>
     <fieldset class="creator_name">
       <%= f.fields_for :creators do  |creator_builder| %>
-      <%= render 'creator_fields', f: creator_builder %>
+        <%= render 'creator_fields', f: creator_builder %>
       <% end %>
       <%= link_to_add_fields  '+Additional Creator', f, :creators %>
     </fieldset>

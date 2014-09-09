@@ -1017,6 +1017,8 @@ width: 190px;
 
 #step-two-describe-page .creator_name .remove_fields {
 	display: block;
+	float: right;
+	width: 100px;
 	margin: 22px 0 8px 0;
 }
 
