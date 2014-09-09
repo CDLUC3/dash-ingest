@@ -76,7 +76,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
     else
       render "new"
@@ -101,8 +101,8 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-    @record.creators.build() if @record.creators.blank?
-    @record.citations.build()if @record.citations.blank?
+   #@record.creators.build() if @record.creators.blank?
+   #@record.citations.build()if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
     if @record.subjects.count() == 1
       2.times do
@@ -137,7 +137,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       else
         render 'edit'
       end

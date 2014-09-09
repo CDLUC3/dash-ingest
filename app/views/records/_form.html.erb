@@ -19,10 +19,7 @@
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%#= select_tag "publisher",
-            			options_for_select(institution, @record.publisher),
-            			prompt: "Choose institution:" %>
-
+    
     <%= f.text_field :publisher,
 
         :disabled => true,
@@ -30,16 +27,7 @@
                        :style => "width:180px;" %>
 
     <br/>
-    <!--
-							<label for="publicationyear">
-								* Publication Year
-								<a href="#publication_year_help" name="help_link" class="help_link">
-									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-								</a>
-							</label>
-							<%#= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
-							<br/>
-						-->
+   
     <%= f.hidden_field :publicationyear, :value => Time.now.year%>
     <label for="resourcetype">
       * Data Type
@@ -49,7 +37,7 @@
     </label>
     <%= f.select :resourcetype, options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
     <br/>
-    <!-- <%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
+    <!-- <%#= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 
 
 
@@ -72,7 +60,7 @@
 
 
     <div style=" clear:both; width:800px;">
-       <div style="clear:both; float:left; width:160px;">
+      <div style="clear:both; float:left; width:160px;">
         <p id="keyword-group" class="group-label">
           Keywords
           <a href="#keyword_help" name="help_link" class="help_link">

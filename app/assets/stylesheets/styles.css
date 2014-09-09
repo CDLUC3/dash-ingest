@@ -1223,6 +1223,11 @@ width: 190px;
 	color: #FFCC00;
 }
 
+.field_mis {
+	line-height:45px;
+}
+
+
 #step-four-review-page .missing-fields-req p + ul {
 	margin-top: 1.5em;
 }
