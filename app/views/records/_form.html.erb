@@ -1,17 +1,17 @@
 <div class="text-container" id="smaller_container" xmlns="http://www.w3.org/1999/html">
 
-  <%= form_for @record  do |f| %>
-      <%= render "shared/errors", :target => @record %>
-      <!-- <%#= render "shared/errors", :target => @creator %> -->
+  <%= form_for @record do |f| %>
+    <%= render "shared/errors", :target => @record %>
+    <!-- <%#= render "shared/errors", :target => @creator %> -->
 
-      <div class="clear"></div>
+    <div class="clear"></div>
     <label for="title">
       * Dataset Title
       <a href="#dataset_title_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%= f.text_field :title, :size=>"20", :class=>'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
+    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
 
     <label for="publisher">
       * Institution
@@ -19,28 +19,15 @@
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%#= select_tag "publisher",
-            			options_for_select(institution, @record.publisher),
-            			prompt: "Choose institution:" %>
 
     <%= f.text_field :publisher,
-
-        :disabled => true,
-                       :class=>"input-text",
-                       :style => "width:180px;" %>
+                     :disabled => true,
+                     :class => "input-text",
+                     :style => "width:180px;" %>
 
     <br/>
-    <!--
-							<label for="publicationyear">
-								* Publication Year
-								<a href="#publication_year_help" name="help_link" class="help_link">
-									<img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-								</a>
-							</label>
-							<%#= text_field_tag "publicationyear", @record.publicationyear, :size=>"20", :class=>'input-text', :placeholder => "e.g, 2013" %>
-							<br/>
-						-->
-    <%= f.hidden_field :publicationyear, :value => Time.now.year%>
+
+    <%= f.hidden_field :publicationyear, :value => Time.now.year %>
     <label for="resourcetype">
       * Data Type
       <a href="#data_type_help" name="help_link" class="help_link">
@@ -49,64 +36,40 @@
     </label>
     <%= f.select :resourcetype, options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
     <br/>
-    <!-- <%= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
+    <!-- <%#= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 
-
-
-
-      <div class="fieldset">
+    <div class="fieldset">
       <label for="creator_name">
         * Data Creator(s)
         <a href="#data_creator_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-         <fieldset class="creator_name">
-          <%= f.fields_for :creators do  |creator_builder| %>
-              <%= render 'creator_fields', f: creator_builder %>
-           <% end %>
-           <%= link_to_add_fields  '+Additional Creator', f, :creators %>
-          </fieldset>
-      </div>
 
+      <fieldset class="creator_name">
+        <%= f.fields_for :creators do |creator_builder| %>
+          <%= render 'creator_fields', f: creator_builder %>
+        <% end %>
+        <%= link_to_add_fields '+Additional Creator', f, :creators %>
+      </fieldset>
+    </div>
 
+    <div>
+      <label for="subject_name">
+        Keywords
+        <a href="#keyword_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
 
-    <div style=" clear:both; width:800px;">
-       <div style="clear:both; float:left; width:160px;">
-        <p id="keyword-group" class="group-label">
-          Keywords
-          <a href="#keyword_help" name="help_link" class="help_link">
-            <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-          </a>
-        </p>
-        <label for="subject_name" aria-labelledby="keyword-group">Keyword 1</label>
-        <label for="subject_name2" aria-labelledby="keyword-group">Keyword 2</label>
-        <label for="subject_name3" aria-labelledby="keyword-group">Keyword 3</label>
-      </div>
-
-      <%#= fields_for :subjects do |sub| %>
-      <%#end %>
-
-       <fieldset class="subject_name">
-        <%= f.fields_for :subjects do  |subject_builder| %>
-            <%= render 'subject_fields', :f =>  subject_builder %>
-            <!-- <div style="clear:both; margin-left:150px; width:280px;">
-               <%#= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
-             </div> -->
-             <div class="add_keyword" style="clear:both; margin-left:160px;  width:800px; float:left; ">
-               <div style="float:left; ">
-                 <%#= subject_builder.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
-               </div>
-
-
+      <fieldset class="subject_name">
+        <%= f.fields_for :subjects do |subject_builder| %>
+          <%= render 'subject_fields', :f => subject_builder %>
         <% end %>
 
-        <%= link_to_add_fields  '+Additional Keyword', f, :subjects %>
-
-       </fieldset>
-
-     </div>
-
+        <%= link_to_add_fields '+Additional Keyword', f, :subjects %>
+      </fieldset>
+    </div>
 
 
     <div class="fieldset">
@@ -118,6 +81,7 @@
       </label>
       <%= f.text_area :abstract, :rows => 6, :cols => 60 %>
     </div>
+
     <div class="fieldset">
       <label for="methods">
         Methods
@@ -127,7 +91,7 @@
       </label>
       <%= f.text_area :methods, :rows => 6, :cols => 60 %>
     </div>
-    
+
     <div class="fieldset">
       <label for="citation">
         Citation(s)
@@ -136,14 +100,12 @@
         </a>
       </label>
       <fieldset class="citation_name">
-        <%= f.fields_for :citations do  |citation_builder| %>
-            <%= render 'citation_fields', :f => citation_builder %>
+        <%= f.fields_for :citations do |citation_builder| %>
+          <%= render 'citation_fields', :f => citation_builder %>
         <% end %>
-        <%= link_to_add_fields  '+Additional Citations', f, :citations %>
+        <%= link_to_add_fields '+Additional Citations', f, :citations %>
       </fieldset>
     </div>
-
-
 
 
     <div class="fieldset">
@@ -153,7 +115,7 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= f.text_area :rights, :readonly => true,  'aria-required' => 'true' %>
+      <%= f.text_area :rights, :readonly => true, 'aria-required' => 'true' %>
     </div>
 
 
@@ -164,9 +126,9 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      
+
       <div id="rights_url">
-        <%= link_to @record.rights_uri, @record.rights_uri, :readonly => true, 'aria-required' => 'true'  %>
+        <%= link_to @record.rights_uri, @record.rights_uri, :readonly => true, 'aria-required' => 'true' %>
       </div>
     </div>
 
@@ -176,12 +138,9 @@
 
 
     <div class="large-button-container">
-      <%= f.submit "Save",:class => "btn btn-large btn-success", :name => "commit", :id => "submit_button"%>
-      <%= f.submit "Save And Continue",  :class => "btn btn-large btn-success",:alt => "Save And Continue", :name => "commit", :id => "save_and_continue"%>
+      <%= f.submit "Save", :class => "btn btn-large btn-success", :name => "commit", :id => "submit_button" %>
+      <%= f.submit "Save And Continue", :class => "btn btn-large btn-success", :alt => "Save And Continue", :name => "commit", :id => "save_and_continue" %>
     </div>
-<% end %>
+  <% end %>
+
 </div>
-</div>
-
-
-

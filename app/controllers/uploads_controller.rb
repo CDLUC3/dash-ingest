@@ -3,6 +3,7 @@ class UploadsController < ApplicationController
   def index
 
     @record_id = params[:record_id]
+    
     @record = Record.find(@record_id)
 
 
@@ -38,11 +39,11 @@ class UploadsController < ApplicationController
 
       if @record_id == nil
         raise ActionController::RoutingError.new('Not Found')
-      else
-        respond_to do |format|
-          format.html # index.html.erb
-          format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
-        end
+      # else
+      #   respond_to do |format|
+      #     format.html { render  action: "index", :record_id => @record_id }
+      #     format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
+      #   end
       end
     end
   end

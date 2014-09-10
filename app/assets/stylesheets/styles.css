@@ -1017,7 +1017,9 @@ width: 190px;
 
 #step-two-describe-page .creator_name .remove_fields {
 	display: block;
-	margin: 22px 0 8px 0;
+	float: right;
+	width: 157px;
+	margin: 19px 0 8px 0px;
 }
 
 #step-two-describe-page .creator_name .add_fields {
@@ -1222,6 +1224,11 @@ width: 190px;
 	margin-right: 0.3em;
 	color: #FFCC00;
 }
+
+.field_mis {
+	line-height:45px;
+}
+
 
 #step-four-review-page .missing-fields-req p + ul {
 	margin-top: 1.5em;
