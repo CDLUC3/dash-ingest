@@ -3,19 +3,9 @@ class RecordsController < ApplicationController
   include RecordHelper
   
   before_filter :verify_ownership
-  # before_filter :check_review, :only => [:review]
   
-  # def check_review
-  #   i = 0
-  #   byebug
-  # end
 
   def index
-
-    # if ENV["RAILS_ENV"] == "test"
-    #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
-    #   session[:user_id] = @user.id
-    # end
     
     @user = current_user
     if !@user || !@user.institution_id
