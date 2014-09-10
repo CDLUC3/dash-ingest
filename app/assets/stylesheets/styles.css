@@ -1185,7 +1185,7 @@ width: 190px;
 }
 
 .fields-mis{
-line-height: 20px;
+line-height: 290%;
 }
 
 #step-four-review-page .metadata-container {
@@ -1244,11 +1244,6 @@ line-height: 20px;
 	margin-right: 0.3em;
 	color: #FFCC00;
 }
-
-.field_mis {
-	line-height:45px;
-}
-
 
 #step-four-review-page .missing-fields-req p + ul {
 	margin-top: 1.5em;
