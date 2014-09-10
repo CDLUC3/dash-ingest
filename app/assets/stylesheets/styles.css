@@ -1026,6 +1026,7 @@ width: 190px;
 	margin: 15px 0 0 0;
 }
 
+/*
 #step-two-describe-page .remove_subject_field .remove_fields {
 	display: block;
 	float: right;
@@ -1036,6 +1037,20 @@ width: 190px;
 #step-two-describe-page .add_keyword .add_fields {
 	margin: 0 0 30px 22px;
 }
+*/
+
+#step-two-describe-page .subject_name .remove_fields {
+  display: block;
+  float: right;
+  width: 157px;
+  margin: 19px 0 8px 0px;
+}
+
+#step-two-describe-page .subject_name .add_fields {
+  margin: 15px 0 0 0;
+}
+
+
 
 #step-two-describe-page .citation_name .remove_fields {
 	display: block;

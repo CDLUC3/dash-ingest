@@ -1,8 +1,9 @@
 <%= f.hidden_field "_destroy", class: 'destroyer' %>
 <div class="fields">
-    <%= f.text_field :subjectName, :size => "20", :placeholder => "Keyword" %>
+  <%= f.text_field :subjectName, :size=>"20", :class=>"input-text", :placeholder => "Keyword", 'aria-required' => 'true' %>
 
-  <div id="remove_subject_field" class="remove_subject_field">
+
+  <div class="remove_subject_field">
     <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
   </div>
 </div>
