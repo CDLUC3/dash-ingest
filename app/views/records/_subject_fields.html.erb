@@ -11,12 +11,35 @@
  </div>
 <script>
 
-    // $(document).ready(function(){
-    //     $(window).load(function(){
-    //         $('#remove_subject_field').remove();
+<script>
 
-    //     });
-    // })
-$('#remove_subject_field').first().hide();
+    $(document).ready(function(event){
+       $(window).load(function() {
+
+            var count = $("#remove_subject_field > a").size()
+            var t = count - 3
+         if (t == 0 ){
+               //document.write('its same')
+               $("#remove_subject_field a").hide()
+           }
+               else if (t >= 0 ){
+               event.preventDefault
+           }
+
+           else {
+
+                $("#remove_subject_field a").hide()
+           }
+
+           //$('#remove_subject_field').size())
+
+       // if (count_var < 3) {
+
+                //$('#remove_subject_field').select();
+                //$this.hide
+           //})
+
+        });
+    });
 
 </script>
