@@ -1026,7 +1026,7 @@ width: 190px;
 	margin: 15px 0 0 0;
 }
 
-#step-two-describe-page #remove_subject_field .remove_fields {
+#step-two-describe-page .remove_subject_field .remove_fields {
 	display: block;
 	float: right;
 	width: 200px;
