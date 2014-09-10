@@ -1183,6 +1183,11 @@ width: 190px;
 	margin-bottom: 50px;
 	clear: left;
 }
+
+.fields-mis{
+line-height: 20px;
+}
+
 #step-four-review-page .metadata-container {
 	width: 686px;
 	height: 100%;
