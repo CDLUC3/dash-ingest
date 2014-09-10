@@ -2,14 +2,14 @@
 <div class ='fields'>
   <%= f.text_field :creatorName, :size=>"20", :class=>"input-text", :placeholder => "Lastname, Firstname", 'aria-required' => 'true' %>
 
-  <div id ="remove_creator_field">
+  <div class="remove_creator_field">
   <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
  </div>
 </div>
 
 <script>
 
-   $('#remove_creator_field').first().hide();
+   $('.remove_creator_field').first().hide();
 
  </script>
 
