@@ -30,7 +30,7 @@ class RecordsController < ApplicationController
    @user = current_user
    @institution = @user.institution
    @record = Record.new
-   @record.creators.build()
+   @record.creators.build
    @record.citations.build
    
    3.times do
@@ -48,16 +48,16 @@ class RecordsController < ApplicationController
     @record.user_id = @user.id
     @institution = @user.institution
     @record.set_local_id
-
+    byebug
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
-
     @record.subjects.build() if @record.subjects.blank?
 
 
     if @record.save
+
       unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id, 
                                       contributorType: "DataManager", 

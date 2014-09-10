@@ -23,7 +23,7 @@ set :deploy_to, '/apps/dash/apps/dash-ingest'
 
 server 'dash-stg.cdlib.org', 
 	user: 'dash', 
-	roles: %w{web app}
+	roles: %w{web app}, :primary => true
 
 set :unicorn_pid, "#{deploy_to}/unicorn.pid"
 set :unicorn_config, "#{deploy_to}/current/config/unicorn.rb"

@@ -32,15 +32,37 @@ class Record < ActiveRecord::Base
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
+  before_validation :mark_subjects_for_destruction, :mark_citations_for_destruction
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
+
 
   accepts_nested_attributes_for :citations, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :citations_attributes
 
   accepts_nested_attributes_for :subjects, allow_destroy: true,  reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
+
+
+  def mark_subjects_for_destruction
+
+    subjects.each {|subject|
+    if subject.subjectName.blank?
+      subject.mark_for_destruction
+    end
+    }
+  end
+
+  def mark_citations_for_destruction
+
+    citations.each {|citation|
+      if citation.citationName.blank?
+        citation.mark_for_destruction
+      end
+    }
+  end
+
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
