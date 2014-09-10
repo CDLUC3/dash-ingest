@@ -54,7 +54,7 @@
       </fieldset>
     </div>
 
-    <div>
+    <div class="fieldset">
       <label for="subject_name">
         Keywords
         <a href="#keyword_help" name="help_link" class="help_link">
@@ -66,7 +66,6 @@
         <%= f.fields_for :subjects do |subject_builder| %>
           <%= render 'subject_fields', :f => subject_builder %>
         <% end %>
-
         <%= link_to_add_fields '+Additional Keyword', f, :subjects %>
       </fieldset>
     </div>

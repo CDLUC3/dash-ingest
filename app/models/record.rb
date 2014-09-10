@@ -25,7 +25,7 @@ class Record < ActiveRecord::Base
                   :methods
   
   #validates_associated :creators, :citations, :subjects
-  validates_associated :citations, :subjects
+  #validates_associated :citations, :subjects
   
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
