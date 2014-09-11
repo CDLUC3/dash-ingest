@@ -48,7 +48,7 @@ class RecordsController < ApplicationController
     @record.user_id = @user.id
     @institution = @user.institution
     @record.set_local_id
-    byebug
+
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
@@ -150,7 +150,7 @@ class RecordsController < ApplicationController
     :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-    citation_attributes: [ :id, :record_id, :citationName, :_destroy],
+    citations_attributes: [ :id, :record_id, :citationName, :_destroy],
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
 
   end

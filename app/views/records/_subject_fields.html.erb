@@ -3,7 +3,7 @@
   <div style="clear:both; margin-left:22px; width:280px;">
     <%= f.text_field :subjectName, :size=>"20", :placeholder => "Keyword" %>
   </div>
-  <div id ="remove_subject_field"   >
+  <div class="remove_subject_field"   >
       <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
   </div>
 
@@ -11,29 +11,39 @@
  </div>
 <script>
 
-    $(document).ready(function(event){
-       $(window).load(function() {
 
-            var count = $("#remove_subject_field > a").size()
-            var t = count - 3
-         if (t == 0 ){
-               //document.write('its same')
-               $("#remove_subject_field a").hide()
-           }
-               else if (t >= 0 ){
-               event.preventDefault
-           }
 
-           else {
+    $('.remove_subject_field').first().hide();
 
-                $("#remove_subject_field a").hide()
-           }
+       var count = [$('.remove_subject_field ').size()];
+
+         //count[1].hide();
+
+       if (count == 3) {
+
+           $('.remove_subject_field ').hide();
+
+       }
 
 
 
+                // var count = $("#remove_subject_field > a").size()
+                //var t = count - 3
+                //  var t = count
+                //if (t <= 3 ){
+                //document.write('its same')
+                //    $("#remove_subject_field a").hide()
+                // }
+                //   else if (t > 3 ){
 
-        });
+                // t - 3;
+                // event.preventDefault
+                // }
+
+                //else {
+
+                //   $("#remove_subject_field a").hide()
+                //}
 
 
-    });
 </script>

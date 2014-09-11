@@ -1,4 +1,4 @@
-<%= render 'layouts/head1' %>
+ <%= render 'layouts/head1' %>
 <title>Dash: My Datasets - Open data for the global research community</title>
 <%= render 'layouts/head2' %>
 <body>
@@ -107,13 +107,14 @@
 							<div class="collapsible">
 						      <div class="collapse-control"><span class="indicator"></span> Citations</div>
 						      	<div class="collapse-content">
-							<% if !@record.descriptions.first.nil? %>
-								<%= @record.descriptions.first.descriptionText %>
-							<% end %>
-						
-							<% @record.descriptions.drop(1).each do |description| %>
-								<p/><%= description.descriptionText %>
-							<% end %>
+                                  <% if !@record.citations.first.nil? %>
+                                      <%= @record.citations.first.citationName %>
+                                  <% end%>
+
+                                  <% @record.citations.drop(1).each do |citation| %>
+                                      | <%= citation.citationName %>
+                                  <% end %>
+
 							  </div>
 						  </div>
 						</div>
