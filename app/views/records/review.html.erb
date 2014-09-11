@@ -27,7 +27,7 @@
 			<div class="single-column">
 			
 			<h1>Review Before Submitting</h1>
-			<h2>Description</h2>
+			<h2>Description</h2>				
 			<div class="metadata-container">
 				<div class="content">
 					<div class="content-row">
@@ -58,21 +58,7 @@
 							<% end %>
 						</div>
 					</div>
-					<!--
-					<div class="content-row">
-						<div class="field-left">At:</div>
-						<div class="field-right">
-							<%# if !@record.contributors.first.nil? %>
-								<%#= @record.contributors.first.contributorName %>
-							<%# end%>
-						
-							<%# @record.contributors.drop(1).each do |contributor| %>
-								| <%= contributor.contributorName %>
-							<%# end %>
-							
-						</div>
-					</div>
-					-->
+					
 					<div class="content-row">
 						<div class="field-left">Keywords:</div>
 						<div class="field-right">
@@ -146,10 +132,6 @@
 						
 				
 				</div>
-
-				<a href="/record/<%=@record.id%>">
-					<button class="btn">Edit Description</button>
-				</a>
 				
 			</div>
 
