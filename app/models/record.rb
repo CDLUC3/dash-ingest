@@ -25,13 +25,14 @@ class Record < ActiveRecord::Base
                   :methods
   
   #validates_associated :creators, :citations, :subjects
-  validates_associated :citations, :subjects
+  #validates_associated :citations, :subjects
   
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
+  before_validation :mark_subjects_for_destruction, :mark_citations_for_destruction
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
@@ -41,6 +42,26 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
+
+
+  def mark_subjects_for_destruction
+
+    subjects.each {|subject|
+    if subject.subjectName.blank?
+      subject.mark_for_destruction
+    end
+    }
+  end
+
+  def mark_citations_for_destruction
+
+    citations.each {|citation|
+      if citation.citationName.blank?
+        citation.mark_for_destruction
+      end
+    }
+  end
+
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join

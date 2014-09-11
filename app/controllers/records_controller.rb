@@ -3,19 +3,9 @@ class RecordsController < ApplicationController
   include RecordHelper
   
   before_filter :verify_ownership
-  # before_filter :check_review, :only => [:review]
   
-  # def check_review
-  #   i = 0
-  #   byebug
-  # end
 
   def index
-
-    # if ENV["RAILS_ENV"] == "test"
-    #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
-    #   session[:user_id] = @user.id
-    # end
     
     @user = current_user
     if !@user || !@user.institution_id
@@ -76,7 +66,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
     else
       render "new"
@@ -101,8 +91,8 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-    @record.creators.build() if @record.creators.blank?
-    @record.citations.build()if @record.citations.blank?
+   #@record.creators.build() if @record.creators.blank?
+   #@record.citations.build()if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
     if @record.subjects.count() == 1
       2.times do
@@ -137,7 +127,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       else
         render 'edit'
       end
@@ -154,7 +144,7 @@ class RecordsController < ApplicationController
     :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-    citation_attributes: [ :id, :record_id, :citationName, :_destroy],
+    citations_attributes: [ :id, :record_id, :citationName, :_destroy],
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
 
   end
