@@ -90,10 +90,9 @@
 								<div class="content-row">
 									<div class="field-left">Citation(s):</div>
 									<div class="field-right">	
-										<div class="collapsible">
-											<div class="collapse-control"><span class="indicator"></span> Citations</div>
-											<div class="collapse-content">
-
+										<div class="collapsible-citations">
+											<div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Citations', '#' %></div>
+											<div class="collapse-content-citations">
 												
 												<% if @record.citations %>
 													<% @record.citations.each do |citation| %>
@@ -109,9 +108,9 @@
 								<div class="content-row">
 									<div class="field-left">Abstract:</div>
 									<div class="field-right">	
-										<div class="collapsible">
-											<div class="collapse-control"><span class="indicator"></span> Abstract</div>
-											<div class="collapse-content">
+										<div class="collapsible-abstract">
+											<div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Abstract', '#' %></div>
+											<div class="collapse-content-abstract">
 												<%= @record.abstract %>
 											</div>
 										</div>
@@ -121,9 +120,9 @@
 								<div class="content-row">
 									<div class="field-left">Methods:</div>
 									<div class="field-right">	
-										<div class="collapsible">
-											<div class="collapse-control"><span class="indicator"></span> Methods</div>
-											<div class="collapse-content">
+										<div class="collapsible-methods">
+											<div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Methods', '#' %></div>
+											<div class="collapse-content-methods">
 												<%= @record.methods %>
 											</div>
 										</div>

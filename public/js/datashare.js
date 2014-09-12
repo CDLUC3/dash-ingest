@@ -176,19 +176,75 @@ $(window).scroll(positionFooter);
 $(window).resize(positionFooter);
 $(window).load(positionFooter);
 
-$(".collapsible").collapse({
-	head:  '.collapse-control',
-	group: '.collapse-content',
-	show: function() {
-        this.animate({opacity: 'toggle', height: 'toggle'}, 200);
-        positionFooter();
-        setTimeout(function() { positionFooter() },  200);
-    },
-    hide : function() {
-        this.animate({opacity: 'toggle', height: 'toggle'}, 200);
-        positionFooter();
-        setTimeout(function() { positionFooter() },  200);
-    }
-});
+
+//review page - toggle show and hide metadata content
+$(document).ready(function() {   
+    $('.collapse-content-citations').hide();
+    $('.collapse-content-abstract').hide();
+    $('.collapse-content-methods').hide();
+    
+    $('.collapsible-citations').click(function(event) {
+        event.preventDefault();
+        
+        $('.collapse-content-citations').toggle('slow');
+        if($('.collapsible-citations').children('.collapse-control').text() == '▹ Show Citations') {
+            $('.collapsible-citations .collapse-control a').text('▿ Hide Citations');
+        }
+        else {
+            $('.collapsible-citations .collapse-control a').text('▹ Show Citations');
+        }
+
+        return false;
+    });
+
+    $('.collapsible-abstract').click(function(event) {
+        event.preventDefault();
+        $('.collapse-content-abstract').toggle('slow');
+
+        if($('.collapsible-abstract').children('.collapse-control').text() == '▹ Show Abstract') {
+            $('.collapsible-abstract .collapse-control a').text('▿ Hide Abstract');
+        }
+        else {
+            $('.collapsible-abstract .collapse-control a').text('▹ Show Abstract');
+        }
+        return false;
+    });
+
+    $('.collapsible-methods').click(function(event) {
+        event.preventDefault();
+        $('.collapse-content-methods').toggle('slow');
+
+        if($('.collapsible-methods').children('.collapse-control').text() == '▹ Show Methods') {
+            $('.collapsible-methods .collapse-control a').text('▿ Hide Methods');
+        }
+        else {
+            $('.collapsible-methods .collapse-control a').text('▹ Show Methods');
+        }    
+        return false;
+    });
 
 });
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

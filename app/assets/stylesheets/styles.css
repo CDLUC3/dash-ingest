@@ -1,6 +1,6 @@
-.collapsible .collapse-control .indicator:after{content:"▹ Show";}
+/*.collapsible .collapse-control .indicator:after{content:"▹ Show";}
 .collapsible .collapse-control.active .indicator:after{content:"▿ Hide";}
-.collapsible .collapse-content{margin:0.3em 0 0 0;}
+.collapsible .collapse-content{margin:0.3em 0 0 0;}*/
 
 /* general styles  */
 .content.content-dataset .dataset-actions .dataset-action-buttons a{margin-bottom:1em;font-weight:bold;display:block;}
