@@ -57,6 +57,7 @@ gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
 gem 'strong_parameters'
 gem "omniauth-google-oauth2", "~> 0.2.1"
+gem "omniauth-shibboleth"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
