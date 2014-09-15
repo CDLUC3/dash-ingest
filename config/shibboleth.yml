@@ -1,0 +1,52 @@
+#These are things that configure how the omniauth plugin for shibboleth behaves
+#omniauth_config:
+# redirect_url: http://dmp-dev.cdlib.org/Shibboleth.sso/Login
+# return_base_url: http://dmp-dev.cdlib.org
+
+development:
+  #The host for the shibboleth sp process
+  host: dash-dev2.cdlib.org
+  #the return domain for the callback to application
+  uid_field: eppn
+  info_fields:
+    email: mail
+    first_name: givenName
+    last_name: sn
+    name: displayName
+    identity_provider: shib_identity_provider
+
+stage:
+  #The host for the shibboleth sp process
+  host: dash-staging.cdlib.org
+  #the return domain for the callback to application
+  uid_field: eppn
+  info_fields:
+    email: mail
+    #first_name: givenName
+    #last_name: sn
+    #name: displayName
+    identity_provider: shib_identity_provider
+
+test:
+  #The host for the shibboleth sp process
+  host: dash-staging.cdlib.org
+  #the return domain for the callback to application
+  uid_field: eppn
+  info_fields:
+    email: mail
+    #first_name: givenName
+    #last_name: sn
+    #name: displayName
+    identity_provider: shib_identity_provider
+
+production:
+  #The host for the web application, used to construct the target for the shibboleth id
+  #provider's return.
+  host: dash.cdlib.org
+  uid_field: eppn
+  info_fields:
+    email: mail
+    #first_name: givenName
+    #last_name: sn
+    #name: displayName
+    identity_provider: shib_identity_provider

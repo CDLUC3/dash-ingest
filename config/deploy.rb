@@ -38,7 +38,7 @@ set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/
 
 set :stages, ["development", "staging", "production"]
 set :default_stage, "development"
-#set :server_name, "dash-dev2.cdlib.org"   # uncomment the this line to deploy by default on this server
+#set :server_name, "dash-dev2.cdlib.org"   # uncomment this line to deploy by default on this server
 #set :server_name, ["dash-dev2.cdlib.org","dash-dev.cdlib.org"] # uncomment this line to deploy on multiple server at atime
 
 set :filter, :hosts => %w{dash-dev.cdlib.org,dash-dev2.cdlib.org}
