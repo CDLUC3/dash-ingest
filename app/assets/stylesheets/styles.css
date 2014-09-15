@@ -1,6 +1,6 @@
-.collapsible .collapse-control .indicator:after{content:"▹ Show";}
+/*.collapsible .collapse-control .indicator:after{content:"▹ Show";}
 .collapsible .collapse-control.active .indicator:after{content:"▿ Hide";}
-.collapsible .collapse-content{margin:0.3em 0 0 0;}
+.collapsible .collapse-content{margin:0.3em 0 0 0;}*/
 
 /* general styles  */
 .content.content-dataset .dataset-actions .dataset-action-buttons a{margin-bottom:1em;font-weight:bold;display:block;}
@@ -1183,6 +1183,11 @@ width: 190px;
 	margin-bottom: 50px;
 	clear: left;
 }
+
+.fields-mis{
+line-height: 290%;
+}
+
 #step-four-review-page .metadata-container {
 	width: 686px;
 	height: 100%;
@@ -1239,11 +1244,6 @@ width: 190px;
 	margin-right: 0.3em;
 	color: #FFCC00;
 }
-
-.field_mis {
-	line-height:45px;
-}
-
 
 #step-four-review-page .missing-fields-req p + ul {
 	margin-top: 1.5em;

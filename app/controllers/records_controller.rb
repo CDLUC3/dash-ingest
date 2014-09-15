@@ -57,14 +57,11 @@ class RecordsController < ApplicationController
                                       contributorType: "DataManager", 
                                       contributorName: @user.last_name + ", " + @user.first_name)
 
-        # @contributor = Contributor.new(record_id: @record.id, 
-        #                               contributorType: "DataManager", 
-        #                               contributorName: "test_last" + ", " + "test_first")
         @contributor.save
       end
       
       if params[:commit] == 'Save'
-        redirect_to "/records/show"
+        render 'edit'
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
@@ -74,10 +71,6 @@ class RecordsController < ApplicationController
   end
 
 
-  def show
-   @records = Record.find_all_by_user_id(session[:user_id])
-  end
-
   def edit
     @record = Record.find(params[:id])
     @record.creators.build() if @record.creators.blank?
@@ -86,7 +79,6 @@ class RecordsController < ApplicationController
       @record.subjects.build() if @record.subjects.blank?
     end
 
-    #@record = Record.find(params[:id])
     if @record.rights.nil?
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
@@ -120,25 +112,19 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    if !@record.institution_id
-      @record.institution_id = @user.institution_id
-    end
-    if @record.update_attributes(record_params)
-      if params[:commit] == 'Save'
-        redirect_to "/records/show"
-      elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
-      else
-        render 'edit'
-      end
+    
+    @record.institution_id = @user.institution_id unless @record.institution_id
+  
+    if @record.update_attributes(record_params) && params[:commit] =='Save And Continue'
+      redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
     else
       render 'edit'
     end
   end
 
 
-
   private
+  
   def record_params
     params.require(:record).permit(
     :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
@@ -148,9 +134,6 @@ class RecordsController < ApplicationController
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
 
   end
-
-
- 
 
 
   def review

@@ -10,7 +10,7 @@
  * Released under the MIT, BSD, and GPL Licenses.
  */
  
-(function($) {
+ (function($) {
     
     // Use a cookie counter to allow multiple instances of the plugin
     var cookieCounter = 0;
@@ -35,7 +35,7 @@
             
             // Default CSS classes
             var active = "active",
-                inactive = "inactive";
+            inactive = "inactive";
             
             return this.each(function() {
                 
@@ -54,15 +54,15 @@
                         }
                         return head.next(op.group)[0];
                     });
-    
+                    
                 // Bind event for showing content
                 obj.bind("show", function(e, bypass) {
                     var obj = $(e.target);
                     // ARIA attribute
                     obj.attr('aria-hidden', false)
-                        .prev()
-                        .removeClass(inactive)
-                        .addClass(active);
+                    .prev()
+                    .removeClass(inactive)
+                    .addClass(active);
                     // Bypass method for instant display
                     if(bypass) {
                         obj.show();
@@ -75,9 +75,9 @@
                 obj.bind("hide", function(e, bypass) {
                     var obj = $(e.target);
                     obj.attr('aria-hidden', true)
-                        .prev()
-                        .removeClass(active)
-                        .addClass(inactive);
+                    .prev()
+                    .removeClass(active)
+                    .addClass(inactive);
                     if(bypass) {
                         obj.hide();
                     } else {
@@ -93,12 +93,12 @@
                         if ( val == c + "open" ) {
                             panel.eq(c).trigger('show', [true]);
                         // Hide content
-                        } else if ( val == c + "closed") {
-                            panel.eq(c).trigger('hide', [true]);
-                        }
+                    } else if ( val == c + "closed") {
+                        panel.eq(c).trigger('hide', [true]);
                     }
                 }
-                
+            }
+            
                 // Delegate click event to show/hide content.
                 obj.bind("click", function(e) {
                     var t = $(e.target);
@@ -114,9 +114,9 @@
                     }
                     // Figure out what position the clicked header has.
                     var num = sections.index(t),
-                        cookieName = cookie + num,
-                        cookieVal = num,
-                        content = t.next(op.group);
+                    cookieName = cookie + num,
+                    cookieVal = num,
+                    content = t.next(op.group);
                     // If content is already active, hide it.
                     if(t.hasClass(active)) {
                         content.trigger('hide');
@@ -133,9 +133,9 @@
                         $.cookie(cookieName, cookieVal, { path: '/', expires: 10 });
                     }
                 });
-            });
-        }
-    });
+});
+}
+});
 
     // Make sure can we eat cookies without getting into trouble.
     var cookieSupport = (function() {
@@ -157,38 +157,94 @@
 $(function() {
 
     function positionFooter() {
-	var footer = $(".footer");
-	var footer_width = footer.width();
+     var footer = $(".footer");
+     var footer_width = footer.width();
 
-	if ((($(document.body).height() + footer.height()) < $(window).height() && footer.css("position") == "fixed") || ($(document.body).height() < $(window).height() && footer.css("position") != "fixed")) {
-	    if (footer.length) {
-		footer.css({ position: "fixed", bottom: "0", width: footer_width + 'px'});
-	    }
-	} else {
-	    if (footer.length) {
-		footer.css({ position: "static" });
-	    }
-	}
-    }
+     if ((($(document.body).height() + footer.height()) < $(window).height() && footer.css("position") == "fixed") || ($(document.body).height() < $(window).height() && footer.css("position") != "fixed")) {
+         if (footer.length) {
+          footer.css({ position: "fixed", bottom: "0", width: footer_width + 'px'});
+      }
+  } else {
+     if (footer.length) {
+      footer.css({ position: "static" });
+  }
+}
+}
 
-    positionFooter();
-    $(window).scroll(positionFooter);
-    $(window).resize(positionFooter);
-    $(window).load(positionFooter);
+positionFooter();
+$(window).scroll(positionFooter);
+$(window).resize(positionFooter);
+$(window).load(positionFooter);
 
-    $(".collapsible").collapse({
-	head:  '.collapse-control',
-	group: '.collapse-content',
-	show: function() {
-            this.animate({opacity: 'toggle', height: 'toggle'}, 200);
-	    positionFooter();
-	    setTimeout(function() { positionFooter() },  200);
-        },
-        hide : function() {
-            this.animate({opacity: 'toggle', height: 'toggle'}, 200);
-	    positionFooter();
-	    setTimeout(function() { positionFooter() },  200);
+
+//review page - toggle show and hide metadata content
+$(document).ready(function() {   
+    $('.collapse-content-citations').hide();
+    $('.collapse-content-abstract').hide();
+    $('.collapse-content-methods').hide();
+    
+    $('.collapsible-citations').click(function(event) {
+        event.preventDefault();
+        
+        $('.collapse-content-citations').toggle('slow');
+        if($('.collapsible-citations').children('.collapse-control').text() == '▹ Show Citations') {
+            $('.collapsible-citations .collapse-control a').text('▿ Hide Citations');
         }
+        else {
+            $('.collapsible-citations .collapse-control a').text('▹ Show Citations');
+        }
+
+        return false;
+    });
+
+    $('.collapsible-abstract').click(function(event) {
+        event.preventDefault();
+        $('.collapse-content-abstract').toggle('slow');
+
+        if($('.collapsible-abstract').children('.collapse-control').text() == '▹ Show Abstract') {
+            $('.collapsible-abstract .collapse-control a').text('▿ Hide Abstract');
+        }
+        else {
+            $('.collapsible-abstract .collapse-control a').text('▹ Show Abstract');
+        }
+        return false;
+    });
+
+    $('.collapsible-methods').click(function(event) {
+        event.preventDefault();
+        $('.collapse-content-methods').toggle('slow');
+
+        if($('.collapsible-methods').children('.collapse-control').text() == '▹ Show Methods') {
+            $('.collapsible-methods .collapse-control a').text('▿ Hide Methods');
+        }
+        else {
+            $('.collapsible-methods .collapse-control a').text('▹ Show Methods');
+        }    
+        return false;
     });
 
 });
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
