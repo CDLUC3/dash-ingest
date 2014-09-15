@@ -18,4 +18,3 @@ stdout_path "#{app_path}/current/log/unicorn.stdout.log"
 
 #logger Logger.new(File.join(Dir.pwd, "log", "unicorn.log"))
 #logger Logger.new("#{app_path}/current/log/unicorn.log")
-~                                                      
