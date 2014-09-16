@@ -50,4 +50,8 @@ The test command is:
 
 ````
 $ RAILS_ENV=test rake test:integration
+
 ````
+
+````
+

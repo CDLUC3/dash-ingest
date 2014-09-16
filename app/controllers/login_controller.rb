@@ -24,6 +24,7 @@ class LoginController < ApplicationController
 
     end
 
+
       
 
     # if user.institution_id.nil?
@@ -41,7 +42,9 @@ class LoginController < ApplicationController
     #   user.last_name = request.headers[DATASHARE_CONFIG['last_name_from_shibboleth']]
     # end
 
+
     session[:user_id] = user.id
+    cookies[:dash_logged_in] = 'Yes'
     @current_user = user
     redirect_to "/records"
   end
@@ -61,6 +64,7 @@ class LoginController < ApplicationController
       @institution = current_user.institution
     end
     session[:user_id] = nil
+    cookies.delete(:dash_logged_in)
     @user = nil
     @current_user = nil
     @institution = nil
