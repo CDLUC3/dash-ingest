@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140820180228) do
+ActiveRecord::Schema.define(:version => 20140916212349) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -57,6 +57,27 @@ ActiveRecord::Schema.define(:version => 20140820180228) do
     t.integer  "record_id"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "geo_location_boxes", :force => true do |t|
+    t.spatial  "box",        :limit => {:type=>"polygon"}
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  create_table "geo_location_points", :force => true do |t|
+    t.spatial  "point",      :limit => {:type=>"point"}
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+  end
+
+  create_table "geo_locations", :force => true do |t|
+    t.text     "geoLocationPlace"
+    t.integer  "record_id"
+    t.integer  "geospatial_id"
+    t.string   "geospatial_type"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "institutions", :force => true do |t|

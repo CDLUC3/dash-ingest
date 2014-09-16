@@ -7,6 +7,11 @@ gem 'rails', '3.2.19'
 gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
+# Geospatial packages
+gem 'rgeo', '>= 0.3.20'
+gem 'rgeo-activerecord', '>= 0.4.6'
+gem 'activerecord-mysql2spatial-adapter', '>= 0.4.3'
+
 group :development, :local do
   gem 'capistrano', '~> 3.2.1'
   gem 'capistrano-rails'

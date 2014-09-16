@@ -14,6 +14,7 @@ class Record < ActiveRecord::Base
   has_many :submissionLogs
   has_many :uploads
   has_many :citations, :dependent => :destroy
+  has_one :geoLocation
  
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
