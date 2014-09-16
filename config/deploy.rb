@@ -33,7 +33,7 @@ set :log_level, :debug
 set :pty, false
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/datashare.yml config/merritt.yml}
+set :linked_files, %w{config/database.yml config/merritt.yml}
 set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/sockets}
 
 set :stages, ["development", "staging", "production"]
