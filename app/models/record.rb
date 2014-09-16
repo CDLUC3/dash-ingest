@@ -12,7 +12,7 @@ class Record < ActiveRecord::Base
   has_many :datauploads
   has_many :relations
   has_many :submissionLogs
-  has_many :uploads
+  has_many :uploads,   :dependent => :destroy
   has_many :citations, :dependent => :destroy
  
 
