@@ -61,7 +61,7 @@ class RecordsController < ApplicationController
       end
       
       if params[:commit] == 'Save'
-        redirect_to "/record/#{@record.id}"
+        redirect_to edit_record_path(@record.id)
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
@@ -73,8 +73,9 @@ class RecordsController < ApplicationController
 
   def edit
     @record = Record.find(params[:id])
+    
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
       @record.subjects.build() if @record.subjects.blank?
     end
@@ -115,10 +116,13 @@ class RecordsController < ApplicationController
     
     @record.institution_id = @user.institution_id unless @record.institution_id
   
-    if @record.update_attributes(record_params) && params[:commit] =='Save And Continue'
-      redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
-    else
-      render 'edit'
+    if @record.update_attributes(record_params) 
+      if params[:commit] =='Save And Continue'
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
+      else
+        # render 'edit'
+        redirect_to edit_record_path(@record.id)
+      end
     end
   end
 
