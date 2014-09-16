@@ -27,7 +27,7 @@
 			<div class="single-column">
 			
 			<h1>Review Before Submitting</h1>
-			<h1>Description</h1>
+			<h2>Description</h2>
 			<div class="metadata-container">
 				<div class="content">
 					<div class="content-row">
@@ -107,7 +107,11 @@
 							<div class="collapsible">
 						      <div class="collapse-control"><span class="indicator"></span> Citations</div>
 						      	<div class="collapse-content">
-                                  <% if !@record.citations.first.nil? %>
+
+
+							  
+                                                       <% if !@record.citations.first.nil? %>
+
                                       <%= @record.citations.first.citationName %>
                                   <% end%>
 
@@ -115,7 +119,11 @@
                                       | <%= citation.citationName %>
                                   <% end %>
 
+
 							  </div>
+
+</div>
+
 						  </div>
 						</div>
 					</div>
@@ -157,15 +165,19 @@
 				
 					<div class="missing-fields-req">
 						
-						<% if @record.recommended_fields.size > 0 %>
+						<%# if @record.recommended_fields.size > 0 %>
+						<% unless @record.recommended_fields.empty? %>
+
 						
 							<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
 
-							<ul>
-							<% @record.recommended_fields.each do |f|%>
-								<li><%= f %></li>
-								<% end %>
-							</ul>
+							<!-- <ul>
+							<%# @record.recommended_fields.each do |f|%>
+								<li><%#= f %></li>
+								<%# end %>
+							</ul> -->
+
+							<div class="fields_mis"><%= @record.recommended_fields%></div>
 						
 							<a href="/record/<%=@record.id%>">
 								<button class="btn">Edit Description</button>
@@ -204,7 +216,7 @@
 			<div class="ItemContainer" >	
 
 				<div class="ItemImage" style="float:left;">					
-					<% if (@record.required_fields.size == 0 && @record.uploads.size > 0) %>
+					<% if (!@first_submission) || (@record.required_fields.size == 0 && @record.uploads.size > 0)  %>
 						<a href="/record/<%=@record.id%>/send_archive_to_merritt">
 							<button class="btn btn-large btn-success" id="submit_to_datashare">Submit to Dash</button>
 						</a>

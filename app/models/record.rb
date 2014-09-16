@@ -23,8 +23,11 @@ class Record < ActiveRecord::Base
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
-  
+
   validates_associated :creators, :subjects
+
+  #validates_associated :creators, :citations, :subjects
+
   #validates_associated :citations, :subjects
   
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
@@ -183,6 +186,27 @@ class Record < ActiveRecord::Base
     self.uploads.each do |u|
       @total_size = @total_size + u.upload_file_size
     end
+
+
+
+    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+      
+      self.submissionLogs.each do |log|
+
+        
+          if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+
+            log.uploadArchives.each do |a|
+              @total_size = @total_size + a.upload_file_size.to_i     
+            end
+          end
+        
+
+      end
+    end
+
+
+
     f.puts "<size>#{@total_size}</size>"
      
      # formats ?
@@ -224,6 +248,8 @@ class Record < ActiveRecord::Base
    
 
    def generate_merritt_zip
+
+    
     
      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
     
@@ -369,18 +395,35 @@ class Record < ActiveRecord::Base
 
    def recommended_fields
    
-      recommended_fields = Array.new
+      # recommended_fields = Array.new
+      recommended_fields = ""
+      fields = ""
+
+      initial_sentence = "Missing recommended field(s): "
             
-      # subjects - datacite: multiple, optional
       if self.subjects.nil? || self.subjects.empty?
-        recommended_fields << "Keywords strongly recommended. Your record may be omitted from search and browse results without keywords."
+        fields << "keywords"
       end
       
-      #descriptions
- 
-      if self.abstract == "" || self.methods == ""
-        recommended_fields << "While not required, an abstract and technical description are strongly recommended."
+      if self.abstract == "" || self.abstract.nil?
+        fields << ", " unless fields.empty?
+        fields << "abstract"
       end
+
+      if self.methods == "" || self.methods.nil?
+        fields << ", " unless fields.empty?
+        fields << "methods"
+      end
+
+      if self.citations.nil? || self.citations.empty?
+        fields << ", " unless fields.empty?
+        fields << "citations"
+      end
+
+      unless fields.empty?
+        fields << "."
+        recommended_fields = initial_sentence + fields
+      end  
  
       return recommended_fields
    

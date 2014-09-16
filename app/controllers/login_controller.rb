@@ -64,6 +64,8 @@ class LoginController < ApplicationController
     @user = nil
     @current_user = nil
     @institution = nil
+    
+    # cookies.delete(:'_jquery-fileupload-rails-example_session')
     redirect_to logout_page_path
   end
   

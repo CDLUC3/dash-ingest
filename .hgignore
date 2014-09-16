@@ -11,6 +11,7 @@ tmp/
 uploads/
 test_uploads/
 .ruby-version
+.ruby-gemset
 .idea
 .ruby-gemset
 config.codekit

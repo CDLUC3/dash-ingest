@@ -10,7 +10,7 @@ FactoryGirl.define do
     abbreviation        "UC"
     short_name          "UC Office of the president"
     long_name           "University of California, Office of the President"
-    landing_page        "http://dash-dev.cdlib.org"
+    landing_page        ".cdlib.org"
     #external_id_strip   ".@.ucop.edu"
     external_id_strip   ".*@.*ucop.edu$"
     created_at          "2014-08-08 03:32:00"

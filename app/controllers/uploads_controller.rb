@@ -3,11 +3,17 @@ class UploadsController < ApplicationController
   def index
 
     @record_id = params[:record_id]
+    
     @record = Record.find(@record_id)
 
-      
 
-    @new_submission = @record.submissionLogs.empty? ? 1 : 0
+    if @record.submissionLogs.empty? || @record.submissionLogs.nil?
+      @new_submission = true
+    else
+      @log_length = @record.submissionLogs.length
+      @array_position = @log_length - 1
+      @new_submission = @record.submissionLogs[@array_position].filtered_response.to_s.include?("Success") ? false : true
+    end
 
     @user = User.find_by_id(session[:user_id])
     @record = Record.find_by_id(params[:record_id])
@@ -33,11 +39,11 @@ class UploadsController < ApplicationController
 
       if @record_id == nil
         raise ActionController::RoutingError.new('Not Found')
-      else
-        respond_to do |format|
-          format.html # index.html.erb
-          format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
-        end
+      # else
+      #   respond_to do |format|
+      #     format.html { render  action: "index", :record_id => @record_id }
+      #     format.json { render json: @uploads.map{|upload| upload.to_jq_upload } }
+      #   end
       end
     end
   end

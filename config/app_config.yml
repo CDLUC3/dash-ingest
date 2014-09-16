@@ -1,35 +1,46 @@
-development:
-  # feedback_email_to:      [pwillet.ucop.edu, mstrong@ucop.edu, sfisher@ucop.edu]
-  feedback_email_to:      [shirin.faenza@ucop.edu, pwillet.ucop.edu, mstrong@ucop.edu]
-  feedback_email_from:    no-reply-dash@ucop.edu
-
-development_nonlocal:
-  development
-
-local:
-  development
-
-test_nonlocal:
-  development
 
 test:
   feedback_email_to:      [shirin.faenza@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-dev
+
+
+local:
+  feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-dev
+
+
+development:
+  feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-dev
+
+
+stage:
+  feedback_email_to:      [uc3@ucop.edu]
+  feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash-stg          
+
 
 production:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
+  root_url:               http://dash
+
+
+
 
 
 campus_emails:
-  cdl:        unknown@unknown.com
-  uci:        unknown@unknown.com
+  cdl:        uc3@ucop.edu
+  uci:        mjmckinl@uci.edu
   ucla:       unknown@unknown.com
   ucsd:       unknown@unknown.com
   ucsb:       unknown@unknown.com
   ucb:        webman@library.berkeley.edu
   ucd:        unknown@unknown.com
-  ucm:        unknown@unknown.com
+  ucm:        curation@ucmerced.edu
   ucr:        unknown@unknown.com
   ucsf:       unknown@unknown.com
   ucsc:       unknown@unknown.com

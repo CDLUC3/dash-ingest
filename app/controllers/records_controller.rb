@@ -6,11 +6,6 @@ class RecordsController < ApplicationController
   
 
   def index
-
-    # if ENV["RAILS_ENV"] == "test"
-    #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
-    #   session[:user_id] = @user.id
-    # end
     
     @user = current_user
     if !@user || !@user.institution_id
@@ -72,7 +67,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
     else
       render "new"
@@ -97,8 +92,8 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-    @record.creators.build() if @record.creators.blank?
-    @record.citations.build()if @record.citations.blank?
+   #@record.creators.build() if @record.creators.blank?
+   #@record.citations.build()if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
     if @record.subjects.count() == 1
       2.times do
@@ -133,7 +128,7 @@ class RecordsController < ApplicationController
       if params[:commit] == 'Save'
         redirect_to "/records/show"
       elsif params[:commit] =='Save And Continue'
-        redirect_to "/record/#{@record.id}/uploads"
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       else
         render 'edit'
       end
@@ -163,10 +158,21 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    @first_submission = @record.submissionLogs.empty? ? true : false
+   
+    if @record.submissionLogs.empty? || @record.submissionLogs.nil?
+      @new_submission = true
+    else
+      @log_length = @record.submissionLogs.length
+      @array_position = @log_length - 1
+      @first_submission = @record.submissionLogs[@array_position].filtered_response.to_s.include?("Success") ? false : true
+    end
+
+
     @record.purge_temp_files
-    @xmlout = @record.review   
+    @xmlout = @record.review 
+
     render :review, :layout => false
+    
   end
 
 
@@ -186,7 +192,7 @@ class RecordsController < ApplicationController
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       Thread.new do
-      @record.generate_merritt_zip
+        @record.generate_merritt_zip
 
        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
 
@@ -209,7 +215,7 @@ class RecordsController < ApplicationController
         ActiveRecord::Base.connection.close
       end
 
-      sleep(5)
+      # sleep(5)
 
       submissionLog = SubmissionLog.new
 
@@ -223,7 +229,8 @@ class RecordsController < ApplicationController
       end
       
       # redirect_to :action => "submission_log", :id=> @record.id   
-      render :action => "submission_log", :id=> @record.id   
+      # render :action => "submission_log", :id=> @record.id  
+      redirect_to logs_path(@record.id) 
     end
     
   end
