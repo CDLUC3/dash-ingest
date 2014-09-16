@@ -27,7 +27,11 @@
 					<div class="single-column">
 
 						<h1>Review Before Submitting</h1>
-						<h2>Description</h2>				
+						<div><h2 style="display:inline;">Description </h2><%=link_to 'Edit', edit_record_path(@record.id)%></div>
+<!-- <a href="/record/<%=@record.id%>">
+								<button class="btn">Edit Description</button>
+							</a> -->
+
 						<div class="metadata-container">
 							<div class="content">
 								<div class="content-row">
@@ -129,7 +133,6 @@
 									</div>
 								</div>
 
-
 							</div>
 
 						</div>
@@ -138,9 +141,14 @@
 
 							<div class="missing-fields-req">
 
-								<%# if @record.recommended_fields.size > 0 %>
 								<% unless @record.recommended_fields.empty? %>
+									<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
+									<div class="fields-mis"><%= @record.recommended_fields%></div>		
+								<% else %>
+									<p><i class="fa fa-check"></i>Record contains all recommended fields</p>
+								<% end %>
 
+<<<<<<< HEAD
 
 					
 					<div class="content-row">
@@ -220,6 +228,9 @@
 
 
 
+=======
+							</div>
+>>>>>>> development
 
 					</div>
 
