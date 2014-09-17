@@ -37,7 +37,8 @@
 									<td class="data-publisher"><%= record.publisher %></td>
 									<td class="data-year"><%= record.publicationyear %></td>
 									<td class="data-action">
-										<%= link_to "Edit", "/record/#{record.id}" %> |
+										 <%#= link_to "Edit", "/record/#{record.id}" %>
+										<%= link_to "Edit", edit_record_path(record.id) %>
 										<%= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
 										<%= link_to "Log", "/record/#{record.id}/logs" %>
 									</td>

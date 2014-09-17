@@ -48,12 +48,19 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
+
     @record.subjects.build() if @record.subjects.blank?
+    if @record.subjects.count() == 0
+      2.times do
+        @record.subjects.build()
+      end
+
+    end
 
 
     if @record.save
 
-      unless @user.last_name.nil? || @user.last_name.blank?
+    unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id, 
                                       contributorType: "DataManager", 
                                       contributorName: @user.last_name + ", " + @user.first_name)
@@ -63,8 +70,8 @@ class RecordsController < ApplicationController
       
       if params[:commit] == 'Save'
 
-        redirect_to "/record/#{@record.id}"
-
+        redirect_to edit_record_path(@record.id)
+        #redirect_to "/record/#{@record.id}"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
@@ -76,8 +83,9 @@ class RecordsController < ApplicationController
 
   def edit
     @record = Record.find(params[:id])
+    
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
       @record.subjects.build() if @record.subjects.blank?
     end
@@ -89,14 +97,21 @@ class RecordsController < ApplicationController
    #@record.creators.build() if @record.creators.blank?
    #@record.citations.build()if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
-    if @record.subjects.count() == 1
+    if @record.subjects.count() == 0
       2.times do
         @record.subjects.build()
       end
+
     elsif @record.subjects.count() == 2
       1.times do
         @record.subjects.build()
       end
+    elsif @record.subjects.count() == 1
+      2.times do
+        @record.subjects.build()
+
+      end
+
     end
 
   end
@@ -117,13 +132,14 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     
     @record.institution_id = @user.institution_id unless @record.institution_id
-  
+
     if @record.update_attributes(record_params) && params[:commit] =='Save And Continue'
       redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
     else
       #render 'edit'
-      redirect_to "/record/#{@record.id}"
-    end
+      redirect_to edit_record_path(@record.id)
+      #redirect_to "/record/#{@record.id}"
+   end
   end
 
 
