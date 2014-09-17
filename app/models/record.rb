@@ -24,7 +24,7 @@ class Record < ActiveRecord::Base
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
 
-  validates_associated :creators, :subjects
+  #validates_associated :creators
 
   #validates_associated :creators, :citations, :subjects
 

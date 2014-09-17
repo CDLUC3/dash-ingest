@@ -25,11 +25,11 @@ class RecordsController < ApplicationController
    @user = current_user
    @institution = @user.institution
    @record = Record.new
-   @record.creators.build
-   @record.citations.build
+   @record.creators.build()
+   @record.citations.build()
    
    3.times do
-    @record.subjects.build
+    @record.subjects.build()
    end
    @record.publisher = @institution.short_name
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
@@ -48,14 +48,16 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
-
+    3.times do
     @record.subjects.build() if @record.subjects.blank?
+    end
+
     if @record.subjects.count() == 0
       2.times do
         @record.subjects.build()
       end
 
-    end
+      end
 
 
     if @record.save
@@ -89,14 +91,6 @@ class RecordsController < ApplicationController
     3.times do
       @record.subjects.build() if @record.subjects.blank?
     end
-
-    if @record.rights.nil?
-      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
-    end
-   #@record.creators.build() if @record.creators.blank?
-   #@record.citations.build()if @record.citations.blank?
-    @record.subjects.build() if @record.subjects.blank?
     if @record.subjects.count() == 0
       2.times do
         @record.subjects.build()
@@ -113,6 +107,13 @@ class RecordsController < ApplicationController
       end
 
     end
+    if @record.rights.nil?
+      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    end
+   #@record.creators.build() if @record.creators.blank?
+   #@record.citations.build()if @record.citations.blank?
+
 
   end
 
@@ -130,18 +131,41 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
+    @record.creators.build() if @record.creators.blank?
+    @record.citations.build() if @record.citations.blank?
+    @record.subjects.build() if @record.subjects.blank?
+
+    if @record.subjects.count() == 0
+      2.times do
+        @record.subjects.build()
+      end
+
+    elsif @record.subjects.count() == 2
+      1.times do
+        @record.subjects.build()
+      end
+    elsif @record.subjects.count() == 1
+      2.times do
+        @record.subjects.build()
+
+      end
+
+    end
     
     @record.institution_id = @user.institution_id unless @record.institution_id
 
-    if @record.update_attributes(record_params) && params[:commit] =='Save And Continue'
-      redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
+  
+    if @record.update_attributes(record_params) 
+      if params[:commit] =='Save And Continue'
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
+      elsif params[:commit] == 'Save' 
+        redirect_to edit_record_path(@record.id)
+      end
     else
-      #render 'edit'
-      redirect_to edit_record_path(@record.id)
-      #redirect_to "/record/#{@record.id}"
-   end
-  end
+      render 'edit'
+    end
 
+  end
 
   private
   
