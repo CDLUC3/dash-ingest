@@ -396,7 +396,7 @@ class Record < ActiveRecord::Base
       fields = ""
 
       # initial_sentence = "Missing recommended field(s): "
-      initial_sentence = "Consider adding there recommended field(s): "
+      initial_sentence = "Consider adding these recommended field(s): "
             
       if self.subjects.nil? || self.subjects.empty?
         fields << "keywords"

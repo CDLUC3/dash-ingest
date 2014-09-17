@@ -1180,7 +1180,7 @@ width: 190px;
 	background-repeat: no-repeat;
 }
 #step-four-review-page .missing-fields, #step-four-review-page .uploaded-files-container, #step-four-review-page .metadata-container {
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	clear: left;
 }
 

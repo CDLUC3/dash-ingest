@@ -166,11 +166,10 @@
 						</div> -->
 
 						<div class="missing-fields">
-							<div class="missing-fields-req">
-							</div>
+							
 						</div>
 
-					<h2>Uploaded Files</h2>
+					<h2 style="display:inline;">Uploaded Files</h2><%= link_to " Upload more", {:controller => :uploads, :action => :index, :record_id => params[:id]} %>
 					<% if  @new_submission && (@record.uploads.nil? || @record.uploads.empty?) %>
 					<h3>Record must include at least one file</h3>
 					<p/>
@@ -182,7 +181,7 @@
 
 							<% end %>
 						</ul>
-						<%= link_to button_tag("Upload More Files", :class => 'btn'),
+						<%#= link_to button_tag("Upload More Files", :class => 'btn'),
 						{:controller => :uploads, :action => :index, :record_id => params[:id]} %>
 					</div>
 
