@@ -160,6 +160,8 @@ class RecordsController < ApplicationController
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       elsif params[:commit] == 'Save'
         redirect_to edit_record_path(@record.id)
+      else
+        render 'edit'
       end
     else
       render 'edit'
