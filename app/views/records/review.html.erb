@@ -6,148 +6,30 @@
 <div id="step-four-review-page">
 <!-- begin outer container -->
 <div id="outer-container">
-  <!-- begin inner container -->
-  <div id="inner-container">
-    <!-- begin header -->
-    <div id="header">
-      <%#= render 'layouts/header-logout' %>
-      <%= render 'layouts/header' %>
-    </div>
-    <!-- end header -->
-    <!-- begin navigation-->
-    <%= render 'layouts/navigation' %>
-    <!--end navigation-->
+<!-- begin inner container -->
+<div id="inner-container">
+<!-- begin header -->
+<div id="header">
+  <%#= render 'layouts/header-logout' %>
+  <%= render 'layouts/header' %>
+</div>
+<!-- end header -->
+<!-- begin navigation-->
+<%= render 'layouts/navigation' %>
+<!--end navigation-->
 
-    <!-- begin content -->
-    <div id="content">
-      <div id="banner">
-        <%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
-      </div>
+<!-- begin content -->
+<div id="content">
+  <div id="banner">
+    <%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
+  </div>
 
-      <div class="single-column">
+  <div class="single-column">
 
-        <h1>Review Before Submitting</h1>
-
-
-        <div class="missing-fields">
-          <div class="missing-fields-req">
-            <% unless @record.recommended_fields.empty? %>
-                <p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
-                <div class="fields-mis"><%= @record.recommended_fields%></div>
-            <% end %>
-          </div>
-        </div>
+    <h1>Review Before Submitting</h1>
 
 
-        <div><h2 style="display:inline;">Description </h2><%=link_to 'Edit', edit_record_path(@record.id)%></div>
-
-
-
-        <div class="metadata-container">
-          <div class="content">
-            <div class="content-row">
-              <div class="field-left">Dataset Title:</div>
-              <div class="field-right"><%= @record.title %></div>
-            </div>
-            <div class="content-row">
-              <div class="field-left">Institution:</div>
-              <div class="field-right"><%= @record.publisher %></div>
-            </div>
-            <div class="content-row">
-              <div class="field-left">Publication Year:</div>
-              <div class="field-right"><%= @record.publicationyear %></div>
-            </div>
-            <div class="content-row">
-              <div class="field-left">Data Type:</div>
-              <div class="field-right"><%= resourceType(@record.resourcetype) %></div>
-            </div>
-            <div class="content-row">
-              <div class="field-left">Data Creator:</div>
-              <div class="field-right">
-                <% if !@record.creators.first.nil? %>
-                    <%= @record.creators.first.creatorName %>
-                <% end %>
-
-                <% @record.creators.drop(1).each do |creator| %>
-                    | <%= creator.creatorName %>
-                <% end %>
-              </div>
-            </div>
-
-            <div class="content-row">
-              <div class="field-left">Keywords:</div>
-              <div class="field-right">
-                <% if !@record.subjects.first.nil? %>
-                    <%= @record.subjects.first.subjectName %>
-                <% end%>
-
-                <% @record.subjects.drop(1).each do |subject| %>
-                    | <%= subject.subjectName %>
-                <% end %>
-
-              </div>
-            </div>
-
-
-
-            <div class="content-row">
-              <div class="field-left">Rights:</div>
-              <div class="field-right"><%= @record.rights %></div>
-            </div>
-
-
-            <div class="content-row">
-              <div class="field-left">Rights URI:</div>
-              <div class="field-right"><%= link_to @record.rights_uri, @record.rights_uri %></div>
-            </div>
-
-
-            <div class="content-row">
-              <div class="field-left">Citation(s):</div>
-              <div class="field-right">
-                <div class="collapsible-citations">
-                  <div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Citations', '#' %></div>
-                  <div class="collapse-content-citations">
-
-                    <% if @record.citations %>
-                        <% @record.citations.each do |citation| %>
-                            <%= citation.citationName %>
-                        <%end%>
-                    <%end%>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="content-row">
-              <div class="field-left">Abstract:</div>
-              <div class="field-right">
-                <div class="collapsible-abstract">
-                  <div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Abstract', '#' %></div>
-                  <div class="collapse-content-abstract">
-                    <%= @record.abstract %>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="content-row">
-              <div class="field-left">Methods:</div>
-              <div class="field-right">
-                <div class="collapsible-methods">
-                  <div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Methods', '#' %></div>
-                  <div class="collapse-content-methods">
-                    <%= @record.methods %>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- <div class="missing-fields">
+    <!-- <div class="missing-fields">
 							<div class="missing-fields-req">
 								<%# unless @record.recommended_fields.empty? %>
 									<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
@@ -156,57 +38,186 @@
 							</div>
 						</div> -->
 
-        <div class="missing-fields">
-          <div class="missing-fields-req">
+
+    <%unless @record.recommended_fields.empty? %>
+        <div class=" fields-mis "><i class="fa fa-exclamation-triangle"></i><%= @record.recommended_fields%></div>
+    <% end %>
+
+
+
+    <div><h2 style="display:inline;">Description </h2><%=link_to 'Edit', edit_record_path(@record.id)%></div>
+
+
+
+    <div class="metadata-container">
+      <div class="content">
+        <div class="content-row">
+          <div class="field-left">Dataset Title:</div>
+          <div class="field-right"><%= @record.title %></div>
+        </div>
+        <div class="content-row">
+          <div class="field-left">Institution:</div>
+          <div class="field-right"><%= @record.publisher %></div>
+        </div>
+        <div class="content-row">
+          <div class="field-left">Publication Year:</div>
+          <div class="field-right"><%= @record.publicationyear %></div>
+        </div>
+        <div class="content-row">
+          <div class="field-left">Data Type:</div>
+          <div class="field-right"><%= resourceType(@record.resourcetype) %></div>
+        </div>
+        <div class="content-row">
+          <div class="field-left">Data Creator:</div>
+          <div class="field-right">
+            <% if !@record.creators.first.nil? %>
+                <%= @record.creators.first.creatorName %>
+            <% end %>
+
+            <% @record.creators.drop(1).each do |creator| %>
+                | <%= creator.creatorName %>
+            <% end %>
           </div>
         </div>
 
-        <h2>Uploaded Files</h2>
-        <% if  @new_submission && (@record.uploads.nil? || @record.uploads.empty?) %>
-            <h3>Record must include at least one file</h3>
-            <p/>
+        <div class="content-row">
+          <div class="field-left">Keywords:</div>
+          <div class="field-right">
+            <% if !@record.subjects.first.nil? %>
+                <%= @record.subjects.first.subjectName %>
+            <% end%>
+
+            <% @record.subjects.drop(1).each do |subject| %>
+                | <%= subject.subjectName %>
+            <% end %>
+
+          </div>
+        </div>
+
+
+
+        <div class="content-row">
+          <div class="field-left">Rights:</div>
+          <div class="field-right"><%= @record.rights %></div>
+        </div>
+
+
+        <div class="content-row">
+          <div class="field-left">Rights URI:</div>
+          <div class="field-right"><%= link_to @record.rights_uri, @record.rights_uri %></div>
+        </div>
+
+
+        <div class="content-row">
+          <div class="field-left">Citation(s):</div>
+          <div class="field-right">
+            <div class="collapsible-citations">
+              <div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Citations', '#' %></div>
+              <div class="collapse-content-citations">
+
+                <% if @record.citations %>
+                    <% @record.citations.each do |citation| %>
+                        <%= citation.citationName %>
+                    <%end%>
+                <%end%>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-row">
+          <div class="field-left">Abstract:</div>
+          <div class="field-right">
+            <div class="collapsible-abstract">
+              <div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Abstract', '#' %></div>
+              <div class="collapse-content-abstract">
+                <%= @record.abstract %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-row">
+          <div class="field-left">Methods:</div>
+          <div class="field-right">
+            <div class="collapsible-methods">
+              <div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Methods', '#' %></div>
+              <div class="collapse-content-methods">
+                <%= @record.methods %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <%#unless @record.recommended_fields.empty? %>
+        <!-- <div class=" fields-mis "><i class="fa fa-exclamation-triangle"></i><%= @record.recommended_fields%></div>		 -->
+        <%# end %>
+
+      </div>
+    </div>
+
+    <!-- <div class="missing-fields">
+							<div class="missing-fields-req">
+								<%# unless @record.recommended_fields.empty? %>
+									<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
+									<div class="fields-mis"><%= @record.recommended_fields%></div>		
+								<%# end %>
+							</div>
+						</div> -->
+
+    <div class="missing-fields">
+
+    </div>
+
+    <h2 style="display:inline;">Uploaded Files</h2><%= link_to " Upload more", {:controller => :uploads, :action => :index, :record_id => params[:id]} %>
+    <% if  @new_submission && (@record.uploads.nil? || @record.uploads.empty?) %>
+        <h3>Record must include at least one file</h3>
+        <p/>
+    <% end %>
+    <div class="uploaded-files-container">
+      <ul>
+        <% @record.uploads.each do |dataupload| %>
+            <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>
+
         <% end %>
-        <div class="uploaded-files-container">
-          <ul>
-            <% @record.uploads.each do |dataupload| %>
-                <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>
-
-            <% end %>
-          </ul>
-          <%= link_to button_tag("Upload More Files", :class => 'btn'),
-                      {:controller => :uploads, :action => :index, :record_id => params[:id]} %>
-        </div>
+      </ul>
+      <%#= link_to button_tag("Upload More Files", :class => 'btn'),
+						{:controller => :uploads, :action => :index, :record_id => params[:id]} %>
+    </div>
 
 
-        <h2>Ready to go?</h2>
+    <!-- <h2>Ready to go?</h2> -->
 
-        <div class="ItemContainer" >
+    <div class="ItemContainer" >
 
-          <div class="ItemImage" style="float:left;">
-            <% if (!@first_submission) || (@record.required_fields.size == 0 && @record.uploads.size > 0)  %>
-                <a href="/record/<%=@record.id%>/send_archive_to_merritt">
-                  <button class="btn btn-large btn-success" id="submit_to_datashare">Submit to Dash</button>
-                </a>
-            <% else %>
-                <button type="button" disabled class="btn btn-large btn-success">Submit to Dash</button>
-            <% end %>
-          </div>
+      <div class="ItemImage" style="float:left;">
+        <% if (!@first_submission) || (@record.required_fields.size == 0 && @record.uploads.size > 0)  %>
+            <a href="/record/<%=@record.id%>/send_archive_to_merritt">
+              <button class="btn btn-large btn-success" id="submit_to_datashare">Submit to Dash</button>
+            </a>
+        <% else %>
+            <div style="margin-top:20px;">
+              <button type="button" disabled class="btn btn-large btn-success">Submit to Dash</button>
+            </div>
+        <% end %>
+      </div>
 
-        </div>
+    </div>
 
-      </div> <!-- end content-->
+  </div> <!-- end content-->
 
-      <!-- begin footer-->
-      <%if current_user%>
-          <%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
-      <%else%>
-          <%= render "layouts/brand/footer_cdl" %>
-      <%end%>	<!-- end footer-->
-    </div> <!-- end inner container -->
-  </div> <!-- end outer container -->
+  <!-- begin footer-->
+  <%if current_user%>
+      <%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+  <%else%>
+      <%= render "layouts/brand/footer_cdl" %>
+  <%end%>	<!-- end footer-->
+</div> <!-- end inner container -->
+</div> <!-- end outer container -->
 </div>
 
-
+</div>
 
 </body>
 </html>
