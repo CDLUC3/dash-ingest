@@ -1180,18 +1180,20 @@ width: 190px;
 	background-repeat: no-repeat;
 }
 #step-four-review-page .missing-fields, #step-four-review-page .uploaded-files-container, #step-four-review-page .metadata-container {
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	clear: left;
 }
 
 .fields-mis{
-line-height: 290%;
+line-height: 200%;
+margin-bottom: 20px;
 }
 
 #step-four-review-page .metadata-container {
 	width: 686px;
 	height: 100%;
 	float: left;
+	border-radius: 10px;
 }
 
 #step-four-review-page .metadata-container .heading {
@@ -1205,7 +1207,10 @@ line-height: 290%;
 	background-color:#fff;
 	float: left;
 	width: 100%;
-	border: 1px solid #58595B;
+	border: 1px solid #999;
+	border-radius:10px;
+	border-collapse: separate;
+	overflow: hidden;
 }
 #step-four-review-page .metadata-container .content .content-row {
 	margin: 5px 0;
@@ -1242,6 +1247,7 @@ line-height: 290%;
 
 #step-four-review-page .fa-exclamation-triangle {
 	margin-right: 0.3em;
+	margin-bottom: 0.9em;
 	color: #FFCC00;
 }
 

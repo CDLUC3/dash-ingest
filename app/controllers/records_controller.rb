@@ -61,7 +61,7 @@ class RecordsController < ApplicationController
       end
       
       if params[:commit] == 'Save'
-        render 'edit'
+        redirect_to edit_record_path(@record.id)
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
@@ -72,9 +72,9 @@ class RecordsController < ApplicationController
 
 
   def edit
-    @record = Record.find(params[:id])
+    @record = Record.find(params[:id])  
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    @record.citations.build() if @record.citations.blank? 
     3.times do
       @record.subjects.build() if @record.subjects.blank?
     end
@@ -83,8 +83,7 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-   #@record.creators.build() if @record.creators.blank?
-   #@record.citations.build()if @record.citations.blank?
+   
     @record.subjects.build() if @record.subjects.blank?
     if @record.subjects.count() == 1
       2.times do
@@ -112,13 +111,23 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
+
+    @record.creators.build() if @record.creators.blank?
+    @record.citations.build() if @record.citations.blank? 
+    3.times do
+      @record.subjects.build() if @record.subjects.blank?
+    end
     
     @record.institution_id = @user.institution_id unless @record.institution_id
   
-    if @record.update_attributes(record_params) && params[:commit] =='Save And Continue'
-      redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
-    else
-      render 'edit'
+    if @record.update_attributes(record_params) 
+      if params[:commit] =='Save And Continue'
+        redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
+      elsif params[:commit] == 'Save' 
+        redirect_to edit_record_path(@record.id)
+      end
+    else 
+      render :edit
     end
   end
 
