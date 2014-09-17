@@ -29,14 +29,23 @@
 						<h1>Review Before Submitting</h1>
 
 
-						<div class="missing-fields">
+						<!-- <div class="missing-fields">
 							<div class="missing-fields-req">
-								<% unless @record.recommended_fields.empty? %>
+								<%# unless @record.recommended_fields.empty? %>
 									<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
 									<div class="fields-mis"><%= @record.recommended_fields%></div>		
+								<%# end %>
+							</div>
+						</div> -->
+
+						<!-- <div class="missing-fields"> -->
+							<div class="missing-fields-req">
+								<%unless @record.recommended_fields.empty? %>
+									<!-- <p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p> -->
+									<div class=" fields-mis "><i class="fa fa-exclamation-triangle"></i><%= @record.recommended_fields%></div>		
 								<% end %>
 							</div>
-						</div>
+						<!-- </div> -->
 
 
 						<div><h2 style="display:inline;">Description </h2><%=link_to 'Edit', edit_record_path(@record.id)%></div>
