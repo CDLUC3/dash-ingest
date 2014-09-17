@@ -154,7 +154,7 @@ class RecordsController < ApplicationController
 
     @record.institution_id = @user.institution_id unless @record.institution_id
 
-
+#byebug
     if @record.update_attributes(record_params)
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id

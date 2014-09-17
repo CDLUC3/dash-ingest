@@ -32,7 +32,7 @@ class Record < ActiveRecord::Base
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
-  before_validation :mark_subjects_for_destruction, :mark_citations_for_destruction
+  before_save :mark_subjects_for_destruction, :mark_citations_for_destruction
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
