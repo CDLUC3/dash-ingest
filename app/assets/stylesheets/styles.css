@@ -1193,6 +1193,7 @@ margin-bottom: 20px;
 	width: 686px;
 	height: 100%;
 	float: left;
+	border-radius: 10px;
 }
 
 #step-four-review-page .metadata-container .heading {
@@ -1206,7 +1207,10 @@ margin-bottom: 20px;
 	background-color:#fff;
 	float: left;
 	width: 100%;
-	border: 1px solid #58595B;
+	border: 1px solid #999;
+	border-radius:10px;
+	border-collapse: separate;
+	overflow: hidden;
 }
 #step-four-review-page .metadata-container .content .content-row {
 	margin: 5px 0;
