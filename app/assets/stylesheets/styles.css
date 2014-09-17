@@ -1185,7 +1185,8 @@ width: 190px;
 }
 
 .fields-mis{
-line-height: 290%;
+line-height: 200%;
+margin-bottom: 20px;
 }
 
 #step-four-review-page .metadata-container {
@@ -1242,6 +1243,7 @@ line-height: 290%;
 
 #step-four-review-page .fa-exclamation-triangle {
 	margin-right: 0.3em;
+	margin-bottom: 0.9em;
 	color: #FFCC00;
 }
 
