@@ -1,8 +1,10 @@
 # config/unicorn.rb
 if ENV["RAILS_ENV"] == "development"
   worker_processes 1
+elsif ENV["RAILS_ENV"] == "staging" || ENV["RAILS_ENV"] == "stage"
+  worker_processes 2
 else
-  worker_processes 3
+	worker_processes 10
 end
 
 root = ENV["RAILS_ROOT"] || "/dash/apps/dash-ingest"
