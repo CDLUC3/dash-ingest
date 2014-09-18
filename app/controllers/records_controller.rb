@@ -56,24 +56,18 @@ class RecordsController < ApplicationController
       2.times do
         @record.subjects.build()
       end
-
     end
 
-
     if @record.save
-
       unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id,
                                        contributorType: "DataManager",
                                        contributorName: @user.last_name + ", " + @user.first_name)
-
         @contributor.save
       end
 
       if params[:commit] == 'Save'
-
         redirect_to edit_record_path(@record.id)
-        #redirect_to "/record/#{@record.id}"
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
@@ -105,16 +99,12 @@ class RecordsController < ApplicationController
         @record.subjects.build()
 
       end
-
     end
     if @record.rights.nil?
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-    #@record.creators.build() if @record.creators.blank?
-    #@record.citations.build()if @record.citations.blank?
-
-
+   
   end
 
 #deletes also one contributor
@@ -131,6 +121,7 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
+    # byebug
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
     @record.subjects.build() if @record.subjects.blank?
@@ -139,7 +130,6 @@ class RecordsController < ApplicationController
       2.times do
         @record.subjects.build()
       end
-
     elsif @record.subjects.count() == 2
       1.times do
         @record.subjects.build()
@@ -147,14 +137,11 @@ class RecordsController < ApplicationController
     elsif @record.subjects.count() == 1
       2.times do
         @record.subjects.build()
-
       end
-
     end
 
     @record.institution_id = @user.institution_id unless @record.institution_id
 
-#byebug
     if @record.update_attributes(record_params)
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
@@ -163,6 +150,7 @@ class RecordsController < ApplicationController
       else
         render 'edit'
       end
+
     else
       render 'edit'
     end
