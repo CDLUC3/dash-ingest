@@ -2,8 +2,8 @@ class CreateGeoLocations < ActiveRecord::Migration
   def change
     create_table :geo_locations do |t|
       t.text :geoLocationPlace
-      t.integer :record_id
-      t.references :geospatial, polymorphic:true
+      t.references :geospatial, polymorphic: true
+      t.references :record, index: true
       
       t.timestamps
     end

@@ -34,6 +34,7 @@ class RecordsController < ApplicationController
    @record.publisher = @institution.short_name
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+   @record.build_geoLocation
   end
 
   # POST - create new record
@@ -145,7 +146,8 @@ class RecordsController < ApplicationController
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citations_attributes: [ :id, :record_id, :citationName, :_destroy],
-    contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
+    contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
+    geoLocation_attributes: [:id, :record_id, :geoLocationPlace])
 
   end
 

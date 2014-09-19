@@ -133,6 +133,23 @@
 
 
     <%= f.hidden_field :rights_uri %>
+    
+    
+    <div class="fieldset">
+      <label for="geoLocation">
+        Associated Location
+        <a href="#data_geoLocationPoint_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+      
+      <fieldset class="geoLocation">
+        <%= f.fields_for :geoLocation do |ff| %>
+          <%= ff.text_field :geoLocationPlace, :size=>"20", :class=>"input-text", :placeholder => "Orange County, CA" %>
+        <% end %>
+        <p>Are you talking about a point on the map, or an area?</p>
+      </fieldset>
+    </div>
 
 
 

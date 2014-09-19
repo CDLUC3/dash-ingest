@@ -15,6 +15,7 @@ class Record < ActiveRecord::Base
   has_many :uploads
   has_many :citations, :dependent => :destroy
   has_one :geoLocation
+  has_one :geospatial, through: :geoLocation
  
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
@@ -43,6 +44,9 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
+  
+  accepts_nested_attributes_for :geoLocation, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :geoLocation_attributes
 
 
   def mark_subjects_for_destruction
@@ -234,6 +238,13 @@ class Record < ActiveRecord::Base
      self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
      
      f.puts "</descriptions>"
+     
+     # geoLocation
+     if !self.geoLocation.nil?
+       f.puts "<geoLocations>"
+       #AMC-MORE
+       f.puts "</geoLocations>"
+     end
 
      f.puts "</resource>"   
           

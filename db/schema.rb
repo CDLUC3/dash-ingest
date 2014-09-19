@@ -59,16 +59,10 @@ ActiveRecord::Schema.define(:version => 20140916212349) do
     t.datetime "updated_at",      :null => false
   end
 
-  create_table "geo_location_boxes", :force => true do |t|
-    t.spatial  "box",        :limit => {:type=>"polygon"}
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
-  end
-
   create_table "geo_location_points", :force => true do |t|
-    t.spatial  "point",      :limit => {:type=>"point"}
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.integer  "point"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "geo_locations", :force => true do |t|
