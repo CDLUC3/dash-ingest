@@ -2,7 +2,7 @@
 if ENV["RAILS_ENV"] == "production"
   worker_processes 4
 elsif ENV["RAILS_ENV"] == "staging" || ENV["RAILS_ENV"] == "stage"
-  worker_processes 2
+  worker_processes 3
 else
 	worker_processes 1
 end
