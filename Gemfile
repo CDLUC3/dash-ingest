@@ -53,7 +53,7 @@ gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
 gem 'strong_parameters'
 gem "omniauth-google-oauth2", "~> 0.2.1"
-gem "omniauth-shibboleth"
+gem "omniauth-shibboleth" , :git => "https://bitbucket.org/cdl/omniauth-shibboleth", :branch=>'master'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

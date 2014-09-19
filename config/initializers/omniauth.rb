@@ -9,7 +9,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
                            :shib_session_id_field     => "Shib-Session-ID",
                            :shib_application_id_field => "Shib-Application-ID",
-                           :debug                     =>  false,
+                           :debug                     =>  true,
 
                            :uid_field                 => "uid",
                            :name_field                => "displayName",
