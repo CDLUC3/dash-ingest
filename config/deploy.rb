@@ -82,11 +82,11 @@ namespace :deploy do
   end
 
   desc 'Restart Unicorn'
-  task :restart
-  before "deploy:restart", "bundle:install"
-  before :restart, :stop
-  before :restart, :start
-end
+    task :restart
+    before "deploy:restart", "bundle:install"
+    before :restart, :stop
+    before :restart, :start
+  end
 
 namespace :bundle do
 
