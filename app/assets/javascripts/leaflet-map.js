@@ -28,6 +28,6 @@ function initMap(lat,lng) {
 }*/
 
 function onMapClick(e) {
-  document.getElementById("marker_geoLocationPoint_lat").value = e.latlng.lat;
-  document.getElementById("marker_geoLocationPoint_lng").value = e.latlng.lng;
+  document.getElementById("record_geoLocation_attributes_geospatial_lat").value = e.latlng.lat;
+  document.getElementById("record_geoLocation_attributes_geospatial_lng").value = e.latlng.lng;
 }

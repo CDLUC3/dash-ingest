@@ -14,7 +14,9 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require jquery-fileupload
-//= require leaflet_map.js
+//= require leaflet.js
+//= require leaflet-src.js
+//= require leaflet-map.js
 //= require_tree .
 
 

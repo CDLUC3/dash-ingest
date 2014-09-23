@@ -147,7 +147,7 @@ class RecordsController < ApplicationController
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citations_attributes: [ :id, :record_id, :citationName, :_destroy],
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
-    geoLocation_attributes: [:id, :record_id, :geoLocationPlace])
+    geoLocation_attributes: [:id, :record_id, :geoLocationPlace, :geospatial_id, :geospatial_type, geospatial_attributes: [:lat, :lng]])
 
   end
 
