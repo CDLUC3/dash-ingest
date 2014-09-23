@@ -45,7 +45,7 @@
 							
 
 
-						<div><h2 style="display:inline;">Description </h2><%=link_to 'Edit', edit_record_path(@record.id)%></div>
+						<div><h2 style="display:inline;">Description </h2><span class="title-links">[<%=link_to 'Edit', edit_record_path(@record.id)%>]</span></div>
 						
 						
 
@@ -170,7 +170,7 @@
 							
 						</div>
 
-					<h2 style="display:inline;">Uploaded Files</h2><%= link_to " Upload more", {:controller => :uploads, :action => :index, :record_id => params[:id]} %>
+					<h2 style="display:inline;">Uploaded Files</h2> <span class="title-links">[<%= link_to "Upload more", {:controller => :uploads, :action => :index, :record_id => params[:id]} %>]</span>
 					<% if  @new_submission && (@record.uploads.nil? || @record.uploads.empty?) %>
 					<h3>Record must include at least one file</h3>
 					<p/>

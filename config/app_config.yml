@@ -35,7 +35,7 @@ production:
 campus_emails:
   cdl:        uc3@ucop.edu
   uci:        mjmckinl@uci.edu
-  ucla:       unknown@unknown.com
+  ucla:       data@library.ucla.edu
   ucsd:       unknown@unknown.com
   ucsb:       unknown@unknown.com
   ucb:        webman@library.berkeley.edu
