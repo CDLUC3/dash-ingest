@@ -1194,6 +1194,10 @@ margin-bottom: 20px;
 font-size: 1.5em;
 }
 
+.title-links {
+	margin-left: 1em;
+}
+
 #step-four-review-page .metadata-container {
 	width: 686px;
 	height: 100%;
