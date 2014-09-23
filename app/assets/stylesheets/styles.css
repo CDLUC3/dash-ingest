@@ -1,6 +1,6 @@
-.collapsible .collapse-control .indicator:after{content:"▹ Show";}
+/*.collapsible .collapse-control .indicator:after{content:"▹ Show";}
 .collapsible .collapse-control.active .indicator:after{content:"▿ Hide";}
-.collapsible .collapse-content{margin:0.3em 0 0 0;}
+.collapsible .collapse-content{margin:0.3em 0 0 0;}*/
 
 /* general styles  */
 .content.content-dataset .dataset-actions .dataset-action-buttons a{margin-bottom:1em;font-weight:bold;display:block;}
@@ -671,6 +671,10 @@ nav a {
 	margin: 33px 310px 75px 0; 
 }
 
+.brochure-message{
+	margin: 58px 0 60px 79px;;
+}
+
  /* FAQ page styles */ 
  #faq .title {
 	margin: 24px 0 22px;
@@ -1180,13 +1184,20 @@ width: 190px;
 	background-repeat: no-repeat;
 }
 #step-four-review-page .missing-fields, #step-four-review-page .uploaded-files-container, #step-four-review-page .metadata-container {
-	margin-bottom: 50px;
+	margin-bottom: 20px;
 	clear: left;
 }
+
+.fields-mis{
+line-height: 200%;
+margin-bottom: 20px;
+}
+
 #step-four-review-page .metadata-container {
 	width: 686px;
 	height: 100%;
 	float: left;
+	border-radius: 10px;
 }
 
 #step-four-review-page .metadata-container .heading {
@@ -1200,7 +1211,10 @@ width: 190px;
 	background-color:#fff;
 	float: left;
 	width: 100%;
-	border: 1px solid #58595B;
+	border: 1px solid #999;
+	border-radius:10px;
+	border-collapse: separate;
+	overflow: hidden;
 }
 #step-four-review-page .metadata-container .content .content-row {
 	margin: 5px 0;
@@ -1237,13 +1251,9 @@ width: 190px;
 
 #step-four-review-page .fa-exclamation-triangle {
 	margin-right: 0.3em;
+	margin-bottom: 0.9em;
 	color: #FFCC00;
 }
-
-.field_mis {
-	line-height:45px;
-}
-
 
 #step-four-review-page .missing-fields-req p + ul {
 	margin-top: 1.5em;
