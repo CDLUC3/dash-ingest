@@ -111,6 +111,18 @@ class RecordsController < ApplicationController
   def delete
     @record = Record.find(params[:id])
     @contributor = Contributor.find_all_by_record_id(@record.id).first
+
+    uploads = @record.uploads
+
+    uploads.each do |u| 
+      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{u.record.local_id}"
+      if File.exist?("#{file_path}")
+         FileUtils.rm_rf Dir.glob("#{file_path}/*")
+      end
+    end
+      
+   
+
     @contributor.destroy if @contributor
     @record.destroy
     redirect_to records_path
