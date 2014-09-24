@@ -46,9 +46,7 @@ class Upload < ActiveRecord::Base
         end
         u.delete
       end
-      
       redirect_to "/records"
-      
    end
 
 end
