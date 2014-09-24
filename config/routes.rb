@@ -13,7 +13,7 @@ DataIngest::Application.routes.draw do
   resources :sessions, only: [:create, :destroy]
   resources :login, only: [:index]
   root :to => 'login#index'
-
+  match 'login/index', to: 'login#signin', as: 'signin', :via => [:get, :post]
 
 
   resources :uploads

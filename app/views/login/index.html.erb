@@ -36,6 +36,29 @@
             <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %><br>
                   <%= link_to "Sign in with Shibboleth", "/auth/shibboleth", id: "sign_in" %>
 
+
+                  <%=form_for :institution, method: :post  do |f| %>
+                      <div class="control-group select_institution">
+
+                        <%= f.label :_id %>
+                        <%= f.collection_select :institution_id,  Institution.all, :id, :long_name, {:selected => :id},:prompt => "Please select an institution...", :class => "Institution" %>
+                      </div>
+                      <%= f.submit 'Next >>'%>
+
+                  <% end %>
+
+
+                  <select name="Campus Names" style="width:10px; font-size:10px">
+                    <option value="please select your campus">Please select your campus </option>
+                    <option value="university of california">University of California,Berkeley </option>
+                    <option value="university of california">University of California,Los Angeles</option>
+                    <option value="university of california">University of California,Irvine</option>
+                    <option value="university of california">University of California,Merced</option>
+                    <option value="university of california">University of California,Office of the President</option>
+
+
+                  </select>
+
             <% end %>
 
         </div>
