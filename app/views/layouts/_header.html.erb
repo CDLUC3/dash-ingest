@@ -1,7 +1,7 @@
 <div id="logo">
 	
 
-	 <a href="http://dash-stg.cdlib.org">
+	<a href="http://dash-stg.cdlib.org">
 
 		<%= image_tag "dash_cdl_logo.png",  
 									:title => "Dash: Open data for the global research community", 
@@ -12,7 +12,6 @@
 
 <div id="logout">
 
-	<%#if @institution%>
 	<%if current_user && current_user.institution %>
 
 		<p><%= image_tag "#{current_user.institution.logo}", 

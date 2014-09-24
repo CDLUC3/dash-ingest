@@ -14,6 +14,7 @@ class RecordsController < ApplicationController
 
     @institution = @user.institution
     @records = Record.find_all_by_user_id(current_user.id)
+    
   end
 
   # GET form for new record
