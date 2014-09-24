@@ -272,9 +272,9 @@ class Record < ActiveRecord::Base
      # File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
 
      f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
-      # while line = f.gets
-      #     puts line
-      # end
+      while line = f.gets
+          puts line
+      end
       f.close
 
    end
