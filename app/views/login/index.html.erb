@@ -34,21 +34,20 @@
             <%= link_to "Sign out", signout_path, id: "sign_out" %>
         <% else %>
             <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %><br>
-                  <%= link_to "Sign in with Shibboleth", "/auth/shibboleth", id: "sign_in" %>
 
 
                   <%=form_for :institution, method: :post  do |f| %>
                       <div class="control-group select_institution">
 
                         <%= f.label :_id %>
-                        <%= f.collection_select :institution_id,  Institution.all, :id, :long_name, {:selected => :id},:prompt => "Please select an institution...", :class => "Institution" %>
+                        <%= f.collection_select :institution_id,  Institution.all, :id, :long_name,:prompt => "Please select an institution...", :class => "Institution" %>
                       </div>
                       <%= f.submit 'Next >>'%>
 
                   <% end %>
 
 
-                  <select name="Campus Names" style="width:10px; font-size:10px">
+                  <select name="Campus Names" style="">
                     <option value="please select your campus">Please select your campus </option>
                     <option value="university of california">University of California,Berkeley </option>
                     <option value="university of california">University of California,Los Angeles</option>

@@ -4,7 +4,7 @@
 
 development:
   #The host for the shibboleth sp process
-  host: dash-dev2.cdlib.org
+  host: dash-dev2.ucop.edu
   #the return domain for the callback to application
   uid_field: eppn
   info_fields:
