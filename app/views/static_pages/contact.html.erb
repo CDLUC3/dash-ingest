@@ -24,7 +24,7 @@
 
             <%= render :partial => 'shared/display_flash' %>
 
-						<%= form_tag contact_path, :method => :post, :honeypot => true do %>
+						<%= form_tag contact_path, :method => :post, :honeypot => true, :id => 'contact_form_tag' do %>
 
 							<%= label_tag :name, "Name:" %>
 							<%= text_field_tag :name, params[:name],:class => "input-text" %>
@@ -44,12 +44,12 @@
 							<div class="honeypot">
 								<%#= label_tag :sweet_honey, "This is a honeypot, if you see this your CSS is turned off or you're a bot. If you're not a bot don't fill it in." %>
       							<%#= text_field_tag :content, nil, tabindex: '-1' %>
-    						</div>
+    					</div>
 
 							<div class="button-container">
   							
   							<%= submit_tag "Submit" , :class => "btn"%>
-  							<%= image_submit_tag "reset-button.png", type: :reset, :class => "btn", id: "cancel_action" %>
+  							<%= submit_tag "Reset", :class => "btn", id: "cancel_action" %>
   							
   						</div>
 
@@ -67,3 +67,18 @@
 		</div> <!-- end inner container -->
 	</div> <!-- end outer container -->
 </div> <!-- end page -->
+
+
+<script type="text/javascript">
+	$(function() {
+		$('#cancel_action').click(function(){
+			$('#contact_form_tag')[0].name.value = "";
+			$('#contact_form_tag')[0].affiliation.value = "";
+			$('#contact_form_tag')[0].email.value = "";
+			$('#contact_form_tag')[0].message.value = "";
+			return false;
+		});
+	});
+</script>
+
+

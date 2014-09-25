@@ -11,11 +11,11 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
- set :branch, ENV['BRANCH'] || 'master'
- set  :filter,  :branches => %w{oauth,joel,institutions}
+set :branch, ENV['BRANCH'] || 'master'
+set  :filter,  :branches => %w{oauth,joel,institutions}
 
- #set :branch, 'master'
- set  :branch, 'oauth'
+#set :branch, 'master'
+set  :branch, 'oauth'
 # set :branch, 'stage'
 # set :branch, 'development'
 #set :branch, 'joel'
@@ -108,4 +108,3 @@ namespace :bundle do
   end
 
 end
-
