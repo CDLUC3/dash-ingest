@@ -3,7 +3,7 @@ class LoginController < ApplicationController
   include RecordHelper
 
   def signin
-    logger.info "Params=#{params}"
+    #logger.info "Params=#{params}"
     if !params[:institution_id].blank?
       session['id'] = params[:institution_id]
     elsif session['id'].blank?
