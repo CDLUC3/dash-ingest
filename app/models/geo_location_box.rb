@@ -2,7 +2,8 @@ class GeoLocationBox < ActiveRecord::Base
   # Use the WSG84 spherical geographic coordinate system (SRID 4326)
   #set_rgeo_factory_for_column(:geoLocationBox,
   #  RGeo::Geographic.spherical_factory(:srid => 4326))
-  has_many :geoLocations, as: :geospatial
+  TYPE = "box"
+  belongs_to :record
   
-  attr_accessible :box
+  attr_accessible :box, :record_id
 end

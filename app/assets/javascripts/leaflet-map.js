@@ -4,7 +4,7 @@ var plotlist;
 var plotlayers=[];
 
 function initMap(lat,lng) {
-  var map = L.map('map')
+  var map = L.map('map');
 	// Initialize the map using the given coordinates.
 	// Otherwise, use Orange County.
   lat = lat || 33.6409;
@@ -28,6 +28,6 @@ function initMap(lat,lng) {
 }*/
 
 function onMapClick(e) {
-  document.getElementById("record_geoLocation_attributes_geospatial_lat").value = e.latlng.lat;
-  document.getElementById("record_geoLocation_attributes_geospatial_lng").value = e.latlng.lng;
+  document.getElementById("record_geoLocationPoint_attributes_*_lat").value = e.latlng.lat;
+  document.getElementById("record_geoLocationPoint_attributes_*_lng").value = e.latlng.lng;
 }

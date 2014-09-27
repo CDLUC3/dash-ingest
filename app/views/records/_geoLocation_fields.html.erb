@@ -1,0 +1,31 @@
+<div class="fieldset">
+      <label for="geoLocation">
+        Associated Location
+        <a href="#data_geoLocationPoint_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+      
+      <fieldset class="geoLocation">
+        
+        <%= f.text_field :geoLocationPlace, :size=>"20", :class=>"input-text", :placeholder => "Orange County, CA" %>
+        <p>
+          <!--<%= label "geospatial_type", "Add a geographic point" %>-->
+          Add a geographic point:
+          <%= radio_button_tag :location_type, "point", false, onClick: "document.getElementById('geoLocBox').style.display='none'; document.getElementById('geoLocPoint').style.display='block'; initMap();" %>
+          Add a geographic box:
+          <%= radio_button_tag :location_type, "box", false, onClick: "document.getElementById('geoLocPoint').style.display='none'; document.getElementById('geoLocBox').style.display='block'; initMap();" %>
+          <!-- <%= label "geospatial_type", "Add a geographic box" %> -->
+        </p>
+        <div id="geoLocPoint" style="display: none">
+          <div id="map">
+          </div>
+          <%= f.fields_for :geoLocationPoints do |ff| %>
+            <%= ff.label :lat -%> <%= ff.number_field :lat, :step => 'any' -%>, <%= ff.label :lng -%> <%= ff.number_field :lng, :step => 'any' %>
+          <% end %>
+        </div>
+        <div id="geoLocBox" style="display: none">
+          Test works!
+        </div>
+      </fieldset>
+    </div>

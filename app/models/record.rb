@@ -14,8 +14,8 @@ class Record < ActiveRecord::Base
   has_many :submissionLogs
   has_many :uploads
   has_many :citations, :dependent => :destroy
-  has_one :geoLocation
-  has_one :geospatial, through: :geoLocation
+  has_one :geoLocationBox, :dependent => :destroy
+  has_many :geoLocationPoints, :dependent => :destroy
  
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
@@ -45,9 +45,11 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
   
-  accepts_nested_attributes_for :geoLocation, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
-  attr_accessible :geoLocation_attributes
-
+  attr_accessible :geoLocationPlace
+  accepts_nested_attributes_for :geoLocationBox, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :geoLocationBox_attributes
+  accepts_nested_attributes_for :geoLocationPoints, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :geoLocationPoints_attributes
 
   def mark_subjects_for_destruction
 
@@ -240,11 +242,7 @@ class Record < ActiveRecord::Base
      f.puts "</descriptions>"
      
      # geoLocation
-     if !self.geoLocation.nil?
-       f.puts "<geoLocations>"
-       #AMC-MORE
-       f.puts "</geoLocations>"
-     end
+     
 
      f.puts "</resource>"   
           

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140916212349) do
+ActiveRecord::Schema.define(:version => 20140926174601) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -59,19 +59,19 @@ ActiveRecord::Schema.define(:version => 20140916212349) do
     t.datetime "updated_at",      :null => false
   end
 
-  create_table "geo_location_points", :force => true do |t|
-    t.integer  "point"
+  create_table "geo_location_boxes", :force => true do |t|
+    t.string   "box"
+    t.integer  "record_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "geo_locations", :force => true do |t|
-    t.text     "geoLocationPlace"
+  create_table "geo_location_points", :force => true do |t|
+    t.float    "lat"
+    t.float    "lng"
     t.integer  "record_id"
-    t.integer  "geospatial_id"
-    t.string   "geospatial_type"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "institutions", :force => true do |t|
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(:version => 20140916212349) do
     t.string   "publicationyear"
     t.string   "resourcetype"
     t.text     "rights"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.integer  "user_id"
     t.string   "title"
     t.string   "local_id"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20140916212349) do
     t.text     "methods"
     t.text     "rights_uri"
     t.integer  "institution_id"
+    t.string   "geoLocationPlace"
   end
 
   add_index "records", ["institution_id"], :name => "index_records_on_institution_id"

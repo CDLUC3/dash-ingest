@@ -34,7 +34,8 @@ class RecordsController < ApplicationController
    @record.publisher = @institution.short_name
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
-   @record.build_geoLocation
+   @record.geoLocationPlace = "Orange County, CA"
+   @record.geoLocationPoints.build
   end
 
   # POST - create new record
@@ -51,6 +52,7 @@ class RecordsController < ApplicationController
     @record.citations.build() if @record.citations.blank?
 
     @record.subjects.build() if @record.subjects.blank?
+    @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
 
     if @record.save
       unless @user.last_name.nil? || @user.last_name.blank?
@@ -143,15 +145,15 @@ class RecordsController < ApplicationController
   def record_params
     params.require(:record).permit(
     :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+    :geoLocationPlace,
     creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citations_attributes: [ :id, :record_id, :citationName, :_destroy],
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
-    geoLocation_attributes: [:id, :record_id, :geoLocationPlace, :geospatial_id, :geospatial_type, geospatial_attributes: [:lat, :lng]])
+    geoLocationBox_attributes: [:id, :record_id, :box],
+    geoLocationPoints_attributes: [:id, :record_id, :lat, :lng])
 
   end
-
-
  
 
 

@@ -1,0 +1,14 @@
+<%= f.hidden_field "_destroy", class: 'destroyer' %>
+<div class ='fields'>
+  <%= f.label :lat -%> <%= f.number_field :lat, :step => 'any' -%>, <%= f.label :lng -%> <%= f.number_field :lng, :step => 'any' %>
+
+  <div class="remove_point_field">
+  <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
+ </div>
+</div>
+
+<script>
+
+   $('.remove_creator_field').first().hide();
+
+</script>
