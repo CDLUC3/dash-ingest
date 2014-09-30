@@ -144,7 +144,7 @@
       
       <fieldset class="geoLocationPlace">
         <%= f.label :geoLocationPlace, "Yes" %>
-        <%= check_box f, :geoLocationPlace, {onChange: "hideOrReveal('geospatial'); initMap()"}, "Orange County (Calif.)" %>
+        <%= check_box f, :geoLocationPlace, {onChange: "hideOrRevealClass('geospatial'); initMap()"}, "Orange County (Calif.)" %>
       </fieldset>
     </div>
     
@@ -155,43 +155,66 @@
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= text_field "geoLocation", :size=>"20", :class=>"input-text", :placeholder => "Orange County (Calif.)", :readonly => true %>
-      <div id="map">
-      </div>
+      <%= f.text_field :geoLocationPlace, :size=>"20", :readonly => true, 'aria-required' => 'true' %>
       <table>
         <tr>
           <td>
-            <%= label "geospatial_type", "Select one or more geographic points:" %>
+            <%= f.label :geospatialType, "Select one or more geographic points:" %>
           </td>
           <td>
-            <%= radio_button_tag :location_type, "point", false, onClick: "document.getElementById('geoLocBox').style.display='none'; document.getElementById('geoLocPoint').style.display='block';" %>
+            <%= f.radio_button :geospatialType, "point", { onClick: "document.getElementById('geoLocPoint').style.display='block'; document.getElementById('geoLocBox').style.display='none';" } %>
           </td>
         </tr>
         <tr>
           <td>
-            <%= label "geospatial_type", "Specify a geographic area:" %>
+            <%= f.label :geospatialType, "Specify a geographic area:" %>
           </td>
           <td>
-            <%= radio_button_tag :location_type, "box", false, onClick: "document.getElementById('geoLocPoint').style.display='none'; document.getElementById('geoLocBox').style.display='block';" %>
+            <%= f.radio_button :geospatialType, "box", { onClick: "document.getElementById('geoLocPoint').style.display='none'; document.getElementById('geoLocBox').style.display='block';" } %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <%= f.label :geospatialType, "No geospatial coordinates" %>
+          </td>
+          <td>
+            <%= f.radio_button :geospatialType, "none", { onClick: "document.getElementById('geoLocPoint').style.display='none'; document.getElementById('geoLocBox').style.display='none';" } %>
           </td>
         </tr>
       </table>
     </div>
+    <div id="map" class="geospatial" style="display: none;">
+    </div>
     
-    <div class="fieldset geospatial">
-      <label for="geoLocation">
-        Associated Location
+    <div id="geoLocPoint" class="fieldset" style="display: none;">
+      <label for="geoLocationPoint">
+        Points
         <a href="#data_geoLocationPoint_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      
-      <fieldset class="geoLocation">
-        <div id="geoLocPoint" style="display: none">
+
+      <fieldset class="geoLocationPoint">
+        <div id="geoLocationPoint">
+          <%= f.fields_for :geoLocationPoints do |geoLocationPoint_builder| %>
+            <%= render 'geoLocationPoint_fields', :f => geoLocationPoint_builder %>
+          <% end %>
           <%= link_to_add_fields '+Geographic Point', f, :geoLocationPoints %>
         </div>
-        <div id="geoLocBox" style="display: none">
-          Test works!
+      </fieldset>
+    </div>
+        
+    <div id="geoLocBox" class="fieldset" style="display: none;">
+      <label for="geoLocationBox">
+        Box
+        <a href="#data_geoLocationBox_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+
+      <fieldset class="geoLocationBox">
+        <div id="geoLocationBox">
+          TEST WORKS!
         </div>
       </fieldset>
     </div>

@@ -14,8 +14,8 @@ class Record < ActiveRecord::Base
   has_many :submissionLogs
   has_many :uploads
   has_many :citations, :dependent => :destroy
-  has_one :geoLocationBox, :dependent => :destroy
   has_many :geoLocationPoints, :dependent => :destroy
+  has_one :geoLocationBox, :dependent => :destroy
  
 
  # accepts_nested_attributes_for :creators, allow_destroy: true
@@ -28,6 +28,7 @@ class Record < ActiveRecord::Base
   
   #validates_associated :creators, :citations, :subjects
   #validates_associated :citations, :subjects
+  validates_associated :geoLocationPoints, :geoLocationBox
   
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
@@ -45,11 +46,12 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
   
-  attr_accessible :geoLocationPlace
-  accepts_nested_attributes_for :geoLocationBox, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
-  attr_accessible :geoLocationBox_attributes
+  attr_accessible :geoLocationPlace, :geospatialType
   accepts_nested_attributes_for :geoLocationPoints, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :geoLocationPoints_attributes
+  accepts_nested_attributes_for :geoLocationBox, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :geoLocationBox_attributes
+  before_validation :mark_points_for_destruction
 
   def mark_subjects_for_destruction
 
@@ -68,7 +70,20 @@ class Record < ActiveRecord::Base
       end
     }
   end
-
+  
+  def mark_points_for_destruction
+    if (geospatialType != 'point')
+      geoLocationPoints.each {|point|
+        point.mark_for_destruction
+      }
+    else 
+      geoLocationPoints.each {|point|
+        if (point.lat.blank? || point.lng.blank?)
+          point.mark_for_destruction
+        end
+      }
+    end
+  end
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
@@ -243,6 +258,14 @@ class Record < ActiveRecord::Base
      
      # geoLocation
      
+     if !self.geoLocationPlace.nil?
+       f.puts "<geoLocations>"
+         f.puts "<geoLocation>"
+           f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
+           
+         f.puts "</geoLocation>"
+       f.puts "</geoLocations>"
+     end
 
      f.puts "</resource>"   
           

@@ -5,5 +5,10 @@ class GeoLocationPoint < ActiveRecord::Base
   TYPE = "point"
   belongs_to :record, :inverse_of => :geoLocationPoints
   
+  validates :lat, numericality: 
+    { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+  validates :lng, numericality: 
+    { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+  
   attr_accessible :lat, :lng, :record_id
 end
