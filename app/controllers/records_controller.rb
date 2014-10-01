@@ -4,6 +4,12 @@ class RecordsController < ApplicationController
 
   before_filter :verify_ownership
 
+  # before_filter :test, only: :review
+
+
+  def test
+    byebug
+  end
 
   def index
 
@@ -183,7 +189,14 @@ class RecordsController < ApplicationController
   end
 
 
+   
+
+
+public
+
+
   def review
+
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
@@ -196,17 +209,12 @@ class RecordsController < ApplicationController
       @first_submission = @record.submissionLogs[@array_position].filtered_response.to_s.include?("Success") ? false : true
     end
 
-
     @record.purge_temp_files
     @xmlout = @record.review
-
-    render :review, :layout => false
 
   end
 
 
-
-  public
   def send_archive_to_merritt
     @user = current_user
     @institution = @user.institution
@@ -278,7 +286,7 @@ class RecordsController < ApplicationController
     if @user
       @institution = @user.institution
     end
-
+    
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
         redirect_to "/records"
