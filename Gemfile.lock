@@ -259,6 +259,7 @@ DEPENDENCIES
   launchy
   less-rails (= 2.3.3)
   mysql2
+  nokogiri
   omniauth-google-oauth2 (~> 0.2.1)
   paperclip
   rails (= 3.2.19)

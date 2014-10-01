@@ -112,6 +112,8 @@ class Record < ActiveRecord::Base
     # note - for now, removing the tags to contain multiple XML entries.  This produces invalid XML.
     # however, it appears to be necessary for the XTF index to work properly.  
 
+    noko_file = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", "w:ASCII-8BIT")
+
     # builder = Nokogiri::XML::Builder.new do |xml|
     #   xml.root {
     #     xml.products {
@@ -123,6 +125,33 @@ class Record < ActiveRecord::Base
     #   }
     # end
     # puts builder.to_xml
+
+    noko_file = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml")
+    doc = Nokogiri::XML(noko_file)
+    
+    doc.root {
+      doc.products {
+        doc.widget {
+          doc.id_ "10"
+          doc.name "Awesome widget"
+        }
+      }
+    }
+
+
+    noko_file.close
+
+
+
+    # require 'nokogiri'
+    
+    # Nokogiri.new()
+    
+    # buffer = File.open('deko6.svg','r').read
+    
+    # doc = Nokogiri::XML(buffer)
+   
+    # File.open('fudge.xml','w') {|f| doc.write_xml_to f}
 
 
 
