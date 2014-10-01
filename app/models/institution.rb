@@ -6,4 +6,6 @@ class Institution < ActiveRecord::Base
 
   # ROOT_URL = ENV["root_url"]
 
+
+
 end

@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :records
   belongs_to :institution
   
-  attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token, :oauth_expires_at
+  attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token, :oauth_expires_at, :institution
 
   def self.from_omniauth(auth)
 
@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
       user.oauth_token = auth.credentials.token
       # #user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.external_id = auth.info.email
-      user.institution_id = 12
       user.save!
 
 
@@ -27,7 +26,6 @@ class User < ActiveRecord::Base
     end
 
   end
-
 
 
 

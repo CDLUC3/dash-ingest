@@ -4,18 +4,26 @@ class LoginController < ApplicationController
 
   def signin
     #logger.info "Params=#{params}"
+
+
     if !params[:institution_id].blank?
       session['id'] = params[:institution_id]
     elsif session['id'].blank?
     #redirect_to login_path, flash: {error: 'Please choose your log in institution.'} and return
-  end
+    end
+
   @institution = Institution.find(params[:institution][:institution_id])
-  if @institution.shib_entity_domain.blank?
+
+    session['institution_id']= params[:institution][:institution_id]
+
+    if @institution.shib_entity_domain.blank?
     #initiate shibboleth login sequence
     redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
                     DataIngest::Application.shibboleth_host, @institution.shib_entity_id)
   else
     #just let the original form render
+
+
   end
 
 
@@ -60,6 +68,8 @@ class LoginController < ApplicationController
 #redirect_to "/records"
 end
 
+
+
     def index
 
       if current_user
@@ -68,7 +78,10 @@ end
       end
 
     end
-  
+
+
+
+
 
   def logout
     if current_user
