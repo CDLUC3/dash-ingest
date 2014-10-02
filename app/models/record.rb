@@ -106,52 +106,30 @@ class Record < ActiveRecord::Base
 
 
   def review
-    # can we define the character encoding at UTF without a byte recorder marker
-    # ANSI encoding right now 
     
-    # note - for now, removing the tags to contain multiple XML entries.  This produces invalid XML.
-    # however, it appears to be necessary for the XTF index to work properly.  
 
-    noko_file = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", "w:ASCII-8BIT")
 
-    # builder = Nokogiri::XML::Builder.new do |xml|
-    #   xml.root {
-    #     xml.products {
-    #       xml.widget {
-    #         xml.id_ "10"
-    #         xml.name "Awesome widget"
-    #       }
-    #     }
-    #   }
-    # end
-    # puts builder.to_xml
-
-    noko_file = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml")
-    doc = Nokogiri::XML(noko_file)
+    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", "w:ASCII-8BIT")
     
-    doc.root {
-      doc.products {
-        doc.widget {
-          doc.id_ "10"
-          doc.name "Awesome widget"
+    builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+      xml.resource( 'xmlns' => 'http://datacite.org/schema/kernel-3', 
+                    'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                    'xsi:schemaLocation' => 'http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd') {
+        xml.products {
+          xml.widget {
+            xml.id_ "123"
+            xml.name "Bla bla bla"
+          }
         }
       }
-    }
+    end
+    puts builder.to_xml
+
+    File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", 'w') { |f| f.print(builder.to_xml) }
 
 
-    noko_file.close
-
-
-
-    # require 'nokogiri'
-    
-    # Nokogiri.new()
-    
-    # buffer = File.open('deko6.svg','r').read
-    
-    # doc = Nokogiri::XML(buffer)
-   
-    # File.open('fudge.xml','w') {|f| doc.write_xml_to f}
+            
+        
 
 
 
