@@ -131,43 +131,61 @@ class Record < ActiveRecord::Base
                     'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                     'xsi:schemaLocation' => 'http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd') {
         xml.identifier('identifierType' => 'DOI') {}
-        self.creators.each do |c|
-          xml.creator {
-            xml.creatorName "whats in a name"
-          }
-        end
-        xml.titles {
-          xml.title "A great article"
+        xml.creators{
+          self.creators.each do |c|
+            xml.creator {
+              xml.creatorName "#{c.creatorName.gsub(/\r/,"")}"
+            }
+          end
         }
-        xml.pubisher "I am the only real publisher"
-        xml.publicationYear "1998"
-        xml.subjects "This is interesting"
-        
-        # self.contributors.each do |c| 
-        #   xml.contributor {
-        #     xml.contributorName "Michael Jackson"
-        #     } 
-        # end
-        
-        xml.resourceType "Image"
+        xml.titles {
+          xml.title "#{self.title}"
+        }
+        xml.pubisher "#{self.publisher}"
+        xml.publicationYear "#{self.publicationyear}"
+        xml.subjects {
+          self.subjects.each do |s|
+            xml.subject "#{s.subjectName.gsub(/\r/,"")}"
+          end
+        }
+        xml.contributors {
+          self.contributors.each do |c|
+            xml.contributor {
+              xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
+            }
+          end
+        }
+        xml.resourceType "#{resourceTypeGeneral(self.resourcetype)}"
         xml.size @total_size
         xml.rightsList { 
-          xml.rights('rightsURI' => 'google.com') {}
+          xml.rightsURI "#{CGI::escapeHTML(self.rights_uri)}"     
+          xml.rights "#{CGI::escapeHTML(self.rights)}"
         }
-
         xml.descriptions{
-          xml.description "A brief story about me"
-        }
-
-        xml.titles {
-          xml.widget {
-            xml.id_ "123"
-            xml.name "456"
-          }
+          unless self.abstract.nil?
+            xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
+          end
+          unless self.methods.nil?
+            xml.description "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}"
+          end
+          self.descriptions.each do |d|
+            xml.description "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}"
+          end
         }
       }
     end
     puts builder.to_xml
+
+    # f.puts "<descriptions>" 
+    #  if !self.abstract.nil?
+    #    f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
+    #  end
+    #  if !self.methods.nil?
+    #    f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
+    #  end
+    #  self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
+     
+    #  f.puts "</descriptions>"
 
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", 'w') { |f| f.print(builder.to_xml) }
 
@@ -197,68 +215,29 @@ class Record < ActiveRecord::Base
      
      # subjects - datacite: multiple, optional
      f.puts "<subjects>"
-     # subject scheme is optional and open
-     #self.subjects.each { |a| f.puts "<subject subjectScheme=\"#{a.subjectScheme.gsub(/\r/,"")}\">#{a.subjectName.gsub(/\r/,"")}</subject>"}
-     # for now, just use the subject without a scheme
 
      self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
      f.puts "</subjects>"
-
-# self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
-
-
     f.puts "<contributors>"
     self.contributors.each do |c| 
       f.puts "<contributor contributorType=\"DataManager\">"
       f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
     end
      f.puts "</contributors>"
- 
-
-     # resourceType - datacite: optional
-     # should have a resourceTypeGeneral and a resourceType, may need to modify this
      f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
-     #f.puts "<resourceType resourceTypeGeneral=\"Dataset\">Dataset</resourceType>"
-    
-    # <% @record.uploads.each do |dataupload| %>
-        # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
-    # <% end %>
-    # @total_size = 0
-    # self.uploads.each do |u|
-    #   @total_size = @total_size + u.upload_file_size
-    # end
-    # if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
-    #   self.submissionLogs.each do |log|
-    #       if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
-    #         log.uploadArchives.each do |a|
-    #           @total_size = @total_size + a.upload_file_size.to_i     
-    #         end
-    #       end
-    #   end
-    # end
-
     f.puts "<size>#{@total_size}</size>"
      
     f.puts "<rightsList>"
     f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
     f.puts "</rightsList>"
 
-
-     #descriptions
      f.puts "<descriptions>" 
-     
-     # abstract
      if !self.abstract.nil?
        f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
      end
-     
-     #methods
      if !self.methods.nil?
        f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
      end
-     
-     # citation
-       
      self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
      
      f.puts "</descriptions>"
@@ -275,6 +254,25 @@ class Record < ActiveRecord::Base
           puts line
       end
       f.close
+
+
+
+      # <% @record.uploads.each do |dataupload| %>
+        # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
+    # <% end %>
+    # @total_size = 0
+    # self.uploads.each do |u|
+    #   @total_size = @total_size + u.upload_file_size
+    # end
+    # if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+    #   self.submissionLogs.each do |log|
+    #       if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+    #         log.uploadArchives.each do |a|
+    #           @total_size = @total_size + a.upload_file_size.to_i     
+    #         end
+    #       end
+    #   end
+    # end
 
    end
 
