@@ -109,16 +109,60 @@ class Record < ActiveRecord::Base
     
 
 
+    @total_size = 0
+    self.uploads.each do |u|
+      @total_size = @total_size + u.upload_file_size
+    end
+    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+      self.submissionLogs.each do |log|
+          if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+            log.uploadArchives.each do |a|
+              @total_size = @total_size + a.upload_file_size.to_i     
+            end
+          end
+      end
+    end
+
+
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
       xml.resource( 'xmlns' => 'http://datacite.org/schema/kernel-3', 
                     'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                     'xsi:schemaLocation' => 'http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd') {
-        xml.products {
+        xml.identifier('identifierType' => 'DOI') {}
+        self.creators.each do |c|
+          xml.creator {
+            xml.creatorName "whats in a name"
+          }
+        end
+        xml.titles {
+          xml.title "A great article"
+        }
+        xml.pubisher "I am the only real publisher"
+        xml.publicationYear "1998"
+        xml.subjects "This is interesting"
+        
+        # self.contributors.each do |c| 
+        #   xml.contributor {
+        #     xml.contributorName "Michael Jackson"
+        #     } 
+        # end
+        
+        xml.resourceType "Image"
+        xml.size @total_size
+        xml.rightsList { 
+          xml.rights('rightsURI' => 'google.com') {}
+        }
+
+        xml.descriptions{
+          xml.description "A brief story about me"
+        }
+
+        xml.titles {
           xml.widget {
             xml.id_ "123"
-            xml.name "Bla bla bla"
+            xml.name "456"
           }
         }
       }
@@ -128,19 +172,11 @@ class Record < ActiveRecord::Base
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", 'w') { |f| f.print(builder.to_xml) }
 
 
-            
-        
-
-
-
-
      f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
      f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
      f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
      
-     # identifier - datacite: single, mandatory
-     # left empty because it will be set by EZID on the merritt side
      f.puts "<identifier identifierType=\"DOI\"></identifier>"
      
      # creators - datacite: multiple, mandatory
@@ -149,11 +185,6 @@ class Record < ActiveRecord::Base
 
      f.puts "</creators>"
 
-     # should we allow multiple titles?  datacite does...
-     # we're only allowing one title per record
-     
-     # titles - datacite: multiple, mandatory
-     # datacite - title has an option type attribute that we are not using
      f.puts "<titles>"
      f.puts "<title>#{self.title}</title>"
      f.puts "</titles>"
@@ -172,10 +203,6 @@ class Record < ActiveRecord::Base
 
      self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
      f.puts "</subjects>"
-         
-     #contributors - datacite: multiple, optional, mandatory contributorType attribute
-     # do we have a default value for contributorType?  
-     # is this something we plan to use?
 
 # self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
 
@@ -186,60 +213,29 @@ class Record < ActiveRecord::Base
       f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
     end
      f.puts "</contributors>"
-     
-
-# #<contributors>
-#  <contributor contributorType="DataManager">
-#   <contributorName>Abrams, Stephen</contributerName>
-#  </contributor>
-# </contributors>
+ 
 
      # resourceType - datacite: optional
      # should have a resourceTypeGeneral and a resourceType, may need to modify this
      f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
      #f.puts "<resourceType resourceTypeGeneral=\"Dataset\">Dataset</resourceType>"
-     
-     # alternate Identifiers - datacite: optional
-     # this will be the localID
-     #f.puts "<alternateIdentifiers>"
-     #self.alternateIdentifiers.each { |a| f.puts "<alternateIdentifier alternateIdentifierType=\"#{a.alternateIdentifierType}\">#{a.alternateIdentifierName}</alternateIdentifier>"}
-     #f.puts "</alternateIdentifiers>"
-     
-     # relatedIdentifiers - datacite: optional, multiple
-     # going to use this for citations
-     # and then relations doesn't exist in the datacite schema
-     # is this valid without the relatedIdentifiersType?
-     # should I be using a different description for this?  N
-     # not sure if this is a valid mapping...
-     #f.puts "<relatedIdentifiers>"
-     #self.relations.each { |a| f.puts "<relatedIdentifier>#{a.relationText.gsub(/\r/,"")}</relatedIdentifier>"}
-     #f.puts "</relatedIdentifiers>"
-     
-     #<sizes>... this will be exported from merritt, but do we need it in the metadata?
-     
+    
     # <% @record.uploads.each do |dataupload| %>
         # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
     # <% end %>
-    @total_size = 0
-    self.uploads.each do |u|
-      @total_size = @total_size + u.upload_file_size
-    end
-
-    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
-      
-      self.submissionLogs.each do |log|
-
-        
-          if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
-
-            log.uploadArchives.each do |a|
-              @total_size = @total_size + a.upload_file_size.to_i     
-            end
-          end
-        
-
-      end
-    end
+    # @total_size = 0
+    # self.uploads.each do |u|
+    #   @total_size = @total_size + u.upload_file_size
+    # end
+    # if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+    #   self.submissionLogs.each do |log|
+    #       if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+    #         log.uploadArchives.each do |a|
+    #           @total_size = @total_size + a.upload_file_size.to_i     
+    #         end
+    #       end
+    #   end
+    # end
 
     f.puts "<size>#{@total_size}</size>"
      
@@ -284,164 +280,6 @@ class Record < ActiveRecord::Base
 
 
 
-
-
-
-#   def review
-#     # can we define the character encoding at UTF without a byte recorder marker
-#     # ANSI encoding right now 
-    
-#     # note - for now, removing the tags to contain multiple XML entries.  This produces invalid XML.
-#     # however, it appears to be necessary for the XTF index to work properly.  
-
-#      f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
-    
-#      f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-#      f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
-     
-#      # identifier - datacite: single, mandatory
-#      # left empty because it will be set by EZID on the merritt side
-#      f.puts "<identifier identifierType=\"DOI\"></identifier>"
-     
-#      # creators - datacite: multiple, mandatory
-#      f.puts "<creators>"
-#      self.creators.each { |a| f.puts "<creator><creatorName>#{a.creatorName.gsub(/\r/,"")}</creatorName></creator>"}
-
-#      f.puts "</creators>"
-
-#      # should we allow multiple titles?  datacite does...
-#      # we're only allowing one title per record
-     
-#      # titles - datacite: multiple, mandatory
-#      # datacite - title has an option type attribute that we are not using
-#      f.puts "<titles>"
-#      f.puts "<title>#{self.title}</title>"
-#      f.puts "</titles>"
-     
-#      # publisher - datacite: single, mandatory
-#      f.puts "<publisher>#{self.publisher}</publisher>"
-     
-#      # publication year - datacite: single, mandatory
-#      f.puts "<publicationYear>#{self.publicationyear}</publicationYear>"
-     
-#      # subjects - datacite: multiple, optional
-#      f.puts "<subjects>"
-#      # subject scheme is optional and open
-#      #self.subjects.each { |a| f.puts "<subject subjectScheme=\"#{a.subjectScheme.gsub(/\r/,"")}\">#{a.subjectName.gsub(/\r/,"")}</subject>"}
-#      # for now, just use the subject without a scheme
-
-#      self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
-#      f.puts "</subjects>"
-         
-#      #contributors - datacite: multiple, optional, mandatory contributorType attribute
-#      # do we have a default value for contributorType?  
-#      # is this something we plan to use?
-
-# # self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
-
-
-#     f.puts "<contributors>"
-#     self.contributors.each do |c| 
-#       f.puts "<contributor contributorType=\"DataManager\">"
-#       f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
-#     end
-#      f.puts "</contributors>"
-     
-
-# # #<contributors>
-# #  <contributor contributorType="DataManager">
-# #   <contributorName>Abrams, Stephen</contributerName>
-# #  </contributor>
-# # </contributors>
-
-#      # resourceType - datacite: optional
-#      # should have a resourceTypeGeneral and a resourceType, may need to modify this
-#      f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
-#      #f.puts "<resourceType resourceTypeGeneral=\"Dataset\">Dataset</resourceType>"
-     
-#      # alternate Identifiers - datacite: optional
-#      # this will be the localID
-#      #f.puts "<alternateIdentifiers>"
-#      #self.alternateIdentifiers.each { |a| f.puts "<alternateIdentifier alternateIdentifierType=\"#{a.alternateIdentifierType}\">#{a.alternateIdentifierName}</alternateIdentifier>"}
-#      #f.puts "</alternateIdentifiers>"
-     
-#      # relatedIdentifiers - datacite: optional, multiple
-#      # going to use this for citations
-#      # and then relations doesn't exist in the datacite schema
-#      # is this valid without the relatedIdentifiersType?
-#      # should I be using a different description for this?  N
-#      # not sure if this is a valid mapping...
-#      #f.puts "<relatedIdentifiers>"
-#      #self.relations.each { |a| f.puts "<relatedIdentifier>#{a.relationText.gsub(/\r/,"")}</relatedIdentifier>"}
-#      #f.puts "</relatedIdentifiers>"
-     
-#      #<sizes>... this will be exported from merritt, but do we need it in the metadata?
-     
-#     # <% @record.uploads.each do |dataupload| %>
-#         # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
-#     # <% end %>
-#     @total_size = 0
-#     self.uploads.each do |u|
-#       @total_size = @total_size + u.upload_file_size
-#     end
-
-#     if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
-      
-#       self.submissionLogs.each do |log|
-
-        
-#           if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
-
-#             log.uploadArchives.each do |a|
-#               @total_size = @total_size + a.upload_file_size.to_i     
-#             end
-#           end
-        
-
-#       end
-#     end
-
-#     f.puts "<size>#{@total_size}</size>"
-     
-#     f.puts "<rightsList>"
-#     f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
-#     f.puts "</rightsList>"
-
-
-#      #descriptions
-#      f.puts "<descriptions>" 
-     
-#      # abstract
-#      if !self.abstract.nil?
-#        f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
-#      end
-     
-#      #methods
-#      if !self.methods.nil?
-#        f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
-#      end
-     
-#      # citation
-       
-#      self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
-     
-#      f.puts "</descriptions>"
-
-#      f.puts "</resource>"   
-          
-#      f.close
-     
-#      #return contents of file as string
-#      # File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
-
-#      f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
-#       while line = f.gets
-#           puts line
-#       end
-#       f.close
-
-#    end
-   
 
    def generate_merritt_zip  
     
