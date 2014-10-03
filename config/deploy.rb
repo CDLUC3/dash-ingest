@@ -13,7 +13,7 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 
 # set :branch, 'master'
 # set :branch, 'stage'
-set :branch, 'development'
+set :branch, 'xml'
 # set :branch, 'joel'
 # set :branch, 'institutions'
 
