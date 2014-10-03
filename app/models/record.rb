@@ -104,27 +104,10 @@ class Record < ActiveRecord::Base
   
 
 
-
   def review
-    
 
-
-    @total_size = 0
-    self.uploads.each do |u|
-      @total_size = @total_size + u.upload_file_size
-    end
-    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
-      self.submissionLogs.each do |log|
-          if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
-            log.uploadArchives.each do |a|
-              @total_size = @total_size + a.upload_file_size.to_i     
-            end
-          end
-      end
-    end
-
-
-    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", "w:ASCII-8BIT")
+    @total_size = self.total_size
+    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
       xml.resource( 'xmlns' => 'http://datacite.org/schema/kernel-3', 
@@ -150,16 +133,15 @@ class Record < ActiveRecord::Base
         }
         xml.contributors {
           self.contributors.each do |c|
-            xml.contributor {
+            xml.contributor("contributorType" => "DataManager") {
               xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
             }
           end
         }
-        xml.resourceType "#{resourceTypeGeneral(self.resourcetype)}"
+        xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
+          xml.text("#{resourceTypeGeneral(self.resourcetype)}")
+        }
         xml.size @total_size
-
-
-        # xml.Option("b" => "hive"){ xml.text("hello") }
 
         xml.rightsList { 
           xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
@@ -169,20 +151,69 @@ class Record < ActiveRecord::Base
 
         xml.descriptions{
           unless self.abstract.nil?
-            xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
+            xml.description("descriptionType" => "Abstract") { 
+              xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
+            }
           end
           unless self.methods.nil?
-            xml.description "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}"
+            xml.description("descriptionType" => "Methods") {  
+              xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
+            }
           end
           self.descriptions.each do |d|
-            xml.description "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}"
+            xml.description("descriptionType" => "SeriesInformation") {  
+              xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
+            }
           end
         }
       }
     end
-    puts builder.to_xml
 
-    # f.puts "<descriptions>" 
+    File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
+
+
+    #  f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
+    
+    #  f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+    #  f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
+     
+    #  f.puts "<identifier identifierType=\"DOI\"></identifier>"
+     
+    #  # creators - datacite: multiple, mandatory
+    #  f.puts "<creators>"
+    #  self.creators.each { |a| f.puts "<creator><creatorName>#{a.creatorName.gsub(/\r/,"")}</creatorName></creator>"}
+
+    #  f.puts "</creators>"
+
+    #  f.puts "<titles>"
+    #  f.puts "<title>#{self.title}</title>"
+    #  f.puts "</titles>"
+     
+    #  # publisher - datacite: single, mandatory
+    #  f.puts "<publisher>#{self.publisher}</publisher>"
+     
+    #  # publication year - datacite: single, mandatory
+    #  f.puts "<publicationYear>#{self.publicationyear}</publicationYear>"
+     
+    #  # subjects - datacite: multiple, optional
+    #  f.puts "<subjects>"
+
+    #  self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
+    #  f.puts "</subjects>"
+    # f.puts "<contributors>"
+    # self.contributors.each do |c| 
+    #   f.puts "<contributor contributorType=\"DataManager\">"
+    #   f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
+    # end
+    #  f.puts "</contributors>"
+    #  f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
+    # f.puts "<size>#{@total_size}</size>"
+     
+    # f.puts "<rightsList>"
+    # f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
+    # f.puts "</rightsList>"
+
+    #  f.puts "<descriptions>" 
     #  if !self.abstract.nil?
     #    f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
     #  end
@@ -193,96 +224,35 @@ class Record < ActiveRecord::Base
      
     #  f.puts "</descriptions>"
 
-    File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/noko.xml", 'w') { |f| f.print(builder.to_xml) }
-
-
-     f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
-    
-     f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-     f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
-     
-     f.puts "<identifier identifierType=\"DOI\"></identifier>"
-     
-     # creators - datacite: multiple, mandatory
-     f.puts "<creators>"
-     self.creators.each { |a| f.puts "<creator><creatorName>#{a.creatorName.gsub(/\r/,"")}</creatorName></creator>"}
-
-     f.puts "</creators>"
-
-     f.puts "<titles>"
-     f.puts "<title>#{self.title}</title>"
-     f.puts "</titles>"
-     
-     # publisher - datacite: single, mandatory
-     f.puts "<publisher>#{self.publisher}</publisher>"
-     
-     # publication year - datacite: single, mandatory
-     f.puts "<publicationYear>#{self.publicationyear}</publicationYear>"
-     
-     # subjects - datacite: multiple, optional
-     f.puts "<subjects>"
-
-     self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
-     f.puts "</subjects>"
-    f.puts "<contributors>"
-    self.contributors.each do |c| 
-      f.puts "<contributor contributorType=\"DataManager\">"
-      f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
-    end
-     f.puts "</contributors>"
-     f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
-    f.puts "<size>#{@total_size}</size>"
-     
-    f.puts "<rightsList>"
-    f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
-    f.puts "</rightsList>"
-
-     f.puts "<descriptions>" 
-     if !self.abstract.nil?
-       f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
-     end
-     if !self.methods.nil?
-       f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
-     end
-     self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
-     
-     f.puts "</descriptions>"
-
-     f.puts "</resource>"   
+    #  f.puts "</resource>"   
           
-     f.close
+    #  f.close 
      
-     #return contents of file as string
-     # File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
-
-     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
-      while line = f.gets
-          puts line
-      end
-      f.close
-
-
-
-      # <% @record.uploads.each do |dataupload| %>
-        # <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>    
-    # <% end %>
-    # @total_size = 0
-    # self.uploads.each do |u|
-    #   @total_size = @total_size + u.upload_file_size
-    # end
-    # if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
-    #   self.submissionLogs.each do |log|
-    #       if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
-    #         log.uploadArchives.each do |a|
-    #           @total_size = @total_size + a.upload_file_size.to_i     
-    #         end
-    #       end
+    #  f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
+    #   while line = f.gets
+    #       puts line
     #   end
-    # end
+    #   f.close
 
    end
 
 
+   def total_size
+    @total_size = 0
+    self.uploads.each do |u|
+      @total_size = @total_size + u.upload_file_size
+    end
+    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+      self.submissionLogs.each do |log|
+          if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+            log.uploadArchives.each do |a|
+              @total_size = @total_size + a.upload_file_size.to_i     
+            end
+          end
+      end
+    end
+    @total_size
+   end
 
 
    def generate_merritt_zip  
