@@ -131,13 +131,13 @@ class Record < ActiveRecord::Base
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-        xml.contributors {
-          self.contributors.each do |c|
-            xml.contributor("contributorType" => "DataManager") {
-              xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
-            }
-          end
-        }
+        # xml.contributors {
+        #   self.contributors.each do |c|
+        #     xml.contributor("contributorType" => "DataManager") {
+        #       xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
+        #     }
+        #   end
+        # }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
