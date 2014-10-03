@@ -169,9 +169,18 @@ class Record < ActiveRecord::Base
       }
     end
 
+    f.puts builder.xml
+
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
 
-
+    f.close
+    
+    f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
+      while line = f.gets
+          puts line
+      end
+    
+    f.close
     #  f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     #  f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
