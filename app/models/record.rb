@@ -169,12 +169,12 @@ class Record < ActiveRecord::Base
       }
     end
 
-    puts builder.xml
-
+    puts builder.to_xml
+    
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
     
     f.close
-    
+
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
       while line = f.gets
           puts line
