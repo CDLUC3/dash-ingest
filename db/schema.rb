@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140926174601) do
+ActiveRecord::Schema.define(:version => 20140930223242) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -103,6 +103,7 @@ ActiveRecord::Schema.define(:version => 20140926174601) do
     t.text     "rights_uri"
     t.integer  "institution_id"
     t.string   "geoLocationPlace"
+    t.string   "geospatialType"
   end
 
   add_index "records", ["institution_id"], :name => "index_records_on_institution_id"
