@@ -180,11 +180,13 @@ class Record < ActiveRecord::Base
       }
     end
 
-    puts builder.to_xml
+    
 
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
     
+    puts builder.to_xml.to_s
 
+    builder.to_xml.to_s
     # f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
     #   while line = f.gets
     #       puts line
@@ -295,9 +297,10 @@ class Record < ActiveRecord::Base
      f.puts "doi:10.7272/Q6057CV6"
      f.close
 
-     f = File.new("#{file_path}/mrt-datacite.xml", "wb") 
-     f.puts self.review
-     f.close
+     File.open("#{file_path}/mrt-datacite.xml", "w") do |f|
+        f.write self.review
+     end
+
 
      Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|       
        zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
