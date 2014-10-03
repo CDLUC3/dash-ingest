@@ -6,7 +6,7 @@
 
     <div class="clear"></div>
     <label for="title">
-      * Dataset Title
+      * Title
       <a href="#dataset_title_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
@@ -14,7 +14,7 @@
     <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
 
     <label for="publisher">
-      * Institution
+      * Publisher
       <a href="#institution_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
@@ -40,7 +40,7 @@
 
     <div class="fieldset">
       <label for="creator_name">
-        * Data Creator(s)
+        * Author(s)
         <a href="#data_creator_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -50,7 +50,7 @@
         <%= f.fields_for :creators do |creator_builder| %>
           <%= render 'creator_fields', f: creator_builder %>
         <% end %>
-        <%= link_to_add_fields '+Additional Creator', f, :creators %>
+        <%= link_to_add_fields '+Additional Author', f, :creators %>
       </fieldset>
     </div>
 
