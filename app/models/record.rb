@@ -107,6 +107,7 @@ class Record < ActiveRecord::Base
   def review
 
     @total_size = self.total_size
+    # @contributor = self.contributors
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -137,6 +138,11 @@ class Record < ActiveRecord::Base
         #       xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
         #     }
         #   end
+        # }
+        # xml.contributors {
+        #   xml.contributor("contributorType" => "DataManager") {
+        #     xml.contributorName "#{self.contributors(:first)}"
+        #   }
         # }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
