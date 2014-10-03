@@ -262,7 +262,11 @@ class Record < ActiveRecord::Base
        f.puts "<geoLocations>"
          f.puts "<geoLocation>"
            f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
-           
+           self.geoLocationPoints.each do |g| 
+             f.puts "<geoLocationPoint>"
+             f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
+           end
+           # geoLocationBox
          f.puts "</geoLocation>"
        f.puts "</geoLocations>"
      end

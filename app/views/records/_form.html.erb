@@ -144,25 +144,39 @@
       
       <fieldset class="geoLocationPlace">
         <%= f.label :geoLocationPlace, "Yes" %>
-        <%= check_box f, :geoLocationPlace, {onChange: "hideOrRevealClass('geospatial'); initMap()"}, "Orange County (Calif.)" %>
+        <% hasGeo = false %>
+        <% geospatialStyle = "display: none;" %>
+        <% point = "hideGeo" %>
+        <% box = "hideGeo" %>
+        <% if (@record.geoLocationPlace == "Orange County (Calif.)") %>
+          <% hasGeo = true %>
+          <% geospatialStyle = "display: block;" %>
+          <% case @record.geospatialType %>
+            <% when "point" %>
+              <% point = "showGeo" %>
+            <% when "box" %>
+              <% box = "showGeo" %>
+          <% end %>
+        <% end %>
+        <%= f.check_box :geoLocationPlace, {:checked => hasGeo, onClick: "hideOrRevealClass('geospatial'); initMap()"}, "Orange County (Calif.)", "false" %>
       </fieldset>
     </div>
     
-    <div class="geospatial" style="display: none;">
+    <%= content_tag :div, class: "geospatial", style: geospatialStyle do %>
       <label for="geoLocation">
         Associated Location
         <a href="#data_geoLocation_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= f.text_field :geoLocationPlace, :size=>"20", :readonly => true, 'aria-required' => 'true' %>
+      <%= text_field_tag "geoLocationPlace", nil, { :placeholder => "Orange County (Calif.)", :size=>"20", :readonly => true, :disabled => true } %>
       <table>
         <tr>
           <td>
             <%= f.label :geospatialType, "Select one or more geographic points:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "point", { onClick: "document.getElementById('geoLocPoint').style.display='block'; document.getElementById('geoLocBox').style.display='none';" } %>
+            <%= f.radio_button :geospatialType, "point", { onClick: "document.getElementById('geoLocPoint').className='showGeo'; document.getElementById('geoLocBox').className='hideGeo';" } %>
           </td>
         </tr>
         <tr>
@@ -170,7 +184,7 @@
             <%= f.label :geospatialType, "Specify a geographic area:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "box", { onClick: "document.getElementById('geoLocPoint').style.display='none'; document.getElementById('geoLocBox').style.display='block';" } %>
+            <%= f.radio_button :geospatialType, "box", { onClick: "document.getElementById('geoLocPoint').className='hideGeo'; document.getElementById('geoLocBox').className='showGeo';" } %>
           </td>
         </tr>
         <tr>
@@ -178,15 +192,15 @@
             <%= f.label :geospatialType, "No geospatial coordinates" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "none", { onClick: "document.getElementById('geoLocPoint').style.display='none'; document.getElementById('geoLocBox').style.display='none';" } %>
+            <%= f.radio_button :geospatialType, "none", { onClick: "document.getElementById('geoLocPoint').className='hideGeo'; document.getElementById('geoLocBox').className='hideGeo';" } %>
           </td>
         </tr>
       </table>
-    </div>
-    <div id="map" class="geospatial" style="display: none;">
-    </div>
+    <% end %>
+    <%= content_tag :div, id: "map", class: "geospatial", style: geospatialStyle do %>
+    <% end %>
     
-    <div id="geoLocPoint" class="fieldset" style="display: none;">
+    <%= content_tag :div, id: "geoLocPoint", class: point do %>
       <label for="geoLocationPoint">
         Points
         <a href="#data_geoLocationPoint_help" name="help_link" class="help_link">
@@ -202,9 +216,9 @@
           <%= link_to_add_fields '+Geographic Point', f, :geoLocationPoints %>
         </div>
       </fieldset>
-    </div>
-        
-    <div id="geoLocBox" class="fieldset" style="display: none;">
+    <% end %>
+    
+    <%= content_tag :div, id: "geoLocBox", class: box do %>
       <label for="geoLocationBox">
         Box
         <a href="#data_geoLocationBox_help" name="help_link" class="help_link">
@@ -217,7 +231,7 @@
           TEST WORKS!
         </div>
       </fieldset>
-    </div>
+    <% end %>
 
 
 

@@ -2,10 +2,9 @@
   width: 400px;
   height: 300px;
 }
-.geospatial {
-	display: block;
-	overflow: hidden;
-	height: 100%;
-	width: 100%;
-	display: none;
+.showGeo {
+	display:block;
+}
+.hideGeo {
+	display:none;
 }

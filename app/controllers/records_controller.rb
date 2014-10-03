@@ -34,7 +34,6 @@ class RecordsController < ApplicationController
    @record.publisher = @institution.short_name
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
-   @record.geoLocationPlace = "Orange County, CA"
    @record.geoLocationPoints.build
   end
 
@@ -106,7 +105,9 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
-
+    if @record.geoLocationPlace.blank?
+      @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
+    end
   end
 
 #deletes also one contributor
@@ -150,8 +151,8 @@ class RecordsController < ApplicationController
     subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
     citations_attributes: [ :id, :record_id, :citationName, :_destroy],
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
-    geoLocationBox_attributes: [:id, :record_id, :box],
-    geoLocationPoints_attributes: [:id, :record_id, :lat, :lng])
+    geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
+    geoLocationBox_attributes: [:id, :record_id, :box, :_destroy])
 
   end
  

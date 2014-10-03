@@ -1,3 +1,9 @@
+var geoChecked = document.getElementById('geoLocationPlace');
+var geospatial = getElementsByClass('geospatial');
+for (var x = 0; x < geospatial.length; x++) {
+  geospatial[x].style.display = geoChecked.checked ? 'block' : 'none';
+}
+
 function hideOrRevealClass(name) {
   n = getElementsByClassName(name);
   for (var i = 0; i < n.length; i++) {
