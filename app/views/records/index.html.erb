@@ -37,9 +37,15 @@
 									<td class="data-publisher"><%= record.publisher %></td>
 									<td class="data-year"><%= record.publicationyear %></td>
 									<td class="data-action">
-										<!-- <%#= link_to "Edit", "/record/#{record.id}" %> | -->
 										<%= link_to "Edit", edit_record_path(record.id) %> |
-										<%= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
+
+    								<% @submitted = false %>
+    								
+    								<% record.submissionLogs.each {|log| @submitted = true if log.filtered_response == "Success: Record Uploaded to Datashare"  } %>
+      
+										<% unless @submitted %>
+											<%= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
+										<% end %> 
 										<%= link_to "Log", "/record/#{record.id}/logs" %>
 									</td>
 								</tr>
