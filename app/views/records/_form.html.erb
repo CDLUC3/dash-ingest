@@ -11,7 +11,7 @@
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
+    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Title", 'aria-required' => 'true' %>
 
     <label for="publisher">
       * Publisher
@@ -93,7 +93,7 @@
 
     <div class="fieldset">
       <label for="citation">
-        Citation(s)
+        Link(s)
         <a href="#citations_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -102,7 +102,7 @@
         <%= f.fields_for :citations do |citation_builder| %>
           <%= render 'citation_fields', :f => citation_builder %>
         <% end %>
-        <%= link_to_add_fields '+Additional Citations', f, :citations %>
+        <%= link_to_add_fields '+Additional Link', f, :citations %>
       </fieldset>
     </div>
 
