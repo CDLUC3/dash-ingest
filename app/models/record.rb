@@ -137,13 +137,7 @@ class Record < ActiveRecord::Base
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-        # xml.contributors {
-        #   self.contributors.each do |c|
-        #     xml.contributor("contributorType" => "DataManager") {
-        #       xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
-        #     }
-        #   end
-        # }
+      
         xml.contributors {
           xml.contributor("contributorType" => "DataManager") {
             xml.contributorName @contributor_name
@@ -179,8 +173,6 @@ class Record < ActiveRecord::Base
         }
       }
     end
-
-    
 
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
     
@@ -258,6 +250,83 @@ class Record < ActiveRecord::Base
    end
 
 
+   def dublincore
+    @total_size = self.total_size
+    @contributor = self.contributors.find(:first)
+    if @contributor
+      @contributor_name = @contributor.contributorName 
+    else
+      @contributor_name = ""
+    end
+    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
+    
+    dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+      xml.resource( 'xmlns' => 'http://datacite.org/schema/kernel-3', 
+                    'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                    'xsi:schemaLocation' => 'http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd') {
+        xml.identifier('identifierType' => 'DOI') {}
+        xml.creators{
+          self.creators.each do |c|
+            xml.creator {
+              xml.creatorName "#{c.creatorName.gsub(/\r/,"")}"
+            }
+          end
+        }
+        xml.titles {
+          xml.title "#{self.title}"
+        }
+        xml.pubisher "#{self.publisher}"
+        xml.publicationYear "#{self.publicationyear}"
+        xml.subjects {
+          self.subjects.each do |s|
+            xml.subject "#{s.subjectName.gsub(/\r/,"")}"
+          end
+        }
+      
+        xml.contributors {
+          xml.contributor("contributorType" => "DataManager") {
+            xml.contributorName @contributor_name
+          }
+        }
+        xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
+          xml.text("#{resourceTypeGeneral(self.resourcetype)}")
+        }
+        xml.size @total_size
+
+        xml.rightsList { 
+          xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
+            xml.text("#{CGI::escapeHTML(self.rights)}") 
+          }
+        }
+
+        xml.descriptions{
+          unless self.abstract.nil?
+            xml.description("descriptionType" => "Abstract") { 
+              xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
+            }
+          end
+          unless self.methods.nil?
+            xml.description("descriptionType" => "Methods") {  
+              xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
+            }
+          end
+          self.descriptions.each do |d|
+            xml.description("descriptionType" => "SeriesInformation") {  
+              xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
+            }
+          end
+        }
+      }
+    end
+
+    f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", 'w') { |f| f.print(dc_builder.to_xml) }
+    
+    puts dc_builder.to_xml.to_s
+
+    dc_builder.to_xml.to_s
+   end
+
+
    def total_size
     @total_size = 0
     self.uploads.each do |u|
@@ -301,9 +370,14 @@ class Record < ActiveRecord::Base
         f.write self.review
      end
 
+     File.open("#{file_path}/mrt-dc.xml", "w") do |f|
+        f.write self.dublincore
+     end
+
 
      Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|       
        zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
+       zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
        
        self.purge_temp_files
        
