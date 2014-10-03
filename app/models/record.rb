@@ -157,10 +157,16 @@ class Record < ActiveRecord::Base
         }
         xml.resourceType "#{resourceTypeGeneral(self.resourcetype)}"
         xml.size @total_size
+
+
+        # xml.Option("b" => "hive"){ xml.text("hello") }
+
         xml.rightsList { 
-          xml.rightsURI "#{CGI::escapeHTML(self.rights_uri)}"     
-          xml.rights "#{CGI::escapeHTML(self.rights)}"
+          xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
+            xml.text("#{CGI::escapeHTML(self.rights)}") 
+          }
         }
+
         xml.descriptions{
           unless self.abstract.nil?
             xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
