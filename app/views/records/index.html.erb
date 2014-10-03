@@ -43,9 +43,12 @@
     								
     								<% record.submissionLogs.each {|log| @submitted = true if log.filtered_response == "Success: Record Uploaded to Datashare"  } %>
       
-										<% unless @submitted %>
-											<%= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
-										<% end %> 
+										<%# unless @submitted %>
+											<%#= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> 
+										<%# end %> 
+
+										<%= link_to_if(!@submitted, "Delete", "/record/#{record.id}/delete", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?") %> |
+
 										<%= link_to "Log", "/record/#{record.id}/logs" %>
 									</td>
 								</tr>
