@@ -43,7 +43,7 @@ class RecordsController < ApplicationController
     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
-  # POST - create new record
+  
   def create
     @record = Record.new(params[:record])
     @user = current_user
@@ -70,6 +70,12 @@ class RecordsController < ApplicationController
         @contributor = Contributor.new(record_id: @record.id,
                                        contributorType: "DataManager",
                                        contributorName: @user.last_name + ", " + @user.first_name)
+        @contributor.save
+      end
+      if @funder = params[:record][:funder]
+        @contributor = Contributor.new(record_id: @record.id,
+                                       contributorType: "Funder",
+                                       contributorName: @funder)
         @contributor.save
       end
 
@@ -161,6 +167,25 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id unless @record.institution_id
 
     if @record.update_attributes(record_params)
+      @funder = params[:record][:funder] 
+
+      if !@funder.nil? && !@funder.blank?
+        if @record.funder
+          @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
+          @contributor.update_attributes(contributorName: @funder)
+          @contributor.save
+        else
+          @contributor = Contributor.new(record_id: @record.id,
+                                       contributorType: "Funder",
+                                       contributorName: @funder)
+          @contributor.save
+        end
+      elsif @record.funder
+        @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
+        @contributor.destroy
+      end
+
+
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       elsif params[:commit] == 'Save'
@@ -180,7 +205,7 @@ class RecordsController < ApplicationController
 
   def record_params
     params.require(:record).permit(
-        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract, 
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
         citations_attributes: [ :id, :record_id, :citationName, :_destroy],

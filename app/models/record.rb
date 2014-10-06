@@ -5,7 +5,7 @@ class Record < ActiveRecord::Base
   include RecordHelper
   
   has_many :creators, :dependent => :destroy
-  has_many :contributors
+  has_many :contributors, :dependent => :destroy
   has_many :descriptions
   has_many :subjects, :dependent => :destroy
   has_many :alternateIdentifiers
@@ -16,13 +16,17 @@ class Record < ActiveRecord::Base
   has_many :citations, :dependent => :destroy
  
 
+  attr_accessor :funder
+
  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
   belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
-                  :methods
+                  :methods, :funder
+
+
   
   
   validate :must_have_creators
@@ -47,6 +51,9 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
 
+  accepts_nested_attributes_for :contributors, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :contributors_attributes
+  
 
 
   def must_have_creators
@@ -102,6 +109,10 @@ class Record < ActiveRecord::Base
     FileUtils.mkdir("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}")
   end
   
+  def funder
+    @funder = self.contributors.where(contributorType: 'Funder').find(:first)
+    @funder[:contributorName] if @funder
+  end
 
 
   def review
@@ -113,6 +124,13 @@ class Record < ActiveRecord::Base
     else
       @data_manager_name = ""
     end
+    # @funder = self.contributors.where(contributorType: 'Funder').find(:first)
+    # if @funder
+    #   @funder_name = @funder.contributorName 
+    # else
+    #   @funder_name = ""
+    # end
+    @funder_name = self.funder
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -141,6 +159,9 @@ class Record < ActiveRecord::Base
         xml.contributors {
           xml.contributor("contributorType" => "DataManager") {
             xml.contributorName @data_manager_name
+          }
+          xml.contributor("contributorType" => "Funder") {
+            xml.contributorName @funder_name
           }
         }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
