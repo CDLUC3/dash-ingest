@@ -71,15 +71,21 @@
 										<% if !@record.subjects.first.nil? %>
 										<%= @record.subjects.first.subjectName %>
 										<% end%>
-
 										<% @record.subjects.drop(1).each do |subject| %>
 										| <%= subject.subjectName %>
 										<% end %>
-
 									</div>
 								</div>
+								
+								<div class="content-row">
+									<div class="field-left">Data Manager:</div>
+									<div class="field-right"><%= @record.data_manager %></div>
+								</div>
 
-
+								<div class="content-row">
+									<div class="field-left">Funder:</div>
+									<div class="field-right"><%= @record.funder %></div>
+								</div>
 
 								<div class="content-row">
 									<div class="field-left">Rights:</div>

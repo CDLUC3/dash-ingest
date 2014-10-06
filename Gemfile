@@ -57,5 +57,6 @@ gem 'unicorn'
 gem 'carrierwave'
 gem 'custom_error_message'
 gem 'nokogiri'
+gem 'simple_enum'
 
 

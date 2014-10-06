@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141006182439) do
+ActiveRecord::Schema.define(:version => 20141006221402) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -24,8 +24,10 @@ ActiveRecord::Schema.define(:version => 20141006182439) do
   create_table "citations", :force => true do |t|
     t.text     "citationName"
     t.integer  "record_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "related_id_type"
+    t.integer  "relation_type"
   end
 
   create_table "contributors", :force => true do |t|
