@@ -23,7 +23,7 @@ class Citation < ActiveRecord::Base
   # 													:urn => 14
 
 
-  as_enum :related_id_type, [:ark, :doi, :ean13, :eissn, :handle, :isbn, :issn, :istc, :lissn, :lsid, :pmid, :purl, :upc, :url, :urn]
-
+  as_enum :related_id_type, [:ARK, :DOI, :EAN13, :EISSN, :HANDLE, :ISBN, :ISSN, :ISTC, :LISSN, :LSID, :PMID, :PURL, :UPC, :URL, :URN]
+  as_enum :relation_type, [:IsCitedBy, :Cites, :IsSupplementTo, :IsSupplementedBy, :IsContinuedBy, :Continues, :HasMetadata, :IsMetadataFor, :IsNewVersionOf, :IsPreviousVersionOf, :IsPartOf, :HasPart, :IsReferencedBy, :References, :IsDocumentedBy, :Documents, :IsCompiledBy, :Compiles, :IsVariantFormOf, :IsOriginalFormOf, :IsIdenticalTo]
 
 end

@@ -137,7 +137,7 @@ class Record < ActiveRecord::Base
     #   @funder_name = ""
     # end
     @funder_name = self.funder
-    @data_manager = self.data_manager
+    @data_manager_name = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
