@@ -181,11 +181,11 @@ class Record < ActiveRecord::Base
 
    def dublincore
     @total_size = self.total_size
-    @contributor = self.contributors.find(:first)
-    if @contributor
-      @contributor_name = @contributor.contributorName 
+    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
+    if @data_manager
+      @data_manager_name = @data_manager.contributorName 
     else
-      @contributor_name = ""
+      @data_manager_name = ""
     end
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
     
@@ -216,7 +216,7 @@ class Record < ActiveRecord::Base
       
         xml.contributors {
           xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @contributor_name
+            xml.contributorName @data_manager_name
           }
         }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
