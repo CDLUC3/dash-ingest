@@ -108,22 +108,29 @@ class Record < ActiveRecord::Base
   def create_record_directory
     FileUtils.mkdir("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}")
   end
-  
+ 
+
   def funder
     @funder = self.contributors.where(contributorType: 'Funder').find(:first)
     @funder[:contributorName] if @funder
+  end
+
+  
+  def data_manager
+    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
+    @data_manager[:contributorName] if @data_manager
   end
 
 
   def review
 
     @total_size = self.total_size
-    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
-    if @data_manager
-      @data_manager_name = @data_manager.contributorName 
-    else
-      @data_manager_name = ""
-    end
+    # @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
+    # if @data_manager
+    #   @data_manager_name = @data_manager.contributorName 
+    # else
+    #   @data_manager_name = ""
+    # end
     # @funder = self.contributors.where(contributorType: 'Funder').find(:first)
     # if @funder
     #   @funder_name = @funder.contributorName 
@@ -131,6 +138,7 @@ class Record < ActiveRecord::Base
     #   @funder_name = ""
     # end
     @funder_name = self.funder
+    @data_manager = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -202,12 +210,8 @@ class Record < ActiveRecord::Base
 
    def dublincore
     @total_size = self.total_size
-    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
-    if @data_manager
-      @data_manager_name = @data_manager.contributorName 
-    else
-      @data_manager_name = ""
-    end
+    @funder_name = self.funder
+    @data_manager = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
     
     dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -234,10 +238,9 @@ class Record < ActiveRecord::Base
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-      
         xml.contributors {
-          xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @data_manager_name
+          xml.contributor {
+            xml.contributorName @funder_name
           }
         }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
