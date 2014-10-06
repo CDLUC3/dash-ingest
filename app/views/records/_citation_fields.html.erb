@@ -1,6 +1,10 @@
 <%= f.hidden_field "_destroy", class: 'destroyer' %>
 <div class = 'fields'>
-  <%= f.text_area :citationName, :rows => 6, :cols => 60, :placeholder => "Link or identifier"%>
+  <%= f.text_field :citationName, :size => "25", :class => 'input-text', 'aria-required' => 'true', :placeholder => "Link or identifier" %>
+  
+  <%= f.select :related_id_type, @record.related_id_types, :include_blank => true , 
+  		prompt: "Related identifier type:", :size => "25", :class => 'input-text', 'aria-required' => 'true'%>
+
   <div class="remove_citation_field">
     <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
   </div>

@@ -208,7 +208,7 @@ class RecordsController < ApplicationController
         :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract, 
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-        citations_attributes: [ :id, :record_id, :citationName, :_destroy],
+        citations_attributes: [ :id, :record_id, :citationName, :_destroy, :related_id_type, :relation_type],
         contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
 
   end
