@@ -18,7 +18,6 @@ class Record < ActiveRecord::Base
 
   attr_accessor :funder
 
- # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
   belongs_to :institution
   

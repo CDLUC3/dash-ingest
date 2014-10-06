@@ -1,5 +1,5 @@
 class AddRelationTypeToCitations < ActiveRecord::Migration
   def change
-    add_column :citations, :relation_type, :integer
+    add_column :citations, :relation_type, :string
   end
 end
