@@ -107,11 +107,11 @@ class Record < ActiveRecord::Base
   def review
 
     @total_size = self.total_size
-    @contributor = self.contributors.find(:first)
-    if @contributor
-      @contributor_name = @contributor.contributorName 
+    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
+    if @data_manager
+      @data_manager_name = @data_manager.contributorName 
     else
-      @contributor_name = ""
+      @data_manager_name = ""
     end
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
@@ -140,7 +140,7 @@ class Record < ActiveRecord::Base
       
         xml.contributors {
           xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @contributor_name
+            xml.contributorName @data_manager_name
           }
         }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
@@ -173,80 +173,9 @@ class Record < ActiveRecord::Base
         }
       }
     end
-
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
-    
     puts builder.to_xml.to_s
-
     builder.to_xml.to_s
-    # f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
-    #   while line = f.gets
-    #       puts line
-    #   end
-    
-    # f.close
-    #  f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
-    
-    #  f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-    #  f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
-     
-    #  f.puts "<identifier identifierType=\"DOI\"></identifier>"
-     
-    #  # creators - datacite: multiple, mandatory
-    #  f.puts "<creators>"
-    #  self.creators.each { |a| f.puts "<creator><creatorName>#{a.creatorName.gsub(/\r/,"")}</creatorName></creator>"}
-
-    #  f.puts "</creators>"
-
-    #  f.puts "<titles>"
-    #  f.puts "<title>#{self.title}</title>"
-    #  f.puts "</titles>"
-     
-    #  # publisher - datacite: single, mandatory
-    #  f.puts "<publisher>#{self.publisher}</publisher>"
-     
-    #  # publication year - datacite: single, mandatory
-    #  f.puts "<publicationYear>#{self.publicationyear}</publicationYear>"
-     
-    #  # subjects - datacite: multiple, optional
-    #  f.puts "<subjects>"
-
-    #  self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
-    #  f.puts "</subjects>"
-    # f.puts "<contributors>"
-    # self.contributors.each do |c| 
-    #   f.puts "<contributor contributorType=\"DataManager\">"
-    #   f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
-    # end
-    #  f.puts "</contributors>"
-    #  f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
-    # f.puts "<size>#{@total_size}</size>"
-     
-    # f.puts "<rightsList>"
-    # f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
-    # f.puts "</rightsList>"
-
-    #  f.puts "<descriptions>" 
-    #  if !self.abstract.nil?
-    #    f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
-    #  end
-    #  if !self.methods.nil?
-    #    f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
-    #  end
-    #  self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
-     
-    #  f.puts "</descriptions>"
-
-    #  f.puts "</resource>"   
-          
-    #  f.close 
-     
-    #  f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
-    #   while line = f.gets
-    #       puts line
-    #   end
-    #   f.close
-
    end
 
 
@@ -261,9 +190,11 @@ class Record < ActiveRecord::Base
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
     
     dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-      xml.resource( 'xmlns' => 'http://datacite.org/schema/kernel-3', 
-                    'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                    'xsi:schemaLocation' => 'http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd') {
+      xml.resource( 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                    'xsi:schemaLocation' => ' http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dcterms.xsd',
+                    'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                    'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
+        
         xml.identifier('identifierType' => 'DOI') {}
         xml.creators{
           self.creators.each do |c|
@@ -318,11 +249,8 @@ class Record < ActiveRecord::Base
         }
       }
     end
-
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", 'w') { |f| f.print(dc_builder.to_xml) }
-    
     puts dc_builder.to_xml.to_s
-
     dc_builder.to_xml.to_s
    end
 
