@@ -8,13 +8,11 @@ DataIngest::Application.routes.draw do
   match '/auth/:provider/callback' , to: 'sessions#create', :via => [:get, :post]
   #get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
-  get 'signout', to: 'sessions#destroy', as: 'signout'
+  get 'logout', to: 'sessions#destroy', as: 'logout'
 
   resources :sessions, only: [:create, :destroy]
-  resources :login, only: [:index]
-  root :to => 'login#index'
-  match 'login/index', to: 'login#signin', as: 'signin', :via => [:get, :post]
-
+  root :to => 'records#index'
+  match 'records/index', to: 'sessions#signin', as: 'signin', :via => [:get, :post]
 
   resources :uploads
 
@@ -54,7 +52,7 @@ DataIngest::Application.routes.draw do
   match 'login_page', :to => "login#login_page"
   match 'logout_page', :to => "login#logout_page"
   
-  match 'logout', :to => "login#logout"
+  match 'logout', :to => "sessions#destroy"
   
   match 'export', :to => "records#parse_feed"
   

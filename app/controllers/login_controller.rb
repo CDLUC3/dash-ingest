@@ -12,10 +12,10 @@ class LoginController < ApplicationController
     #redirect_to login_path, flash: {error: 'Please choose your log in institution.'} and return
     end
 
-  @institution = Institution.find(params[:institution][:institution_id])
+  #@institution = Institution.find(params[:institution][:institution_id])
 
-    session['institution_id']= params[:institution][:institution_id]
-
+   # session['institution_id']= params[:institution][:institution_id]
+    @institution = Institution.find(institution.id)
     if @institution.shib_entity_domain.blank?
     #initiate shibboleth login sequence
     redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
@@ -26,6 +26,21 @@ class LoginController < ApplicationController
 
   end
 
+    def institution
+      byebug
+      url = request.original_url
+      if ( url == nil )
+        @id = 4
+      else
+        case url.strip
+          when /.ucop.edu/
+            @id = 1
+          else
+            @id = 12
+        end
+      end
+      @id
+    end
 
 #if ENV["RAILS_ENV"] == "test"
 # user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")

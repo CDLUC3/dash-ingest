@@ -5,19 +5,23 @@ class RecordsController < ApplicationController
   before_filter :verify_ownership
 
 
-  def index
 
-    @user = current_user
-    if !@user || !@user.institution_id
-      redirect_to login_path and return
+
+    def index
+      if current_user
+        @user = current_user
+        @institution = @user.institution
+        @records = Record.find_all_by_user_id(current_user.id)
+
+
+      else
+        redirect_to :controller => 'sessions', :action => 'signin'  #:institution_id => params[:institution_id]
+      end
+
     end
 
-    @institution = @user.institution
-    @records = Record.find_all_by_user_id(current_user.id)
-    
-  end
 
-  # GET form for new record
+    # GET form for new record
   def new
     if ENV["RAILS_ENV"] == "test"
       @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")

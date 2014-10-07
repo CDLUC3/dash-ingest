@@ -40,7 +40,7 @@
                       <div class="control-group select_institution">
 
                         <%= f.label :_id %>
-                        <%= f.collection_select :institution_id,  Institution.all, :id, :long_name,:prompt => "Please select an institution...", :class => "Institution" %>
+                        <%= f.collection_select :institution_id,  Institution.all, :id, :long_name, :selected => session[:institution_id],:prompt => "Please select an institution...", :class => "Institution" %>
                       </div>
                       <%= f.submit 'Next >>'%>
 

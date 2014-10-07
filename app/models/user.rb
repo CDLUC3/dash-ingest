@@ -3,9 +3,9 @@ class User < ActiveRecord::Base
   has_many :records
   belongs_to :institution
   
-  attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token, :oauth_expires_at, :institution
+  attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token, :oauth_expires_at
 
-  def self.from_omniauth(auth)
+  def self.from_omniauth(auth,institution)
 
 
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -16,12 +16,8 @@ class User < ActiveRecord::Base
       user.oauth_token = auth.credentials.token
       # #user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.external_id = auth.info.email
+      user.institution_id = institution
       user.save!
-
-
-
-
-
 
     end
 
@@ -30,16 +26,19 @@ class User < ActiveRecord::Base
 
 
 
-  def self.institution_from_shibboleth(id)
-	  if ( id == nil )
-	    return Institution.find_by_id(1)
-	  end
-	  Institution.all.each do |i|
-	    if Regexp.new(i.external_id_strip).match(id)
-	      return i
-	    end
-	  end
-	end
+  # def self.institution
+  #   url = ".ucop.edu"
+  #   if ( url == nil )
+  #     return Institution.find_by_id(1)
+  #   end
+  #   Institution.all.each do |i|
+  #     if Regexp.new(i.landing_page).match(url)
+  #       return i
+  #     end
+  #   end
+  # end
+  #
+  #
 
 
 end
