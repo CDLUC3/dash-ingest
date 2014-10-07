@@ -4,14 +4,17 @@ class SessionsController < ApplicationController
     user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
+
     #logger.debug "Params: #{session}"
 
     redirect_to records_path, notice: "Signed in!"
   end
 
   def destroy
+
     session[:user_id] = nil
     session[:institution_id] = nil
+    cookies.delete(:dash_logged_in)
     #logger.debug "Params: #{session}"
     reset_session
     redirect_to logout_page_path
