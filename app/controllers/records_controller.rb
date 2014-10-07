@@ -43,7 +43,7 @@ class RecordsController < ApplicationController
     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
-  # POST - create new record
+  
   def create
     @record = Record.new(params[:record])
     @user = current_user
@@ -72,6 +72,19 @@ class RecordsController < ApplicationController
                                        contributorName: @user.last_name + ", " + @user.first_name)
         @contributor.save
       end
+      if @funder = params[:record][:funder]
+        @contributor = Contributor.new(record_id: @record.id,
+                                       contributorType: "Funder",
+                                       contributorName: @funder)
+        @contributor.save
+      end
+
+      if @grant_number = params[:record][:grant_number]
+        @description = Description.new(record_id: @record.id,
+                                       descriptionType: "Other",
+                                       descriptionText: @grant_number)
+        @description.save
+      end
 
       if params[:commit] == 'Save'
         redirect_to edit_record_path(@record.id)
@@ -86,7 +99,8 @@ class RecordsController < ApplicationController
 
   def edit
     @record = Record.find(params[:id])
-
+    @description = @record.grant_number
+    @grant_number = @record.grant_number
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
@@ -136,12 +150,12 @@ class RecordsController < ApplicationController
 
 
   def update
+
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    # byebug
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    #@record.citations.build() if @record.citations.length < 1
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.subjects.count() == 0
@@ -161,6 +175,44 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id unless @record.institution_id
 
     if @record.update_attributes(record_params)
+      @funder = params[:record][:funder] 
+
+      if !@funder.nil? && !@funder.blank?
+        if @record.funder
+          @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
+          @contributor.update_attributes(contributorName: @funder)
+          @contributor.save
+        else
+          @contributor = Contributor.new(record_id: @record.id,
+                                       contributorType: "Funder",
+                                       contributorName: @funder)
+          @contributor.save
+        end
+      elsif @record.funder
+        @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
+        @contributor.destroy
+      end
+
+
+      @grant_number = params[:record][:grant_number] 
+
+      if !@grant_number.nil? && !@grant_number.blank?
+        if @record.grant_number
+          @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
+          @description.update_attributes(descriptionText: @grant_number)
+          @description.save
+        else
+          @description = description.new(record_id: @record.id,
+                                       descriptionType: "Other",
+                                       descriptionText: @grant_number)
+          @description.save
+        end
+      elsif @record.grant_number
+        @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
+        @description.destroy
+      end
+
+
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       elsif params[:commit] == 'Save'
@@ -180,14 +232,13 @@ class RecordsController < ApplicationController
 
   def record_params
     params.require(:record).permit(
-        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract, 
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-        citations_attributes: [ :id, :record_id, :citationName, :_destroy],
-        contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
-
+        citations_attributes: [ :id, :record_id, :citationName, :_destroy, :related_id_type, :relation_type],
+        contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
+        descriptions_attributes: [:id, :record_id, :descriptionType, :descriptionText])
   end
-
 
    
 

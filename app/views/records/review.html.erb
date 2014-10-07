@@ -27,36 +27,21 @@
 					<div class="single-column">
 
 						<h1>Review Before Submitting</h1>
-
-
-						<!-- <div class="missing-fields">
-							<div class="missing-fields-req">
-								<%# unless @record.recommended_fields.empty? %>
-									<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
-									<div class="fields-mis"><%= @record.recommended_fields%></div>		
-								<%# end %>
-							</div>
-						</div> -->
-
 						
 						<%unless @record.recommended_fields.empty? %>
 							<div class=" fields-mis "><i class="fa fa-exclamation-triangle"></i><%= @record.recommended_fields%></div>		
 						<% end %>
-							
-
 
 						<div><h2 style="display:inline;">Description </h2><span class="title-links">[<%=link_to 'Edit', edit_record_path(@record.id)%>]</span></div>
 						
-						
-
 						<div class="metadata-container">
 							<div class="content">
 								<div class="content-row">
-									<div class="field-left">Dataset Title:</div>
+									<div class="field-left">Title:</div>
 									<div class="field-right"><%= @record.title %></div>
 								</div>
 								<div class="content-row">
-									<div class="field-left">Institution:</div>
+									<div class="field-left">Publisher:</div>
 									<div class="field-right"><%= @record.publisher %></div>
 								</div>
 								<div class="content-row">
@@ -68,7 +53,7 @@
 									<div class="field-right"><%= resourceType(@record.resourcetype) %></div>
 								</div>
 								<div class="content-row">
-									<div class="field-left">Data Creator:</div>
+									<div class="field-left">Author:</div>
 									<div class="field-right">	
 										<% if !@record.creators.first.nil? %>
 										<%= @record.creators.first.creatorName %>
@@ -86,15 +71,26 @@
 										<% if !@record.subjects.first.nil? %>
 										<%= @record.subjects.first.subjectName %>
 										<% end%>
-
 										<% @record.subjects.drop(1).each do |subject| %>
 										| <%= subject.subjectName %>
 										<% end %>
-
 									</div>
 								</div>
+								
+								<div class="content-row">
+									<div class="field-left">Data Manager:</div>
+									<div class="field-right"><%= @record.data_manager %></div>
+								</div>
 
+								<div class="content-row">
+									<div class="field-left">Funder:</div>
+									<div class="field-right"><%= @record.funder %></div>
+								</div>
 
+								<div class="content-row">
+									<div class="field-left">Grant Number:</div>
+									<div class="field-right"><%= @record.grant_number %></div>
+								</div>
 
 								<div class="content-row">
 									<div class="field-left">Rights:</div>
@@ -109,10 +105,10 @@
 
 
 								<div class="content-row">
-									<div class="field-left">Citation(s):</div>
+									<div class="field-left">Link(s):</div>
 									<div class="field-right">	
 										<div class="collapsible-citations">
-											<div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Citations', '#' %></div>
+											<div class="collapse-control"><span class="indicator"></span><%= link_to '▹ Show Links', '#' %></div>
 											<div class="collapse-content-citations">
 												
 												<% if @record.citations %>
@@ -150,24 +146,10 @@
 									</div>
 								</div>
 
-								<%#unless @record.recommended_fields.empty? %>
-							<!-- <div class=" fields-mis "><i class="fa fa-exclamation-triangle"></i><%= @record.recommended_fields%></div>		 -->
-						<%# end %>
-
 							</div>
 						</div>
 
-						<!-- <div class="missing-fields">
-							<div class="missing-fields-req">
-								<%# unless @record.recommended_fields.empty? %>
-									<p><i class="fa fa-exclamation-triangle"></i>Consider adding these recommended fields</p>
-									<div class="fields-mis"><%= @record.recommended_fields%></div>		
-								<%# end %>
-							</div>
-						</div> -->
-
 						<div class="missing-fields">
-							
 						</div>
 
 					<h2 style="display:inline;">Uploaded Files</h2> <span class="title-links">[<%= link_to "Upload more", {:controller => :uploads, :action => :index, :record_id => params[:id]} %>]</span>

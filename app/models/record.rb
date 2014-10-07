@@ -3,10 +3,11 @@ require 'zip/zip'
 
 class Record < ActiveRecord::Base
   include RecordHelper
+
   
   has_many :creators, :dependent => :destroy
-  has_many :contributors
-  has_many :descriptions
+  has_many :contributors, :dependent => :destroy
+  has_many :descriptions, :dependent => :destroy
   has_many :subjects, :dependent => :destroy
   has_many :alternateIdentifiers
   has_many :datauploads
@@ -16,16 +17,21 @@ class Record < ActiveRecord::Base
   has_many :citations, :dependent => :destroy
  
 
- # accepts_nested_attributes_for :creators, allow_destroy: true
+  attr_accessor :funder
+  attr_accessor :grant_number
+
   belongs_to :user
   belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
-                  :methods
+                  :methods, :funder, :grant_number
+
+
   
   
   validate :must_have_creators
+  validate :links_not_empty_if_present
 
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
@@ -47,6 +53,12 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
 
+  accepts_nested_attributes_for :contributors, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :contributors_attributes
+
+  accepts_nested_attributes_for :descriptions, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :descriptions_attributes
+  
 
 
   def must_have_creators
@@ -61,6 +73,21 @@ class Record < ActiveRecord::Base
       end
       if valid == 0
         errors.add(:base, 'You must add at least one creator.')
+      end
+    end
+  end
+
+
+  def links_not_empty_if_present
+    valid = 1
+    citations.each do |citation|
+      if ( (citation.citationName.blank? || citation.citationName.nil?) && (citation.related_id_type.nil? || citation.related_id_type.blank?) && (citation.relation_type.nil? || citation.relation_type.blank?) )
+        valid = 1
+      elsif ( (citation.citationName.blank? || citation.citationName.nil?) || (citation.related_id_type.blank?) || (citation.relation_type.blank?) )
+        valid = 0
+        errors.add(:base, 'Link name cannot be empty.') if (citation.citationName.blank? || citation.citationName.nil?)
+        errors.add(:base, 'Identifier type cannot be empty.') if ( citation.related_id_type.nil? || citation.related_id_type.blank?)
+        errors.add(:base, 'Link type cannot be empty.') if ( citation.relation_type.nil? || citation.relation_type.blank?)
       end
     end
   end
@@ -101,18 +128,29 @@ class Record < ActiveRecord::Base
   def create_record_directory
     FileUtils.mkdir("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}")
   end
-  
+ 
 
+  def funder
+    @funder = self.contributors.where(contributorType: 'Funder').find(:first)
+    @funder[:contributorName] if @funder
+  end
+
+  
+  def data_manager
+    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
+    @data_manager[:contributorName] if @data_manager
+  end
+
+  def grant_number
+    @grant_number = self.descriptions.where(descriptionType: 'Other').find(:first)
+    @grant_number[:descriptionText] if @grant_number
+  end
 
   def review
 
     @total_size = self.total_size
-    @contributor = self.contributors.find(:first)
-    if @contributor
-      @contributor_name = @contributor.contributorName 
-    else
-      @contributor_name = ""
-    end
+    @funder_name = self.funder
+    @data_manager_name = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
     
     builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
@@ -130,30 +168,28 @@ class Record < ActiveRecord::Base
         xml.titles {
           xml.title "#{self.title}"
         }
-        xml.pubisher "#{self.publisher}"
+        xml.publisher "#{self.publisher}"
         xml.publicationYear "#{self.publicationyear}"
         xml.subjects {
           self.subjects.each do |s|
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-        # xml.contributors {
-        #   self.contributors.each do |c|
-        #     xml.contributor("contributorType" => "DataManager") {
-        #       xml.contributorName "#{c.contributorName.gsub(/\r/,"")}"
-        #     }
-        #   end
-        # }
+      
         xml.contributors {
           xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @contributor_name
+            xml.contributorName @data_manager_name
+          }
+          xml.contributor("contributorType" => "Funder") {
+            xml.contributorName @funder_name
           }
         }
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
-        xml.size @total_size
-
+        xml.sizes {
+          xml.size @total_size
+        }
         xml.rightsList { 
           xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
             xml.text("#{CGI::escapeHTML(self.rights)}") 
@@ -179,82 +215,81 @@ class Record < ActiveRecord::Base
         }
       }
     end
-
-    
-
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
-    
     puts builder.to_xml.to_s
-
     builder.to_xml.to_s
-    # f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
-    #   while line = f.gets
-    #       puts line
-    #   end
+   end
+
+
+   def dublincore
+    @total_size = self.total_size
+    @funder_name = self.funder
+    @data_manager = self.data_manager
+    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
     
-    # f.close
-    #  f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
-    
-    #  f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
-    #  f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
-     
-    #  f.puts "<identifier identifierType=\"DOI\"></identifier>"
-     
-    #  # creators - datacite: multiple, mandatory
-    #  f.puts "<creators>"
-    #  self.creators.each { |a| f.puts "<creator><creatorName>#{a.creatorName.gsub(/\r/,"")}</creatorName></creator>"}
+    dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
+      xml.resource( 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                    'xsi:schemaLocation' => ' http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dcterms.xsd',
+                    'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                    'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
+        
+        xml.identifier('identifierType' => 'DOI') {}
+        xml.creators{
+          self.creators.each do |c|
+            xml.creator {
+              xml.creatorName "#{c.creatorName.gsub(/\r/,"")}"
+            }
+          end
+        }
+        xml.titles {
+          xml.title "#{self.title}"
+        }
+        xml.publisher "#{self.publisher}"
+        xml.publicationYear "#{self.publicationyear}"
+        xml.subjects {
+          self.subjects.each do |s|
+            xml.subject "#{s.subjectName.gsub(/\r/,"")}"
+          end
+        }
+        xml.contributors {
+          xml.contributor {
+            xml.contributorName @funder_name
+          }
+        }
+        xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
+          xml.text("#{resourceTypeGeneral(self.resourcetype)}")
+        }
+        xml.sizes{
+          xml.size @total_size
+        }
+        xml.rightsList { 
+          xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
+            xml.text("#{CGI::escapeHTML(self.rights)}") 
+          }
+        }
 
-    #  f.puts "</creators>"
-
-    #  f.puts "<titles>"
-    #  f.puts "<title>#{self.title}</title>"
-    #  f.puts "</titles>"
-     
-    #  # publisher - datacite: single, mandatory
-    #  f.puts "<publisher>#{self.publisher}</publisher>"
-     
-    #  # publication year - datacite: single, mandatory
-    #  f.puts "<publicationYear>#{self.publicationyear}</publicationYear>"
-     
-    #  # subjects - datacite: multiple, optional
-    #  f.puts "<subjects>"
-
-    #  self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?} 
-    #  f.puts "</subjects>"
-    # f.puts "<contributors>"
-    # self.contributors.each do |c| 
-    #   f.puts "<contributor contributorType=\"DataManager\">"
-    #   f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
-    # end
-    #  f.puts "</contributors>"
-    #  f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
-    # f.puts "<size>#{@total_size}</size>"
-     
-    # f.puts "<rightsList>"
-    # f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
-    # f.puts "</rightsList>"
-
-    #  f.puts "<descriptions>" 
-    #  if !self.abstract.nil?
-    #    f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
-    #  end
-    #  if !self.methods.nil?
-    #    f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
-    #  end
-    #  self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }      
-     
-    #  f.puts "</descriptions>"
-
-    #  f.puts "</resource>"   
-          
-    #  f.close 
-     
-    #  f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
-    #   while line = f.gets
-    #       puts line
-    #   end
-    #   f.close
-
+        xml.descriptions{
+          unless self.abstract.nil?
+            xml.description("descriptionType" => "Abstract") { 
+              xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
+            }
+          end
+          unless self.methods.nil?
+            xml.description("descriptionType" => "Methods") {  
+              xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
+            }
+          end
+          self.descriptions.each do |d|
+            xml.description("descriptionType" => "SeriesInformation") {  
+              xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
+            }
+          end
+        }
+      }
+    end
+    f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", 'w') { |f| f.print(dc_builder.to_xml) }
+    puts dc_builder.to_xml.to_s
+    dc_builder.to_xml.to_s
    end
 
 
@@ -301,9 +336,14 @@ class Record < ActiveRecord::Base
         f.write self.review
      end
 
+     File.open("#{file_path}/mrt-dc.xml", "w") do |f|
+        f.write self.dublincore
+     end
+
 
      Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|       
        zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
+       zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
        
        self.purge_temp_files
        
@@ -476,5 +516,17 @@ class Record < ActiveRecord::Base
      end
   end
   
+
+  def related_id_types
+    ['ARK', 'DOI', 'EAN13', 'EISSN', 'HANDLE', 'ISBN', 'ISSN', 
+    'ISTC', 'LISSN', 'LSID', 'PMID', 'PURL', 'UPC', 'URL', 'URN']
+  end
+
+  def relation_types
+    [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy', 'IsContinuedBy', 
+      'Continues', 'HasMetadata', 'IsMetadataFor', 'IsNewVersionOf', 'IsPreviousVersionOf', 
+      'IsPartOf', 'HasPart', 'IsReferencedBy', 'References', 'IsDocumentedBy', 'Documents', 
+      'IsCompiledBy', 'Compiles', 'IsVariantFormOf', 'IsOriginalFormOf', 'IsIdenticalTo']
+  end
   
 end
