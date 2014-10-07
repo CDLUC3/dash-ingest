@@ -7,37 +7,38 @@
 </head>
 <body>
 <!-- begin page id -->
-<div id="login-page"> 
-<!-- begin outer container -->  
+<div id="login-page">
+<!-- begin outer container -->
   <div id="outer-container">
     <!-- begin inner container -->
-		<div id="inner-container"> 
-			<div id="header">
-				<%= render 'layouts/header' %>			
-			</div>
-			<%= render 'layouts/navigation' %>
-			<div id="banner">
-				<%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
-			</div>
-			<div id="content">
-			
-			<div id="logout-content">
-				<h1>You are now logged out.</h1>
-				<p>You <strong>must</strong> close your browser to complete the logout process.</p>	
-				<%= link_to 'Return to Home', '/login' , :class => "btn"%>
-			</div>
+                <div id="inner-container">
+                        <div id="header">
+                                <%= render 'layouts/header' %>
+                        </div>
+                        <%= render 'layouts/navigation' %>
+                        <div id="banner">
+                                <%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
+                        </div>
+                        <div id="content">
 
-		</div> <!-- end content-->
-	<!-- begin footer-->
-	<%if current_user %>
-  		<%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
-  	<%else%>
-  		<%= render "layouts/brand/footer_cdl" %>
-  	<%end%>
+                        <div id="logout-content">
+                                <h1>You are now logged out.</h1>
+                                <p>You <strong>must</strong> close your browser to complete the logout process.</p>
+                                <%= link_to 'Return to Home', '/xtf/search' , :class => "btn"%>
+                        </div>
+
+                </div> <!-- end content-->
+        <!-- begin footer-->
+        <%if current_user %>
+                <%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+        <%else%>
+                <%= render "layouts/brand/footer_cdl" %>
+        <%end%>
   <%#= render "layouts/brand/footer_cdl" %>
-	<!-- end footer-->
-	</div> <!-- end inner container -->
+        <!-- end footer-->
+        </div> <!-- end inner container -->
   </div> <!-- end outer container -->
 </div>
 </body>
 </html>
+
