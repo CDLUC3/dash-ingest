@@ -4,6 +4,6 @@ class Citation < ActiveRecord::Base
   
   belongs_to :record, :inverse_of => :citations
 
-
+  # validates_presence_of :citationName
   
 end

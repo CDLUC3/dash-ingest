@@ -155,7 +155,7 @@ class RecordsController < ApplicationController
     @institution = @user.institution
     @record = Record.find(params[:id])
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    #@record.citations.build() if @record.citations.length < 1
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.subjects.count() == 0
