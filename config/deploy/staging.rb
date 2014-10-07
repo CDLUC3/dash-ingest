@@ -16,7 +16,7 @@
 # used to set extended properties on the server.
 
 
-set :rails_env, "stage" 
+set :rails_env, "staging" 
 
 
 
