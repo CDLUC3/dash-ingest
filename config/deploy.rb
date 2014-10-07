@@ -36,7 +36,7 @@ set :pty, false
 set :linked_files, %w{config/database.yml config/merritt.yml}
 set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/sockets}
 
-set :stages, ["development", "staging", "production"]
+set :stages, ["development", "stage", "production"]
 set :default_stage, "development"
 
 # Default value for linked_dirs is []
