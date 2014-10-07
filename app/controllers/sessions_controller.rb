@@ -4,6 +4,7 @@ class SessionsController < ApplicationController
     user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
+    cookies[:dash_logged_in] = 'Yes'
 
     #logger.debug "Params: #{session}"
 
