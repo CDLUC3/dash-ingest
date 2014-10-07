@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   def create
 
-    user = User.from_omniauth(env["omniauth.auth"])
+    user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
     #logger.debug "Params: #{session}"
