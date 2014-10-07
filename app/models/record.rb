@@ -18,13 +18,14 @@ class Record < ActiveRecord::Base
  
 
   attr_accessor :funder
+  attr_accessor :grant_number
 
   belongs_to :user
   belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
-                  :methods, :funder
+                  :methods, :funder, :grant_number
 
 
   
@@ -124,22 +125,14 @@ class Record < ActiveRecord::Base
     @data_manager[:contributorName] if @data_manager
   end
 
+  def grant_number
+    @grant_number = self.descriptions.where(descriptionType: 'Other').find(:first)
+    @grant_number[:descriptionText] if @grant_number
+  end
 
   def review
 
     @total_size = self.total_size
-    # @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
-    # if @data_manager
-    #   @data_manager_name = @data_manager.contributorName 
-    # else
-    #   @data_manager_name = ""
-    # end
-    # @funder = self.contributors.where(contributorType: 'Funder').find(:first)
-    # if @funder
-    #   @funder_name = @funder.contributorName 
-    # else
-    #   @funder_name = ""
-    # end
     @funder_name = self.funder
     @data_manager_name = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
