@@ -8,9 +8,7 @@ gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
 group :development, :local do
-  gem 'capistrano', '~> 3.2.1'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
+  
   gem 'webrick', '~> 1.3.1'
   gem 'byebug'
   gem 'sextant' #you can go to http://localhost:3000/rails/routes to see routes
@@ -57,5 +55,8 @@ gem 'unicorn'
 gem 'carrierwave'
 gem 'custom_error_message'
 gem 'nokogiri'
+gem 'capistrano', '~> 3.2.1'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
 
 
