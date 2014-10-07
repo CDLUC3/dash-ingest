@@ -4,84 +4,37 @@ class LoginController < ApplicationController
 
   def signin
     #logger.info "Params=#{params}"
-
-
     if !params[:institution_id].blank?
-      session['id'] = params[:institution_id]
-    elsif session['id'].blank?
-    #redirect_to login_path, flash: {error: 'Please choose your log in institution.'} and return
+      session['institution_id'] = params[:institution_id]
     end
-
-  #@institution = Institution.find(params[:institution][:institution_id])
-
-   # session['institution_id']= params[:institution][:institution_id]
-    @institution = Institution.find(institution.id)
-    if @institution.shib_entity_domain.blank?
-    #initiate shibboleth login sequence
-    redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
-                    DataIngest::Application.shibboleth_host, @institution.shib_entity_id)
-  else
-    #just let the original form render
-
+    @institution = Institution.find(institution)
+    session['institution_id']= @institution.id
+    if !@institution.shib_entity_domain.blank?
+      #initiate shibboleth login sequence
+      redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
+                      DataIngest::Application.shibboleth_host, @institution.shib_entity_id)
+    elsif @institution.shib_entity_domain.blank?
+      redirect_to "/auth/google_oauth2"
+    end
 
   end
 
-    def institution
-      byebug
-      url = request.original_url
-      if ( url == nil )
-        @id = 4
-      else
-        case url.strip
-          when /.ucop.edu/
-            @id = 1
-          else
-            @id = 12
-        end
+
+  def institution
+
+    url = request.original_url
+    if ( url == nil )
+      @id = ""
+    else
+      case url.strip
+        when /.ucop.edu/
+          @id = 1
+        else
+          @id = 12
       end
-      @id
     end
-
-#if ENV["RAILS_ENV"] == "test"
-# user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
-#user.save
-#else
-# user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
-
-
-#if user.nil?
-# user = User.new
-#end
-
-#user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
-#user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
-#user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-#user.first_name = request.headers[DATASHARE_CONFIG['first_name_from_shibboleth']]
-#user.last_name = request.headers[DATASHARE_CONFIG['last_name_from_shibboleth']]
-#user.save
-
-
-# if user.institution_id.nil?
-#   user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
-#   user.save
-# end
-
-# if user.email.nil?
-#   user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-#   user.save
-# end
-
-# if user.first_name.nil? || user.first_name.blank?
-#   user.first_name = request.headers[DATASHARE_CONFIG['first_name_from_shibboleth']]
-#   user.last_name = request.headers[DATASHARE_CONFIG['last_name_from_shibboleth']]
-# end
-
-
-#session[:user_id] = user.id
-#cookies[:dash_logged_in] = 'Yes'
-#@current_user = user
-#redirect_to "/records"
-end
+    return @id
+  end
 
 
 
