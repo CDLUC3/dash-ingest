@@ -168,7 +168,7 @@ class Record < ActiveRecord::Base
         xml.titles {
           xml.title "#{self.title}"
         }
-        xml.pubisher "#{self.publisher}"
+        xml.publisher "#{self.publisher}"
         xml.publicationYear "#{self.publicationyear}"
         xml.subjects {
           self.subjects.each do |s|
@@ -187,8 +187,9 @@ class Record < ActiveRecord::Base
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
-        xml.size @total_size
-
+        xml.sizes {
+          xml.size @total_size
+        }
         xml.rightsList { 
           xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
             xml.text("#{CGI::escapeHTML(self.rights)}") 
@@ -243,7 +244,7 @@ class Record < ActiveRecord::Base
         xml.titles {
           xml.title "#{self.title}"
         }
-        xml.pubisher "#{self.publisher}"
+        xml.publisher "#{self.publisher}"
         xml.publicationYear "#{self.publicationyear}"
         xml.subjects {
           self.subjects.each do |s|
@@ -258,8 +259,9 @@ class Record < ActiveRecord::Base
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
-        xml.size @total_size
-
+        xml.sizes{
+          xml.size @total_size
+        }
         xml.rightsList { 
           xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
             xml.text("#{CGI::escapeHTML(self.rights)}") 
