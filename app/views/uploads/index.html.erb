@@ -212,12 +212,14 @@
         $('#submit_button').click(function(){
             // var new_submission = @new_submission;
             //alert ($('#first_submission').length);
-            if (	($('#delete_button').length == 0) && ($('#delete_link').length == 0) &&  ($('#first_submission').length != 0)		) {
+            if (	($('#delete_button').length == 0) && ($('#delete_link').length == 0) &&  ($('#first_submission').length != 0)	&&  ($('.error').length == 0)	)   {
+
                 alert("You must upload at least one file.")
                 return false;
-            };
+            } else if ( ($('.error').length > 0) ) {
+                alert("An error occurred when uploading a file, please delete that file and try again.")
+                return false;
+            }
         });
     });
 </script>
-
-

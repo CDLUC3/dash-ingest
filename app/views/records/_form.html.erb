@@ -107,11 +107,16 @@
 
     <label for="contributor">
       Funder
-      <a href="#dataset_funder_help" name="help_link" class="help_link">
+      <a href="#funder_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
     <%= f.text_field :funder, :size => "20", :class => 'input-text', 'aria-required' => 'true' %>
+
+    <label for="grant_number">
+      Grant Number
+    </label>
+    <%= f.text_field :grant_number, :size => "20", :class => 'input-text', 'aria-required' => 'true' %>
 
     <div class="fieldset">
       <label for="rights">
@@ -127,9 +132,6 @@
     <div class="fieldset">
       <label for="rights_uri">
         * Rights URI
-        <a href="#rights_uri_help" name="help_link" class="help_link">
-          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-        </a>
       </label>
 
       <div id="rights_url">

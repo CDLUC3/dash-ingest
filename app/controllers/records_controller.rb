@@ -83,6 +83,13 @@ class RecordsController < ApplicationController
         @contributor.save
       end
 
+      if @grant_number = params[:record][:grant_number]
+        @description = Description.new(record_id: @record.id,
+                                       descriptionType: "Other",
+                                       descriptionText: @grant_number)
+        @description.save
+      end
+
       if params[:commit] == 'Save'
         redirect_to edit_record_path(@record.id)
       elsif params[:commit] =='Save And Continue'
@@ -96,7 +103,8 @@ class RecordsController < ApplicationController
 
   def edit
     @record = Record.find(params[:id])
-
+    @description = @record.grant_number
+    @grant_number = @record.grant_number
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
@@ -146,12 +154,12 @@ class RecordsController < ApplicationController
 
 
   def update
+
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    # byebug
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    #@record.citations.build() if @record.citations.length < 1
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.subjects.count() == 0
@@ -190,6 +198,25 @@ class RecordsController < ApplicationController
       end
 
 
+      @grant_number = params[:record][:grant_number] 
+
+      if !@grant_number.nil? && !@grant_number.blank?
+        if @record.grant_number
+          @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
+          @description.update_attributes(descriptionText: @grant_number)
+          @description.save
+        else
+          @description = description.new(record_id: @record.id,
+                                       descriptionType: "Other",
+                                       descriptionText: @grant_number)
+          @description.save
+        end
+      elsif @record.grant_number
+        @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
+        @description.destroy
+      end
+
+
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       elsif params[:commit] == 'Save'
@@ -216,7 +243,6 @@ class RecordsController < ApplicationController
         contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
         descriptions_attributes: [:id, :record_id, :descriptionType, :descriptionText])
   end
-
 
    
 

@@ -18,18 +18,20 @@ class Record < ActiveRecord::Base
 
 
   attr_accessor :funder
+  attr_accessor :grant_number
 
   belongs_to :user
   belongs_to :institution
 
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher,
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract,
-                  :methods, :funder
+                  :methods, :funder, :grant_number
 
 
 
 
   validate :must_have_creators
+  validate :links_not_empty_if_present
 
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
@@ -71,6 +73,21 @@ class Record < ActiveRecord::Base
       end
       if valid == 0
         errors.add(:base, 'You must add at least one creator.')
+      end
+    end
+  end
+
+
+  def links_not_empty_if_present
+    valid = 1
+    citations.each do |citation|
+      if ( (citation.citationName.blank? || citation.citationName.nil?) && (citation.related_id_type.nil? || citation.related_id_type.blank?) && (citation.relation_type.nil? || citation.relation_type.blank?) )
+        valid = 1
+      elsif ( (citation.citationName.blank? || citation.citationName.nil?) || (citation.related_id_type.blank?) || (citation.relation_type.blank?) )
+        valid = 0
+        errors.add(:base, 'Link name cannot be empty.') if (citation.citationName.blank? || citation.citationName.nil?)
+        errors.add(:base, 'Identifier type cannot be empty.') if ( citation.related_id_type.nil? || citation.related_id_type.blank?)
+        errors.add(:base, 'Link type cannot be empty.') if ( citation.relation_type.nil? || citation.relation_type.blank?)
       end
     end
   end
@@ -124,22 +141,14 @@ class Record < ActiveRecord::Base
     @data_manager[:contributorName] if @data_manager
   end
 
+  def grant_number
+    @grant_number = self.descriptions.where(descriptionType: 'Other').find(:first)
+    @grant_number[:descriptionText] if @grant_number
+  end
 
   def review
 
     @total_size = self.total_size
-    # @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
-    # if @data_manager
-    #   @data_manager_name = @data_manager.contributorName 
-    # else
-    #   @data_manager_name = ""
-    # end
-    # @funder = self.contributors.where(contributorType: 'Funder').find(:first)
-    # if @funder
-    #   @funder_name = @funder.contributorName 
-    # else
-    #   @funder_name = ""
-    # end
     @funder_name = self.funder
     @data_manager_name = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
@@ -159,7 +168,7 @@ class Record < ActiveRecord::Base
         xml.titles {
           xml.title "#{self.title}"
         }
-        xml.pubisher "#{self.publisher}"
+        xml.publisher "#{self.publisher}"
         xml.publicationYear "#{self.publicationyear}"
         xml.subjects {
           self.subjects.each do |s|
@@ -178,8 +187,9 @@ class Record < ActiveRecord::Base
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
-        xml.size @total_size
-
+        xml.sizes {
+          xml.size @total_size
+        }
         xml.rightsList {
           xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") {
             xml.text("#{CGI::escapeHTML(self.rights)}")
@@ -234,7 +244,7 @@ class Record < ActiveRecord::Base
         xml.titles {
           xml.title "#{self.title}"
         }
-        xml.pubisher "#{self.publisher}"
+        xml.publisher "#{self.publisher}"
         xml.publicationYear "#{self.publicationyear}"
         xml.subjects {
           self.subjects.each do |s|
@@ -249,8 +259,9 @@ class Record < ActiveRecord::Base
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
-        xml.size @total_size
-
+        xml.sizes{
+          xml.size @total_size
+        }
         xml.rightsList {
           xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") {
             xml.text("#{CGI::escapeHTML(self.rights)}")
