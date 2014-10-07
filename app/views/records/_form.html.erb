@@ -6,15 +6,15 @@
 
     <div class="clear"></div>
     <label for="title">
-      * Dataset Title
+      * Title
       <a href="#dataset_title_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
+    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Title", 'aria-required' => 'true' %>
 
     <label for="publisher">
-      * Institution
+      * Publisher
       <a href="#institution_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
@@ -36,11 +36,10 @@
     </label>
     <%= f.select :resourcetype, options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
     <br/>
-    <!-- <%#= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 
     <div class="fieldset">
       <label for="creator_name">
-        * Data Creator(s)
+        * Author(s)
         <a href="#data_creator_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -50,7 +49,7 @@
         <%= f.fields_for :creators do |creator_builder| %>
           <%= render 'creator_fields', f: creator_builder %>
         <% end %>
-        <%= link_to_add_fields '+Additional Creator', f, :creators %>
+        <%= link_to_add_fields '+Additional Author', f, :creators %>
       </fieldset>
     </div>
 
@@ -93,7 +92,7 @@
 
     <div class="fieldset">
       <label for="citation">
-        Citation(s)
+        Link(s)
         <a href="#citations_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -102,10 +101,17 @@
         <%= f.fields_for :citations do |citation_builder| %>
           <%= render 'citation_fields', :f => citation_builder %>
         <% end %>
-        <%= link_to_add_fields '+Additional Citations', f, :citations %>
+        <%= link_to_add_fields '+Additional Link', f, :citations %>
       </fieldset>
     </div>
 
+    <label for="contributor">
+      Funder
+      <a href="#dataset_funder_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a>
+    </label>
+    <%= f.text_field :funder, :size => "20", :class => 'input-text', 'aria-required' => 'true' %>
 
     <div class="fieldset">
       <label for="rights">

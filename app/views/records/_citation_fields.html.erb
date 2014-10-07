@@ -1,10 +1,22 @@
 <%= f.hidden_field "_destroy", class: 'destroyer' %>
+
+
 <div class = 'fields'>
-  <%= f.text_area :citationName, :rows => 6, :cols => 60, :placeholder => "e.g., Patterns of age-related water diffusion changes in human brain by concordance and discordance analysis. Zhang Y, Du AT, Hayasaka S, Jahng GH, Hlavin J, Zhan W, Weiner MW, Schuff N. Neurobiol Aging. 2010 Nov;31(11):1991-2001. doi: 10.1016/j.neurobiolaging.2008.10.009. Epub 2008 Nov 25. PMID: 19036473"%>
+  <%= f.text_field :citationName, :size => "25", :class => 'input-text', 'aria-required' => 'true', :placeholder => "Link or identifier" %>
+  
+  <%= f.select :related_id_type, @record.related_id_types, :include_blank => true , 
+  		prompt: "Related identifier type:", :size => "25", :class => 'input-text', 'aria-required' => 'true'%>
+
+  <%= f.select :relation_type, @record.relation_types, :include_blank => true , 
+  		prompt: "Relation type:", :size => "25", :class => 'input-text', 'aria-required' => 'true'%>
+
   <div class="remove_citation_field">
     <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
   </div>
 </div>
+
+
+
 
 <script>
    $('.remove_citation_field').first().hide();
