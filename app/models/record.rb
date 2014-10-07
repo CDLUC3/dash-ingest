@@ -4,18 +4,10 @@ require 'zip/zip'
 class Record < ActiveRecord::Base
   include RecordHelper
 
-  # RELATED_ID_TYPE = ['ARK', 'DOI', 'EAN13', 'EISSN', 'HANDLE', 'ISBN', 'ISSN', 'ISTC', 'LISSN', 'LSID', 'PMID', 'PURL', 'UPC', 'URL', 'URN']
-
-  # RELATION_TYPE = [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy', 'IsContinuedBy', 
-  #                   'Continues', 'HasMetadata', 'IsMetadataFor', 'IsNewVersionOf', 'IsPreviousVersionOf', 
-  #                   'IsPartOf', 'HasPart', 'IsReferencedBy', 'References', 'IsDocumentedBy', 'Documents', 
-  #                   'IsCompiledBy', 'Compiles', 'IsVariantFormOf', 'IsOriginalFormOf', 'IsIdenticalTo']
-
-
   
   has_many :creators, :dependent => :destroy
   has_many :contributors, :dependent => :destroy
-  has_many :descriptions
+  has_many :descriptions, :dependent => :destroy
   has_many :subjects, :dependent => :destroy
   has_many :alternateIdentifiers
   has_many :datauploads
@@ -61,6 +53,9 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :contributors, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :contributors_attributes
+
+  accepts_nested_attributes_for :descriptions, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :descriptions_attributes
   
 
 
