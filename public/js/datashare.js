@@ -187,11 +187,11 @@ $(document).ready(function() {
         event.preventDefault();
         
         $('.collapse-content-citations').toggle('slow');
-        if($('.collapsible-citations').children('.collapse-control').text() == '▹ Show Citations') {
-            $('.collapsible-citations .collapse-control a').text('▿ Hide Citations');
+        if($('.collapsible-citations').children('.collapse-control').text() == '▹ Show Links') {
+            $('.collapsible-citations .collapse-control a').text('▿ Hide Links');
         }
         else {
-            $('.collapsible-citations .collapse-control a').text('▹ Show Citations');
+            $('.collapsible-citations .collapse-control a').text('▹ Show Links');
         }
 
         return false;

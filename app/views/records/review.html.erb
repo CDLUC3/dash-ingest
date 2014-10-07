@@ -113,7 +113,12 @@
 												
 												<% if @record.citations %>
 													<% @record.citations.each do |citation| %>
-														<%= citation.citationName %>
+
+													<p>
+														<%= citation.citationName %> -
+														<%= citation.related_id_type %> - 
+														<%= citation.relation_type %>
+													</p>
 													<%end%>
 												<%end%>
 
