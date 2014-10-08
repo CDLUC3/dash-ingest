@@ -141,13 +141,14 @@ class Record < ActiveRecord::Base
     @data_manager[:contributorName] if @data_manager
   end
 
+
   def grant_number
     @grant_number = self.descriptions.where(descriptionType: 'Other').find(:first)
     @grant_number[:descriptionText] if @grant_number
   end
 
-  def review
 
+  def review
     @total_size = self.total_size
     @funder_name = self.funder
     @data_manager_name = self.data_manager
@@ -234,7 +235,7 @@ class Record < ActiveRecord::Base
                     'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
         
         xml.identifier('identifierType' => 'DOI') {}
-        xml.creators{
+        xml.creators {
           self.creators.each do |c|
             xml.creator {
               xml.creatorName "#{c.creatorName.gsub(/\r/,"")}"
@@ -245,7 +246,7 @@ class Record < ActiveRecord::Base
           xml.title "#{self.title}"
         }
         xml.publisher "#{self.publisher}"
-        xml.publicationYear "#{self.publicationyear}"
+        xml.date "#{self.publicationyear}"
         xml.subjects {
           self.subjects.each do |s|
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
