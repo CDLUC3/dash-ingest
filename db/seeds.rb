@@ -94,8 +94,19 @@ institution_list = [
   	'.uci.edu',
   	'.*@.*uci.edu$',
   	'uci',
-  	'dash_uci_logo.png']
+  	'dash_uci_logo.png'],
+
+
+  ['DataOne',
+    'DataOne',
+    'DataOne',
+    '.cdl.org',
+    '.*@.*cdlib.org$',
+    'cdl',
+    'blank_institution_logo.png']
+
 ]
+
 
 institution_list.each do |abbreviation, short_name, 
 													long_name, landing_page, external_id_strip, 
