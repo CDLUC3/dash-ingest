@@ -86,8 +86,8 @@ class Record < ActiveRecord::Base
       elsif ( (citation.citationName.blank? || citation.citationName.nil?) || (citation.related_id_type.blank?) || (citation.relation_type.blank?) )
         valid = 0
         errors.add(:base, 'Link name cannot be empty.') if (citation.citationName.blank? || citation.citationName.nil?)
-        errors.add(:base, 'Identifier type cannot be empty.') if ( citation.related_id_type.nil? || citation.related_id_type.blank?)
-        errors.add(:base, 'Link type cannot be empty.') if ( citation.relation_type.nil? || citation.relation_type.blank?)
+        errors.add(:base, 'Link type cannot be empty.') if ( citation.related_id_type.nil? || citation.related_id_type.blank?)
+        errors.add(:base, 'Relationship cannot be empty.') if ( citation.relation_type.nil? || citation.relation_type.blank?)
       end
     end
   end

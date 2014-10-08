@@ -26,10 +26,9 @@ set :deploy_to, '/apps/dash/apps/dash-ingest'
 #set :default_server, "dash-dev2.cdlib.org"
 
 server 'dash-dev2.cdlib.org',user: 'dash', roles: %w{web app}, :primary => true
-server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app}, my_property: :my_value
+server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app db}, my_property: :my_value
 
 #server 'dash-dev.cdlib.org', user: 'dash', roles: %w{web app}, my_property: :my_value
-
 
 
 set :unicorn_pid, "#{deploy_to}/unicorn.pid"

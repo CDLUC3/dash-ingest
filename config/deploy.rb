@@ -41,7 +41,7 @@ set :pty, false
 set :linked_files, %w{config/database.yml config/merritt.yml}
 set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/sockets}
 
-set :stages, ["development", "staging", "production"]
+set :stages, ["development", "stage", "production"]
 set :default_stage, "development"
 #set :server_name, "dash-dev2.cdlib.org"   # uncomment this line to deploy by default on this server
 #set :server_name, ["dash-dev2.cdlib.org","dash-dev.cdlib.org"] # uncomment this line to deploy on multiple server at atime
