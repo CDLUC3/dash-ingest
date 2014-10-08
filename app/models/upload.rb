@@ -4,7 +4,7 @@ class Upload < ActiveRecord::Base
   
   attr_accessible :upload, :upload_file_size, :upload_content_type, :upload_file_name, :record_id
   has_attached_file :upload, :path => :set_default_url_on_record_id
-  do_not_validate_attachment_file_type :upload
+  #do_not_validate_attachment_file_type :upload
 
   include Rails.application.routes.url_helpers
 
