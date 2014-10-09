@@ -257,29 +257,28 @@ class Record < ActiveRecord::Base
         self.citations.each do |c|
           case c.relation_type
             when "isPartOf"
-              @relation_type = "isPartOf"
+              xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "HasPart"
-              @relation_type = "HasPart"
+              xml.HasPart("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsCitedBy"
-              @relation_type = "isReferencedBy"
+              xml.isReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "Cites"
-              @relation_type = "references"
+              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsReferencedBy"
-              @relation_type = "IsReferencedBy"
+              xml.IsReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "References"
-              @relation_type = "references"
+              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsNewVersionOf"
-              @relation_type = "isVersionOf"
+              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsPreviousVersionOf"
-              @relation_type = "hasVersion"
+              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsVariantFormOf"
-              @relation_type = "isVersionOf"
+              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsOriginalFormOf"
-              @relation_type = "hasVersion"
+              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             else
-              @relation_type = "relation"
-          end
-          xml."#{@relation_type}" "#{c.citationName}"
+              xml.relation("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+          end   
         end
 
 
