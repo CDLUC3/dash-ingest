@@ -235,57 +235,35 @@ class Record < ActiveRecord::Base
                     'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
         
         xml.identifier('identifierType' => 'DOI') {}
-        xml.creators {
-          self.creators.each do |c|
-            xml.creator {
-              xml.creatorName "#{c.creatorName.gsub(/\r/,"")}"
-            }
-          end
-        }
-        xml.titles {
-          xml.title "#{self.title}"
-        }
+        
+        self.creators.each do |c|
+          xml.creator  "#{c.creatorName.gsub(/\r/,"")}"
+        end
+        xml.title "#{self.title}"
         xml.publisher "#{self.publisher}"
         xml.date "#{self.publicationyear}"
-        xml.subjects {
-          self.subjects.each do |s|
-            xml.subject "#{s.subjectName.gsub(/\r/,"")}"
-          end
+        
+        self.subjects.each do |s|
+          xml.subject "#{s.subjectName.gsub(/\r/,"")}"
+        end
+        xml.contributor  @funder_name
+        xml.format "#{resourceTypeGeneral(self.resourcetype)}"
+        xml.extent @total_size
+        xml.rights "#{CGI::escapeHTML(self.rights)}"
+        xml.license('xsi:type' => 'dcterms:URI') {
+          xml.text("#{CGI::escapeHTML(self.rights_uri)}")
         }
-        xml.contributors {
-          xml.contributor {
-            xml.contributorName @funder_name
-          }
-        }
-        xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
-          xml.text("#{resourceTypeGeneral(self.resourcetype)}")
-        }
-        xml.sizes{
-          xml.size @total_size
-        }
-        xml.rightsList { 
-          xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") { 
-            xml.text("#{CGI::escapeHTML(self.rights)}") 
-          }
-        }
-
-        xml.descriptions{
-          unless self.abstract.nil?
-            xml.description("descriptionType" => "Abstract") { 
-              xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
-            }
-          end
-          unless self.methods.nil?
-            xml.description("descriptionType" => "Methods") {  
-              xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
-            }
-          end
-          self.descriptions.each do |d|
-            xml.description("descriptionType" => "SeriesInformation") {  
-              xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
-            }
-          end
-        }
+        
+        unless self.abstract.nil?
+          xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
+        end
+        unless self.methods.nil?
+          xml.description "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}"
+        end
+        self.descriptions.each do |d|
+          xml.description "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}"
+        end
+        
       }
     end
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", 'w') { |f| f.print(dc_builder.to_xml) }
