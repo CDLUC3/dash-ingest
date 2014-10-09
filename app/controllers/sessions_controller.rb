@@ -1,17 +1,17 @@
 class SessionsController < ApplicationController
   def create
 
-    # if ENV["RAILS_ENV"] == "local"
-    #   user = User.find_by_external_id("Fake.User@ucop.edu")
-    #   user.save
-    # else
+     if ENV["RAILS_ENV"] == "local"
+       user = User.find_by_external_id("Fake.User@ucop.edu")
+       user.save
+     else
       user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
-      #end
+      end
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
 
-    #logger.debug "Params: #{session}"
+    logger.debug "Params: #{session}"
 
     redirect_to records_path, notice: "Signed in!"
   end
@@ -65,11 +65,9 @@ class SessionsController < ApplicationController
     Institution.all.each do |i|
          if url.include?(i.landing_page)
            return i.id
-
-
          else
 
-           return i.id = 1
+           return i.id = 2
 
          end
 
