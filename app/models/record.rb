@@ -523,11 +523,47 @@ class Record < ActiveRecord::Base
     'ISTC', 'LISSN', 'LSID', 'PMID', 'PURL', 'UPC', 'URL', 'URN']
   end
 
+
   def relation_types
-    [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy', 'IsContinuedBy', 
-      'Continues', 'HasMetadata', 'IsMetadataFor', 'IsNewVersionOf', 'IsPreviousVersionOf', 
-      'IsPartOf', 'HasPart', 'IsReferencedBy', 'References', 'IsDocumentedBy', 'Documents', 
-      'IsCompiledBy', 'Compiles', 'IsVariantFormOf', 'IsOriginalFormOf', 'IsIdenticalTo']
+    [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy', 
+      'IsNewVersionOf', 'IsPreviousVersionOf', 
+      'IsPartOf',  'IsDocumentedBy', 'Documents', 'IsIdenticalTo']
+  end
+
+
+  def relation_types_hash
+    hash = [  ['is cited by', 'IsCitedBy'], ['cites', 'Cites'], ['is a supplement to', 'IsSupplementTo'],
+              ['is supplemented by', 'IsSupplementedBy'], ['is new version of', 'IsNewVersionOf'], 
+              ['is previous version of', 'IsPreviousVersionOf'], ['is part of', 'IsPartOf'], 
+              ['is documented by', 'IsDocumentedBy'], 
+              ['documents', 'Documents'], ['is identical to', 'IsIdenticalTo']
+            ]
   end
   
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

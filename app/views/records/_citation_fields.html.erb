@@ -2,13 +2,14 @@
 
 
 <div class = 'fields'>
-  <%= f.text_field :citationName, :size => "25", :class => 'input-text', 'aria-required' => 'true', :placeholder => "Link or identifier" %>
+  <%= f.text_field :citationName, :size => "25", :class => 'input-text', 'aria-required' => 'true',
+                   :placeholder => "Link or identifier" %>
   
   <%= f.select :related_id_type, @record.related_id_types, :include_blank => true , 
   		prompt: "Choose link type:", :size => "25", :class => 'input-text', 'aria-required' => 'true'%>
 
-  <%= f.select :relation_type, @record.relation_types, :include_blank => true , 
-  		prompt: "Specify relationship:", :size => "25", :class => 'input-text', 'aria-required' => 'true'%>
+  <%= f.select :relation_type, @record.relation_types_hash, :include_blank => true ,
+  	 prompt: "Specify relationship:", :size => "25", :class => 'input-text', 'aria-required' => 'true' %>
 
   <div class="remove_citation_field">
     <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
