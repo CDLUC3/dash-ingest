@@ -523,11 +523,65 @@ class Record < ActiveRecord::Base
     'ISTC', 'LISSN', 'LSID', 'PMID', 'PURL', 'UPC', 'URL', 'URN']
   end
 
+
   def relation_types
-    [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy', 'IsContinuedBy', 
-      'Continues', 'HasMetadata', 'IsMetadataFor', 'IsNewVersionOf', 'IsPreviousVersionOf', 
-      'IsPartOf', 'HasPart', 'IsReferencedBy', 'References', 'IsDocumentedBy', 'Documents', 
-      'IsCompiledBy', 'Compiles', 'IsVariantFormOf', 'IsOriginalFormOf', 'IsIdenticalTo']
+    [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy', 
+      'IsNewVersionOf', 'IsPreviousVersionOf', 
+      'IsPartOf',  'IsDocumentedBy', 'Documents', 'IsIdenticalTo']
+  end
+
+
+  def relation_types_text
+
+    case self.relation_type
+      when 'IsCitedBy'
+        'Well done!'
+      when 'Cites'
+        'Try harder!'
+      when 'IsSupplementTo'
+        'You need help!!!'    
+      when 'IsSupplementedBy'
+        'Well done!'
+      when 'IsNewVersionOf'
+        'Try harder!'
+      when 'IsPreviousVersionOf'
+        'You need help!!!'
+      when 'IsPartOf'
+        'You need help!!!'    
+      when 'IsDocumentedBy'
+        'Well done!'
+      when 'Documents'
+        'Try harder!'
+      when 'IsIdenticalTo'
+        'Try harder!'
+    end
+
   end
   
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
