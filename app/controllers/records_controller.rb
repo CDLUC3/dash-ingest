@@ -99,8 +99,6 @@ class RecordsController < ApplicationController
 
   def edit
 
-    error!
-
     @record = Record.find(params[:id])
     @description = @record.grant_number
     @grant_number = @record.grant_number
