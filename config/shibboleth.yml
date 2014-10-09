@@ -2,6 +2,16 @@
 
 #These are things that configure how the omniauth plugin for shibboleth behaves
 
+local:
+  #The host for the shibboleth sp process
+  host: dash-dev2.ucop.edu
+  #the return domain for the callback to application
+  uid_field: eppn
+  info_fields:
+    email: mail
+    #first_name: givenName
+    #last_name: sn
+    #name: displayName
 
 
 
