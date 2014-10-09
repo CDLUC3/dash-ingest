@@ -175,8 +175,7 @@ class Record < ActiveRecord::Base
           self.subjects.each do |s|
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
-        }
-      
+        }      
         xml.contributors {
           xml.contributor("contributorType" => "DataManager") {
             xml.contributorName @data_manager_name
@@ -185,6 +184,14 @@ class Record < ActiveRecord::Base
             xml.contributorName @funder_name
           }
         }
+
+        self.citations.each do |c|
+          xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}", 
+                                "relationType" => "#{c.relation_type}") {
+            xml.text("#{c.citationName.gsub(/\r/,"")}")
+          }
+        end
+
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
@@ -196,7 +203,6 @@ class Record < ActiveRecord::Base
             xml.text("#{CGI::escapeHTML(self.rights)}") 
           }
         }
-
         xml.descriptions{
           unless self.abstract.nil?
             xml.description("descriptionType" => "Abstract") { 
@@ -209,7 +215,7 @@ class Record < ActiveRecord::Base
             }
           end
           self.descriptions.each do |d|
-            xml.description("descriptionType" => "SeriesInformation") {  
+            xml.description("descriptionType" => "Other") {  
               xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
             }
           end
@@ -247,6 +253,36 @@ class Record < ActiveRecord::Base
           xml.subject "#{s.subjectName.gsub(/\r/,"")}"
         end
         xml.contributor  @funder_name
+
+        self.citations.each do |c|
+          case c.relation_type
+            when "isPartOf"
+              @relation_type = "isPartOf"
+            when "HasPart"
+              @relation_type = "HasPart"
+            when "IsCitedBy"
+              @relation_type = "isReferencedBy"
+            when "Cites"
+              @relation_type = "references"
+            when "IsReferencedBy"
+              @relation_type = "IsReferencedBy"
+            when "References"
+              @relation_type = "references"
+            when "IsNewVersionOf"
+              @relation_type = "isVersionOf"
+            when "IsPreviousVersionOf"
+              @relation_type = "hasVersion"
+            when "IsVariantFormOf"
+              @relation_type = "isVersionOf"
+            when "IsOriginalFormOf"
+              @relation_type = "hasVersion"
+            else
+              @relation_type = "relation"
+          end
+          xml."#{@relation_type}" "#{c.citationName}"
+        end
+
+
         xml.format "#{resourceTypeGeneral(self.resourcetype)}"
         xml.extent @total_size
         xml.rights "#{CGI::escapeHTML(self.rights)}"
