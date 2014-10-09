@@ -2,6 +2,10 @@
 
 #These are things that configure how the omniauth plugin for shibboleth behaves
 
+
+
+
+
 development:
   #The host for the shibboleth sp process
   host: dash-dev2.ucop.edu

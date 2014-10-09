@@ -1,7 +1,12 @@
 class SessionsController < ApplicationController
   def create
 
-    user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
+    # if ENV["RAILS_ENV"] == "local"
+    #   user = User.find_by_external_id("Fake.User@ucop.edu")
+    #   user.save
+    # else
+      user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
+      #end
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
@@ -42,20 +47,34 @@ class SessionsController < ApplicationController
 
   def institution
 
+    # url = request.original_url
+    # if ( url == nil )
+    #   @id = ""
+    # else
+    #   case url.strip
+    #     when /.ucop.edu/
+    #       @id = 1
+    #     else
+    #       @id = 12
+    #   end
+    # end
+    # return @id
+
+
     url = request.original_url
-    if ( url == nil )
-      @id = ""
-    else
-      case url.strip
-        when /.ucop.edu/
-          @id = 1
-        else
-          @id = 12
-      end
-    end
-    return @id
+    Institution.all.each do |i|
+         if url.include?(i.landing_page)
+           return i.id
+        byebug
+
+         else
+
+           return i.id =12
+
+         end
+
   end
 
-
+end
 end
 

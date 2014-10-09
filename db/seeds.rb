@@ -97,9 +97,9 @@ institution_list = [
   	'dash_uci_logo.png'],
 
 
-  ['DataOne',
-    'DataOne',
-    'DataOne',
+  ['DataONE',
+    'DataONE',
+    'DataONE',
     '.cdl.org',
     '.*@.*cdlib.org$',
     'cdl',
