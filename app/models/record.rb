@@ -531,31 +531,13 @@ class Record < ActiveRecord::Base
   end
 
 
-  def relation_types_text
-
-    case self.relation_type
-      when 'IsCitedBy'
-        'Well done!'
-      when 'Cites'
-        'Try harder!'
-      when 'IsSupplementTo'
-        'You need help!!!'    
-      when 'IsSupplementedBy'
-        'Well done!'
-      when 'IsNewVersionOf'
-        'Try harder!'
-      when 'IsPreviousVersionOf'
-        'You need help!!!'
-      when 'IsPartOf'
-        'You need help!!!'    
-      when 'IsDocumentedBy'
-        'Well done!'
-      when 'Documents'
-        'Try harder!'
-      when 'IsIdenticalTo'
-        'Try harder!'
-    end
-
+  def relation_types_hash
+    hash = [  ['is cited by', 'IsCitedBy'], ['cites', 'Cites'], ['is a supplement to', 'IsSupplementTo'],
+              ['is supplemented by', 'IsSupplementedBy'], ['is new version of', 'IsNewVersionOf'], 
+              ['is previous version of', 'IsPreviousVersionOf'], ['is part of', 'IsPartOf'], 
+              ['is documented by', 'IsDocumentedBy'], 
+              ['documents', 'Documents'], ['is identical to', 'IsIdenticalTo']
+            ]
   end
   
 
