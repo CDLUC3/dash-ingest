@@ -65,11 +65,11 @@ class SessionsController < ApplicationController
     Institution.all.each do |i|
          if url.include?(i.landing_page)
            return i.id
-        byebug
+
 
          else
 
-           return i.id =12
+           return i.id = 1
 
          end
 
