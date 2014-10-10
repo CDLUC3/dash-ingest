@@ -22,15 +22,12 @@ group :test do
   gem 'database_cleaner'
 end
 
-
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
 end
 
 gem 'whenever', :require => false
-
-
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -45,7 +42,7 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-fileupload-rails'
-gem 'paperclip'
+gem "paperclip", "~> 3.5.3"
 gem 'twitter-bootstrap-rails', '2.1.7'
 gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
@@ -59,6 +56,7 @@ gem 'nokogiri'
 gem 'capistrano', '~> 3.2.1'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
+gem 'exception_notification'
 
 
 

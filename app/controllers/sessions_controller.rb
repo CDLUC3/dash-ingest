@@ -61,17 +61,12 @@ class SessionsController < ApplicationController
     # end
     # return @id
 
-
-
    uri = URI(request.original_url)
 
-   # if uri.host = "localhost"
-   #
-   #   @id = Institution.find_by_id(1)
-   #
-   #   return @id.id
-   #
-   #   else
+   if uri.host == "localhost"
+     @id = Institution.find(2)
+     return @id.id
+   else
        url = uri.host.split(".")
        l = url.length
        u = ".#{url[l-2]}.#{url[l-1]}"
@@ -80,20 +75,9 @@ class SessionsController < ApplicationController
 
       return @id.id
 
-       #if i.landing_page == url
-         #return i.id
-       #else
-       #return i.id = 1
-        #  if url.include?(i.landing_page)
-        # return i.id
-        #  else
-        #
-        #    return i.id = 1
 
-  #end
 
-#end
-#end
+  end
 
   end
   end
