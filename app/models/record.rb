@@ -243,7 +243,8 @@ class Record < ActiveRecord::Base
         xml.identifier('identifierType' => 'DOI') {}
         
         self.creators.each do |c|
-          xml.creator  "#{c.creatorName.gsub(/\r/,"")}"
+          xml.send(:'dc:creator', "#{c.creatorName.gsub(/\r/,"")}")
+          #xml.creator  "#{c.creatorName.gsub(/\r/,"")}"
         end
 
 
@@ -255,8 +256,8 @@ class Record < ActiveRecord::Base
         xml.send(:'dc:publisher', "#{self.publisher}")
         #xml.publisher "#{self.publisher}"
 
-        #xml.send(:'dc:date', "#{self.publicationyear}")
-        xml.date "#{self.publicationyear}"
+        xml.send(:'dc:date', "#{self.publicationyear}")
+        #xml.date "#{self.publicationyear}"
         
         self.subjects.each do |s|
           #xml.send(:'dc:subject', "#{self.subjectName}")
