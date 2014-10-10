@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
      #   else
 
      where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+       byebug
       user.provider = auth.provider
       user.uid = auth.uid
       user.email = auth.info.email
@@ -23,6 +24,7 @@ class User < ActiveRecord::Base
       user.external_id = auth.info.email
       user.institution_id = institution
       user.save!
+      logger.debug "Params: #{user}"
 
     end
    # end

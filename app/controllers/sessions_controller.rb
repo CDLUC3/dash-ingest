@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
        user.save
      else
       user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
-      end
+       end
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
