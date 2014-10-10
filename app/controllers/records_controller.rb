@@ -203,7 +203,7 @@ class RecordsController < ApplicationController
           @description.update_attributes(descriptionText: @grant_number)
           @description.save
         else
-          @description = description.new(record_id: @record.id,
+          @description = Description.new(record_id: @record.id,
                                        descriptionType: "Other",
                                        descriptionText: @grant_number)
           @description.save
