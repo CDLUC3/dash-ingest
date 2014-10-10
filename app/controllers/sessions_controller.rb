@@ -1,12 +1,13 @@
+require 'uri'
 class SessionsController < ApplicationController
   def create
 
-     if ENV["RAILS_ENV"] == "local"
-       user = User.find_by_external_id("Fake.User@ucop.edu")
-       user.save
-     else
+     # if ENV["RAILS_ENV"] == "local"
+     #   user = User.find_by_external_id("Fake.User@ucop.edu")
+     #   user.save
+     # else
       user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
-      end
+      # end
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
@@ -61,18 +62,38 @@ class SessionsController < ApplicationController
     # return @id
 
 
-    url = request.original_url
-    Institution.all.each do |i|
-         if url.include?(i.landing_page)
-           return i.id
-         else
 
-           return i.id = 2
+   uri = URI(request.original_url)
 
-         end
+   # if uri.host = "localhost"
+   #
+   #   @id = Institution.find_by_id(1)
+   #
+   #   return @id.id
+   #
+   #   else
+       url = uri.host.split(".")
+       l = url.length
+       u = ".#{url[l-2]}.#{url[l-1]}"
+
+      @id = Institution.find_by_landing_page(u)
+
+      return @id.id
+
+       #if i.landing_page == url
+         #return i.id
+       #else
+       #return i.id = 1
+        #  if url.include?(i.landing_page)
+        # return i.id
+        #  else
+        #
+        #    return i.id = 1
+
+  #end
+
+#end
+#end
 
   end
-
-end
-end
-
+  end
