@@ -251,8 +251,7 @@ class Record < ActiveRecord::Base
         xml.send(:'dc:date', "#{self.publicationyear}")
         
         self.subjects.each do |s|
-          #xml.send(:'dc:subject', "#{self.subjectName}")
-          xml.subject "#{s.subjectName.gsub(/\r/,"")}"
+          xml.send(:'dc:subject', "#{s.subjectName.gsub(/\r/,"")}")
         end
 
         xml.send(:'dc:contributor', @funder_name)
@@ -286,25 +285,24 @@ class Record < ActiveRecord::Base
 
         xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")
         
-        xml.send(:'dc:extent', @total_size)
+        xml.send(:'dcterms:extent', @total_size)
         
         xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
-        
+      
+        #xml.send(:'dc:license'('xsi:type' => 'dcterms:URI'), xml.text("#{CGI::escapeHTML(self.rights_uri)}"))
+           
         xml.license('xsi:type' => 'dcterms:URI') {
           xml.text("#{CGI::escapeHTML(self.rights_uri)}")
         }
         
         unless self.abstract.nil?
           xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
-          #xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
         end
         unless self.methods.nil?
           xml.send(:'dc:description', "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
-          #xml.description "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}"
         end
         self.descriptions.each do |d|
           xml.send(:'dc:description', "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
-          #xml.description "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}"
         end
       }
     end
