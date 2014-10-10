@@ -48,20 +48,7 @@ class SessionsController < ApplicationController
 
   def institution
 
-    # url = request.original_url
-    # if ( url == nil )
-    #   @id = ""
-    # else
-    #   case url.strip
-    #     when /.ucop.edu/
-    #       @id = 1
-    #     else
-    #       @id = 12
-    #   end
-    # end
-    # return @id
-
-   uri = URI(request.original_url)
+    uri = URI(request.original_url)
 
    if uri.host == "localhost"
      @id = Institution.find(2)
@@ -80,4 +67,18 @@ class SessionsController < ApplicationController
   end
 
   end
+
+  # url = request.original_url
+  # if ( url == nil )
+  #   @id = ""
+  # else
+  #   case url.strip
+  #     when /.ucop.edu/
+  #       @id = 1
+  #     else
+  #       @id = 12
+  #   end
+  # end
+  # return @id
+
   end
