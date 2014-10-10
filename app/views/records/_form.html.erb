@@ -165,3 +165,57 @@
   <% end %>
 
 </div>
+
+
+
+
+
+<script>
+  $(document).ready(function() {
+
+    var makeSubsidiaryOptions = function(descendants, names) {
+        var html = '<option>Select a sub-organization</option>';
+        descendants.sort(function(a, b) {
+          return names[a].localeCompare(names[b]);
+        });
+
+        $.each(descendants, function(idx, d) {
+      html += '<option>' + names[d] + '</option>';
+        });
+        return html;
+    };
+
+    var fundersRemote = new Bloodhound({
+        name: 'funders',
+        datumTokenizer: function(d) { return d.tokens; },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: 'http://search.crossref.org/funders?descendants=true&q=%QUERY',
+        limit: 16,
+        dupDetector: function(r, l) { return false; }
+    });
+    fundersRemote.initialize();
+
+    var suggestionLayout = Hogan.compile('<p>{{value}} <span style="color: grey; font-size: 0.7em;">{{country}}</span></p>');
+    var events = 'typeahead:autocompleted typeahead:selected';
+
+    $('.input-text#record_funder').typeahead(null, {
+      source: fundersRemote.ttAdapter(),
+      templates: {
+        suggestion: function(d) { return suggestionLayout.render(d) },
+      },
+      limit: 16
+    });
+
+    $('.input-text#record_funder').bind(events, function(e, datum) {
+      if (datum['descendants'].length > 1) {
+         $('.subselect#record_suborg').html(makeSubsidiaryOptions(datum['descendants'],
+                                                                  datum['descendant_names']));
+         $('.suborg#suborg_id').show();
+      } else {
+         $('.subselect#record_suborg').html('');
+         $('.suborg#suborg_id').hide();
+      }
+    });
+  });
+  
+</script>
