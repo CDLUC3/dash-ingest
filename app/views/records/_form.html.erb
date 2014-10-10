@@ -105,7 +105,7 @@
       </fieldset>
     </div>
 
-    <label for="contributor">
+    <label for="funder">
       Funder
       <a href="#funder_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
@@ -135,6 +135,9 @@
     </label>
     <%= f.text_field :grant_number, :size => "20", :class => 'input-text', 'aria-required' => 'true' %>
 
+    <fieldset></fieldset>
+
+
     <div class="fieldset">
       <label for="rights">
         * Rights
@@ -156,10 +159,7 @@
       </div>
     </div>
 
-
     <%= f.hidden_field :rights_uri %>
-
-
 
     <div class="large-button-container">
       <%= f.submit "Save", :class => "btn btn-large btn-success", :name => "commit", :id => "submit_button" %>
@@ -168,9 +168,6 @@
   <% end %>
 
 </div>
-
-
-
 
 
 <script>
