@@ -234,25 +234,24 @@ class Record < ActiveRecord::Base
     @data_manager = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
     
-    dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-      xml.resource( 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                    'xsi:schemaLocation' => ' http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dcterms.xsd',
-                    'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
-                    'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
-        
-        xml.identifier('identifierType' => 'DOI') {}
-        
+    #dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml| 
+    dc_builder = Nokogiri::XML::Builder.new do |xml| 
+      xml.qualifieddc('xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                      'xsi:noNamespaceSchemaLocation' => 'http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd',
+                      'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                      'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
+
         self.creators.each do |c|
-          xml.creator  "#{c.creatorName.gsub(/\r/,"")}"
+          xml.send(:'dc:creator', "#{c.creatorName.gsub(/\r/,"")}")
         end
-        xml.title "#{self.title}"
-        xml.publisher "#{self.publisher}"
-        xml.date "#{self.publicationyear}"
-        
+        xml.send(:'dc:title', "#{self.title}")
+        xml.send(:'dc:publisher', "#{self.publisher}")
+        xml.send(:'dc:date', "#{self.publicationyear}")      
         self.subjects.each do |s|
-          xml.subject "#{s.subjectName.gsub(/\r/,"")}"
+          xml.send(:'dc:subject', "#{s.subjectName.gsub(/\r/,"")}")
         end
-        xml.contributor  @funder_name
+
+        xml.send(:'dc:contributor', @funder_name)
 
         self.citations.each do |c|
           case c.relation_type
@@ -281,24 +280,25 @@ class Record < ActiveRecord::Base
           end   
         end
 
-
-        xml.format "#{resourceTypeGeneral(self.resourcetype)}"
-        xml.extent @total_size
-        xml.rights "#{CGI::escapeHTML(self.rights)}"
+        xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")        
+        xml.send(:'dcterms:extent', @total_size)
+        xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
+      
+        #xml.send(:'dc:license'('xsi:type' => 'dcterms:URI'), xml.text("#{CGI::escapeHTML(self.rights_uri)}"))
+           
         xml.license('xsi:type' => 'dcterms:URI') {
           xml.text("#{CGI::escapeHTML(self.rights_uri)}")
         }
         
         unless self.abstract.nil?
-          xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
+          xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
         end
         unless self.methods.nil?
-          xml.description "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}"
+          xml.send(:'dc:description', "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
         end
         self.descriptions.each do |d|
-          xml.description "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}"
+          xml.send(:'dc:description', "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
         end
-        
       }
     end
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", 'w') { |f| f.print(dc_builder.to_xml) }
