@@ -254,10 +254,11 @@ class Record < ActiveRecord::Base
         xml.send(:'dc:contributor', @funder_name)
 
         self.citations.each do |c|
+
           case c.relation_type
-            when "isPartOf"
-              #xml.send(:'dcterms:isPartOf relatedIdentifierType="#{c.related_id_type}" ', "#{c.citationName}")
-              xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+            when "IsPartOf"
+              xml.send(:'dcterms:isPartOf', "#{c.citationName}", "relatedIdentifierType" => "#{c.related_id_type}")
+              #xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "HasPart"
               xml.HasPart("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "IsCitedBy"
