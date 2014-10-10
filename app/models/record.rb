@@ -283,12 +283,8 @@ class Record < ActiveRecord::Base
         xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")        
         xml.send(:'dcterms:extent', @total_size)
         xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
-      
-        #xml.send(:'dc:license'('xsi:type' => 'dcterms:URI'), xml.text("#{CGI::escapeHTML(self.rights_uri)}"))
-           
-        xml.license('xsi:type' => 'dcterms:URI') {
-          xml.text("#{CGI::escapeHTML(self.rights_uri)}")
-        }
+
+        xml.send(:'dcterms:license xsi:type="dcterms:URI" ', "#{CGI::escapeHTML(self.rights_uri)}")
         
         unless self.abstract.nil?
           xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
