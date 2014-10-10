@@ -254,41 +254,38 @@ class Record < ActiveRecord::Base
         xml.send(:'dc:contributor', @funder_name)
 
         self.citations.each do |c|
+
           case c.relation_type
-            when "isPartOf"
-              xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+            when "IsPartOf"
+              xml.send(:'dcterms:isPartOf', "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "HasPart"
-              xml.HasPart("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:hasPart',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsCitedBy"
-              xml.isReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isReferencedBy',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "Cites"
-              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:references',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsReferencedBy"
-              xml.IsReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isReferencedBy',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "References"
-              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:references',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsNewVersionOf"
-              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isVersionOf',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsPreviousVersionOf"
-              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:hasVersion',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsVariantFormOf"
-              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isVersionOf',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsOriginalFormOf"
-              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:hasVersion',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             else
-              xml.relation("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:relation',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
           end   
         end
 
         xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")        
         xml.send(:'dcterms:extent', @total_size)
         xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
-      
-        #xml.send(:'dc:license'('xsi:type' => 'dcterms:URI'), xml.text("#{CGI::escapeHTML(self.rights_uri)}"))
-           
-        xml.license('xsi:type' => 'dcterms:URI') {
-          xml.text("#{CGI::escapeHTML(self.rights_uri)}")
-        }
+        
+        xml.send(:'dcterms:license', "#{CGI::escapeHTML(self.rights_uri)}", "xsi:type" => "dcterms:URI")
         
         unless self.abstract.nil?
           xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
