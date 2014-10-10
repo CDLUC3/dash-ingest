@@ -234,22 +234,19 @@ class Record < ActiveRecord::Base
     @data_manager = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
     
-    dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-      xml.resource( 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                    'xsi:schemaLocation' => ' http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dcterms.xsd',
-                    'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
-                    'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
-        
-        xml.identifier('identifierType' => 'DOI') {}
-        
+    #dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml| 
+    dc_builder = Nokogiri::XML::Builder.new do |xml| 
+      xml.qualifieddc('xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
+                      'xsi:noNamespaceSchemaLocation' => 'http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd',
+                      'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
+                      'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
+
         self.creators.each do |c|
           xml.send(:'dc:creator', "#{c.creatorName.gsub(/\r/,"")}")
         end
-
         xml.send(:'dc:title', "#{self.title}")
         xml.send(:'dc:publisher', "#{self.publisher}")
-        xml.send(:'dc:date', "#{self.publicationyear}")
-        
+        xml.send(:'dc:date', "#{self.publicationyear}")      
         self.subjects.each do |s|
           xml.send(:'dc:subject', "#{s.subjectName.gsub(/\r/,"")}")
         end
@@ -283,10 +280,8 @@ class Record < ActiveRecord::Base
           end   
         end
 
-        xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")
-        
+        xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")        
         xml.send(:'dcterms:extent', @total_size)
-        
         xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
       
         #xml.send(:'dc:license'('xsi:type' => 'dcterms:URI'), xml.text("#{CGI::escapeHTML(self.rights_uri)}"))
