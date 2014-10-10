@@ -256,6 +256,7 @@ class Record < ActiveRecord::Base
         self.citations.each do |c|
           case c.relation_type
             when "isPartOf"
+              #xml.send(:'dcterms:isPartOf relatedIdentifierType="#{c.related_id_type}" ', "#{c.citationName}")
               xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             when "HasPart"
               xml.HasPart("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
@@ -276,6 +277,7 @@ class Record < ActiveRecord::Base
             when "IsOriginalFormOf"
               xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
             else
+              #xml.send(:'dcterms:relation relatedIdentifierType="#{c.related_id_type}" ', "#{c.citationName}")
               xml.relation("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
           end   
         end
@@ -283,8 +285,8 @@ class Record < ActiveRecord::Base
         xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")        
         xml.send(:'dcterms:extent', @total_size)
         xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
-
-        xml.send(:'dcterms:license xsi:type="dcterms:URI" ', "#{CGI::escapeHTML(self.rights_uri)}")
+        
+        xml.send(:'dcterms:license', "#{CGI::escapeHTML(self.rights_uri)}", "xsi:type" => "dcterms:URI")
         
         unless self.abstract.nil?
           xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
