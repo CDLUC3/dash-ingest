@@ -185,12 +185,14 @@ class Record < ActiveRecord::Base
           }
         }
 
-        self.citations.each do |c|
-          xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}", 
-                                "relationType" => "#{c.relation_type}") {
-            xml.text("#{c.citationName.gsub(/\r/,"")}")
-          }
-        end
+        xml.relatedIdentifiers {
+          self.citations.each do |c|
+            xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}", 
+                                  "relationType" => "#{c.relation_type}") {
+              xml.text("#{c.citationName.gsub(/\r/,"")}")
+            }
+          end
+        }
 
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
