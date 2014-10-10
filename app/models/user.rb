@@ -7,6 +7,12 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth,institution)
 
+     # if ENV["RAILS_ENV"] == "local"
+     #   user = User.find_by_external_id("Fake.User@ucop.edu")
+     #   user.save
+     #
+     #   else
+
      where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
       user.uid = auth.uid
@@ -19,7 +25,7 @@ class User < ActiveRecord::Base
       user.save!
 
     end
-
+  #end
   end
 
   end
