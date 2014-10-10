@@ -55,7 +55,7 @@
 
     <div class="fieldset">
       <label for="subject_name">
-        Keywords
+        * Keywords
         <a href="#keyword_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -105,7 +105,7 @@
       </fieldset>
     </div>
 
-    <label for="contributor">
+    <label for="funder">
       Funder
       <a href="#funder_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
@@ -129,8 +129,14 @@
 
     <label for="grant_number">
       Grant Number
+      <a href="#grant_number_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a>
     </label>
     <%= f.text_field :grant_number, :size => "20", :class => 'input-text', 'aria-required' => 'true' %>
+
+    <fieldset></fieldset>
+
 
     <div class="fieldset">
       <label for="rights">
@@ -153,10 +159,7 @@
       </div>
     </div>
 
-
     <%= f.hidden_field :rights_uri %>
-
-
 
     <div class="large-button-container">
       <%= f.submit "Save", :class => "btn btn-large btn-success", :name => "commit", :id => "submit_button" %>
@@ -165,3 +168,54 @@
   <% end %>
 
 </div>
+
+
+<script>
+  $(document).ready(function() {
+
+    var makeSubsidiaryOptions = function(descendants, names) {
+        var html = '<option>Select a sub-organization</option>';
+        descendants.sort(function(a, b) {
+          return names[a].localeCompare(names[b]);
+        });
+
+        $.each(descendants, function(idx, d) {
+      html += '<option>' + names[d] + '</option>';
+        });
+        return html;
+    };
+
+    var fundersRemote = new Bloodhound({
+        name: 'funders',
+        datumTokenizer: function(d) { return d.tokens; },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: 'http://search.crossref.org/funders?descendants=true&q=%QUERY',
+        limit: 16,
+        dupDetector: function(r, l) { return false; }
+    });
+    fundersRemote.initialize();
+
+    var suggestionLayout = Hogan.compile('<p>{{value}} <span style="color: grey; font-size: 0.7em;">{{country}}</span></p>');
+    var events = 'typeahead:autocompleted typeahead:selected';
+
+    $('.input-text#record_funder').typeahead(null, {
+      source: fundersRemote.ttAdapter(),
+      templates: {
+        suggestion: function(d) { return suggestionLayout.render(d) },
+      },
+      limit: 16
+    });
+
+    $('.input-text#record_funder').bind(events, function(e, datum) {
+      if (datum['descendants'].length > 1) {
+         $('.subselect#record_suborg').html(makeSubsidiaryOptions(datum['descendants'],
+                                                                  datum['descendant_names']));
+         $('.suborg#suborg_id').show();
+      } else {
+         $('.subselect#record_suborg').html('');
+         $('.suborg#suborg_id').hide();
+      }
+    });
+  });
+  
+</script>

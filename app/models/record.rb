@@ -4,10 +4,9 @@ require 'zip/zip'
 class Record < ActiveRecord::Base
   include RecordHelper
 
-
   has_many :creators, :dependent => :destroy
-  has_many :contributors, :dependent => :destroy
-  has_many :descriptions, :dependent => :destroy
+  has_many :contributors
+  has_many :descriptions
   has_many :subjects, :dependent => :destroy
   has_many :alternateIdentifiers
   has_many :datauploads
@@ -17,21 +16,16 @@ class Record < ActiveRecord::Base
   has_many :citations, :dependent => :destroy
 
 
-  attr_accessor :funder
-  attr_accessor :grant_number
-
+  # accepts_nested_attributes_for :creators, allow_destroy: true
   belongs_to :user
   belongs_to :institution
 
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher,
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract,
-                  :methods, :funder, :grant_number
-
-
+                  :methods
 
 
   validate :must_have_creators
-  validate :links_not_empty_if_present
 
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
@@ -53,12 +47,6 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
 
-  accepts_nested_attributes_for :contributors, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
-  attr_accessible :contributors_attributes
-
-  accepts_nested_attributes_for :descriptions, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
-  attr_accessible :descriptions_attributes
-
 
 
   def must_have_creators
@@ -73,21 +61,6 @@ class Record < ActiveRecord::Base
       end
       if valid == 0
         errors.add(:base, 'You must add at least one creator.')
-      end
-    end
-  end
-
-
-  def links_not_empty_if_present
-    valid = 1
-    citations.each do |citation|
-      if ( (citation.citationName.blank? || citation.citationName.nil?) && (citation.related_id_type.nil? || citation.related_id_type.blank?) && (citation.relation_type.nil? || citation.relation_type.blank?) )
-        valid = 1
-      elsif ( (citation.citationName.blank? || citation.citationName.nil?) || (citation.related_id_type.blank?) || (citation.relation_type.blank?) )
-        valid = 0
-        errors.add(:base, 'Link name cannot be empty.') if (citation.citationName.blank? || citation.citationName.nil?)
-        errors.add(:base, 'Link type cannot be empty.') if ( citation.related_id_type.nil? || citation.related_id_type.blank?)
-        errors.add(:base, 'Relationship cannot be empty.') if ( citation.relation_type.nil? || citation.relation_type.blank?)
       end
     end
   end
@@ -124,215 +97,192 @@ class Record < ActiveRecord::Base
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
   end
 
-
   def create_record_directory
     FileUtils.mkdir("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}")
   end
 
 
-  def funder
-    @funder = self.contributors.where(contributorType: 'Funder').find(:first)
-    @funder[:contributorName] if @funder
-  end
-
-
-  def data_manager
-    @data_manager = self.contributors.where(contributorType: 'DataManager').find(:first)
-    @data_manager[:contributorName] if @data_manager
-  end
-
-
-  def grant_number
-    @grant_number = self.descriptions.where(descriptionType: 'Other').find(:first)
-    @grant_number[:descriptionText] if @grant_number
-  end
-
-
   def review
-    @total_size = self.total_size
-    @funder_name = self.funder
-    @data_manager_name = self.data_manager
-    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
 
-    builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-      xml.resource( 'xmlns' => 'http://datacite.org/schema/kernel-3',
-                    'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                    'xsi:schemaLocation' => 'http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd') {
-        xml.identifier('identifierType' => 'DOI') {}
-        xml.creators{
-          self.creators.each do |c|
-            xml.creator {
-              xml.creatorName "#{c.creatorName.gsub(/\r/,"")}"
-            }
-          end
-        }
-        xml.titles {
-          xml.title "#{self.title}"
-        }
-        xml.publisher "#{self.publisher}"
-        xml.publicationYear "#{self.publicationyear}"
-        xml.subjects {
-          self.subjects.each do |s|
-            xml.subject "#{s.subjectName.gsub(/\r/,"")}"
-          end
-        }
-        xml.contributors {
-          xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @data_manager_name
-          }
-          xml.contributor("contributorType" => "Funder") {
-            xml.contributorName @funder_name
-          }
-        }
 
-        self.citations.each do |c|
-          xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}",
-                                "relationType" => "#{c.relation_type}") {
-            xml.text("#{c.citationName.gsub(/\r/,"")}")
-          }
-        end
 
-        xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
-          xml.text("#{resourceTypeGeneral(self.resourcetype)}")
-        }
-        xml.sizes {
-          xml.size @total_size
-        }
-        xml.rightsList {
-          xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") {
-            xml.text("#{CGI::escapeHTML(self.rights)}")
-          }
-        }
-        xml.descriptions{
-          unless self.abstract.nil?
-            xml.description("descriptionType" => "Abstract") {
-              xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
-            }
-          end
-          unless self.methods.nil?
-            xml.description("descriptionType" => "Methods") {
-              xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
-            }
-          end
-          self.descriptions.each do |d|
-            xml.description("descriptionType" => "Other") {
-              xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
-            }
-          end
-        }
-      }
+    # can we define the character encoding at UTF without a byte recorder marker
+    # ANSI encoding right now 
+
+    # note - for now, removing the tags to contain multiple XML entries.  This produces invalid XML.
+    # however, it appears to be necessary for the XTF index to work properly.  
+
+    f = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "w:ASCII-8BIT")
+
+    f.puts "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+    f.puts "<resource xmlns=\"http://datacite.org/schema/kernel-3\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://datacite.org/schema/kernel-3 http://schema.datacite.org/meta/kernel-3/metadata.xsd\">"
+
+    # identifier - datacite: single, mandatory
+    # left empty because it will be set by EZID on the merritt side
+    f.puts "<identifier identifierType=\"DOI\"></identifier>"
+
+    # creators - datacite: multiple, mandatory
+    f.puts "<creators>"
+    self.creators.each { |a| f.puts "<creator><creatorName>#{a.creatorName.gsub(/\r/,"")}</creatorName></creator>"}
+
+    f.puts "</creators>"
+
+    # should we allow multiple titles?  datacite does...
+    # we're only allowing one title per record
+
+    # titles - datacite: multiple, mandatory
+    # datacite - title has an option type attribute that we are not using
+    f.puts "<titles>"
+    f.puts "<title>#{self.title}</title>"
+    f.puts "</titles>"
+
+    # publisher - datacite: single, mandatory
+    f.puts "<publisher>#{self.publisher}</publisher>"
+
+    # publication year - datacite: single, mandatory
+    f.puts "<publicationYear>#{self.publicationyear}</publicationYear>"
+
+    # subjects - datacite: multiple, optional
+    f.puts "<subjects>"
+    # subject scheme is optional and open
+    #self.subjects.each { |a| f.puts "<subject subjectScheme=\"#{a.subjectScheme.gsub(/\r/,"")}\">#{a.subjectName.gsub(/\r/,"")}</subject>"}
+    # for now, just use the subject without a scheme
+
+    self.subjects.each { |a| f.puts "<subject>#{a.subjectName.gsub(/\r/,"")}</subject>" unless a.subjectName.nil?}
+    f.puts "</subjects>"
+
+    #contributors - datacite: multiple, optional, mandatory contributorType attribute
+    # do we have a default value for contributorType?
+    # is this something we plan to use?
+
+
+
+
+
+
+    # self.contributors.each { |a| f.puts "<contributor contributorType=\"#{a.contributorType}\"><contributorName>#{a.contributorName.gsub(/\r/,"")}</contributorName></contributor>"}
+
+
+    f.puts "<contributors>"
+    self.contributors.each do |c|
+      f.puts "<contributor contributorType=\"DataManager\">"
+      f.puts "<contributorName>#{c.contributorName.gsub(/\r/,"")}</contributorName></contributor>"
     end
-    f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
-    puts builder.to_xml.to_s
-    builder.to_xml.to_s
-  end
+    f.puts "</contributors>"
 
 
-  def dublincore
-    @total_size = self.total_size
-    @funder_name = self.funder
-    @data_manager = self.data_manager
-    xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
-
-    dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
-      xml.resource( 'xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-                    'xsi:schemaLocation' => ' http://purl.org/dc/elements/1.1/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd http://purl.org/dc/terms/ http://dublincore.org/schemas/xmls/qdc/2008/02/11/dcterms.xsd',
-                    'xmlns:dc' => 'http://purl.org/dc/elements/1.1/',
-                    'xmlns:dcterms' => 'http://purl.org/dc/terms/') {
-
-        xml.identifier('identifierType' => 'DOI') {}
-
-        self.creators.each do |c|
-          xml.send(:'dc:creator', "#{c.creatorName.gsub(/\r/,"")}")
-        end
-
-        xml.send(:'dc:title', "#{self.title}")
-        xml.send(:'dc:publisher', "#{self.publisher}")
-        xml.send(:'dc:date', "#{self.publicationyear}")
-
-        self.subjects.each do |s|
-          #xml.send(:'dc:subject', "#{self.subjectName}")
-          xml.subject "#{s.subjectName.gsub(/\r/,"")}"
-        end
-
-        xml.send(:'dc:contributor', @funder_name)
-
-        self.citations.each do |c|
-          case c.relation_type
-            when "isPartOf"
-              xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "HasPart"
-              xml.HasPart("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "IsCitedBy"
-              xml.isReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "Cites"
-              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "IsReferencedBy"
-              xml.IsReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "References"
-              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "IsNewVersionOf"
-              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "IsPreviousVersionOf"
-              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "IsVariantFormOf"
-              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            when "IsOriginalFormOf"
-              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-            else
-              xml.relation("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
-          end
-        end
-
-        xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")
-
-        xml.send(:'dc:extent', @total_size)
-
-        xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
-
-        xml.license('xsi:type' => 'dcterms:URI') {
-          xml.text("#{CGI::escapeHTML(self.rights_uri)}")
-        }
-
-        unless self.abstract.nil?
-          xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
-          #xml.description "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}"
-        end
-        unless self.methods.nil?
-          xml.send(:'dc:description', "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
-          #xml.description "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}"
-        end
-        self.descriptions.each do |d|
-          xml.send(:'dc:description', "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
-          #xml.description "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}"
-        end
-      }
-    end
-    f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", 'w') { |f| f.print(dc_builder.to_xml) }
-    puts dc_builder.to_xml.to_s
-    dc_builder.to_xml.to_s
-  end
+# #<contributors>
+#  <contributor contributorType="DataManager">
+#   <contributorName>Abrams, Stephen</contributerName>
+#  </contributor>
+# </contributors>
 
 
-  def total_size
+
+
+
+
+# resourceType - datacite: optional
+# should have a resourceTypeGeneral and a resourceType, may need to modify this
+    f.puts "<resourceType resourceTypeGeneral=\"#{resourceTypeGeneral(self.resourcetype)}\">#{resourceType(self.resourcetype)}</resourceType>"
+#f.puts "<resourceType resourceTypeGeneral=\"Dataset\">Dataset</resourceType>"
+
+# alternate Identifiers - datacite: optional
+# this will be the localID
+#f.puts "<alternateIdentifiers>"
+#self.alternateIdentifiers.each { |a| f.puts "<alternateIdentifier alternateIdentifierType=\"#{a.alternateIdentifierType}\">#{a.alternateIdentifierName}</alternateIdentifier>"}
+#f.puts "</alternateIdentifiers>"
+
+# relatedIdentifiers - datacite: optional, multiple
+# going to use this for citations
+# and then relations doesn't exist in the datacite schema
+# is this valid without the relatedIdentifiersType?
+# should I be using a different description for this?  N
+# not sure if this is a valid mapping...
+#f.puts "<relatedIdentifiers>"
+#self.relations.each { |a| f.puts "<relatedIdentifier>#{a.relationText.gsub(/\r/,"")}</relatedIdentifier>"}
+#f.puts "</relatedIdentifiers>"
+
+#<sizes>... this will be exported from merritt, but do we need it in the metadata?
+
+# <% @record.uploads.each do |dataupload| %>
+# <li><%= dataupload.upload_file_name %> (<%= number_to_human_size(dataupload.upload_file_size) %>)</li>
+# <% end %>
     @total_size = 0
     self.uploads.each do |u|
       @total_size = @total_size + u.upload_file_size
     end
+
+
+
     if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+
       self.submissionLogs.each do |log|
+
+
         if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+
           log.uploadArchives.each do |a|
             @total_size = @total_size + a.upload_file_size.to_i
           end
         end
+
+
       end
     end
-    @total_size
+
+
+
+    f.puts "<size>#{@total_size}</size>"
+
+    # formats ?
+
+    # version?
+
+
+    f.puts "<rightsList>"
+    f.puts "<rights rightsURI=\"#{CGI::escapeHTML(self.rights_uri)}\">#{CGI::escapeHTML(self.rights)}</rights>"
+    f.puts "</rightsList>"
+
+
+    #descriptions
+    f.puts "<descriptions>"
+
+    # abstract
+    if !self.abstract.nil?
+      f.puts "<description descriptionType=\"Abstract\">#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}</description>"
+    end
+
+    #methods
+    if !self.methods.nil?
+      f.puts "<description descriptionType=\"Methods\">#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}</description>"
+    end
+
+    # citation
+
+    self.descriptions.each { |a| f.puts "<description descriptionType=\"SeriesInformation\">#{CGI::escapeHTML(a.descriptionText.gsub(/\r/,""))}</description>" }
+
+    f.puts "</descriptions>"
+
+    f.puts "</resource>"
+
+    f.close
+
+    #return contents of file as string
+    # File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
+
+    f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
+    while line = f.gets
+      puts line
+    end
+    f.close
+
   end
 
 
   def generate_merritt_zip
+
+
 
     file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}"
 
@@ -353,18 +303,12 @@ class Record < ActiveRecord::Base
     f.puts "doi:10.7272/Q6057CV6"
     f.close
 
-    File.open("#{file_path}/mrt-datacite.xml", "w") do |f|
-      f.write self.review
-    end
-
-    File.open("#{file_path}/mrt-dc.xml", "w") do |f|
-      f.write self.dublincore
-    end
-
+    f = File.new("#{file_path}/mrt-datacite.xml", "wb")
+    f.puts self.review
+    f.close
 
     Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
       zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
-      zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
 
       self.purge_temp_files
 
@@ -538,29 +482,4 @@ class Record < ActiveRecord::Base
   end
 
 
-  def related_id_types
-    ['ARK', 'DOI', 'EAN13', 'EISSN', 'HANDLE', 'ISBN', 'ISSN',
-     'ISTC', 'LISSN', 'LSID', 'PMID', 'PURL', 'UPC', 'URL', 'URN']
-  end
-
-
-  def relation_types
-    [ 'IsCitedBy', 'Cites', 'IsSupplementTo', 'IsSupplementedBy',
-      'IsNewVersionOf', 'IsPreviousVersionOf',
-      'IsPartOf',  'IsDocumentedBy', 'Documents', 'IsIdenticalTo']
-  end
-
-
-  def relation_types_hash
-    hash = [  ['is cited by', 'IsCitedBy'], ['cites', 'Cites'], ['is a supplement to', 'IsSupplementTo'],
-              ['is supplemented by', 'IsSupplementedBy'], ['is new version of', 'IsNewVersionOf'],
-              ['is previous version of', 'IsPreviousVersionOf'], ['is part of', 'IsPartOf'],
-              ['is documented by', 'IsDocumentedBy'],
-              ['documents', 'Documents'], ['is identical to', 'IsIdenticalTo']
-    ]
-  end
-
-
 end
-
-
