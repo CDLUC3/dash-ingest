@@ -244,20 +244,11 @@ class Record < ActiveRecord::Base
         
         self.creators.each do |c|
           xml.send(:'dc:creator', "#{c.creatorName.gsub(/\r/,"")}")
-          #xml.creator  "#{c.creatorName.gsub(/\r/,"")}"
         end
 
-
-
-        #xml.foo-bar "hello" => xml.send(:"fooo-bar", "hello")
-
         xml.send(:'dc:title', "#{self.title}")
-        
         xml.send(:'dc:publisher', "#{self.publisher}")
-        #xml.publisher "#{self.publisher}"
-
         xml.send(:'dc:date', "#{self.publicationyear}")
-        #xml.date "#{self.publicationyear}"
         
         self.subjects.each do |s|
           #xml.send(:'dc:subject', "#{self.subjectName}")
@@ -265,7 +256,6 @@ class Record < ActiveRecord::Base
         end
 
         xml.send(:'dc:contributor', @funder_name)
-        #xml.contributor  @funder_name
 
         self.citations.each do |c|
           case c.relation_type
@@ -294,14 +284,11 @@ class Record < ActiveRecord::Base
           end   
         end
 
-        #xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")
-        xml.format "#{resourceTypeGeneral(self.resourcetype)}"
+        xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")
         
-        #xml.send(:'dc:extent', @total_size)
-        xml.extent @total_size
+        xml.send(:'dc:extent', @total_size)
         
-        #xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
-        xml.rights "#{CGI::escapeHTML(self.rights)}"
+        xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
         
         xml.license('xsi:type' => 'dcterms:URI') {
           xml.text("#{CGI::escapeHTML(self.rights_uri)}")
