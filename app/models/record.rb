@@ -257,29 +257,27 @@ class Record < ActiveRecord::Base
 
           case c.relation_type
             when "IsPartOf"
-              xml.send(:'dcterms:isPartOf', "#{c.citationName}", "relatedIdentifierType" => "#{c.related_id_type}")
-              #xml.isPartOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isPartOf', "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "HasPart"
-              xml.HasPart("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:hasPart',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsCitedBy"
-              xml.isReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isReferencedBy',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "Cites"
-              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:references',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsReferencedBy"
-              xml.IsReferencedBy("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isReferencedBy',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "References"
-              xml.references("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:references',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsNewVersionOf"
-              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isVersionOf',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsPreviousVersionOf"
-              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:hasVersion',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsVariantFormOf"
-              xml.isVersionOf("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:isVersionOf',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             when "IsOriginalFormOf"
-              xml.hasVersion("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:hasVersion',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
             else
-              #xml.send(:'dcterms:relation relatedIdentifierType="#{c.related_id_type}" ', "#{c.citationName}")
-              xml.relation("relatedIdentifierType" => "#{c.related_id_type}"){xml.text("#{c.citationName}")}
+              xml.send(:'dcterms:relation',  "#{c.related_id_type}" + ": " + "#{c.citationName}")
           end   
         end
 
