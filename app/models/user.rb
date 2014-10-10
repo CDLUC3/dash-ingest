@@ -6,9 +6,9 @@ class User < ActiveRecord::Base
   attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token, :oauth_expires_at
 
   def self.from_omniauth(auth,institution)
-
+     # byebug
      # if ENV["RAILS_ENV"] == "local"
-     #   user = User.find_by_external_id("Fake.User@ucop.edu")
+     #   user = User.find_by_id(36)
      #   user.save
      #
      #   else
@@ -25,8 +25,8 @@ class User < ActiveRecord::Base
       user.save!
 
     end
-  #end
-  end
+   # end
+   end
 
   end
 

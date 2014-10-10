@@ -1,13 +1,14 @@
 require 'uri'
 class SessionsController < ApplicationController
   def create
-
-     # if ENV["RAILS_ENV"] == "local"
-     #   user = User.find_by_external_id("Fake.User@ucop.edu")
-     #   user.save
-     # else
+       byebug
+     if ENV["RAILS_ENV"] == "local"
+       #user = User.find_by_id(36)
+       user = User.find_by_external_id("Fake.User@ucop.edu")
+       user.save
+     else
       user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
-      # end
+      end
     session[:user_id] = user.id
     session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
