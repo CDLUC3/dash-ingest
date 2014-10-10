@@ -19,13 +19,14 @@ class Record < ActiveRecord::Base
 
   attr_accessor :funder
   attr_accessor :grant_number
+  attr_accessor :suborg
 
   belongs_to :user
   belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
-                  :methods, :funder, :grant_number
+                  :methods, :funder, :grant_number, :suborg
 
 
   
