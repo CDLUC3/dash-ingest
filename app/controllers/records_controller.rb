@@ -35,6 +35,7 @@ class RecordsController < ApplicationController
    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
    @record.geoLocationPoints.build
+   @record.build_geoLocationBox
   end
 
   # POST - create new record
@@ -52,6 +53,7 @@ class RecordsController < ApplicationController
 
     @record.subjects.build() if @record.subjects.blank?
     @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
+    @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     if @record.save
       unless @user.last_name.nil? || @user.last_name.blank?
@@ -108,6 +110,7 @@ class RecordsController < ApplicationController
     if @record.geoLocationPlace.blank?
       @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     end
+    @record.build_geoLocationBox if @record.geoLocationBox.blank?
   end
 
 #deletes also one contributor
@@ -152,7 +155,7 @@ class RecordsController < ApplicationController
     citations_attributes: [ :id, :record_id, :citationName, :_destroy],
     contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
     geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
-    geoLocationBox_attributes: [:id, :record_id, :box, :_destroy])
+    geoLocationBox_attributes: [:id, :record_id, :sw_lat, :sw_lng, :ne_lat, :ne_lng, :_destroy])
 
   end
  

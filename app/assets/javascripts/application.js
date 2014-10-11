@@ -17,7 +17,8 @@
 //= require leaflet.js
 //= require leaflet-src.js
 //= require leaflet-map.js
-//= require hide_or_reveal_element.js
+//= require leaflet.draw.js
+//= require leaflet.draw-src.js
 //= require_tree .
 
 

@@ -5,5 +5,14 @@ class GeoLocationBox < ActiveRecord::Base
   TYPE = "box"
   belongs_to :record
   
-  attr_accessible :box, :record_id
+  validates :sw_lat, numericality:
+    { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+  validates :sw_lng, numericality: 
+    { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+  validates :ne_lat, numericality:
+    { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+  validates :ne_lng, numericality: 
+    { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+  
+  attr_accessible :sw_lat, :sw_lng, :ne_lat, :ne_lng, :record_id
 end

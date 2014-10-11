@@ -135,48 +135,61 @@
     <%= f.hidden_field :rights_uri %>
     
     <div class="fieldset">
-      <label for="geoLocationPlace">
+      <label for="OCDataPortal">
         Include this data in the OC Data Portal?
-        <a href="#data_geoLocationPlace_help" name="help_link" class="help_link">
+        <a href="#OCDataPortal_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
       
       <fieldset class="geoLocationPlace">
         <%= f.label :geoLocationPlace, "Yes" %>
+        <%= f.check_box :geoLocationPlace, {}, "Orange County (Calif.)", "false" %>
+      </fieldset>
+    </div>
+    
+    <div class="fieldset">
+      <label for="geoLocation">
+        Is there geographic metadata associated with this record?
+        <a href="#geoLocation_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+      
+      <fieldset class="geoLocation">
         <% hasGeo = false %>
         <% geospatialStyle = "display: none;" %>
-        <% point = "hideGeo" %>
-        <% box = "hideGeo" %>
-        <% if (@record.geoLocationPlace == "Orange County (Calif.)") %>
+        <% point = "display: none;" %>
+        <% box = "display: none;" %>
+        <% if !@record.geospatialType.blank? %>
           <% hasGeo = true %>
           <% geospatialStyle = "display: block;" %>
           <% case @record.geospatialType %>
             <% when "point" %>
-              <% point = "showGeo" %>
+              <% point = "display: block;" %>
             <% when "box" %>
-              <% box = "showGeo" %>
+              <% box = "display: block;" %>
           <% end %>
         <% end %>
-        <%= f.check_box :geoLocationPlace, {:checked => hasGeo, onClick: "hideOrRevealClass('geospatial'); initMap()"}, "Orange County (Calif.)", "false" %>
+        <label for="geoLocation">Yes</label>
+        <%= check_box_tag "geoLocation", "true", hasGeo, { onClick: "$('.geospatial').toggle(); if (this.checked == false) { $('#geoLocPoint').hide(); $('#geoLocBox').hide(); }; initMap();" } %>
       </fieldset>
     </div>
     
     <%= content_tag :div, class: "geospatial", style: geospatialStyle do %>
       <label for="geoLocation">
         Associated Location
-        <a href="#data_geoLocation_help" name="help_link" class="help_link">
+        <a href="#geoLocation_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
-      <%= text_field_tag "geoLocationPlace", nil, { :placeholder => "Orange County (Calif.)", :size=>"20", :readonly => true, :disabled => true } %>
       <table>
         <tr>
           <td>
             <%= f.label :geospatialType, "Select one or more geographic points:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "point", { onClick: "document.getElementById('geoLocPoint').className='showGeo'; document.getElementById('geoLocBox').className='hideGeo';" } %>
+            <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); allowMapDraw(); getDrawTool('point');" } %>
           </td>
         </tr>
         <tr>
@@ -184,51 +197,53 @@
             <%= f.label :geospatialType, "Specify a geographic area:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "box", { onClick: "document.getElementById('geoLocPoint').className='hideGeo'; document.getElementById('geoLocBox').className='showGeo';" } %>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <%= f.label :geospatialType, "No geospatial coordinates" %>
-          </td>
-          <td>
-            <%= f.radio_button :geospatialType, "none", { onClick: "document.getElementById('geoLocPoint').className='hideGeo'; document.getElementById('geoLocBox').className='hideGeo';" } %>
+            <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); allowMapDraw(); getDrawTool('box');" } %>
           </td>
         </tr>
       </table>
     <% end %>
+    
     <%= content_tag :div, id: "map", class: "geospatial", style: geospatialStyle do %>
+      <% if hasGeo == true %>
+        <script>initMap();</script>
+      <% end %>
     <% end %>
     
-    <%= content_tag :div, id: "geoLocPoint", class: point do %>
+    <%= content_tag :div, id: "geoLocPoint", style: point do %>
       <label for="geoLocationPoint">
         Points
-        <a href="#data_geoLocationPoint_help" name="help_link" class="help_link">
+        <a href="#geoPoints_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
 
       <fieldset class="geoLocationPoint">
         <div id="geoLocationPoint">
-          <%= f.fields_for :geoLocationPoints do |geoLocationPoint_builder| %>
-            <%= render 'geoLocationPoint_fields', :f => geoLocationPoint_builder %>
+          <%= f.fields_for :geoLocationPoints do |point_builder| %>
+            <%= render 'geoLocationPoint_fields', :f => point_builder %>
           <% end %>
           <%= link_to_add_fields '+Geographic Point', f, :geoLocationPoints %>
         </div>
       </fieldset>
     <% end %>
     
-    <%= content_tag :div, id: "geoLocBox", class: box do %>
+    <%= content_tag :div, id: "geoLocBox", style: box do %>
       <label for="geoLocationBox">
         Box
-        <a href="#data_geoLocationBox_help" name="help_link" class="help_link">
+        <a href="#geoBox_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
       </label>
 
       <fieldset class="geoLocationBox">
         <div id="geoLocationBox">
-          TEST WORKS!
+          <%= f.fields_for :geoLocationBox do |box_builder| %>
+            <%= box_builder.hidden_field "_destroy", class: 'destroyer' %>
+            <div class ='fields'>
+              <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180' %>
+              <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180' %>
+            </div>
+          <% end %>
         </div>
       </fieldset>
     <% end %>
