@@ -60,21 +60,21 @@ ActiveRecord::Schema.define(:version => 20140930223242) do
   end
 
   create_table "geo_location_boxes", :force => true do |t|
-    t.float    "sw_lat"
-    t.float    "sw_lng"
-    t.float    "ne_lat"
-    t.float    "ne_lng"
+    t.decimal  "sw_lat",     :precision => 9, :scale => 6
+    t.decimal  "sw_lng",     :precision => 9, :scale => 6
+    t.decimal  "ne_lat",     :precision => 9, :scale => 6
+    t.decimal  "ne_lng",     :precision => 9, :scale => 6
     t.integer  "record_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
   end
 
   create_table "geo_location_points", :force => true do |t|
-    t.float    "lat"
-    t.float    "lng"
+    t.decimal  "lat",        :precision => 9, :scale => 6
+    t.decimal  "lng",        :precision => 9, :scale => 6
     t.integer  "record_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
   end
 
   create_table "institutions", :force => true do |t|

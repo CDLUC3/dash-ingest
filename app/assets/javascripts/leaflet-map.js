@@ -2,7 +2,8 @@ var map;
 var ajaxRequest;
 var plotlist;
 var plotlayers=[];
-var featureGroup;
+var featureGroupMarkers = L.featureGroup();
+var featureGroupRectangle= L.featureGroup();
 var drawControl;
 
 function initMap(lat,lng) {
@@ -20,14 +21,18 @@ function initMap(lat,lng) {
 	map.addLayer(osm);
 }
 
-function allowMapDraw() {
-	featureGroup = L.featureGroup().addTo(map);
+function allowMapDraw(geoType) {
+  featureGroupMarkers.addTo(map);
+  featureGroupRectangle.addTo(map);
+	getDrawTool(geoType);
   
   map.on('draw:created', function(e) {
     type = e.layerType;
     layer = e.layer;
     if (type === 'marker') {
+      // Add coordinates to active field.
       
+      featureGroupMarkers.addLayer(e.layer);
     } else if (type === 'rectangle') {
       // Get SW coordinates.
       document.getElementById("record_geoLocationBox_attributes_sw_lat").value = layer.getBounds().getSouthWest().lat;
@@ -35,39 +40,103 @@ function allowMapDraw() {
       // Get NE coordinates.
       document.getElementById("record_geoLocationBox_attributes_ne_lat").value = layer.getBounds().getNorthEast().lat;
       document.getElementById("record_geoLocationBox_attributes_ne_lng").value = layer.getBounds().getNorthEast().lng;
+      // Disable the draw toolbar.
+      $('.leaflet-draw-inner-toolbar').show();
     }
-    
-    featureGroup.addLayer(e.layer);
+    featureGroupRectangle.addLayer(e.layer);
   });
+  
+  map.on('draw:deleted', function(e) {
+    // Allow use of the draw toolbar.
+    $('.leaflet-draw-inner-toolbar').hide();
+  });
+
 }
 
 function getDrawTool(geoType) {
+  // Create hidden div element which grays out the 
+  //  draw tool when the layer limit is reached.
+  $('.leaflet-draw-section:first').append('<div class="leaflet-draw-inner-toolbar" title="No more layers can be added for this geospatial type."></div>');
+  
+  // If applicable, remove previous toolbar before 
+  //  replacing it.
   if (drawControl != null) {
     map.removeControl(drawControl);
   }
-	// Add Leaflet.draw toolbars and functionality.
-  drawControl = new L.Control.Draw({
+  // Only show the draw tool relevant to the
+  //   current geoLocation type.
+  if (geoType == 'point') {
+    drawControl = new L.Control.Draw({
       position: 'topright',
       draw: {
         polyline: false,
         polygon: false,
         circle: false,
+        rectangle: false
       },
       edit: {
-        featureGroup: featureGroup
+        featureGroup: featureGroupMarkers
       }
     });
-  if (geoType == 'point') {
-    drawControl.setDrawingOptions({
-      rectangle: false
+    // Cap number of markers at 25.
+    if (featureGroupMarkers.getLayers().length == 25) {
+      $('.leaflet-draw-inner-toolbar').show();
+    }
+    // Show markers and hide rectangle.
+    featureGroupMarkers.eachLayer(function (marker) {
+      marker.setOpacity(1);
     });
+    featureGroupRectangle.setStyle({ 
+      opacity: 0, 
+      fillOpacity: 0
+    });
+    drawControl.addTo(map);
   } else if (geoType == 'box') {
-    drawControl.setDrawingOptions({
-      marker: false
+    drawControl = new L.Control.Draw({
+      position: 'topright',
+      draw: {
+        polyline: false,
+        polygon: false,
+        circle: false,
+        marker: false,
+        rectangle: {
+          shapeOptions: {
+            color: 'orange'
+          }
+        }
+      },
+      edit: {
+        featureGroup: featureGroupRectangle
+      }
     });
+    // Cap number of rectangles at 1.
+    if (featureGroupRectangle.getLayers().length == 1) {
+      $('.leaflet-draw-inner-toolbar').show();
+    }
+    // Hide markers and show rectangle.
+    featureGroupMarkers.eachLayer(function (marker) {
+      marker.setOpacity(0);
+    });
+    featureGroupRectangle.setStyle({ 
+      opacity: 0.5, 
+      fillOpacity: 0.3
+    });
+    /*featureGroupRectangle.setStyle( {
+      opacity: 1;
+    };*/
+    drawControl.addTo(map);
   }
-  
-  drawControl.addTo(map);
+}
+
+function redrawBox() {
+  // Get SW coordinates.
+  sw = [ document.getElementById("record_geoLocationBox_attributes_sw_lat").value, document.getElementById("record_geoLocationBox_attributes_sw_lng").value ];
+  // Get NE coordinates.
+  ne = [ document.getElementById("record_geoLocationBox_attributes_ne_lat").value, document.getElementById("record_geoLocationBox_attributes_ne_lng").value ];
+  featureGroupRectangle.eachLayer( function (layer) {
+    layer.setBounds([ sw, ne ]);
+  });
+    
 }
 
 function onMapClick(e) {

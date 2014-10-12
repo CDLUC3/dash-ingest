@@ -189,7 +189,7 @@
             <%= f.label :geospatialType, "Select one or more geographic points:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); allowMapDraw(); getDrawTool('point');" } %>
+            <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if (this.checked == true) { allowMapDraw('point'); }" } %>
           </td>
         </tr>
         <tr>
@@ -197,7 +197,7 @@
             <%= f.label :geospatialType, "Specify a geographic area:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); allowMapDraw(); getDrawTool('box');" } %>
+            <%= f.radio_button :geospatialType, "box", { onChange: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if (this.checked == true) { allowMapDraw('box'); } " } %>
           </td>
         </tr>
       </table>
@@ -240,8 +240,8 @@
           <%= f.fields_for :geoLocationBox do |box_builder| %>
             <%= box_builder.hidden_field "_destroy", class: 'destroyer' %>
             <div class ='fields'>
-              <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180' %>
-              <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180' %>
+              <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90', onChange: "redrawBox()" -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180', onChange: "redrawBox()" %>
+              <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90', onChange: "redrawBox()" -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180', onChange: "redrawBox()" %>
             </div>
           <% end %>
         </div>
