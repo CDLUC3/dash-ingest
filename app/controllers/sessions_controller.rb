@@ -1,11 +1,10 @@
 require 'uri'
 class SessionsController < ApplicationController
   def create
-       byebug
+     byebug
      if ENV["RAILS_ENV"] == "local"
-       #user = User.find_by_id(36)
-       user = User.find_by_external_id("Fake.User@ucop.edu")
-       user.save
+       user = User.find_by_id(36)
+       #user = User.find_by_external_id("Fake.USer@ucop.edu")
      else
       user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
        end
@@ -31,9 +30,14 @@ class SessionsController < ApplicationController
 
   def signin
     #logger.info "Params=#{params}"
-    if !params[:institution_id].blank?
-      session['institution_id'] = params[:institution_id]
-    end
+   uri = URI(request.original_url)
+   if uri.host == "localhost"
+    redirect_to sessions_create_path and return
+
+    # if !params[:institution_id].blank?
+    #   session['institution_id'] = params[:institution_id]
+    # end
+   else
     @institution = Institution.find(institution)
     session['institution_id']= @institution.id
     if !@institution.shib_entity_domain.blank?
@@ -45,14 +49,14 @@ class SessionsController < ApplicationController
     end
 
   end
-
+end
 
   def institution
 
     uri = URI(request.original_url)
 
    if uri.host == "localhost"
-     @id = Institution.find(2)
+     @id = Institution.find(1)
      return @id.id
    else
        url = uri.host.split(".")

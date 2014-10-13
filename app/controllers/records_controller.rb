@@ -14,6 +14,8 @@ class RecordsController < ApplicationController
 
 
     def index
+
+
       if current_user
         @user = current_user
         @institution = @user.institution
