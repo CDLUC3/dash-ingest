@@ -56,6 +56,8 @@ class RecordsController < ApplicationController
     @record.user_id = @user.id
     @institution = @user.institution
     @record.set_local_id
+    
+    @suborg = params[:record][:suborg]
 
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.institution_id = @user.institution_id
@@ -72,6 +74,8 @@ class RecordsController < ApplicationController
     end
 
     if @record.save
+
+
       unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id,
                                        contributorType: "DataManager",
@@ -79,10 +83,18 @@ class RecordsController < ApplicationController
         @contributor.save
       end
       if @funder = params[:record][:funder]
-        @contributor = Contributor.new(record_id: @record.id,
-                                       contributorType: "Funder",
-                                       contributorName: @funder)
-        @contributor.save
+        if @suborg
+          @funder = @funder + ". " + @suborg
+          @contributor = Contributor.new(record_id: @record.id,
+                                         contributorType: "Funder",
+                                         contributorName: @funder)
+          @contributor.save
+        else
+          @contributor = Contributor.new(record_id: @record.id,
+                                         contributorType: "Funder",
+                                         contributorName: @funder)
+          @contributor.save
+        end
       end
 
       if @grant_number = params[:record][:grant_number]
