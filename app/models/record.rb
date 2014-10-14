@@ -172,15 +172,22 @@ class Record < ActiveRecord::Base
           self.subjects.each do |s|
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
-        }      
-        xml.contributors {
-          xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @data_manager_name
+        }   
+        
+        unless @data_manager_name.blank? && @funder_name.blank?   
+          xml.contributors {
+            unless @data_manager_name.blank?
+              xml.contributor("contributorType" => "DataManager") {
+                xml.contributorName @data_manager_name
+              }
+            end
+            unless @funder_name.blank?
+              xml.contributor("contributorType" => "Funder") {
+                xml.contributorName @funder_name
+              }
+            end
           }
-          xml.contributor("contributorType" => "Funder") {
-            xml.contributorName @funder_name
-          }
-        }
+        end
 
         xml.relatedIdentifiers {
           self.citations.each do |c|
