@@ -4,6 +4,6 @@ class Creator < ActiveRecord::Base
 
   attr_accessible :creatorName, :record_id
   
-  validates_presence_of :creatorName, :message => "^You must add at least one creator."
+  # validates_presence_of :creatorName, :message => "^You must add at least one creator."
 
 end

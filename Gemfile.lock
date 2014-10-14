@@ -22,9 +22,6 @@ GEM
       activesupport (= 3.2.19)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activerecord-mysql2spatial-adapter (0.4.3)
-      mysql2 (>= 0.2.13)
-      rgeo-activerecord (~> 0.4.5)
     activeresource (3.2.19)
       activemodel (= 3.2.19)
       activesupport (= 3.2.19)
@@ -175,11 +172,6 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     ref (1.0.5)
-    rgeo (0.3.20)
-    rgeo-activerecord (0.4.6)
-      activerecord (>= 3.0.3)
-      arel (>= 2.0.6)
-      rgeo (>= 0.3.20)
     rspec-core (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-expectations (3.0.4)
@@ -250,7 +242,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-mysql2spatial-adapter (>= 0.4.3)
   byebug
   capistrano (~> 3.2.1)
   capistrano-bundler
@@ -271,8 +262,6 @@ DEPENDENCIES
   omniauth-google-oauth2 (~> 0.2.1)
   paperclip
   rails (= 3.2.19)
-  rgeo (>= 0.3.20)
-  rgeo-activerecord (>= 0.4.6)
   rspec-rails (~> 3.0.0)
   rubyzip (~> 0.9.9)
   sass-rails (~> 3.2.3)

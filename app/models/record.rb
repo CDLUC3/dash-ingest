@@ -12,7 +12,7 @@ class Record < ActiveRecord::Base
   has_many :datauploads
   has_many :relations
   has_many :submissionLogs
-  has_many :uploads
+  has_many :uploads,   :dependent => :destroy
   has_many :citations, :dependent => :destroy
   has_many :geoLocationPoints, :dependent => :destroy
   has_one :geoLocationBox, :dependent => :destroy
@@ -35,7 +35,11 @@ class Record < ActiveRecord::Base
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
-  before_validation :mark_subjects_for_destruction, :mark_citations_for_destruction
+  validates_presence_of :creators, :message => "^You must add at least one creator."
+
+  before_save :mark_subjects_for_destruction, 
+              :mark_citations_for_destruction, 
+              :mark_creators_for_destruction
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
@@ -45,7 +49,6 @@ class Record < ActiveRecord::Base
 
   accepts_nested_attributes_for :subjects, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :subjects_attributes
-  
   attr_accessible :geoLocationPlace, :geospatialType
   accepts_nested_attributes_for :geoLocationPoints, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :geoLocationPoints_attributes
@@ -54,7 +57,6 @@ class Record < ActiveRecord::Base
   before_validation :mark_points_for_destruction
 
   def mark_subjects_for_destruction
-
     subjects.each {|subject|
     if subject.subjectName.blank?
       subject.mark_for_destruction
@@ -63,27 +65,22 @@ class Record < ActiveRecord::Base
   end
 
   def mark_citations_for_destruction
-
     citations.each {|citation|
       if citation.citationName.blank?
         citation.mark_for_destruction
       end
     }
   end
-  
-  def mark_points_for_destruction
-    if (geospatialType != 'point')
-      geoLocationPoints.each {|point|
-        point.mark_for_destruction
-      }
-    else 
-      geoLocationPoints.each {|point|
-        if (point.lat.blank? || point.lng.blank?)
-          point.mark_for_destruction
-        end
-      }
-    end
+
+
+  def mark_creators_for_destruction
+    creators.each {|creator|
+      if creator.creatorName.blank? || creator.creatorName == "" || creator.creatorName.nil?
+        creator.mark_for_destruction
+      end
+    }
   end
+
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
@@ -276,7 +273,14 @@ class Record < ActiveRecord::Base
      f.close
      
      #return contents of file as string
-     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
+     # File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
+
+     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
+      while line = f.gets
+          puts line
+      end
+      f.close
+
    end
    
 
@@ -432,7 +436,8 @@ class Record < ActiveRecord::Base
       recommended_fields = ""
       fields = ""
 
-      initial_sentence = "Missing recommended field(s): "
+      # initial_sentence = "Missing recommended field(s): "
+      initial_sentence = "Consider adding these recommended field(s): "
             
       if self.subjects.nil? || self.subjects.empty?
         fields << "keywords"

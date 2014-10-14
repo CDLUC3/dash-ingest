@@ -4,19 +4,19 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{deploy@example.com}
-role :web, %w{deploy@example.com}
-role :db,  %w{deploy@example.com}
 
+set :rails_env, "production" 
 
-# Extended Server Syntax
-# ======================
-# This can be used to drop a more detailed server definition into the
-# server list. The second argument is a, or duck-types, Hash and is
-# used to set extended properties on the server.
+# Default deploy_to directory is /var/www/my_app
+set :deploy_to, '/apps/dash/apps/dash-ingest'
 
-server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server 'dash.cdlib.org', 
+	user: 'dash', 
+	roles: %w{web app}
 
+set :unicorn_pid, "#{deploy_to}/unicorn.pid"
+set :unicorn_config, "#{deploy_to}/current/config/unicorn.rb"
+set :unicorn_port, "8080"
 
 # Custom SSH Options
 # ==================
