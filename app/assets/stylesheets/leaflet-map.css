@@ -2,13 +2,3 @@
   width: 400px;
   height: 300px;
 }
-
-.leaflet-draw-inner-toolbar {
-    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.6);
-    bottom: 0;
-    display: none;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-}

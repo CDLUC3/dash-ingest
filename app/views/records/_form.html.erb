@@ -240,8 +240,8 @@
           <%= f.fields_for :geoLocationBox do |box_builder| %>
             <%= box_builder.hidden_field "_destroy", class: 'destroyer' %>
             <div class ='fields'>
-              <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90', onChange: "redrawBox()" -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180', onChange: "redrawBox()" %>
-              <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90', onChange: "redrawBox()" -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180', onChange: "redrawBox()" %>
+              <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180' %>
+              <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180' %>
             </div>
           <% end %>
         </div>
