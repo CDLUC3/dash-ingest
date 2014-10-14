@@ -1,19 +1,20 @@
 class RecordsController < ApplicationController
 
   include RecordHelper
-  
+
   before_filter :verify_ownership
-  
+
 
   def index
-    
+
     @user = current_user
     if !@user || !@user.institution_id
       redirect_to login_path and return
     end
-    
+
     @institution = @user.institution
     @records = Record.find_all_by_user_id(current_user.id)
+    
   end
 
   # GET form for new record
@@ -22,18 +23,18 @@ class RecordsController < ApplicationController
       @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
       session[:user_id] = @user.id
     end
-   @user = current_user
-   @institution = @user.institution
-   @record = Record.new
-   @record.creators.build()
-   @record.citations.build
-   
-   3.times do
-    @record.subjects.build
-   end
-   @record.publisher = @institution.short_name
-   @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-   @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    @user = current_user
+    @institution = @user.institution
+    @record = Record.new
+    @record.creators.build()
+    @record.citations.build()
+
+    3.times do
+      @record.subjects.build()
+    end
+    @record.publisher = @institution.short_name
+    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
   end
 
   # POST - create new record
@@ -48,23 +49,26 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
+    3.times do
+      @record.subjects.build() if @record.subjects.blank?
+    end
 
-    @record.subjects.build() if @record.subjects.blank?
+    if @record.subjects.count() == 0
+      2.times do
+        @record.subjects.build()
+      end
+    end
 
     if @record.save
       unless @user.last_name.nil? || @user.last_name.blank?
-        @contributor = Contributor.new(record_id: @record.id, 
-                                      contributorType: "DataManager", 
-                                      contributorName: @user.last_name + ", " + @user.first_name)
-
-        # @contributor = Contributor.new(record_id: @record.id, 
-        #                               contributorType: "DataManager", 
-        #                               contributorName: "test_last" + ", " + "test_first")
+        @contributor = Contributor.new(record_id: @record.id,
+                                       contributorType: "DataManager",
+                                       contributorName: @user.last_name + ", " + @user.first_name)
         @contributor.save
       end
-      
+
       if params[:commit] == 'Save'
-        redirect_to "/records/show"
+        redirect_to edit_record_path(@record.id)
       elsif params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       end
@@ -74,42 +78,51 @@ class RecordsController < ApplicationController
   end
 
 
-  def show
-   @records = Record.find_all_by_user_id(session[:user_id])
-  end
-
   def edit
     @record = Record.find(params[:id])
+
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
       @record.subjects.build() if @record.subjects.blank?
     end
-
-    #@record = Record.find(params[:id])
-    if @record.rights.nil?
-      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
-    end
-   #@record.creators.build() if @record.creators.blank?
-   #@record.citations.build()if @record.citations.blank?
-    @record.subjects.build() if @record.subjects.blank?
-    if @record.subjects.count() == 1
+    if @record.subjects.count() == 0
       2.times do
         @record.subjects.build()
       end
+
     elsif @record.subjects.count() == 2
       1.times do
         @record.subjects.build()
       end
-    end
+    elsif @record.subjects.count() == 1
+      2.times do
+        @record.subjects.build()
 
+      end
+    end
+    if @record.rights.nil?
+      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    end
+   
   end
 
 #deletes also one contributor
   def delete
     @record = Record.find(params[:id])
     @contributor = Contributor.find_all_by_record_id(@record.id).first
+
+    uploads = @record.uploads
+    uploads.each do |u| 
+      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{u.record.local_id}"
+      if File.exist?("#{file_path}")
+         # FileUtils.rm_rf Dir.glob("#{file_path}/*")
+         # FileUtils.rm_rf("#{file_path}/*")
+         FileUtils.remove_dir("#{file_path}")
+      end
+    end  
+
     @contributor.destroy if @contributor
     @record.destroy
     redirect_to records_path
@@ -120,44 +133,61 @@ class RecordsController < ApplicationController
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    if !@record.institution_id
-      @record.institution_id = @user.institution_id
+    # byebug
+    @record.creators.build() if @record.creators.blank?
+    @record.citations.build() if @record.citations.blank?
+    @record.subjects.build() if @record.subjects.blank?
+
+    if @record.subjects.count() == 0
+      2.times do
+        @record.subjects.build()
+      end
+    elsif @record.subjects.count() == 2
+      1.times do
+        @record.subjects.build()
+      end
+    elsif @record.subjects.count() == 1
+      2.times do
+        @record.subjects.build()
+      end
     end
+
+    @record.institution_id = @user.institution_id unless @record.institution_id
+
     if @record.update_attributes(record_params)
-      if params[:commit] == 'Save'
-        redirect_to "/records/show"
-      elsif params[:commit] =='Save And Continue'
+      if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
+      elsif params[:commit] == 'Save'
+        redirect_to edit_record_path(@record.id)
       else
         render 'edit'
       end
+
     else
       render 'edit'
     end
-  end
 
+  end
 
 
   private
+
   def record_params
     params.require(:record).permit(
-    :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
-    creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
-    subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-    citations_attributes: [ :id, :record_id, :citationName, :_destroy],
-    contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
+        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+        creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
+        subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
+        citations_attributes: [ :id, :record_id, :citationName, :_destroy],
+        contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
 
   end
-
-
- 
 
 
   def review
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-   
+
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
       @new_submission = true
     else
@@ -168,10 +198,10 @@ class RecordsController < ApplicationController
 
 
     @record.purge_temp_files
-    @xmlout = @record.review 
+    @xmlout = @record.review
 
     render :review, :layout => false
-    
+
   end
 
 
@@ -183,7 +213,7 @@ class RecordsController < ApplicationController
     @record = Record.find(params[:id])
     if !@record.required_fields.empty?
       render :action => "review", :id => @record.id
-    else    
+    else
       @merritt_response = "PROCESSING"
 
       # processing of large files can take a long time
@@ -193,21 +223,21 @@ class RecordsController < ApplicationController
       Thread.new do
         @record.generate_merritt_zip
 
-       @merritt_request = @record.send_archive_to_merritt (@user.external_id)
+        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
 
         submissionLog = SubmissionLog.new
 
         if (!@merritt_request)
           @merritt_response = "User not authorized for Merritt submission"
-      	else
+        else
           @merritt_response = `#{@merritt_request}`
-	      end
+        end
 
         submissionLog.archiveresponse = @merritt_response
         submissionLog.record = @record
         submissionLog.save
-         # if the submission was successful, remove the files from local
-          # storage and add logging information
+        # if the submission was successful, remove the files from local
+        # storage and add logging information
         if !(submissionLog.filtered_response == "Failed")
           @record.purge_files(submissionLog.id)
         end
@@ -222,16 +252,16 @@ class RecordsController < ApplicationController
       # entry to inform the user that the upload is still processing
       # this message will appear when the user is forwarded to the submission log page
       if @merritt_response == "PROCESSING"
-            submissionLog.archiveresponse = @merritt_response
-            submissionLog.record = @record
-            submissionLog.save
+        submissionLog.archiveresponse = @merritt_response
+        submissionLog.record = @record
+        submissionLog.save
       end
-      
+
       # redirect_to :action => "submission_log", :id=> @record.id   
       # render :action => "submission_log", :id=> @record.id  
-      redirect_to logs_path(@record.id) 
+      redirect_to logs_path(@record.id)
     end
-    
+
   end
 
 
@@ -241,9 +271,9 @@ class RecordsController < ApplicationController
     #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
     #   session[:user_id] = @user.id
     # else
-      @user = current_user
+    @user = current_user
     # end
-    
+
     @record = Record.find_by_id(params[:id])
     if @user
       @institution = @user.institution
@@ -251,14 +281,14 @@ class RecordsController < ApplicationController
 
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
-         redirect_to "/records"
+        redirect_to "/records"
       end
     end
   end
-  
-    
 
-  
+
+
+
   def submission_log
     @user = current_user
     if @user
@@ -266,23 +296,23 @@ class RecordsController < ApplicationController
     end
     @record = Record.find_by_id(params[:id])
   end
-  
+
   def terms_of_use
   end
-  
+
   def prepare_to_submit
   end
-  
+
   def upload_faq_page
   end
-  
+
   def metadata_basics
   end
-  
+
   def steps_to_publish
   end
-  
+
   def data_use_agreement
   end
-  
+
 end

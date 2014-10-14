@@ -12,7 +12,7 @@ class Record < ActiveRecord::Base
   has_many :datauploads
   has_many :relations
   has_many :submissionLogs
-  has_many :uploads
+  has_many :uploads,   :dependent => :destroy
   has_many :citations, :dependent => :destroy
  
 
@@ -24,15 +24,19 @@ class Record < ActiveRecord::Base
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
   
-  #validates_associated :creators, :citations, :subjects
-  #validates_associated :citations, :subjects
   
+  validate :must_have_creators
+
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
-  before_validation :mark_subjects_for_destruction, :mark_citations_for_destruction
+  validates_presence_of :creators, :message => "^You must add at least one creator."
+
+  before_save :mark_subjects_for_destruction, 
+              :mark_citations_for_destruction, 
+              :mark_creators_for_destruction
 
   accepts_nested_attributes_for :creators, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :creators_attributes
@@ -44,8 +48,25 @@ class Record < ActiveRecord::Base
   attr_accessible :subjects_attributes
 
 
-  def mark_subjects_for_destruction
 
+  def must_have_creators
+    valid = 0
+    if creators.nil?
+      errors.add(:base, 'You must add at least one creator.')
+    else
+      creators.each do |creator|
+        if !creator.creatorName.blank?
+          valid = 1
+        end
+      end
+      if valid == 0
+        errors.add(:base, 'You must add at least one creator.')
+      end
+    end
+  end
+
+
+  def mark_subjects_for_destruction
     subjects.each {|subject|
     if subject.subjectName.blank?
       subject.mark_for_destruction
@@ -53,11 +74,20 @@ class Record < ActiveRecord::Base
     }
   end
 
-  def mark_citations_for_destruction
 
+  def mark_citations_for_destruction
     citations.each {|citation|
       if citation.citationName.blank?
         citation.mark_for_destruction
+      end
+    }
+  end
+
+
+  def mark_creators_for_destruction
+    creators.each {|creator|
+      if creator.creatorName.blank? || creator.creatorName == "" || creator.creatorName.nil?
+        creator.mark_for_destruction
       end
     }
   end
@@ -239,7 +269,14 @@ class Record < ActiveRecord::Base
      f.close
      
      #return contents of file as string
-     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
+     # File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "rb").read
+
+     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", "r")
+      while line = f.gets
+          puts line
+      end
+      f.close
+
    end
    
 
@@ -395,7 +432,8 @@ class Record < ActiveRecord::Base
       recommended_fields = ""
       fields = ""
 
-      initial_sentence = "Missing recommended field(s): "
+      # initial_sentence = "Missing recommended field(s): "
+      initial_sentence = "Consider adding these recommended field(s): "
             
       if self.subjects.nil? || self.subjects.empty?
         fields << "keywords"

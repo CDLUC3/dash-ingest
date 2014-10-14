@@ -11,11 +11,11 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-set :branch, 'master'
+# set :branch, 'master'
 # set :branch, 'stage'
-# set :branch, 'development'
-#set :branch, 'joel'
-#set :branch, 'institutions'
+set :branch, 'development'
+# set :branch, 'joel'
+# set :branch, 'institutions'
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
@@ -33,7 +33,7 @@ set :log_level, :debug
 set :pty, false
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml config/datashare.yml config/merritt.yml}
+set :linked_files, %w{config/database.yml config/merritt.yml}
 set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/sockets}
 
 set :stages, ["development", "staging", "production"]
@@ -82,11 +82,11 @@ namespace :deploy do
   end
 
   desc 'Restart Unicorn'
-  task :restart
-  before "deploy:restart", "bundle:install"
-  before :restart, :stop
-  before :restart, :start
-end
+    task :restart
+    before "deploy:restart", "bundle:install"
+    before :restart, :stop
+    before :restart, :start
+  end
 
 namespace :bundle do
 
