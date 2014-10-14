@@ -244,6 +244,10 @@ class Record < ActiveRecord::Base
                 "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
                 "dom:scienceDataFile | mrt:mimeType " + "\n" +
                 "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " + 
+
+                #self.uploads_list
+
+
                 "file | text/xml " + "\n" +
                 "mrt-dc.txt | " +
                 "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " + 
@@ -253,6 +257,28 @@ class Record < ActiveRecord::Base
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
       f.write(content)
     end
+  end
+
+
+  def uploads_list
+
+    file_names = [] 
+
+    current_uploads = Upload.find_all_by_record_id(self.id)
+    current_uploads.each do |u|
+      file_names << u.upload_file_name
+    end
+
+    if (self.submissionLogs.empty? || self.submissionLogs.nil?)
+      self.submissionLogs.each do |log|
+        log.uploadArchives.each do |arch|
+          #TO DO: check if submission was successful
+          file_names << arch.upload_file_name
+        end
+      end
+    end
+
+    file_names
   end
 
 
@@ -405,7 +431,7 @@ def total_size
  def purge_files(submission_log_id)
    
   uploads = Upload.find_all_by_record_id(self.id)
-   
+  
    # archive the file information for submission logs
   uploads.each do |u|
      upload_archive = UploadArchive.new
