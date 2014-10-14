@@ -279,7 +279,7 @@ def dublincore
         xml.send(:'dc:subject', "#{s.subjectName.gsub(/\r/,"")}")
       end
 
-      xml.send(:'dc:contributor', @funder_name)
+      xml.send(:'dc:contributor', @funder_name) unless @funder_name.blank?
 
       self.citations.each do |c|
 
