@@ -25,13 +25,10 @@ class Record < ActiveRecord::Base
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
-  
-<<<<<<< HEAD
+
   #validates_associated :creators, :citations, :subjects
   #validates_associated :citations, :subjects
   validates_associated :geoLocationPoints, :geoLocationBox
-=======
->>>>>>> master
   
   validate :must_have_creators
 
@@ -61,8 +58,6 @@ class Record < ActiveRecord::Base
   attr_accessible :geoLocationBox_attributes
   before_validation :mark_points_for_destruction
 
-<<<<<<< HEAD
-=======
 
   def must_have_creators
     valid = 0
@@ -81,7 +76,6 @@ class Record < ActiveRecord::Base
   end
 
 
->>>>>>> master
   def mark_subjects_for_destruction
     subjects.each {|subject|
     if subject.subjectName.blank?
@@ -90,10 +84,7 @@ class Record < ActiveRecord::Base
     }
   end
 
-<<<<<<< HEAD
-=======
 
->>>>>>> master
   def mark_citations_for_destruction
     citations.each {|citation|
       if citation.citationName.blank?

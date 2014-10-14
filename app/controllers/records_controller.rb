@@ -35,11 +35,8 @@ class RecordsController < ApplicationController
     @record.publisher = @institution.short_name
     @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
-<<<<<<< HEAD
    @record.geoLocationPoints.build
    @record.build_geoLocationBox
-=======
->>>>>>> master
   end
 
   # POST - create new record
@@ -63,11 +60,8 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
-<<<<<<< HEAD
     @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
-=======
->>>>>>> master
 
     if @record.save
       unless @user.last_name.nil? || @user.last_name.blank?
@@ -105,27 +99,21 @@ class RecordsController < ApplicationController
       1.times do
         @record.subjects.build()
       end
-<<<<<<< HEAD
-=======
     elsif @record.subjects.count() == 1
       2.times do
         @record.subjects.build()
 
       end
->>>>>>> master
     end
     if @record.rights.nil?
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
    
-<<<<<<< HEAD
     if @record.geoLocationPlace.blank?
       @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     end
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
-=======
->>>>>>> master
   end
 
 #deletes also one contributor
@@ -195,19 +183,13 @@ class RecordsController < ApplicationController
   def record_params
     params.require(:record).permit(
         :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
-<<<<<<< HEAD
         :geoLocationPlace,
-=======
->>>>>>> master
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
         citations_attributes: [ :id, :record_id, :citationName, :_destroy],
-        contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
-<<<<<<< HEAD
-    geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
-    geoLocationBox_attributes: [:id, :record_id, :sw_lat, :sw_lng, :ne_lat, :ne_lng, :_destroy])
-=======
->>>>>>> master
+        contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
+        geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
+        geoLocationBox_attributes: [:id, :record_id, :sw_lat, :sw_lng, :ne_lat, :ne_lng, :_destroy])
 
   end
 

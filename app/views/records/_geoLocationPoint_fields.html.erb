@@ -1,5 +1,5 @@
 <%= f.hidden_field "_destroy", class: 'destroyer' %>
-<div class ='fields'>
+<div class='fields'>
   <%= f.label :lat -%> <%= f.number_field :lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= f.label :lng -%> <%= f.number_field :lng, :step => 'any', :min => '-180', :max => '180' %>
 
   <div class="remove_point_field">

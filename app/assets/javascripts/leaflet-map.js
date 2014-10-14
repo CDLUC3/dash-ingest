@@ -6,6 +6,12 @@ var markerMap = {};
 var featureGroupMarkers = L.featureGroup();
 var featureGroupRectangle= L.featureGroup();
 var drawControl;
+var defaultMarker = new L.Icon.Default;
+var highlightMarker = new L.Icon.Default({
+  iconUrl: '/assets/marker-icon-highlight.png',
+  iconRetinaUrl: '/assets/marker-icon-highlight-2x.png'
+});
+
 
 function initMap(lat,lng) {
   map = L.map('map');
@@ -25,16 +31,24 @@ function initMap(lat,lng) {
 function allowMapDraw(geoType) {
   featureGroupMarkers.addTo(map);
   featureGroupRectangle.addTo(map);
-  
 	getDrawTool(geoType);
+  // Use highlight-marker on mouseover.
+  featureGroupMarkers.on('mouseover', function(e) {
+    e.layer.setIcon(highlightMarker);
+  });
+  featureGroupMarkers.on('mouseout', function(e) {
+    e.layer.setIcon(defaultMarker);
+  });
   
   map.on('draw:created', function(e) {
     type = e.layerType;
     layer = e.layer;
     if (type === 'marker') {
       // Add coordinates to active field.
-      //markerMap[pointId] = layer;
-      
+      pointBaseId = 'geoLocationPoints_attributes_0'
+      markerMap[pointBaseId] = layer;
+      setPointFields(pointBaseId);
+      //$("#record_geoLocationPoints_attributes_0_lat").val("35");
       // Cap number of markers at 25.
       if (featureGroupMarkers.getLayers().length == 25) {
         disableDrawing();
@@ -45,12 +59,7 @@ function allowMapDraw(geoType) {
       if (featureGroupRectangle.getLayers().length == 1) {
         disableDrawing();
       }
-      // Get SW coordinates.
-      document.getElementById("record_geoLocationBox_attributes_sw_lat").value = layer.getBounds().getSouthWest().lat;
-      document.getElementById("record_geoLocationBox_attributes_sw_lng").value = layer.getBounds().getSouthWest().lng;
-      // Get NE coordinates.
-      document.getElementById("record_geoLocationBox_attributes_ne_lat").value = layer.getBounds().getNorthEast().lat;
-      document.getElementById("record_geoLocationBox_attributes_ne_lng").value = layer.getBounds().getNorthEast().lng;
+      setBoxFields(layer);
       disableDrawing();
       featureGroupRectangle.addLayer(layer);
     }
@@ -62,12 +71,7 @@ function allowMapDraw(geoType) {
       if (layer instanceof L.Marker) {
         alert("Marker");
       } else if (layer instanceof L.Rectangle) {
-        // Get SW coordinates.
-        document.getElementById("record_geoLocationBox_attributes_sw_lat").value = layer.getBounds().getSouthWest().lat;
-        document.getElementById("record_geoLocationBox_attributes_sw_lng").value = layer.getBounds().getSouthWest().lng;
-        // Get NE coordinates.
-        document.getElementById("record_geoLocationBox_attributes_ne_lat").value = layer.getBounds().getNorthEast().lat;
-        document.getElementById("record_geoLocationBox_attributes_ne_lng").value = layer.getBounds().getNorthEast().lng;
+        setBoxFields(layer);
       }
     });
   });
@@ -76,7 +80,6 @@ function allowMapDraw(geoType) {
     // Allow use of the draw toolbar.
     enableDrawing();
   });
-
 }
 
 function getDrawTool(geoType) {
@@ -109,6 +112,10 @@ function getDrawTool(geoType) {
       fillOpacity: 0
     });
     drawControl.addTo(map);
+    // Cap number of markers at 25.
+    if (featureGroupMarkers.getLayers().length == 25) {
+      disableDrawing();
+    }
   } else if (geoType == 'box') {
     drawControl = new L.Control.Draw({
       position: 'topright',
@@ -136,6 +143,10 @@ function getDrawTool(geoType) {
       fillOpacity: 0.3
     });
     drawControl.addTo(map);
+    // Cap number of rectangles at 1.
+    if (featureGroupRectangle.getLayers().length == 1) {
+      disableDrawing();
+    }
   }
 }
 
@@ -145,6 +156,20 @@ function disableDrawing() {
 
 function enableDrawing() {
   $('.leaflet-draw-toolbar-top').show();
+}
+
+function setPointFields(baseId) {
+  $("[id$='"+baseId+"_lat']").val(markerMap[baseId].getLatLng().lat);
+  $("[id$='"+baseId+"_lng']").val(markerMap[baseId].getLatLng().lng);
+}
+
+function setBoxFields(layer) {
+  // Set SW coordinates.
+  $('#record_geoLocationBox_attributes_sw_lat').val(layer.getBounds().getSouthWest().lat);
+  $('#record_geoLocationBox_attributes_sw_lng').val(layer.getBounds().getSouthWest().lng);
+  // Set NE coordinates.
+  $('#record_geoLocationBox_attributes_ne_lat').val(layer.getBounds().getNorthEast().lat);
+  $('#record_geoLocationBox_attributes_ne_lng').val(layer.getBounds().getNorthEast().lng);
 }
 
 function redrawBox() {
