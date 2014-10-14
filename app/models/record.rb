@@ -240,8 +240,7 @@ class Record < ActiveRecord::Base
                 "file | text/xml " + "\n" +
                 "mrt-dc.txt | " +
                 "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " + 
-                "file | text/xml " + "\n" +
-                
+                "file | text/xml " + "\n" +    
                 "%eof " 
     
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
