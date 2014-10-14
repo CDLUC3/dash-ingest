@@ -103,7 +103,7 @@ institution_list = [
     '.cdl.org',
     '.*@.*cdlib.org$',
     'cdl',
-    'blank_institution_logo.png']
+    'dash_dataone_logo.jpg']
 
 ]
 
