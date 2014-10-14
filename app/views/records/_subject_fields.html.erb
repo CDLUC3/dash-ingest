@@ -11,6 +11,14 @@
 
   $('.remove_subject_field').first().hide();
 
+  var count = $('.remove_subject_field').size();
+
+  if (count == 3) {
+
+      $('.remove_subject_field').hide();
+
+  }
+
   /*
   $(document).ready(function (event) {
     $(window).load(function () {

@@ -25,6 +25,7 @@ class LoginController < ApplicationController
     end
 
     session[:user_id] = user.id
+    cookies[:dash_logged_in] = 'Yes'
     @current_user = user
     redirect_to "/records"
   end
@@ -38,6 +39,7 @@ class LoginController < ApplicationController
       @institution = current_user.institution
     end
     session[:user_id] = nil
+    cookies.delete(:dash_logged_in)
     @user = nil
     @current_user = nil
     @institution = nil

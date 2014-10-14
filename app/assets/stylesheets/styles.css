@@ -671,6 +671,10 @@ nav a {
 	margin: 33px 310px 75px 0; 
 }
 
+.brochure-message{
+	margin: 58px 0 60px 79px;;
+}
+
  /* FAQ page styles */ 
  #faq .title {
 	margin: 24px 0 22px;
@@ -1183,10 +1187,22 @@ width: 190px;
 	margin-bottom: 20px;
 	clear: left;
 }
+
+.fields-mis{
+line-height: 200%;
+margin-bottom: 20px;
+font-size: 1.5em;
+}
+
+.title-links {
+	margin-left: 1em;
+}
+
 #step-four-review-page .metadata-container {
 	width: 686px;
 	height: 100%;
 	float: left;
+	border-radius: 10px;
 }
 
 #step-four-review-page .metadata-container .heading {
@@ -1240,6 +1256,7 @@ width: 190px;
 
 #step-four-review-page .fa-exclamation-triangle {
 	margin-right: 0.3em;
+	margin-bottom: 0.9em;
 	color: #FFCC00;
 }
 

@@ -35,8 +35,11 @@ class RecordsController < ApplicationController
     @record.publisher = @institution.short_name
     @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+<<<<<<< HEAD
    @record.geoLocationPoints.build
    @record.build_geoLocationBox
+=======
+>>>>>>> master
   end
 
   # POST - create new record
@@ -51,14 +54,20 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank?
+    3.times do
+      @record.subjects.build() if @record.subjects.blank?
+    end
 
     if @record.subjects.count() == 0
       2.times do
         @record.subjects.build()
       end
     end
+<<<<<<< HEAD
     @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
+=======
+>>>>>>> master
 
     if @record.save
       unless @user.last_name.nil? || @user.last_name.blank?
@@ -81,6 +90,7 @@ class RecordsController < ApplicationController
 
   def edit
     @record = Record.find(params[:id])
+
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
@@ -90,26 +100,49 @@ class RecordsController < ApplicationController
       2.times do
         @record.subjects.build()
       end
+
     elsif @record.subjects.count() == 2
       1.times do
         @record.subjects.build()
       end
+<<<<<<< HEAD
+=======
+    elsif @record.subjects.count() == 1
+      2.times do
+        @record.subjects.build()
+
+      end
+>>>>>>> master
     end
     if @record.rights.nil?
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
    
+<<<<<<< HEAD
     if @record.geoLocationPlace.blank?
       @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     end
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
+=======
+>>>>>>> master
   end
 
 #deletes also one contributor
   def delete
     @record = Record.find(params[:id])
     @contributor = Contributor.find_all_by_record_id(@record.id).first
+
+    uploads = @record.uploads
+    uploads.each do |u| 
+      file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{u.record.local_id}"
+      if File.exist?("#{file_path}")
+         # FileUtils.rm_rf Dir.glob("#{file_path}/*")
+         # FileUtils.rm_rf("#{file_path}/*")
+         FileUtils.remove_dir("#{file_path}")
+      end
+    end  
+
     @contributor.destroy if @contributor
     @record.destroy
     redirect_to records_path
@@ -138,30 +171,43 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
+
+    @record.institution_id = @user.institution_id unless @record.institution_id
+
     if @record.update_attributes(record_params)
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
+      elsif params[:commit] == 'Save'
+        redirect_to edit_record_path(@record.id)
       else
         render 'edit'
       end
+
     else
       render 'edit'
     end
+
   end
 
 
-
   private
+
   def record_params
     params.require(:record).permit(
         :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+<<<<<<< HEAD
         :geoLocationPlace,
+=======
+>>>>>>> master
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
         citations_attributes: [ :id, :record_id, :citationName, :_destroy],
         contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
+<<<<<<< HEAD
     geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
     geoLocationBox_attributes: [:id, :record_id, :sw_lat, :sw_lng, :ne_lat, :ne_lng, :_destroy])
+=======
+>>>>>>> master
 
   end
 

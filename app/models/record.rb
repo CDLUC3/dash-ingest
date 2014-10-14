@@ -26,10 +26,15 @@ class Record < ActiveRecord::Base
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
                   :methods
   
+<<<<<<< HEAD
   #validates_associated :creators, :citations, :subjects
   #validates_associated :citations, :subjects
   validates_associated :geoLocationPoints, :geoLocationBox
+=======
+>>>>>>> master
   
+  validate :must_have_creators
+
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
   validates_presence_of :title, :message => "^You must include a title for your submission."
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
@@ -56,6 +61,27 @@ class Record < ActiveRecord::Base
   attr_accessible :geoLocationBox_attributes
   before_validation :mark_points_for_destruction
 
+<<<<<<< HEAD
+=======
+
+  def must_have_creators
+    valid = 0
+    if creators.nil?
+      errors.add(:base, 'You must add at least one creator.')
+    else
+      creators.each do |creator|
+        if !creator.creatorName.blank?
+          valid = 1
+        end
+      end
+      if valid == 0
+        errors.add(:base, 'You must add at least one creator.')
+      end
+    end
+  end
+
+
+>>>>>>> master
   def mark_subjects_for_destruction
     subjects.each {|subject|
     if subject.subjectName.blank?
@@ -64,6 +90,10 @@ class Record < ActiveRecord::Base
     }
   end
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> master
   def mark_citations_for_destruction
     citations.each {|citation|
       if citation.citationName.blank?

@@ -67,3 +67,18 @@
 		</div> <!-- end inner container -->
 	</div> <!-- end outer container -->
 </div> <!-- end page -->
+
+
+<script type="text/javascript">
+	$(function() {
+		$('#cancel_action').click(function(){
+			$('#contact_form_tag')[0].name.value = "";
+			$('#contact_form_tag')[0].affiliation.value = "";
+			$('#contact_form_tag')[0].email.value = "";
+			$('#contact_form_tag')[0].message.value = "";
+			return false;
+		});
+	});
+</script>
+
+
