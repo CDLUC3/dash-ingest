@@ -29,15 +29,12 @@ class SessionsController < ApplicationController
 
 
   def signin
-    #logger.info "Params=#{params}"
+
+
    uri = URI(request.original_url)
    if uri.host == "localhost"
-    redirect_to sessions_create_path and return
-
-    # if !params[:institution_id].blank?
-    #   session['institution_id'] = params[:institution_id]
-    # end
-   else
+   redirect_to sessions_create_path and return
+    else
     @institution = Institution.find(institution)
     session['institution_id']= @institution.id
     if !@institution.shib_entity_domain.blank?
@@ -48,17 +45,12 @@ class SessionsController < ApplicationController
       redirect_to "/auth/google_oauth2"
     end
 
-  end
+   end
 end
 
   def institution
 
     uri = URI(request.original_url)
-
-   if uri.host == "localhost"
-     @id = Institution.find(1)
-     return @id.id
-   else
        url = uri.host.split(".")
        l = url.length
        u = ".#{url[l-2]}.#{url[l-1]}"
@@ -66,10 +58,6 @@ end
       @id = Institution.find_by_landing_page(u)
 
       return @id.id
-
-
-
-  end
 
   end
 
