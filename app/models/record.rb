@@ -19,13 +19,14 @@ class Record < ActiveRecord::Base
 
   attr_accessor :funder
   attr_accessor :grant_number
+  attr_accessor :suborg
 
   belongs_to :user
   belongs_to :institution
   
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher, 
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract, 
-                  :methods, :funder, :grant_number
+                  :methods, :funder, :grant_number, :suborg
 
 
   
@@ -185,12 +186,14 @@ class Record < ActiveRecord::Base
           }
         }
 
-        self.citations.each do |c|
-          xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}", 
-                                "relationType" => "#{c.relation_type}") {
-            xml.text("#{c.citationName.gsub(/\r/,"")}")
-          }
-        end
+        xml.relatedIdentifiers {
+          self.citations.each do |c|
+            xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}", 
+                                  "relationType" => "#{c.relation_type}") {
+              xml.text("#{c.citationName.gsub(/\r/,"")}")
+            }
+          end
+        }
 
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
