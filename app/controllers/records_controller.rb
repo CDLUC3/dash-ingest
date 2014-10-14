@@ -196,6 +196,10 @@ class RecordsController < ApplicationController
       @funder = params[:record][:funder] 
 
       if !@funder.nil? && !@funder.blank?
+        
+        @suborg = params[:record][:suborg]  
+        @funder = @funder + ". " + @suborg if @suborg
+      
         if @record.funder
           @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
           @contributor.update_attributes(contributorName: @funder)
@@ -210,7 +214,6 @@ class RecordsController < ApplicationController
         @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
         @contributor.destroy
       end
-
 
       @grant_number = params[:record][:grant_number] 
 
@@ -229,7 +232,6 @@ class RecordsController < ApplicationController
         @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
         @description.destroy
       end
-
 
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
