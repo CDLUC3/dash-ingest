@@ -4,7 +4,6 @@ require 'zip/zip'
 class Record < ActiveRecord::Base
   include RecordHelper
 
-
   has_many :creators, :dependent => :destroy
   has_many :contributors, :dependent => :destroy
   has_many :descriptions, :dependent => :destroy
@@ -16,7 +15,6 @@ class Record < ActiveRecord::Base
   has_many :uploads,   :dependent => :destroy
   has_many :citations, :dependent => :destroy
 
-
   attr_accessor :funder
   attr_accessor :grant_number
   attr_accessor :suborg
@@ -27,8 +25,6 @@ class Record < ActiveRecord::Base
   attr_accessible :identifier, :identifierType, :publicationyear, :publisher,
                   :resourcetype, :rights, :rights_uri, :title, :local_id,:abstract,
                   :methods, :funder, :grant_number, :suborg
-
-
 
 
   validate :must_have_creators
@@ -231,13 +227,36 @@ class Record < ActiveRecord::Base
   end
 
 
+  def dataone
+    File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", "w:ASCII-8BIT")
+
+    content =   "%dataonem_0.1 " + "\n" +
+        "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
+        "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
+        "%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
+        "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
+        "dom:scienceDataFile | mrt:mimeType " + "\n" +
+        "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " +
+        "file | text/xml " + "\n" +
+        "mrt-dc.txt | " +
+        "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +
+        "file | text/xml " + "\n" +
+
+        "%eof "
+
+    File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
+      f.write(content)
+    end
+  end
+
+
   def dublincore
     @total_size = self.total_size
     @funder_name = self.funder
     @data_manager = self.data_manager
     xml_content = File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dublincore.xml", "w:ASCII-8BIT")
 
-    #dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml| 
+    #dc_builder = Nokogiri::XML::Builder.new(:encoding => 'UTF-8') do |xml|
     dc_builder = Nokogiri::XML::Builder.new do |xml|
       xml.qualifieddc('xmlns:xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
                       'xsi:noNamespaceSchemaLocation' => 'http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd',
@@ -354,6 +373,9 @@ class Record < ActiveRecord::Base
       f.write self.dublincore
     end
 
+    File.open("#{file_path}/mrt-dataone-manifest.txt", "w") do |f|
+      f.write self.dataone
+    end
 
     Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
       zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
@@ -434,9 +456,6 @@ class Record < ActiveRecord::Base
     return sys_output
 
   end
-
-
-
 
 
   def required_fields
