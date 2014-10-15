@@ -12,10 +12,10 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 set :branch, ENV['BRANCH'] || 'master'
-set  :filter,  :branches => %w{oauth,joel,institutions}
+set  :filter,  :branches => %w{development, stage, master, oauth,joel,institutions}
 
 #set :branch, 'master'
-set  :branch, 'oauth'
+#set  :branch, 'oauth'
 # set :branch, 'stage'
 # set :branch, 'development'
 #set :branch, 'joel'
@@ -46,7 +46,7 @@ set :default_stage, "development"
 #set :server_name, "dash-dev2.cdlib.org"   # uncomment this line to deploy by default on this server
 #set :server_name, ["dash-dev2.cdlib.org","dash-dev.cdlib.org"] # uncomment this line to deploy on multiple server at atime
 
-set :filter, :hosts => %w{dash-dev.cdlib.org,dash-dev2.cdlib.org}
+#set :filter, :hosts => %w{dash-dev.cdlib.org,dash-dev2.cdlib.org}
 
 
 # Default value for linked_dirs is []
