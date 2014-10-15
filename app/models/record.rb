@@ -173,14 +173,21 @@ class Record < ActiveRecord::Base
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-        xml.contributors {
-          xml.contributor("contributorType" => "DataManager") {
-            xml.contributorName @data_manager_name
+
+        unless @data_manager_name.blank? && @funder_name.blank?
+          xml.contributors {
+            unless @data_manager_name.blank?
+              xml.contributor("contributorType" => "DataManager") {
+                xml.contributorName @data_manager_name
+              }
+            end
+            unless @funder_name.blank?
+              xml.contributor("contributorType" => "Funder") {
+                xml.contributorName @funder_name
+              }
+            end
           }
-          xml.contributor("contributorType" => "Funder") {
-            xml.contributorName @funder_name
-          }
-        }
+        end
 
         xml.relatedIdentifiers {
           self.citations.each do |c|
@@ -229,7 +236,7 @@ class Record < ActiveRecord::Base
 
   def dataone
     File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", "w:ASCII-8BIT")
-
+    #@filenames = self.uploads_list.to_s
     content =   "%dataonem_0.1 " + "\n" +
         "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
         "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
@@ -237,16 +244,38 @@ class Record < ActiveRecord::Base
         "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
         "dom:scienceDataFile | mrt:mimeType " + "\n" +
         "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " +
+
+        #puts "#{@filenames}" if @filenames
+
+
         "file | text/xml " + "\n" +
         "mrt-dc.txt | " +
         "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +
         "file | text/xml " + "\n" +
-
         "%eof "
 
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
       f.write(content)
     end
+  end
+
+
+  def uploads_list
+    file_names = []
+    current_uploads = Upload.find_all_by_record_id(self.id)
+    current_uploads.each do |u|
+      file_names << u.upload_file_name
+    end
+    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
+      self.submissionLogs.each do |log|
+        if ( !log.uploadArchives.nil? && !log.uploadArchives.empty?)
+          log.uploadArchives.each do |arch|
+            file_names << arch.upload_file_name
+          end
+        end
+      end
+    end
+    file_names
   end
 
 
@@ -273,7 +302,7 @@ class Record < ActiveRecord::Base
           xml.send(:'dc:subject', "#{s.subjectName.gsub(/\r/,"")}")
         end
 
-        xml.send(:'dc:contributor', @funder_name)
+        xml.send(:'dc:contributor', @funder_name) unless @funder_name.blank?
 
         self.citations.each do |c|
 
@@ -574,3 +603,5 @@ class Record < ActiveRecord::Base
 
 
 end
+
+
