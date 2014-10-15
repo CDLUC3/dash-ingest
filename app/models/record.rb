@@ -215,7 +215,6 @@ class Record < ActiveRecord::Base
               xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
             }
           end
-
           unless self.methods.nil?
             xml.description("descriptionType" => "Methods") {
               xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
@@ -239,27 +238,27 @@ class Record < ActiveRecord::Base
     File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", "w:ASCII-8BIT")
 
     @files = self.uploads_list
-  
+
     content =   "%dataonem_0.1 " + "\n" +
-                "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
-                "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
-                "%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
-                "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
-                "dom:scienceDataFile | mrt:mimeType " + "\n" 
-                                
+        "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
+        "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
+        "%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
+        "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
+        "dom:scienceDataFile | mrt:mimeType " + "\n"
+
     @files.each do |file|
-      
+
       if file
-      
+
         content <<    "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " +
-                      "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.txt | " +
-                      "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +  
-                      "#{file[:name]}" + " | #{file[:type]} " + "\n" 
-      end 
+            "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.txt | " +
+            "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +
+            "#{file[:name]}" + " | #{file[:type]} " + "\n"
+      end
     end
-    
-    content << "%eof " 
-    
+
+    content << "%eof "
+
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
       f.write(content)
     end
@@ -293,7 +292,7 @@ class Record < ActiveRecord::Base
 
 
 
-   
+
 
   def dublincore
     @total_size = self.total_size
@@ -426,17 +425,11 @@ class Record < ActiveRecord::Base
     Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
       zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
       zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
+      zipfile.add("mrt-dataone-manifest.txt", "#{file_path}/mrt-dataone-manifest.txt")
 
       self.purge_temp_files
 
-   Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|       
-     zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
-     zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
-     zipfile.add("mrt-dataone-manifest.txt", "#{file_path}/mrt-dataone-manifest.txt")
-     
-     self.purge_temp_files
-     
-     self.uploads.each do |d|  
+      self.uploads.each do |d|
         zipfile.add("#{d.upload_file_name}", "#{file_path}/#{d.upload_file_name}")
       end
     end
