@@ -268,7 +268,7 @@ class Record < ActiveRecord::Base
     end
     if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
       self.submissionLogs.each do |log|
-        if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+        if ( !log.uploadArchives.nil? && !log.uploadArchives.empty?)
           log.uploadArchives.each do |arch|
             file_names << arch.upload_file_name
           end
