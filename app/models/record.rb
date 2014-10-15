@@ -236,48 +236,63 @@ class Record < ActiveRecord::Base
 
   def dataone
     File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", "w:ASCII-8BIT")
-    #@filenames = self.uploads_list.to_s
+
+    @files = self.uploads_list
+  
     content =   "%dataonem_0.1 " + "\n" +
                 "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
                 "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
                 "%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
                 "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
-                "dom:scienceDataFile | mrt:mimeType " + "\n" +
-                "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " + 
-
-                #puts "#{@filenames}" if @filenames
-
-
-                "file | text/xml " + "\n" +
-                "mrt-dc.txt | " +
-                "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " + 
-                "file | text/xml " + "\n" +    
-                "%eof " 
+                "dom:scienceDataFile | mrt:mimeType " + "\n" 
+                                
+    @files.each do |file|
+      
+      if file
+      
+        content <<    "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " +
+                      "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.txt | " +
+                      "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +  
+                      "#{file[:name]}" + " | #{file[:type]} " + "\n" 
+      end 
+    end
+    
+    content << "%eof " 
     
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
       f.write(content)
     end
+    puts content.to_s
+    content.to_s
   end
 
 
   def uploads_list
-    file_names = [] 
+    #files = Hash.new
+    files = []
     current_uploads = Upload.find_all_by_record_id(self.id)
     current_uploads.each do |u|
-      file_names << u.upload_file_name
+      #file_names << u.upload_file_name
+      hash = {:name => u.upload_file_name, :type => u.upload_content_type}
+      files.push(hash)
     end
     if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
       self.submissionLogs.each do |log|
-        if ( !log.uploadArchives.nil? && !log.uploadArchives.empty?)
+        if ( log.uploadArchives && !log.uploadArchives.empty?)
           log.uploadArchives.each do |arch|
-            file_names << arch.upload_file_name
+            #file_names << arch.upload_file_name
+            hash = {:name => arch.upload_file_name, :type => arch.upload_content_type}
+            files.push(hash)
           end
         end
       end
     end
-    file_names
+    files
   end
 
+
+
+   
 
 def dublincore
   @total_size = self.total_size
@@ -362,7 +377,8 @@ def total_size
   end
   if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
     self.submissionLogs.each do |log|
-        if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+        #if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+        if ( log.uploadArchives && !log.uploadArchives.empty?)
           log.uploadArchives.each do |a|
             @total_size = @total_size + a.upload_file_size.to_i     
           end
@@ -409,6 +425,7 @@ def total_size
    Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|       
      zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
      zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
+     zipfile.add("mrt-dataone-manifest.txt", "#{file_path}/mrt-dataone-manifest.txt")
      
      self.purge_temp_files
      
