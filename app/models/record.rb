@@ -236,7 +236,7 @@ class Record < ActiveRecord::Base
 
   def dataone
     File.new("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", "w:ASCII-8BIT")
-    
+    #@filenames = self.uploads_list.to_s
     content =   "%dataonem_0.1 " + "\n" +
                 "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
                 "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
@@ -245,7 +245,7 @@ class Record < ActiveRecord::Base
                 "dom:scienceDataFile | mrt:mimeType " + "\n" +
                 "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " + 
 
-                #self.uploads_list
+                #puts "#{@filenames}" if @filenames
 
 
                 "file | text/xml " + "\n" +
@@ -261,23 +261,20 @@ class Record < ActiveRecord::Base
 
 
   def uploads_list
-
     file_names = [] 
-
     current_uploads = Upload.find_all_by_record_id(self.id)
     current_uploads.each do |u|
       file_names << u.upload_file_name
     end
-
-    if (self.submissionLogs.empty? || self.submissionLogs.nil?)
+    if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
       self.submissionLogs.each do |log|
-        log.uploadArchives.each do |arch|
-          #TO DO: check if submission was successful
-          file_names << arch.upload_file_name
+        if ( !log.uploadArchives.empty? && !log.uploadArchives.empty?)
+          log.uploadArchives.each do |arch|
+            file_names << arch.upload_file_name
+          end
         end
       end
     end
-
     file_names
   end
 
