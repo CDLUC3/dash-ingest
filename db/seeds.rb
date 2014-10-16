@@ -132,12 +132,12 @@ institution_list = [
 
 institution_list.each do |abbreviation, short_name, 
 													long_name, landing_page, external_id_strip, 
-                          campus, logo|
+                          campus, logo, shib_entity_id, shib_entity_domain|
  
 	Institution.create( abbreviation: abbreviation, short_name: short_name, 
 											long_name: long_name, landing_page: landing_page, 
 											external_id_strip: external_id_strip, 
-                      campus: campus, logo: logo )
+                      campus: campus, logo: logo, shib_entity_id: shib_entity_id, shib_entity_domain: shib_entity_domain )
 end
 
 

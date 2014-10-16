@@ -15,7 +15,7 @@ set :branch, ENV['BRANCH'] || 'master'
 set  :filter,  :branches => %w{oauth,joel,institutions}
 
 #set :branch, 'master'
-set  :branch, 'oauth'
+#set  :branch, 'oauth'
 # set :branch, 'stage'
 # set :branch, 'development'
 #set :branch, 'joel'
