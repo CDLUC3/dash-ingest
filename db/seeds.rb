@@ -100,7 +100,7 @@ institution_list = [
   ['DataONE',
     'DataONE',
     'DataONE',
-    '.cdl.org',
+    '.cdlib.org',
     '.*@.*cdlib.org$',
     'cdl',
     'dash_dataone_logo.jpg']
