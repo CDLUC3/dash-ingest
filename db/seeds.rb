@@ -142,7 +142,16 @@ end
 
 
 
+user_list = [
+    ['Fake.User@ucop.edu',
+     '2' ]
+]
 
+
+user_list.each do |external_id, institution_id|
+
+  User.create(external_id: external_id, institution_id: institution_id)
+end
 
 
 
