@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   has_many :records
   belongs_to :institution
   
-  attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token
+  attr_accessible :external_id, :epsa, :email, :name, :uid, :user_email, :oauth_token, :institution_id
 
   def self.from_omniauth(auth,institution)
      # byebug
