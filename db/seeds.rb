@@ -14,7 +14,11 @@ institution_list = [
 		'.ucop.edu',
 		'.*@.*ucop.edu$',
 		'cdl',
-		'blank_institution_logo.png' ],
+		'blank_institution_logo.png',
+    'urn:mace:incommon:ucop.edu',
+    'ucop.edu'],
+
+
 
   [ 'Berkeley',
   	'UC Berkeley',
@@ -22,7 +26,9 @@ institution_list = [
   	'.berkeley.edu',
   	'.*@.*berkeley.edu$',
   	'ucb',
-  	'dash_ucb_logo.png'],
+  	'dash_ucb_logo.png',
+    'urn:mace:incommon:berkeley.edu',
+    'berkeley.edu'],
 
   [ 'UCLA',
   	'UC Los Angeles',
@@ -30,7 +36,9 @@ institution_list = [
   	'.ucla.edu',
   	'.*@.*ucla.edu$',
   	'ucla',
-  	'dash_ucla_logo.png'],
+  	'dash_ucla_logo.png',
+    'urn:mace:incommon:ucla.edu',
+    'ucla.edu'],
 
   [ 'UCSD',
   	'UC San Diego',
@@ -38,7 +46,9 @@ institution_list = [
   	'.ucsd.edu',
   	'.*@.*ucsd.edu$',
   	'ucsd',
-  	'blank_institution_logo.png'],
+  	'blank_institution_logo.png',
+    'urn:mace:incommon:ucsd.edu',
+    'ucsd.edu'],
 
   ['UCSB',
   	'UC Santa Barbara',
@@ -46,7 +56,9 @@ institution_list = [
   	'.ucsb.edu',
   	'.*@.*ucsb.edu$',
   	'ucsb',
-  	'blank_institution_logo.png'],
+  	'blank_institution_logo.png',
+    'urn:mace:incommon:ucsb.edu',
+    'ucsb.edu'],
 
   ['Davis',
   	'UC Davis',
@@ -54,7 +66,9 @@ institution_list = [
   	'.ucdavis.edu',
   	'.*@.*ucdavis.edu$',
   	'ucd',
-  	'blank_institution_logo.png'],
+  	'blank_institution_logo.png',
+    'urn:mace:incommon:ucdavis.edu',
+    'ucdavis.edu'],
 
   ['Merced',
   	'UC Merced',
@@ -62,7 +76,9 @@ institution_list = [
   	'.ucmerced.edu',
   	'.*@.*ucmerced.edu$',
   	'ucmerced',
-  	'dash_ucmerced_logo.png'],
+  	'dash_ucmerced_logo.png',
+    'urn:mace:incommon:ucmerced.edu',
+    'ucmerced.edu'],
 
   ['UCSF',
   	'UC San Francisco',
@@ -70,7 +86,9 @@ institution_list = [
   	'.ucsf.edu',
   	'.*@.*ucsf.edu$',
   	'ucsf',
-  	'blank_institution_logo.png'],
+  	'blank_institution_logo.png',
+    'urn:mace:incommon:ucsf.edu',
+    'ucsf.edu'],
 
   ['Riverside',
   	'UC Riverside',
@@ -86,7 +104,9 @@ institution_list = [
   	'.ucsc.edu',
   	'.*@.*ucsc.edu$',
   	'ucsc',
-  	'blank_institution_logo.png'],
+  	'blank_institution_logo.png',
+    'urn:mace:incommon:ucsc.edu',
+    'ucsc.edu'],
 
   ['Irvine',
   	'UC Irvine',
@@ -94,7 +114,9 @@ institution_list = [
   	'.uci.edu',
   	'.*@.*uci.edu$',
   	'uci',
-  	'dash_uci_logo.png'],
+  	'dash_uci_logo.png',
+    'urn:mace:incommon:uci.edu',
+    'uci.edu'],
 
 
   ['DataONE',
