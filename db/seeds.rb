@@ -124,7 +124,7 @@ institution_list = [
     'DataONE',
     '.cdlib.org',
     '.*@.*cdlib.org$',
-    'cdl',
+    'dataone',
     'dash_dataone_logo.jpg']
 
 ]
