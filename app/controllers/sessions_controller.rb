@@ -3,8 +3,8 @@ class SessionsController < ApplicationController
   def create
 
      if ENV["RAILS_ENV"] == "local"
-       user = User.find_by_id(1)
-       #user = User.find_by_external_id("Fake.USer@ucop.edu")
+       #user = User.find_by_id(1)
+       user = User.find_by_external_id("Fake.User@ucop.edu")
      else
       user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
        end
