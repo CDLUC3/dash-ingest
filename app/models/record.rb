@@ -268,24 +268,26 @@ class Record < ActiveRecord::Base
 
 
   def uploads_list
-
     files = []
     current_uploads = Upload.find_all_by_record_id(self.id)
     current_uploads.each do |u|
       hash = {:name => u.upload_file_name, :type => u.upload_content_type}
-
       files.push(hash)
     end
     if ( !self.submissionLogs.empty? && !self.submissionLogs.nil?)
       self.submissionLogs.each do |log|
-        if ( log.uploadArchives && !log.uploadArchives.empty?)
-          log.uploadArchives.each do |arch|
-            hash = {:name => arch.upload_file_name, :type => arch.upload_content_type}
-            byebug
-            # unless file_already_submitted
-            #   files.push(hash)
-            # end
-            files.push(hash)
+        if log.filtered_response.include?("Success")
+          if ( log.uploadArchives && !log.uploadArchives.empty?)
+            log.uploadArchives.each do |arch|
+              hash = {:name => arch.upload_file_name, :type => arch.upload_content_type}
+              
+              current_uploads.each do |u|
+                unless u[:upload_file_name].include?(arch.upload_file_name)
+                  files.push(hash)
+                end
+              end
+              
+            end
           end
         end
       end
@@ -294,21 +296,21 @@ class Record < ActiveRecord::Base
   end
 
 
-  def file_already_submitted
-    current_uploads = Upload.find_all_by_record_id(self.id)
+  # def file_already_submitted
+  #   current_uploads = Upload.find_all_by_record_id(self.id)
     
-    current_uploads.each do |u|
-      unless u[:upload_file_name].include?(arch.upload_file_name)
-        files.push(hash)
-      end
-    end
-    # for i in 0..(size - 1)
-    #   if current_uploads[i][:upload_file_name].include?(arch.upload_file_name)
-    #     return true
-    #   end
-    # end
-    return false
-  end
+  #   current_uploads.each do |u|
+  #     unless u[:upload_file_name].include?(arch.upload_file_name)
+  #       files.push(hash)
+  #     end
+  #   end
+  #   # for i in 0..(size - 1)
+  #   #   if current_uploads[i][:upload_file_name].include?(arch.upload_file_name)
+  #   #     return true
+  #   #   end
+  #   # end
+  #   return false
+  # end
 
 
   def dublincore
@@ -438,6 +440,8 @@ class Record < ActiveRecord::Base
     File.open("#{file_path}/mrt-dataone-manifest.txt", "w") do |f|
       f.write self.dataone
     end
+
+    
 
     Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
       zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
