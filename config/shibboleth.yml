@@ -4,61 +4,44 @@
 
 local:
   #The host for the shibboleth sp process
-  host: dash-dev2.ucop.edu
+  host: dash-dev.ucop.edu
   #the return domain for the callback to application
   uid_field: eppn
   info_fields:
     email: mail
-    #first_name: givenName
-    #last_name: sn
-    #name: displayName
-
-
 
 
 development:
   #The host for the shibboleth sp process
-  host: dash-dev2.ucop.edu
+  host: dash-dev.ucop.edu
   #the return domain for the callback to application
   uid_field: eppn
   info_fields:
     email: mail
-    #first_name: givenName
-    #last_name: sn
-    #name: displayName
 
 stage:
   #The host for the shibboleth sp process
-  host: dash-dev2.cdlib.org
+  host: dash-stg.cdlib.org
   #the return domain for the callback to application
   uid_field: eppn
   info_fields:
     email: mail
-    #first_name: givenName
-    #last_name: sn
-    #name: displayName
     identity_provider: shib_identity_provider
 
 test:
   #The host for the shibboleth sp process
-  host: dash-dev2.cdlib.org
+  host: dash-dev.cdlib.org
   #the return domain for the callback to application
   uid_field: eppn
   info_fields:
     email: mail
-    #first_name: givenName
-    #last_name: sn
-    #name: displayName
     identity_provider: shib_identity_provider
 
 production:
   #The host for the web application, used to construct the target for the shibboleth id
   #provider's return.
-  host: dash-dev2.cdlib.org
+  host: dash.cdlib.org
   uid_field: eppn
   info_fields:
     email: mail
-    #first_name: givenName
-    #last_name: sn
-    #name: displayName
     identity_provider: shib_identity_provider

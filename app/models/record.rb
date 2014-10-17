@@ -268,11 +268,9 @@ class Record < ActiveRecord::Base
 
 
   def uploads_list
-    #files = Hash.new
     files = []
     current_uploads = Upload.find_all_by_record_id(self.id)
     current_uploads.each do |u|
-      #file_names << u.upload_file_name
       hash = {:name => u.upload_file_name, :type => u.upload_content_type}
       files.push(hash)
     end
@@ -280,9 +278,11 @@ class Record < ActiveRecord::Base
       self.submissionLogs.each do |log|
         if ( log.uploadArchives && !log.uploadArchives.empty?)
           log.uploadArchives.each do |arch|
-            #file_names << arch.upload_file_name
             hash = {:name => arch.upload_file_name, :type => arch.upload_content_type}
-            files.push(hash)
+            
+            unless self.file_already_submitted
+              files.push(hash)
+            end
           end
         end
       end
@@ -291,7 +291,17 @@ class Record < ActiveRecord::Base
   end
 
 
-
+  def file_already_submitted
+    current_uploads = Upload.find_all_by_record_id(self.id)
+    size = current_uploads.size
+    
+    for i in 0..(size - 1)
+      if current_uploads[i][:upload_file_name].include?(arch.upload_file_name)
+        return true
+      end
+    end
+    false
+  end
 
 
   def dublincore
