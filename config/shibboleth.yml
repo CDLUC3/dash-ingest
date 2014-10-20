@@ -6,18 +6,23 @@ local:
   #The host for the shibboleth sp process
   host: dash-dev.ucop.edu
   #the return domain for the callback to application
-  uid_field: eppn
+  external_id: eppn
   info_fields:
     email: mail
+    first_name: givenname
+    last_name: sn
+
 
 
 development:
   #The host for the shibboleth sp process
   host: dash-dev.ucop.edu
   #the return domain for the callback to application
-  uid_field: eppn
+  external_id: eppn
   info_fields:
-    email: mail
+      email: mail
+      first_name: givenname
+      last_name: sn
 
 stage:
   #The host for the shibboleth sp process
