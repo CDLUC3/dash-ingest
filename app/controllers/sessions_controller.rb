@@ -1,33 +1,41 @@
 require 'uri'
 class SessionsController < ApplicationController
-  def create
 
-     #logger.debug "ENV #{env.inspect}"
-     #logger.debug "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
 
-     shib_id = "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
+    def create
 
-     shib_provider = shib_id.split(':')
-     shib_campus = ".#{shib_provider.last}"
-     @institution = Institution.find_by_landing_page(shib_campus)
-     session['institution_id'] = @institution.id
+      logger.debug "ENV #{env.inspect}"
+      #logger.debug "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
+      #logger.debug params.inspect
 
-     if ENV["RAILS_ENV"] == "local"
-       #user = User.find_by_id(1)
-       user = User.find_by_external_id("Fake.User@ucop.edu")
-     else
-      user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
-       end
-    session[:user_id] = user.id
-    session[:institution_id]= user.institution_id
-    cookies[:dash_logged_in] = 'Yes'
+      if params[:provider] == "shibboleth"
+        shib_id = "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
+        shib_provider = shib_id.split(':')
+        shib_campus = ".#{shib_provider.last}"
+        @institution = Institution.find_by_landing_page(shib_campus)
+      else
+        # we are authenticating via google so the domain is cdlib.org
+        @institution = Institution.find_by_landing_page(".cdlib.org")
+      end
 
-    logger.debug "Params: #{session}"
+      session['institution_id'] = @institution.id
+      if ENV["RAILS_ENV"] == "local"
+        user = User.find_by_external_id("Fake.User@ucop.edu")
+      else
 
-    redirect_to records_path, notice: "Signed in!"
-  end
+        user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
+      end
+      session[:user_id] = user.id
+      session[:institution_id]= user.institution_id
+      cookies[:dash_logged_in] = 'Yes'
 
-  def destroy
+      logger.debug "Params: #{session}"
+
+      redirect_to records_path, notice: "Signed in!"
+    end
+
+
+    def destroy
 
     session[:user_id] = nil
     session[:institution_id] = nil
@@ -71,17 +79,6 @@ end
 
   end
 
-  # url = request.original_url
-  # if ( url == nil )
-  #   @id = ""
-  # else
-  #   case url.strip
-  #     when /.ucop.edu/
-  #       @id = 1
-  #     else
-  #       @id = 12
-  #   end
-  # end
-  # return @id
-
   end
+
+
