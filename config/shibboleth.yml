@@ -2,15 +2,15 @@
 
 #These are things that configure how the omniauth plugin for shibboleth behaves
 
-local:
-  #The host for the shibboleth sp process
-  host: dash-dev.ucop.edu
-  #the return domain for the callback to application
-  external_id: eppn
-  info_fields:
-    email: mail
-    first_name: givenname
-    last_name: sn
+#local:
+#  #The host for the shibboleth sp process
+#  host: dash-dev.ucop.edu
+#  #the return domain for the callback to application
+#  external_id: eppn
+#  info_fields:
+#    email: mail
+#    first_name: givenname
+#    last_name: sn
 
 
 
@@ -18,19 +18,24 @@ development:
   #The host for the shibboleth sp process
   host: dash-dev.ucop.edu
   #the return domain for the callback to application
-  external_id: eppn
+  uid_field: eppn
   info_fields:
-      email: mail
-      first_name: givenname
-      last_name: sn
+    external_id: eppn
+    email: mail
+    first_name: givenName
+    last_name: sn
+
 
 stage:
   #The host for the shibboleth sp process
   host: dash-stg.cdlib.org
   #the return domain for the callback to application
-  uid_field: eppn
-  info_fields:
-    email: mail
+    uid_field: eppn
+    info_fields:
+      external_id: eppn
+      email: mail
+      first_name: givenName
+      last_name: sn
     identity_provider: shib_identity_provider
 
 test:
@@ -47,6 +52,9 @@ production:
   #provider's return.
   host: dash.cdlib.org
   uid_field: eppn
-  info_fields:
-    email: mail
-    identity_provider: shib_identity_provider
+      info_fields:
+        external_id: eppn
+        email: mail
+        first_name: givenName
+        last_name: sn
+      identity_provider: shib_identity_provider
