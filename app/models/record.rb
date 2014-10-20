@@ -278,11 +278,10 @@ class Record < ActiveRecord::Base
       self.submissionLogs.each do |log|
         if log.filtered_response.include?("Success")
           if ( log.uploadArchives && !log.uploadArchives.empty?)
-            log.uploadArchives.each do |arch|
-              hash = {:name => arch.upload_file_name, :type => arch.upload_content_type}
-              
+            log.uploadArchives.each do |arch|    
               current_uploads.each do |u|
                 unless u[:upload_file_name].include?(arch.upload_file_name)
+                  hash = {:name => arch.upload_file_name, :type => arch.upload_content_type}
                   files.push(hash)
                 end
               end
