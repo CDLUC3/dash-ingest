@@ -2,6 +2,16 @@ require 'uri'
 class SessionsController < ApplicationController
   def create
 
+     #logger.debug "ENV #{env.inspect}"
+     #logger.debug "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
+
+     shib_id = "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
+
+     shib_provider = shib_id.split(':')
+     shib_campus = ".#{shib_provider.last}"
+     @institution = Institution.find_by_landing_page(shib_campus)
+     session['institution_id'] = @institution.id
+
      if ENV["RAILS_ENV"] == "local"
        #user = User.find_by_id(1)
        user = User.find_by_external_id("Fake.User@ucop.edu")
