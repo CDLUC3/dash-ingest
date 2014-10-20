@@ -32,10 +32,8 @@ stage:
   #the return domain for the callback to application
     uid_field: eppn
     info_fields:
-      external_id: eppn
       email: mail
-      first_name: givenName
-      last_name: sn
+
     identity_provider: shib_identity_provider
 
 test:
@@ -53,8 +51,6 @@ production:
   host: dash.cdlib.org
   uid_field: eppn
       info_fields:
-        external_id: eppn
-        email: mail
-        first_name: givenName
-        last_name: sn
+      email: mail
+
       identity_provider: shib_identity_provider
