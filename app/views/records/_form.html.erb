@@ -197,7 +197,7 @@
             <%= f.label :geospatialType, "Specify a geographic area:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "box", { onChange: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if (this.checked == true) { allowMapDraw('box'); } " } %>
+            <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if (this.checked == true) { allowMapDraw('box'); } " } %>
           </td>
         </tr>
       </table>
@@ -222,7 +222,7 @@
           <%= f.fields_for :geoLocationPoints do |point_builder| %>
             <%= render 'geoLocationPoint_fields', :f => point_builder %>
           <% end %>
-          <%= link_to_add_fields '+Geographic Point', f, :geoLocationPoints %>
+          <%= link_to_add_points '+Geographic Point', f, :geoLocationPoints %>
         </div>
       </fieldset>
     <% end %>

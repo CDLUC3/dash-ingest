@@ -33,27 +33,28 @@ function allowMapDraw(geoType) {
   featureGroupRectangle.addTo(map);
 	getDrawTool(geoType);
   // Use highlight-marker on mouseover.
-  featureGroupMarkers.on('mouseover', function(e) {
+ /* featureGroupMarkers.on('mouseover', function(e) {
     e.layer.setIcon(highlightMarker);
   });
   featureGroupMarkers.on('mouseout', function(e) {
     e.layer.setIcon(defaultMarker);
-  });
+  }); */
   
   map.on('draw:created', function(e) {
     type = e.layerType;
     layer = e.layer;
     if (type === 'marker') {
       // Add coordinates to active field.
-      pointBaseId = 'geoLocationPoints_attributes_0'
-      markerMap[pointBaseId] = layer;
-      setPointFields(pointBaseId);
-      //$("#record_geoLocationPoints_attributes_0_lat").val("35");
+      //pointBaseId = $('.selectedPoint').attr('id');
+      //markerMap[layer] = pointBaseId;
+      //setPointCoords(pointBaseId);
+      //alert(pointBaseId);
+      addCoordFields(layer.getLatLng().lat, layer.getLatLng().lng);
       // Cap number of markers at 25.
       if (featureGroupMarkers.getLayers().length == 25) {
         disableDrawing();
       }
-      featureGroupMarkers.addLayer(e.layer);
+      featureGroupMarkers.addLayer(layer);
     } else if (type === 'rectangle') {
       // Cap number of rectangles at 1.
       if (featureGroupRectangle.getLayers().length == 1) {
@@ -69,7 +70,7 @@ function allowMapDraw(geoType) {
     layers = e.layers;
     layers.eachLayer( function (layer) {
       if (layer instanceof L.Marker) {
-        alert("Marker");
+        setPointFields();
       } else if (layer instanceof L.Rectangle) {
         setBoxFields(layer);
       }
@@ -113,7 +114,7 @@ function getDrawTool(geoType) {
     });
     drawControl.addTo(map);
     // Cap number of markers at 25.
-    if (featureGroupMarkers.getLayers().length == 25) {
+    if (featureGroupMarkers.getLayers().length >= 25) {
       disableDrawing();
     }
   } else if (geoType == 'box') {
@@ -153,16 +154,33 @@ function getDrawTool(geoType) {
 function disableDrawing() {
   $('.leaflet-draw-toolbar-top').hide();
 }
-
 function enableDrawing() {
   $('.leaflet-draw-toolbar-top').show();
 }
 
-function setPointFields(baseId) {
-  $("[id$='"+baseId+"_lat']").val(markerMap[baseId].getLatLng().lat);
-  $("[id$='"+baseId+"_lng']").val(markerMap[baseId].getLatLng().lng);
+function addCoordFields(lat, lng) {
+  time = new Date().getTime();
+  regexp = new RegExp($('.add_fields.geopoint').data('id'), 'g');
+  $('#record_geoLocationPoints_attributes_0').before($('.add_fields.geopoint').data('fields').replace(regexp, time));
+  newId = '#record_geoLocationPoints_attributes_'+time;
+  //alert(newId);
+  $(newId + '_lat').attr('value',lat).prop('disabled', true);
+  $(newId + '_lng').attr('value',lng).prop('disabled', true);
 }
 
+function setPointCoords(pointId) {
+  $("[id$='"+pointId+"_lat']").val(markerMap[pointId].getLatLng().lat);
+  $("[id$='"+pointId+"_lng']").val(markerMap[pointId].getLatLng().lng);
+}
+function setPointFields() {
+  for (marker in featureGroupMarkers) {
+    
+  }
+}
+function setPointCoords(pointId) {
+  $("[id$='"+pointId+"_lat']").val(markerMap[pointId].getLatLng().lat);
+  $("[id$='"+pointId+"_lng']").val(markerMap[pointId].getLatLng().lng);
+}
 function setBoxFields(layer) {
   // Set SW coordinates.
   $('#record_geoLocationBox_attributes_sw_lat').val(layer.getBounds().getSouthWest().lat);
