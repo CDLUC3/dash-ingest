@@ -14,7 +14,11 @@ class User < ActiveRecord::Base
       user.email = auth.info.email
       user.first_name = auth.info.first_name
       user.last_name = auth.info.last_name
+      if user.provider == "shibboleth"
       user.external_id = auth.info.external_id
+      else
+        user.external_id= auth.info.email
+      end
       user.oauth_token = auth.credentials.token
       user.institution_id = institution
       user.save!
