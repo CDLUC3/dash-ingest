@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
       if user.provider == "shibboleth"
       user.external_id = auth.info.external_id
       else
-        user.external_id= auth.info.email
+        user.external_id = auth.info.email
       end
       user.oauth_token = auth.credentials.token
       user.institution_id = institution
