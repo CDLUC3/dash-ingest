@@ -7,11 +7,22 @@ feature 'user uploads file' do
 	before(:each) do
     
     institution = FactoryGirl.create(:institution)
+    institution.abbreviation = 'UC'
+    institution.short_name = 'UC Office of the President'
+    institution.long_name = 'University of California, Office of the President'
+    institution.landing_page = '.ucop.edu'
+    institution.external_id_strip = '.*@.*ucop.edu$'
+    institution.campus = 'cdl'
+    institution.logo = 'blank_institution_logo.png'
+    institution.shib_entity_id = 'urn:mace:incommon:ucop.edu'
+    institution.shib_entity_domain = 'ucop.edu'
   	institution.save
 
+
   	user = FactoryGirl.create(:user)
-  	user.first_name = "John"
-  	user.last_name = "Smith"
+  	user.first_name = "Test"
+  	user.last_name = "User"
+    user.external_id = 'Fake.User@ucop.edu'
   	user.institution_id = institution.id
   	user.save
 
@@ -19,7 +30,7 @@ feature 'user uploads file' do
     click_link 'new_record'
     fill_in 'record_title', :with => 'Rose' 
     select 'Image', :from => 'record_resourcetype' 
-    fill_in 'record_creators_attributes_0_creatorName', :with => 'John Smith' 
+    fill_in 'record_creators_attributes_0_creatorName', :with => 'Test User' 
     click_on "save_and_continue"
     
   end
