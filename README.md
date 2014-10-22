@@ -31,14 +31,18 @@ The local is an environment that Mark created and I think it’s a workaround fo
 $ RAILS_ENV=local rails server
 Capistrano commands: (from your local if you have ssh on the server)
 
-For development branch the cap deploy command is:
-$ Cap development deploy BRANCH=<branch name>
+For development branch the cap deploy command is: 
 
-for other branches the cap deploy command is:
+$ Cap development deploy BRANCH="branch name" 
+
+for other branches the cap deploy command is
+
 $ Cap development deploy 
 
-Then issue the restart command
-$ Cap development deploy:restart
+Then issue the restart command 
+
+$ Cap development deploy:restart 
+
 The test command is:
 
 $ RAILS_ENV=test rake test:integration
