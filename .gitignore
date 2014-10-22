@@ -35,3 +35,4 @@ test_uploads/
 config.codekit
 commands  
 *.DS_Store
+*~

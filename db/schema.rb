@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140820180228) do
+ActiveRecord::Schema.define(:version => 20140930223242) do
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -59,6 +59,24 @@ ActiveRecord::Schema.define(:version => 20140820180228) do
     t.datetime "updated_at",      :null => false
   end
 
+  create_table "geo_location_boxes", :force => true do |t|
+    t.decimal  "sw_lat",     :precision => 9, :scale => 6
+    t.decimal  "sw_lng",     :precision => 9, :scale => 6
+    t.decimal  "ne_lat",     :precision => 9, :scale => 6
+    t.decimal  "ne_lng",     :precision => 9, :scale => 6
+    t.integer  "record_id"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
+  create_table "geo_location_points", :force => true do |t|
+    t.decimal  "lat",        :precision => 9, :scale => 6
+    t.decimal  "lng",        :precision => 9, :scale => 6
+    t.integer  "record_id"
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
+  end
+
   create_table "institutions", :force => true do |t|
     t.string   "abbreviation"
     t.string   "short_name"
@@ -78,8 +96,8 @@ ActiveRecord::Schema.define(:version => 20140820180228) do
     t.string   "publicationyear"
     t.string   "resourcetype"
     t.text     "rights"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.integer  "user_id"
     t.string   "title"
     t.string   "local_id"
@@ -87,6 +105,8 @@ ActiveRecord::Schema.define(:version => 20140820180228) do
     t.text     "methods"
     t.text     "rights_uri"
     t.integer  "institution_id"
+    t.string   "geoLocationPlace"
+    t.string   "geospatialType"
   end
 
   add_index "records", ["institution_id"], :name => "index_records_on_institution_id"

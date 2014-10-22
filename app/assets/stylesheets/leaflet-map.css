@@ -1,0 +1,7 @@
+#map {
+  width: 400px;
+  height: 300px;
+}
+.selectedPoint {
+  background-color: orange;
+}
