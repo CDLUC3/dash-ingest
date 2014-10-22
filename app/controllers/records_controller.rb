@@ -16,7 +16,7 @@ class RecordsController < ApplicationController
     def index
 
       if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
-        @user = User.find(:first)
+        @user = User.find_by_external_id("Fake.User@ucop.edu")
         @institution = @user.institution
         @records = Record.find_all_by_user_id(@user.id)
       else
