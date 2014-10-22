@@ -15,24 +15,29 @@ class RecordsController < ApplicationController
 
     def index
 
-
-      if current_user
-        @user = current_user
+      if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
+        @user = User.find(:first)
         @institution = @user.institution
-        @records = Record.find_all_by_user_id(current_user.id)
-
-
+        @records = Record.find_all_by_user_id(@user.id)
       else
-        redirect_to :controller => 'sessions', :action => 'signin'  #:institution_id => params[:institution_id]
-      end
+         
+        if current_user
+          @user = current_user
+          @institution = @user.institution
+          @records = Record.find_all_by_user_id(@user.id)
 
+
+        else
+          redirect_to :controller => 'sessions', :action => 'signin'  #:institution_id => params[:institution_id]
+        end
+      end
     end
 
 
     # GET form for new record
   def new
-    if ENV["RAILS_ENV"] == "test"
-      @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
+    if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
+      @user = User.find_by_external_id("Fake.User@ucop.edu")
       session[:user_id] = @user.id
     end
     @user = current_user
@@ -168,7 +173,10 @@ class RecordsController < ApplicationController
 
 
   def update
-
+    if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
+      @user = User.find_by_external_id("Fake.User@ucop.edu")
+      session[:user_id] = @user.id
+    end
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
