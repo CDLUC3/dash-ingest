@@ -89,12 +89,10 @@ feature 'user' do
 
 
 	scenario 'logs out' do
-    click_on "Log Out"
-
+    # save_and_open_page
+    expect(page).to have_content 'Logout' 
+    click_on 'Logout'
     expect(page).to have_content 'You are now logged out.' 
-    expect(page).not_to have_content 'Log Out'
-
-    click_on 'Return to Home'
   end
 
 

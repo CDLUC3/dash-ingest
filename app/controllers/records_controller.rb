@@ -18,6 +18,7 @@ class RecordsController < ApplicationController
       if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
         @user = User.find_by_external_id("Fake.User@ucop.edu")
         @institution = @user.institution
+        session[:user_id] = @user.id
         @records = Record.find_all_by_user_id(@user.id)
       else
          
@@ -25,7 +26,6 @@ class RecordsController < ApplicationController
           @user = current_user
           @institution = @user.institution
           @records = Record.find_all_by_user_id(@user.id)
-
 
         else
           redirect_to :controller => 'sessions', :action => 'signin'  #:institution_id => params[:institution_id]
