@@ -8,13 +8,24 @@ feature 'user' do
 	before(:each) do
     
     institution = FactoryGirl.create(:institution)
-  	institution.save
+    institution.abbreviation = 'UC'
+    institution.short_name = 'UC Office of the President'
+    institution.long_name = 'University of California, Office of the President'
+    institution.landing_page = '.ucop.edu'
+    institution.external_id_strip = '.*@.*ucop.edu$'
+    institution.campus = 'cdl'
+    institution.logo = 'blank_institution_logo.png'
+    institution.shib_entity_id = 'urn:mace:incommon:ucop.edu'
+    institution.shib_entity_domain = 'ucop.edu'
+    institution.save
 
-  	user = FactoryGirl.create(:user)
-  	user.first_name = "John"
-  	user.last_name = "Smith"
-  	user.institution_id = institution.id
-  	user.save
+
+    user = FactoryGirl.create(:user)
+    user.first_name = "Test"
+    user.last_name = "User"
+    user.external_id = 'Fake.User@ucop.edu'
+    user.institution_id = institution.id
+    user.save
 
     visit '/records'
     
