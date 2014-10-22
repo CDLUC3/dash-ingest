@@ -60,7 +60,6 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
-    @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     if @record.save
@@ -110,9 +109,6 @@ class RecordsController < ApplicationController
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
    
-    if @record.geoLocationPlace.blank?
-      @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
-    end
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
   end
 
@@ -159,6 +155,8 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
+    
+    @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     @record.institution_id = @user.institution_id unless @record.institution_id
 

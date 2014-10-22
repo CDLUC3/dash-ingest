@@ -28,8 +28,18 @@ class Record < ActiveRecord::Base
 
   #validates_associated :creators, :citations, :subjects
   #validates_associated :citations, :subjects
-  validates_associated :geoLocationPoints, :geoLocationBox
-  
+  validates_associated :geoLocationPoints, if: "@geospatialType == 'point'"
+  if @geospatialType == 'box' && !@geospatialType.nil?
+#    validates_presence_of :geoLocationBox, :message => "^Where's the box?"
+    validates :sw_lat, numericality:
+      { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+    validates :sw_lng, numericality: 
+      { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+    validates :ne_lat, numericality:
+      { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+    validates :ne_lng, numericality: 
+      { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+  end
   validate :must_have_creators
 
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
@@ -98,6 +108,14 @@ class Record < ActiveRecord::Base
     creators.each {|creator|
       if creator.creatorName.blank? || creator.creatorName == "" || creator.creatorName.nil?
         creator.mark_for_destruction
+      end
+    }
+  end
+  
+  def mark_points_for_destruction
+    geoLocationPoints.each {|geoLocationPoint|
+      if geoLocationPoint.lat.blank? || geoLocationPoint.lng.blank?
+        geoLocationPoint.mark_for_destruction
       end
     }
   end
@@ -276,13 +294,22 @@ class Record < ActiveRecord::Base
      
      # geoLocation
      
-     if !self.geoLocationPlace.nil?
+     if !self.geospatialType.nil? || !self.geoLocationPlace.nil?
        f.puts "<geoLocations>"
          f.puts "<geoLocation>"
-           f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
-           self.geoLocationPoints.each do |g| 
-             f.puts "<geoLocationPoint>"
-             f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
+           if !self.geoLocationPlace.nil?
+             f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
+           end
+           if self.geospatialType == "point"
+             self.geoLocationPoints.each do |g| 
+               f.puts "<geoLocationPoint>"
+               f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
+             end
+           elsif self.geospatialType == "box"
+             f.puts "<geoLocationBox>"
+             f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
+             f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
+             f.puts "</geoLocationPoint>"
            end
            # geoLocationBox
          f.puts "</geoLocation>"
@@ -477,6 +504,11 @@ class Record < ActiveRecord::Base
       if self.citations.nil? || self.citations.empty?
         fields << ", " unless fields.empty?
         fields << "citations"
+      end
+      
+      if self.geospatialType == "" || self.geospatialType.nil?
+        fields << ", " unless fields.empty?
+        fields << "geographic metadata"
       end
 
       unless fields.empty?

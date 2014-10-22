@@ -45,23 +45,17 @@ function allowMapDraw(geoType) {
     layer = e.layer;
     if (type === 'marker') {
       // Add coordinates to active field.
-      //pointBaseId = $('.selectedPoint').attr('id');
-      //markerMap[layer] = pointBaseId;
-      //setPointCoords(pointBaseId);
-      //alert(pointBaseId);
-      addCoordFields(layer.getLatLng().lat, layer.getLatLng().lng);
-      // Cap number of markers at 25.
-      if (featureGroupMarkers.getLayers().length == 25) {
-        disableDrawing();
-      }
+      pointId = getNewPointAndId(layer);
       featureGroupMarkers.addLayer(layer);
+      // Map new marker to newer Point.
+      markerMap[featureGroupMarkers.getLayerId(layer)] = pointId;
+      enforcePointsLimit();
     } else if (type === 'rectangle') {
       // Cap number of rectangles at 1.
       if (featureGroupRectangle.getLayers().length == 1) {
         disableDrawing();
       }
       setBoxFields(layer);
-      disableDrawing();
       featureGroupRectangle.addLayer(layer);
     }
   });
@@ -70,7 +64,7 @@ function allowMapDraw(geoType) {
     layers = e.layers;
     layers.eachLayer( function (layer) {
       if (layer instanceof L.Marker) {
-        setPointFields();
+        setPointCoords(layer);
       } else if (layer instanceof L.Rectangle) {
         setBoxFields(layer);
       }
@@ -78,8 +72,22 @@ function allowMapDraw(geoType) {
   });
   
   map.on('draw:deleted', function(e) {
-    // Allow use of the draw toolbar.
-    enableDrawing();
+    layers = e.layers;
+    layers.eachLayer( function (layer) {
+      if (layer instanceof L.Marker) {
+        pointId = markerMap[layers.getLayerId(layer)];
+        $(pointId+'__destroy').val('1');
+        $(pointId).remove();
+        enforcePointsLimit();
+      } else if (layer instanceof L.Rectangle) {
+        // Clear out box fields.
+        $('#record_geoLocationBox_attributes_sw_lat').val('');
+        $('#record_geoLocationBox_attributes_sw_lng').val('');
+        $('#record_geoLocationBox_attributes_ne_lat').val('');
+        $('#record_geoLocationBox_attributes_ne_lng').val('');
+        enableDrawing();
+      }
+    });
   });
 }
 
@@ -113,11 +121,12 @@ function getDrawTool(geoType) {
       fillOpacity: 0
     });
     drawControl.addTo(map);
-    // Cap number of markers at 25.
-    if (featureGroupMarkers.getLayers().length >= 25) {
+    enforcePointsLimit();
+  } else if (geoType == 'box') {
+    // Cap number of rectangles at 1.
+    if (featureGroupRectangle.getLayers().length == 1) {
       disableDrawing();
     }
-  } else if (geoType == 'box') {
     drawControl = new L.Control.Draw({
       position: 'topright',
       draw: {
@@ -144,13 +153,23 @@ function getDrawTool(geoType) {
       fillOpacity: 0.3
     });
     drawControl.addTo(map);
-    // Cap number of rectangles at 1.
-    if (featureGroupRectangle.getLayers().length == 1) {
-      disableDrawing();
-    }
   }
 }
 
+function enforcePointsLimit() {
+  if ($('.fields.geopoint').length <= 25) {
+    enableDrawing();
+    $('.add_fields.geopoint').off('click', disableAddingPoints);
+  } else {
+    disableDrawing();
+    $('.add_fields.geopoint').on('click', disableAddingPoints);
+  }
+}
+function disableAddingPoints (e) {
+  e.preventDefault();
+  $(this).prop('disabled', true);
+  alert("Only 25 points allowed.");
+}
 function disableDrawing() {
   $('.leaflet-draw-toolbar-top').hide();
 }
@@ -158,29 +177,26 @@ function enableDrawing() {
   $('.leaflet-draw-toolbar-top').show();
 }
 
-function addCoordFields(lat, lng) {
+function getNewPointAndId(marker) {
   time = new Date().getTime();
   regexp = new RegExp($('.add_fields.geopoint').data('id'), 'g');
-  $('#record_geoLocationPoints_attributes_0').before($('.add_fields.geopoint').data('fields').replace(regexp, time));
+  addPointsButton = $('.add_fields.geopoint');
+  addPointsButton.before(addPointsButton.data('fields').replace(regexp, time));
   newId = '#record_geoLocationPoints_attributes_'+time;
-  //alert(newId);
-  $(newId + '_lat').attr('value',lat).prop('disabled', true);
-  $(newId + '_lng').attr('value',lng).prop('disabled', true);
+  $(newId + '_lat').attr('value',marker.getLatLng().lat).prop('disabled', true);
+  $(newId + '_lng').attr('value',marker.getLatLng().lng).prop('disabled', true);
+  $(newId).find('.remove_fields').addClass('markerPt').attr('data-baseId', newId).on('click', function (e) {
+    featureGroupMarkers.removeLayer(marker);
+  });
+  return newId;
 }
 
-function setPointCoords(pointId) {
-  $("[id$='"+pointId+"_lat']").val(markerMap[pointId].getLatLng().lat);
-  $("[id$='"+pointId+"_lng']").val(markerMap[pointId].getLatLng().lng);
+function setPointCoords(marker) {
+  pointId = markerMap[featureGroupMarkers.getLayerId(marker)];
+  $(pointId + '_lat').attr('value',marker.getLatLng().lat);
+  $(pointId + '_lng').attr('value',marker.getLatLng().lng);
 }
-function setPointFields() {
-  for (marker in featureGroupMarkers) {
-    
-  }
-}
-function setPointCoords(pointId) {
-  $("[id$='"+pointId+"_lat']").val(markerMap[pointId].getLatLng().lat);
-  $("[id$='"+pointId+"_lng']").val(markerMap[pointId].getLatLng().lng);
-}
+
 function setBoxFields(layer) {
   // Set SW coordinates.
   $('#record_geoLocationBox_attributes_sw_lat').val(layer.getBounds().getSouthWest().lat);
@@ -189,7 +205,6 @@ function setBoxFields(layer) {
   $('#record_geoLocationBox_attributes_ne_lat').val(layer.getBounds().getNorthEast().lat);
   $('#record_geoLocationBox_attributes_ne_lng').val(layer.getBounds().getNorthEast().lng);
 }
-
 function redrawBox() {
   if ( allBoxFieldsFilled() ) {
     // Get SW coordinates.
@@ -210,25 +225,8 @@ function redrawBox() {
     };
   }
 }
-
 function allBoxFieldsFilled() {
   if ( record_geoLocationBox_attributes_sw_lat.value != '' && record_geoLocationBox_attributes_sw_lng.value != '' && record_geoLocationBox_attributes_ne_lat.value != '' && record_geoLocationBox_attributes_ne_lng.value != '' )
     return true;
   else return false;
 }
-
-function validPointsFields() {
-  
-}
-
-function onMapClick(e) {
-  var popup = L.popup()
-    .setLatLng(e.latlng)
-    .setContent("You clicked on the map at " + e.latlng.toString())
-    .openOn(map)
-}
-
-/*function onMapClick(e) {
-  document.getElementById("record_geoLocationPoint_attributes_*_lat").value = e.latlng.lat;
-  document.getElementById("record_geoLocationPoint_attributes_*_lng").value = e.latlng.lng;
-}*/
