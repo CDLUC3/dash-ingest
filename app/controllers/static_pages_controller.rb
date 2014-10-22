@@ -5,7 +5,7 @@ class StaticPagesController < ApplicationController
     if @user
       @institution = @user.institution
     else
-      @institution = Institution.find_by_id(1)
+      @institution = Institution.find_by_campus('cdl')
     end
     @campus = @institution.campus
     @campus_email = [campus_email(@campus)]
