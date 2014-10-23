@@ -14,12 +14,7 @@ INSERT INTO `users` (`external_id`, `created_at`,
                     `first_name`, `last_name`, `uid`, 
                     `provider`, `oauth_token`)
 
-SELECT              ('Fake.User@ucop.edu', '0000-00-00 00:00:00',
-                    '0000-00-00 00:00:00', NULL, `id`,
+VALUES              ('Fake.User@ucop.edu', '2014-10-16 22:11:00',
+                    '2014-10-16 22:11:00', 'Fake.User@ucop.edu', 1,
                     'Test', 'User', NULL,
-                    NULL, NULL)
-FROM  `institutions`
-WHERE `institutions`.`short_name` = 'UC Office of the President';
-
-
-
+                    NULL, NULL);
