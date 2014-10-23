@@ -11,11 +11,17 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
-# set :branch, 'master'
-set :branch, 'stage'
-#set :branch, 'development'
-# set :branch, 'joel'
-# set :branch, 'institutions'
+
+set :branch, ENV['BRANCH'] || 'master'
+set  :filter,  :branches => %w{development, stage, master, oauth,joel,institutions}
+
+#set :branch, 'master'
+#set  :branch, 'oauth'
+# set :branch, 'stage'
+# set :branch, 'development'
+#set :branch, 'joel'
+#set :branch, 'institutions'
+
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
@@ -38,6 +44,11 @@ set :linked_dirs, %w{uploads test_uploads log tmp/backup tmp/pids tmp/cache tmp/
 
 set :stages, ["development", "stage", "production"]
 set :default_stage, "development"
+#set :server_name, "dash-dev2.cdlib.org"   # uncomment this line to deploy by default on this server
+#set :server_name, ["dash-dev2.cdlib.org","dash-dev.cdlib.org"] # uncomment this line to deploy on multiple server at atime
+
+#set :filter, :hosts => %w{dash-dev.cdlib.org,dash-dev2.cdlib.org}
+
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
@@ -82,11 +93,11 @@ namespace :deploy do
   end
 
   desc 'Restart Unicorn'
-    task :restart
-    before "deploy:restart", "bundle:install"
-    before :restart, :stop
-    before :restart, :start
-  end
+  task :restart
+  before "deploy:restart", "bundle:install"
+  before :restart, :stop
+  before :restart, :start
+end
 
 namespace :bundle do
 
@@ -98,4 +109,3 @@ namespace :bundle do
   end
 
 end
-

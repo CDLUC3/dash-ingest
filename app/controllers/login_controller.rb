@@ -1,38 +1,55 @@
 class LoginController < ApplicationController
 
   include RecordHelper
-  
-  def login
 
-    if ENV["RAILS_ENV"] == "test"
-      user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
-      user.save
-    else
-      user = User.find_by_external_id(request.headers[DATASHARE_CONFIG['external_identifier']])
+  # def signin
+  #   #logger.info "Params=#{params}"
+  #   if !params[:institution_id].blank?
+  #     session['institution_id'] = params[:institution_id]
+  #   end
+  #   @institution = Institution.find(institution)
+  #   session['institution_id']= @institution.id
+  #   if !@institution.shib_entity_domain.blank?
+  #     #initiate shibboleth login sequence
+  #     redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
+  #                     DataIngest::Application.shibboleth_host, @institution.shib_entity_id)
+  #   elsif @institution.shib_entity_domain.blank?
+  #     redirect_to "/auth/google_oauth2"
+  #   end
+  #
+  # end
+  #
+  #
+  # def institution
+  #
+  #   url = request.original_url
+  #   if ( url == nil )
+  #     @id = ""
+  #   else
+  #     case url.strip
+  #       when /.ucop.edu/
+  #         @id = 1
+  #       else
+  #         @id = 12
+  #     end
+  #   end
+  #   return @id
+  # end
 
-    
-      if user.nil?
-        user = User.new
+
+
+    def index
+
+      if current_user
+
+        redirect_to '/records'
       end
-      
-      user.external_id = request.headers[DATASHARE_CONFIG['external_identifier']]
-      user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
-      user.email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-      user.first_name = request.headers[DATASHARE_CONFIG['first_name_from_shibboleth']]
-      user.last_name = request.headers[DATASHARE_CONFIG['last_name_from_shibboleth']]
-      user.save
 
     end
 
-    session[:user_id] = user.id
-    cookies[:dash_logged_in] = 'Yes'
-    @current_user = user
-    redirect_to "/records"
-  end
 
 
-  
-  
+
 
   def logout
     if current_user

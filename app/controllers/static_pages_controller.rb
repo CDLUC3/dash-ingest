@@ -1,11 +1,15 @@
 class StaticPagesController < ApplicationController
 
   def contact
+    if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
+      @user = User.find_by_external_id("Fake.User@ucop.edu")
+      session[:user_id] = @user.id
+    end
     @user = User.find_by_id(session[:user_id])
     if @user
       @institution = @user.institution
     else
-      @institution = Institution.find_by_id(1)
+      @institution = Institution.find_by_campus('cdl')
     end
     @campus = @institution.campus
     @campus_email = [campus_email(@campus)]
