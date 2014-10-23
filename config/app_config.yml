@@ -1,3 +1,19 @@
+local:
+  client_id:     '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
+  client_secret: 'TavWNTcyVkl3hUm8kvkKNGo0'
+
+development:
+  client_id:     '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
+  client_secret: 'TavWNTcyVkl3hUm8kvkKNGo0'
+
+stage:
+  client_id:      '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
+  client_secret:  'TavWNTcyVkl3hUm8kvkKNGo0'
+
+production:
+  client_id:      '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
+  client_secret:  'TavWNTcyVkl3hUm8kvkKNGo0'
+
 
 test:
   feedback_email_to:      [shirin.faenza@ucop.edu]

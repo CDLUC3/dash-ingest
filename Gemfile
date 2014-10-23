@@ -25,6 +25,8 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
+  gem 'selenium-webdriver'
+  gem 'chromedriver-helper'
 end
 
 gem 'whenever', :require => false
