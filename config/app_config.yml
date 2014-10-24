@@ -1,20 +1,3 @@
-#google oauth token for each environment
-
-local:
-  client_id:     '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
-  client_secret: 'TavWNTcyVkl3hUm8kvkKNGo0'
-
-development:
-  client_id:     '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
-  client_secret: 'TavWNTcyVkl3hUm8kvkKNGo0'
-
-stage:
-  client_id:      '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
-  client_secret:  'TavWNTcyVkl3hUm8kvkKNGo0'
-
-production:
-  client_id:      '97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com'
-  client_secret:  'TavWNTcyVkl3hUm8kvkKNGo0'
 
 
 test:
@@ -27,24 +10,31 @@ local:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-dev
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 
 development:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-dev
-
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 stage:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
-  root_url:               http://dash-stg          
+  root_url:               http://dash-stg
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 
 production:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 
 
