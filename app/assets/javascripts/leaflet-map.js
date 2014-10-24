@@ -28,10 +28,9 @@ function initMap(lat,lng) {
 	map.addLayer(osm);
 }
 
-function allowMapDraw(geoType) {
+function allowMapDraw() {
   featureGroupMarkers.addTo(map);
   featureGroupRectangle.addTo(map);
-	getDrawTool(geoType);
   // Use highlight-marker on mouseover.
  /* featureGroupMarkers.on('mouseover', function(e) {
     e.layer.setIcon(highlightMarker);
@@ -75,9 +74,11 @@ function allowMapDraw(geoType) {
     layers = e.layers;
     layers.eachLayer( function (layer) {
       if (layer instanceof L.Marker) {
-        pointId = markerMap[layers.getLayerId(layer)];
+        layerId = layers.getLayerId(layer);
+        pointId = markerMap[layerId];
         $(pointId+'__destroy').val('1');
         $(pointId).remove();
+        delete markerMap[layerId];
         enforcePointsLimit();
       } else if (layer instanceof L.Rectangle) {
         // Clear out box fields.
@@ -94,7 +95,7 @@ function allowMapDraw(geoType) {
 function getDrawTool(geoType) {
   // If applicable, remove previous toolbar before 
   //  replacing it.
-  if (drawControl != null) {
+  if (drawControl !== undefined) {
     map.removeControl(drawControl);
   }
   // Only show the draw tool relevant to the
@@ -106,6 +107,9 @@ function getDrawTool(geoType) {
         polyline: false,
         polygon: false,
         circle: false,
+        marker: {
+          repeatMode: true
+        },
         rectangle: false
       },
       edit: {
@@ -154,6 +158,14 @@ function getDrawTool(geoType) {
     });
     drawControl.addTo(map);
   }
+  else {
+    drawControl = new L.Control.Draw({
+      position: 'topright',
+      draw: false,
+      edit: false
+    });
+    drawControl.addTo(map);
+  }
 }
 
 function enforcePointsLimit() {
@@ -183,8 +195,8 @@ function getNewPointAndId(marker) {
   addPointsButton = $('.add_fields.geopoint');
   addPointsButton.before(addPointsButton.data('fields').replace(regexp, time));
   newId = '#record_geoLocationPoints_attributes_'+time;
-  $(newId + '_lat').attr('value',marker.getLatLng().lat).prop('disabled', true);
-  $(newId + '_lng').attr('value',marker.getLatLng().lng).prop('disabled', true);
+  $(newId + '_lat').val(marker.getLatLng().lat).prop('disabled', true);
+  $(newId + '_lng').val(marker.getLatLng().lng).prop('disabled', true);
   $(newId).find('.remove_fields').addClass('markerPt').attr('data-baseId', newId).on('click', function (e) {
     featureGroupMarkers.removeLayer(marker);
   });
@@ -229,4 +241,17 @@ function allBoxFieldsFilled() {
   if ( record_geoLocationBox_attributes_sw_lat.value != '' && record_geoLocationBox_attributes_sw_lng.value != '' && record_geoLocationBox_attributes_ne_lat.value != '' && record_geoLocationBox_attributes_ne_lng.value != '' )
     return true;
   else return false;
+}
+
+function clearGeoData() {
+  $('#geoLocPoint').hide();
+  $('#geoLocBox').hide(); 
+  $('#record_geospatialType_point').prop('checked', false);
+  $('#record_geospatialType_box').prop('checked', false); 
+  getDrawTool('none'); 
+  $('.destroyer').parent('#geoLocationPoint').val('1'); 
+  $('.fields.geopoint').remove(); 
+  featureGroupMarkers.clearLayers(); 
+  featureGroupRectangle.clearLayers(); 
+  markerMap = undefined;
 }

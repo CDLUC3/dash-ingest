@@ -28,18 +28,8 @@ class Record < ActiveRecord::Base
 
   #validates_associated :creators, :citations, :subjects
   #validates_associated :citations, :subjects
-  validates_associated :geoLocationPoints, if: "@geospatialType == 'point'"
-  if @geospatialType == 'box' && !@geospatialType.nil?
-#    validates_presence_of :geoLocationBox, :message => "^Where's the box?"
-    validates :sw_lat, numericality:
-      { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
-    validates :sw_lng, numericality: 
-      { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
-    validates :ne_lat, numericality:
-      { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
-    validates :ne_lng, numericality: 
-      { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
-  end
+  
+  
   validate :must_have_creators
 
   #the use of the symbol ^ is to avoid the column name to be displayed along with the error message, custom-err-msg gem
@@ -66,7 +56,7 @@ class Record < ActiveRecord::Base
   attr_accessible :geoLocationPoints_attributes
   accepts_nested_attributes_for :geoLocationBox, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :geoLocationBox_attributes
-  before_validation :mark_points_for_destruction
+  before_validation :mark_points_for_destruction, :mark_box_for_destruction
 
 
   def must_have_creators
@@ -114,10 +104,27 @@ class Record < ActiveRecord::Base
   
   def mark_points_for_destruction
     geoLocationPoints.each {|geoLocationPoint|
-      if geoLocationPoint.lat.blank? || geoLocationPoint.lng.blank?
+      if geospatialType != 'point' || geoLocationPoint.lat.blank? || geoLocationPoint.lng.blank?
         geoLocationPoint.mark_for_destruction
+      else
+        validates_associated :geoLocationPoints
       end
     }
+  end
+  
+  def mark_box_for_destruction
+    if geospatialType != 'box' || geoLocationBox.sw_lat.blank? || geoLocationBox.sw_lng.blank? || geoLocationBox.ne_lat.blank? || geoLocationBox.ne_lng.blank?
+      geoLocationBox.mark_for_destruction
+    else
+      validates :sw_lat, numericality:
+        { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+      validates :sw_lng, numericality: 
+        { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+      validates :ne_lat, numericality:
+        { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
+      validates :ne_lng, numericality: 
+        { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
+    end
   end
 
 

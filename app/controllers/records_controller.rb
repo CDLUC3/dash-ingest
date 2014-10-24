@@ -60,6 +60,7 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
+    @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     if @record.save

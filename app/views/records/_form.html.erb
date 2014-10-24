@@ -172,7 +172,7 @@
           <% end %>
         <% end %>
         <label for="geoLocation">Yes</label>
-        <%= check_box_tag "geoLocation", "true", hasGeo, { onClick: "$('.geospatial').toggle(); if (this.checked == false) { $('#geoLocPoint').hide(); $('#geoLocBox').hide(); }; initMap();" } %>
+        <%= check_box_tag "geoLocation", "true", hasGeo, { onClick: "$('.geospatial').toggle(); if ($(this).prop('checked') == false) { clearGeoData(); } initMap(); allowMapDraw();" } %>
       </fieldset>
     </div>
     
@@ -189,7 +189,7 @@
             <%= f.label :geospatialType, "Select one or more geographic points:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if (this.checked == true) { allowMapDraw('point'); }" } %>
+            <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
           </td>
         </tr>
         <tr>
@@ -197,7 +197,7 @@
             <%= f.label :geospatialType, "Specify a geographic area:" %>
           </td>
           <td>
-            <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if (this.checked == true) { allowMapDraw('box'); } " } %>
+            <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if ($(this).prop('checked') == true) { getDrawTool('box'); } " } %>
           </td>
         </tr>
       </table>
@@ -207,11 +207,12 @@
       <% if hasGeo == true %>
         <script>
           initMap();
+          allowMapDraw();
           <% case @record.geospatialType %>
             <% when "point" %>
-              allowMapDraw('point');
+              getDrawTool('point');
             <% when "box" %>
-              allowMapDraw('box');
+              getDrawTool('box');
           <% end %>
         </script>
       <% end %>
