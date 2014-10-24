@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
       end
 
       session['institution_id'] = @institution.id
-      if ENV["RAILS_ENV"] == "local"
+      if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
         user = User.find_by_external_id("Fake.User@ucop.edu")
       else
 
@@ -52,7 +52,8 @@ class SessionsController < ApplicationController
     cookies.delete(:dash_logged_in)
 
     uri = URI(request.original_url)
-    if uri.host == "localhost"
+    # if uri.host == "localhost"
+    if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
        redirect_to sessions_create_path and return
     else
       # grab the institution from the domain URL

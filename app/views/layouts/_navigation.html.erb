@@ -4,16 +4,19 @@
 	<nav>
 		<ul>
 			<li><a href="/xtf/search?smode=aboutPage">About</a></li>
+			
 			<%if current_user %>
 
+				<!-- <li><%#= link_to "Search Data", "#{APP_CONFIG['root_url']}#{current_user.institution.landing_page}/xtf/search?browse-all=yes" %></li> -->
 
-<!-- all_emails = APP_CONFIG['feedback_email_to'] + @campus_email -->
-
-				<li><%= link_to "Search Data", "#{APP_CONFIG['root_url']}#{current_user.institution.landing_page}/xtf/search?browse-all=yes" %></li>
-			<% else %>
-				<!-- <li><%#= link_to "Search Data", "http://dash-dev.ucop.edu/xtf/search?browse-all=yes" %></li> -->
 				<li><%= link_to "Search Data", "/xtf/search?browse-all=yes" %></li>
+
+			<% else %>
+				
+				<li><%= link_to "Search Data", "/xtf/search?browse-all=yes" %></li>
+
 			<% end %>
+			
 			<li><a href="/xtf/search?smode=stepsPage">Share Data</a></li>
           <li><%= link_to "My Datasets", "/records" %></li>
       </ul>

@@ -45,4 +45,4 @@ $ Cap development deploy:restart
 
 The test command is:
 
-$ RAILS_ENV=test rake test:integration
+$ rspec -fd spec/features/
