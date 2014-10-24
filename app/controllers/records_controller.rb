@@ -287,6 +287,11 @@ public
 
     @user = current_user
     @institution = @user.institution
+    if @institution.short_name == "DataONE"
+      @msg = "By confirming submission to Dash, your data will be publicly available on the Dash website under a CC0 license. Please only submit legitimate, complete data."
+    else
+      @msg = "By confirming submission to Dash, your data will be publicly available on the Dash website under a CC-BY-4.0 license. Please only submit legitimate, complete data."
+    end
     @record = Record.find(params[:id])
 
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
