@@ -1,6 +1,11 @@
 class UploadsController < ApplicationController
 
   def index
+    if current_user.institution.short_name == "DataONE"
+      @dataone = true
+    else
+      @dataone = false
+    end
 
     @record_id = params[:record_id]
     
