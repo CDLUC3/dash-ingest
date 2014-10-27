@@ -1,4 +1,5 @@
 
+
 test:
   feedback_email_to:      [shirin.faenza@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
@@ -9,24 +10,30 @@ local:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-dev
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 
 development:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-dev
-
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 stage:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
-  root_url:               http://dash-stg          
-
+  root_url:               http://dash-stg
+  client_id:              1021331243981-9ulb2rqptkrpb3flhboemrq0ctup8f6v.apps.googleusercontent.com
+  client_secret:          6g5f5PfPGz7Cw7sTEI1Bczrz
 
 production:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash
+  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
+  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
 
 
 

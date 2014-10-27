@@ -50,8 +50,13 @@ class RecordsController < ApplicationController
       @record.subjects.build()
     end
     @record.publisher = @institution.short_name
-    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    if @user.institution.short_name == 'DataONE'
+      @record.rights = "Creative Commons Public Domain Dedication (CC0)"
+      @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
+    else
+      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    end
   end
 
   
@@ -122,6 +127,7 @@ class RecordsController < ApplicationController
 
   def edit
 
+    @user = current_user
     @record = Record.find(params[:id])
     @description = @record.grant_number
     @grant_number = @record.grant_number
@@ -145,7 +151,10 @@ class RecordsController < ApplicationController
 
       end
     end
-    if @record.rights.nil?
+    if @user.institution.short_name == 'DataONE'
+      @record.rights = "Creative Commons Public Domain Dedication (CC0)"
+      @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
+    else
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
@@ -279,6 +288,11 @@ public
 
     @user = current_user
     @institution = @user.institution
+    if @institution.short_name == "DataONE"
+      @msg = "By confirming submission to Dash, your data will be publicly available on the Dash website under a CC0 license. Please only submit legitimate, complete data."
+    else
+      @msg = "By confirming submission to Dash, your data will be publicly available on the Dash website under a CC-BY-4.0 license. Please only submit legitimate, complete data."
+    end
     @record = Record.find(params[:id])
 
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
