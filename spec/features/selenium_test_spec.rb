@@ -19,9 +19,9 @@ FollowLink.click
 
 
 UserName = browser.find_element(:id, "username")
-UserName.send_keys "cstrasser"
+UserName.send_keys ""
 Password = browser.find_element(:id, "password")
-Password.send_keys "J3anm1che7"
+Password.send_keys ""
 
 Login = browser.find_element(:class, "button")
 Login.click
