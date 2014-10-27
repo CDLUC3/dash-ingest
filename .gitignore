@@ -1,5 +1,6 @@
 *.rbc
 capybara-*.html
+.project
 .rspec
 /log
 /tmp
