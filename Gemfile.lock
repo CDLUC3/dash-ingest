@@ -291,7 +291,7 @@ DEPENDENCIES
   rspec-rails (~> 3.0.0)
   rubyzip (~> 0.9.9)
   sass-rails (~> 3.2.3)
-  selenium-webdriver
+  selenium-webdriver (~> 2.35.1)
   sextant
   sqlite3
   strong_parameters
