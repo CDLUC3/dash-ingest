@@ -1,5 +1,10 @@
 require 'spec_helper'
 require 'database_cleaner'
+require 'selenium-webdriver'
+
+# browser = Selenium::WebDriver.for :chrome
+# browser.get "localhost:3000"
+
 
 feature 'user uploads file' do
 
