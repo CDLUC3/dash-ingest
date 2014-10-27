@@ -1,6 +1,5 @@
 require 'spec_helper'
 require 'database_cleaner'
-# require "selenium-webdriver"
 
 feature 'user' do
 

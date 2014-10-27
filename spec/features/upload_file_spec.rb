@@ -1,15 +1,15 @@
 require 'spec_helper'
 require 'database_cleaner'
-require 'selenium-webdriver'
-
-# browser = Selenium::WebDriver.for :chrome
-# browser.get "localhost:3000"
 
 
 feature 'user uploads file' do
-
+  # setup do
+  #   Capybara.current_driver = :webkit
+  # end
 
 	before(:each) do
+
+    Capybara.current_driver = :webkit
     
     institution = FactoryGirl.create(:institution)
     institution.abbreviation = 'UC'
@@ -61,5 +61,7 @@ feature 'user uploads file' do
 
     expect(page).to have_content 'Review Before Submitting'  
   end
+
+  Capybara.current_driver = Capybara.javascript_driver # :selenium by default
 
 end
