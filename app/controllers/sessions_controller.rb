@@ -59,7 +59,7 @@ class SessionsController < ApplicationController
       # grab the institution from the domain URL
       #@institution = institution
       @institution = institution(request.headers[DATASHARE_CONFIG['external_identifier']])
-      session['institution_id']= @institution.id
+      # session['institution_id']= @institution.id
 
       if !@institution.shib_entity_domain.blank?
         #initiate shibboleth login sequence
