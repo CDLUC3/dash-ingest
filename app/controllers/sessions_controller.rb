@@ -2,47 +2,39 @@ require 'uri'
 class SessionsController < ApplicationController
 
 
-    def create
+  def create
 
-      #logger.debug "ENV #{env.inspect}"
+    logger.debug "SHIB_FORWARD " + "#{env["HTTP_X_FORWARDED_SERVER"]}"
+    new_url = env["HTTP_X_FORWARDED_SERVER"].to_s
+    logger.info "SHIB_NEW #{new_url.inspect}"
 
-      # new_shib = "#{env["HTTP_X_FORWARDED_SERVER"]}".split(',')
-      # new_shib[0].split('.')
-      # new_shib_campus = new_shib[0].split('.')
-      # new_shib_campus.shift
-      # shib_landing = ".#{new_shib_campus.join('.')}"
-      #
-      # logger.debug "SHIB_SPLIT" + "#{shib_landing}"
-
-
-      if params[:provider] == "shibboleth"
-        shib_id = "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
-        shib_provider = shib_id.split(':')
-        shib_campus = ".#{shib_provider.last}"
-        @institution = Institution.find_by_landing_page(shib_campus)
-      else
-        # we are authenticating via google so the domain is cdlib.org
-        @institution = Institution.find_by_landing_page(".cdlib.org")
+    Institution.all.each do |i|
+      if Regexp.new(i.external_id_strip).match(new_url)
+        @institution = i
+        logger.info  "INS  #{@institution.inspect}"
       end
-
-      session['institution_id'] = @institution.id
-      if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
-        user = User.find_by_external_id("Fake.User@ucop.edu")
-      else
-
-        user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
-      end
-      session[:user_id] = user.id
-      session[:institution_id]= user.institution_id
-      cookies[:dash_logged_in] = 'Yes'
-
-      logger.debug "Params: #{session}"
-
-      redirect_to records_path, notice: "Signed in!"
     end
 
+    session['institution_id'] = @institution.id
+    if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
+      user = User.find_by_external_id("Fake.User@ucop.edu")
+    else
 
-    def destroy
+      user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
+    end
+    session[:user_id] = user.id
+    session[:institution_id]= user.institution_id
+    cookies[:dash_logged_in] = 'Yes'
+
+    logger.debug "Params: #{session}"
+
+    redirect_to records_path, notice: "Signed in!"
+  end
+
+
+
+
+  def destroy
 
     session[:user_id] = nil
     session[:institution_id] = nil
