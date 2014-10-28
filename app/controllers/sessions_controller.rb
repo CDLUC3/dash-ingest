@@ -78,39 +78,16 @@ class SessionsController < ApplicationController
 
 
   def institution
-    #uri = URI(request.original_url)
+    
     uri = URI(request.base_url)
-    # uri = uri.to_s if uri
-
-    # logger.info "uriabcdefg " + "#{uri}"
-    # logger.info "canyoureadyml #{DATASHARE_CONFIG['external_identifier']}  external_idabcdefg #{request.headers[DATASHARE_CONFIG['external_identifier']]} uriabcdefgclass #{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
-
-    # logger.info "uriabcdefg #{uri.inspect} "
-
     uri = uri.to_s if uri
 
-    # logger.info "uriabcdefg #{uri.inspect} "
-
-    # uri_test = "http://dash-dev.ucop.edu"
-    # logger.info "external_idabcdefgclass " + "#{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
-    # Logger.info "uri" = uri
-
-    # if ( uri == nil ) #id=uri
-    #   return Institution.find_by_id(1)
-    # end
-
-    # user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
     Institution.all.each do |i|
       if Regexp.new(i.external_id_strip).match(uri) 
         return i
       end
     end
-    # url = uri.host.split(".")
-    # l = url.length
-    # u = ".#{url[l-2]}.#{url[l-1]}"
-
-    # @institution = Institution.find_by_landing_page(u)
-    # return @institution
+   
   end
 
 
