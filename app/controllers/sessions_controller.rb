@@ -75,16 +75,49 @@ class SessionsController < ApplicationController
     end
   end
 
+
   def institution
     uri = URI(request.original_url)
-    url = uri.host.split(".")
-    l = url.length
-    u = ".#{url[l-2]}.#{url[l-1]}"
 
-    @institution = Institution.find_by_landing_page(u)
-    return @institution
+    if ( uri == nil ) #id=uri
+      return Institution.find_by_id(1)
+    end
+    Institution.all.each do |i|
+      if Regexp.new(i.external_id_strip).match(uri)
+        return i
+      end
+    end
+    # url = uri.host.split(".")
+    # l = url.length
+    # u = ".#{url[l-2]}.#{url[l-1]}"
+
+    # @institution = Institution.find_by_landing_page(u)
+    # return @institution
   end
 
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
