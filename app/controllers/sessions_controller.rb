@@ -4,9 +4,16 @@ class SessionsController < ApplicationController
 
     def create
 
-      logger.debug "ENV #{env.inspect}"
-      #logger.debug "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
-      #logger.debug params.inspect
+      #logger.debug "ENV #{env.inspect}"
+
+      # new_shib = "#{env["HTTP_X_FORWARDED_SERVER"]}".split(',')
+      # new_shib[0].split('.')
+      # new_shib_campus = new_shib[0].split('.')
+      # new_shib_campus.shift
+      # shib_landing = ".#{new_shib_campus.join('.')}"
+      #
+      # logger.debug "SHIB_SPLIT" + "#{shib_landing}"
+
 
       if params[:provider] == "shibboleth"
         shib_id = "#{env["HTTP_SHIB_IDENTITY_PROVIDER"]}"
