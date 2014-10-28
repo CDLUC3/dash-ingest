@@ -79,7 +79,7 @@ class SessionsController < ApplicationController
 
   def institution
     uri = URI(request.original_url)
-    uri = uri.to_s if uri
+    # uri = uri.to_s if uri
 
     logger.info "uri " + uri
     logger.info "external_id " + request.headers[DATASHARE_CONFIG['external_identifier']]
