@@ -99,7 +99,8 @@ class SessionsController < ApplicationController
 
     # user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
     Institution.all.each do |i|
-      if Regexp.new(i.external_id_strip).match(uri)    
+      if Regexp.new(i.external_id_strip).match(uri)
+         logger.info "insideloop i  #{i.inspect} " 
         return i
       end
     end
