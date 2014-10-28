@@ -85,7 +85,11 @@ class SessionsController < ApplicationController
     # logger.info "uriabcdefg " + "#{uri}"
     # logger.info "canyoureadyml #{DATASHARE_CONFIG['external_identifier']}  external_idabcdefg #{request.headers[DATASHARE_CONFIG['external_identifier']]} uriabcdefgclass #{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
 
-    logger.info "uriabcdefg #{uri} uriabcdefclass #{uri.class}"
+    logger.info "uriabcdefg #{uri.inspect} "
+
+    uri = uri.to_s if uri
+
+    logger.info "uriabcdefg #{uri.inspect} "
     # logger.info "external_idabcdefgclass " + "#{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
     # Logger.info "uri" = uri
 
