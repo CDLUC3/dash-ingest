@@ -57,7 +57,8 @@ class SessionsController < ApplicationController
        redirect_to sessions_create_path and return
     else
       # grab the institution from the domain URL
-      @institution = institution
+      #@institution = institution
+      @institution = institution(request.headers[DATASHARE_CONFIG['external_identifier']])
       session['institution_id']= @institution.id
 
       if !@institution.shib_entity_domain.blank?
@@ -76,14 +77,14 @@ class SessionsController < ApplicationController
   end
 
 
-  def institution
-    uri = URI(request.original_url)
-    uri = uri.to_s if uri
-    if ( uri == nil ) #id=uri
-      return Institution.find_by_id(1)
-    end
+  def institution(id)
+    # uri = URI(request.original_url)
+    # uri = uri.to_s if uri
+    
+
+    # user.institution_id = User.institution_from_shibboleth(request.headers[DATASHARE_CONFIG['external_identifier']]).id
     Institution.all.each do |i|
-      if Regexp.new(i.external_id_strip).match(uri)
+      if Regexp.new(i.external_id_strip).match(id)    
         return i
       end
     end
