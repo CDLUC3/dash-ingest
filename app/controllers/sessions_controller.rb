@@ -78,20 +78,14 @@ class SessionsController < ApplicationController
 
 
   def institution
-    
     uri = URI(request.base_url)
     uri = uri.to_s if uri
-
     logger.info "uriabcdefg #{uri.inspect} "
-
-    # "http://dash-ucla-dev.cdlib.org"
-
     Institution.all.each do |i|
       if Regexp.new(i.external_id_strip).match(uri) 
         return i
       end
-    end
-   
+    end 
   end
 
 
