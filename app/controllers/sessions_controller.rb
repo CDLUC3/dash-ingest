@@ -83,6 +83,9 @@ class SessionsController < ApplicationController
 
     logger.info "uriabcdefg " + "#{uri}"
     logger.info "external_idabcdefg " + "#{request.headers[DATASHARE_CONFIG['external_identifier']]}"
+
+    logger.info "uriabcdefgclass " + "#{uri.class}"
+    logger.info "external_idabcdefgclass " + "#{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
     # Logger.info "uri" = uri
 
     # if ( uri == nil ) #id=uri
