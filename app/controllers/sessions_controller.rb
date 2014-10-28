@@ -82,7 +82,7 @@ class SessionsController < ApplicationController
     # uri = uri.to_s if uri
 
     logger.info "uriabcdefg " + "#{uri}"
-    logger.info "external_idabcdefg " + request.headers[DATASHARE_CONFIG['external_identifier']]
+    logger.info "external_idabcdefg " + "#{request.headers[DATASHARE_CONFIG['external_identifier']]}"
     # Logger.info "uri" = uri
 
     # if ( uri == nil ) #id=uri
