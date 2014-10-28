@@ -82,7 +82,7 @@ class SessionsController < ApplicationController
     # uri = uri.to_s if uri
 
     # logger.info "uriabcdefg " + "#{uri}"
-    logger.info "external_idabcdefg " + "#{request.headers[DATASHARE_CONFIG['external_identifier']]}" + " uriabcdefgclass " + "#{uri.class}"
+    logger.info "canyoureadyml " + "#{DATASHARE_CONFIG['external_identifier']}" + + "external_idabcdefg " + "#{request.headers[DATASHARE_CONFIG['external_identifier']]}" + " uriabcdefgclass " + "#{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
 
     # logger.info "uriabcdefgclass " + "#{uri.class}"
     # logger.info "external_idabcdefgclass " + "#{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
