@@ -58,11 +58,12 @@ class SessionsController < ApplicationController
     else
       # grab the institution from the domain URL
       @institution = institution
+
       session['institution_id']= @institution.id
 
       if !@institution.shib_entity_domain.blank?
         #initiate shibboleth login sequence
-        domain = @institution.landing_page
+        domain = @institution.shib_entity_domain
         redirect_back_to_hostname = DataIngest::Application.shibboleth_host + domain
         logger.debug "Shib Host Redirected to " + redirect_back_to_hostname
         redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
@@ -75,16 +76,41 @@ class SessionsController < ApplicationController
     end
   end
 
-  def institution
-    uri = URI(request.original_url)
-    url = uri.host.split(".")
-    l = url.length
-    u = ".#{url[l-2]}.#{url[l-1]}"
 
-    @institution = Institution.find_by_landing_page(u)
-    return @institution
+  def institution
+    uri = URI(request.base_url)
+    uri = uri.to_s if uri
+    logger.info "uriabcdefg #{uri.inspect} "
+    Institution.all.each do |i|
+      if Regexp.new(i.external_id_strip).match(uri) 
+        return i
+      end
+    end 
   end
 
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
