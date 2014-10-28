@@ -6,15 +6,15 @@
 
     <div class="clear"></div>
     <label for="title">
-      * Dataset Title
+      * Title
       <a href="#dataset_title_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
     </label>
-    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Dataset title", 'aria-required' => 'true' %>
+    <%= f.text_field :title, :size => "20", :class => 'input-text', :placeholder => "Title", 'aria-required' => 'true' %>
 
     <label for="publisher">
-      * Institution
+      * Publisher
       <a href="#institution_help" name="help_link" class="help_link">
         <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
       </a>
@@ -36,11 +36,10 @@
     </label>
     <%= f.select :resourcetype, options_for_select(datatype, @record.resourcetype), prompt: "Choose data type:", 'aria-required' => 'true' %>
     <br/>
-    <!-- <%#= hidden_field_tag "contributor_name", "UCSF", :size=>"20", :class=>"input-text" %> -->
 
     <div class="fieldset">
       <label for="creator_name">
-        * Data Creator(s)
+        * Author(s)
         <a href="#data_creator_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -50,13 +49,13 @@
         <%= f.fields_for :creators do |creator_builder| %>
           <%= render 'creator_fields', f: creator_builder %>
         <% end %>
-        <%= link_to_add_fields '+Additional Creator', f, :creators %>
+        <%= link_to_add_fields '+Additional Author', f, :creators %>
       </fieldset>
     </div>
 
     <div class="fieldset">
       <label for="subject_name">
-        Keywords
+        * Keywords
         <a href="#keyword_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -93,7 +92,7 @@
 
     <div class="fieldset">
       <label for="citation">
-        Citation(s)
+        Link(s)
         <a href="#citations_help" name="help_link" class="help_link">
           <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
         </a>
@@ -102,9 +101,41 @@
         <%= f.fields_for :citations do |citation_builder| %>
           <%= render 'citation_fields', :f => citation_builder %>
         <% end %>
-        <%= link_to_add_fields '+Additional Citations', f, :citations %>
+        <%= link_to_add_fields '+Additional Link', f, :citations %>
       </fieldset>
     </div>
+
+    <label for="funder">
+      Funder
+      <a href="#funder_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a>
+    </label>
+    <%= f.text_field :funder, :size => "20", :class => 'input-text', 'aria-required' => 'true', :style => "width: 450px;" %>
+
+
+    
+    <div class="suborg" id="suborg_id" style="display: none; ">
+      <label for="sub-organization">
+        Sub-organization
+        <a href="#suborganization_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </label>
+      <select class="subselect" id="record_suborg" name="record[suborg]"  style="width: 312px;"></select>
+    </div>
+
+
+
+    <label for="grant_number">
+      Grant Number
+      <a href="#grant_number_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a>
+    </label>
+    <%= f.text_field :grant_number, :size => "20", :class => 'input-text', 'aria-required' => 'true' %>
+
+    <fieldset></fieldset>
 
 
     <div class="fieldset">
@@ -121,9 +152,6 @@
     <div class="fieldset">
       <label for="rights_uri">
         * Rights URI
-        <a href="#rights_uri_help" name="help_link" class="help_link">
-          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-        </a>
       </label>
 
       <div id="rights_url">
@@ -131,10 +159,7 @@
       </div>
     </div>
 
-
     <%= f.hidden_field :rights_uri %>
-
-
 
     <div class="large-button-container">
       <%= f.submit "Save", :class => "btn btn-large btn-success", :name => "commit", :id => "submit_button" %>
@@ -143,3 +168,57 @@
   <% end %>
 
 </div>
+
+
+<script>
+  $(document).ready(function() {
+
+    var makeSubsidiaryOptions = function(descendants, names) {
+        var html = '<option>Select a sub-organization</option>';
+        descendants.sort(function(a, b) {
+          return names[a].localeCompare(names[b]);
+        });
+
+        $.each(descendants, function(idx, d) {
+      html += '<option>' + names[d] + '</option>';
+        });
+        return html;
+    };
+
+    var fundersRemote = new Bloodhound({
+        name: 'funders',
+        datumTokenizer: function(d) { return d.tokens; },
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        // remote: 'https://dash-kweiss.cdlib.org/funders?descendants=true&q=%QUERY',
+        //remote: 'https://dash-crossref.cdlib.org/funders?descendants=true&q=%QUERY',
+        // remote: 'http://search.crossref.org/funders?descendants=true&q=%QUERY',
+        remote: 'https://dash-crossref.cdlib.org/funders?descendants=true&q=%QUERY',
+        limit: 16,
+        dupDetector: function(r, l) { return false; }
+    });
+    fundersRemote.initialize();
+
+    var suggestionLayout = Hogan.compile('<p>{{value}} <span style="color: grey; font-size: 0.7em;">{{country}}</span></p>');
+    var events = 'typeahead:autocompleted typeahead:selected';
+
+    $('.input-text#record_funder').typeahead(null, {
+      source: fundersRemote.ttAdapter(),
+      templates: {
+        suggestion: function(d) { return suggestionLayout.render(d) },
+      },
+      limit: 16
+    });
+
+    $('.input-text#record_funder').bind(events, function(e, datum) {
+      if (datum['descendants'].length > 1) {
+         $('.subselect#record_suborg').html(makeSubsidiaryOptions(datum['descendants'],
+                                                                  datum['descendant_names']));
+         $('.suborg#suborg_id').show();
+      } else {
+         $('.subselect#record_suborg').html('');
+         $('.suborg#suborg_id').hide();
+      }
+    });
+  });
+  
+</script>

@@ -1,0 +1,58 @@
+
+
+#These are things that configure how the omniauth plugin for shibboleth behaves
+
+local:
+ #The host for the shibboleth sp process
+ host: dash-dev.ucop.edu
+ #the return domain for the callback to application
+ external_id: eppn
+ info_fields:
+   email: mail
+   first_name: givenname
+   last_name: sn
+
+test:
+  #The host for the shibboleth sp process
+  host: dash-dev
+  # fields to retrieve from the auth header
+  uid_field: eppn
+  info_fields:
+    email: mail
+    identity_provider: shib_identity_provider
+
+
+development:
+  #The host for the shibboleth sp process
+  host: dash-dev
+  # fields to retrieve from the auth header
+  uid_field: eppn
+  info_fields:
+    external_id: eppn
+    email: mail
+    first_name: givenName
+    last_name: sn
+
+
+stage:
+  #The host for the shibboleth sp process
+  host: dash-stg
+  # fields to retrieve from the auth header
+  uid_field: eppn
+  info_fields:
+    external_id: eppn
+    email: mail
+    first_name: givenName
+    last_name: sn
+
+production:
+  #The host for the web application, used to construct the target for the shibboleth id
+  #provider's return.
+  host: dash
+  # fields to retrieve from the auth header
+  uid_field: eppn
+  info_fields:
+    external_id: eppn
+    email: mail
+    first_name: givenName
+    last_name: sn

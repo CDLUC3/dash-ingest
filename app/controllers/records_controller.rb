@@ -4,23 +4,40 @@ class RecordsController < ApplicationController
 
   before_filter :verify_ownership
 
+  # before_filter :test, only: :review
 
-  def index
 
-    @user = current_user
-    if !@user || !@user.institution_id
-      redirect_to login_path and return
-    end
-
-    @institution = @user.institution
-    @records = Record.find_all_by_user_id(current_user.id)
-    
+  def test
+    byebug
   end
 
-  # GET form for new record
+
+
+    def index
+
+      if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
+        @user = User.find_by_external_id("Fake.User@ucop.edu")
+        @institution = @user.institution
+        session[:user_id] = @user.id
+        @records = Record.find_all_by_user_id(@user.id)
+      else
+         
+        if current_user
+          @user = current_user
+          @institution = @user.institution
+          @records = Record.find_all_by_user_id(@user.id)
+
+        else
+          redirect_to :controller => 'sessions', :action => 'signin'  #:institution_id => params[:institution_id]
+        end
+      end
+    end
+
+
+    # GET form for new record
   def new
-    if ENV["RAILS_ENV"] == "test"
-      @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
+    if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
+      @user = User.find_by_external_id("Fake.User@ucop.edu")
       session[:user_id] = @user.id
     end
     @user = current_user
@@ -33,17 +50,24 @@ class RecordsController < ApplicationController
       @record.subjects.build()
     end
     @record.publisher = @institution.short_name
-    @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-    @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    if @user.institution.short_name == 'DataONE'
+      @record.rights = "Creative Commons Public Domain Dedication (CC0)"
+      @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
+    else
+      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+    end
   end
 
-  # POST - create new record
+  
   def create
     @record = Record.new(params[:record])
     @user = current_user
     @record.user_id = @user.id
     @institution = @user.institution
     @record.set_local_id
+    
+    @suborg = params[:record][:suborg]
 
     @record.publisher = @institution.short_name if @record.publisher.blank?
     @record.institution_id = @user.institution_id
@@ -60,11 +84,34 @@ class RecordsController < ApplicationController
     end
 
     if @record.save
+
+
       unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id,
                                        contributorType: "DataManager",
                                        contributorName: @user.last_name + ", " + @user.first_name)
         @contributor.save
+      end
+      if @funder = params[:record][:funder]
+        if @suborg
+          @funder = @funder + ". " + @suborg
+          @contributor = Contributor.new(record_id: @record.id,
+                                         contributorType: "Funder",
+                                         contributorName: @funder)
+          @contributor.save
+        else
+          @contributor = Contributor.new(record_id: @record.id,
+                                         contributorType: "Funder",
+                                         contributorName: @funder)
+          @contributor.save
+        end
+      end
+
+      if @grant_number = params[:record][:grant_number]
+        @description = Description.new(record_id: @record.id,
+                                       descriptionType: "Other",
+                                       descriptionText: @grant_number)
+        @description.save
       end
 
       if params[:commit] == 'Save'
@@ -79,8 +126,11 @@ class RecordsController < ApplicationController
 
 
   def edit
-    @record = Record.find(params[:id])
 
+    @user = current_user
+    @record = Record.find(params[:id])
+    @description = @record.grant_number
+    @grant_number = @record.grant_number
     @record.creators.build() if @record.creators.blank?
     @record.citations.build() if @record.citations.blank? || @record.citations.nil?
     3.times do
@@ -101,7 +151,10 @@ class RecordsController < ApplicationController
 
       end
     end
-    if @record.rights.nil?
+    if @user.institution.short_name == 'DataONE'
+      @record.rights = "Creative Commons Public Domain Dedication (CC0)"
+      @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
+    else
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
@@ -130,12 +183,15 @@ class RecordsController < ApplicationController
 
 
   def update
+    if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
+      @user = User.find_by_external_id("Fake.User@ucop.edu")
+      session[:user_id] = @user.id
+    end
     @user = current_user
     @institution = @user.institution
     @record = Record.find(params[:id])
-    # byebug
     @record.creators.build() if @record.creators.blank?
-    @record.citations.build() if @record.citations.blank?
+    #@record.citations.build() if @record.citations.length < 1
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.subjects.count() == 0
@@ -155,6 +211,46 @@ class RecordsController < ApplicationController
     @record.institution_id = @user.institution_id unless @record.institution_id
 
     if @record.update_attributes(record_params)
+      @funder = params[:record][:funder] 
+
+      if !@funder.nil? && !@funder.blank?
+        
+        @suborg = params[:record][:suborg]  
+        @funder = @funder + ". " + @suborg if @suborg
+      
+        if @record.funder
+          @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
+          @contributor.update_attributes(contributorName: @funder)
+          @contributor.save
+        else
+          @contributor = Contributor.new(record_id: @record.id,
+                                       contributorType: "Funder",
+                                       contributorName: @funder)
+          @contributor.save
+        end
+      elsif @record.funder
+        @contributor = @record.contributors.where(contributorType: 'Funder').find(:first)
+        @contributor.destroy
+      end
+
+      @grant_number = params[:record][:grant_number] 
+
+      if !@grant_number.nil? && !@grant_number.blank?
+        if @record.grant_number
+          @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
+          @description.update_attributes(descriptionText: @grant_number)
+          @description.save
+        else
+          @description = Description.new(record_id: @record.id,
+                                       descriptionType: "Other",
+                                       descriptionText: @grant_number)
+          @description.save
+        end
+      elsif @record.grant_number
+        @description = @record.descriptions.where(descriptionType: 'Other').find(:first)
+        @description.destroy
+      end
+
       if params[:commit] =='Save And Continue'
         redirect_to "/record/#{@record.id}/uploads", :record_id => @record.id
       elsif params[:commit] == 'Save'
@@ -174,18 +270,29 @@ class RecordsController < ApplicationController
 
   def record_params
     params.require(:record).permit(
-        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract, 
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-        citations_attributes: [ :id, :record_id, :citationName, :_destroy],
-        contributors_attributes: [:id, :record_id, :contributorType, :contributorName])
-
+        citations_attributes: [ :id, :record_id, :citationName, :_destroy, :related_id_type, :relation_type],
+        contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
+        descriptions_attributes: [:id, :record_id, :descriptionType, :descriptionText])
   end
+
+   
+
+
+public
 
 
   def review
+
     @user = current_user
     @institution = @user.institution
+    if @institution.short_name == "DataONE"
+      @msg = "By confirming submission to Dash, your data will be publicly available on the Dash website under a CC0 license. Please only submit legitimate, complete data."
+    else
+      @msg = "By confirming submission to Dash, your data will be publicly available on the Dash website under a CC-BY-4.0 license. Please only submit legitimate, complete data."
+    end
     @record = Record.find(params[:id])
 
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
@@ -196,17 +303,12 @@ class RecordsController < ApplicationController
       @first_submission = @record.submissionLogs[@array_position].filtered_response.to_s.include?("Success") ? false : true
     end
 
-
     @record.purge_temp_files
     @xmlout = @record.review
-
-    render :review, :layout => false
 
   end
 
 
-
-  public
   def send_archive_to_merritt
     @user = current_user
     @institution = @user.institution
@@ -278,7 +380,7 @@ class RecordsController < ApplicationController
     if @user
       @institution = @user.institution
     end
-
+    
     if !@user.nil? && !@record.nil?
       if @record.user_id != @user.id
         redirect_to "/records"

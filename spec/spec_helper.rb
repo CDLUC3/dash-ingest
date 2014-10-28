@@ -5,6 +5,7 @@ require 'rspec/rails'
 require 'factory_girl_rails'
 require 'database_cleaner'
 require 'capybara/rspec'
+require 'selenium-webdriver'
 #require 'capybara/rails'
 
 #Capybara.javascript_driver = :webkit
@@ -51,6 +52,6 @@ RSpec.configure do |config|
   end
   
 
-  Capybara.javascript_driver = :webkit
+  Capybara.javascript_driver = :selenium
 
 end
