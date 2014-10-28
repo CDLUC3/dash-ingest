@@ -78,13 +78,14 @@ class SessionsController < ApplicationController
 
 
   def institution
-    uri = URI(request.original_url)
+    #uri = URI(request.original_url)
+    uri = URI(request.base_url)
     # uri = uri.to_s if uri
 
     # logger.info "uriabcdefg " + "#{uri}"
-    logger.info "canyoureadyml #{DATASHARE_CONFIG['external_identifier']}  external_idabcdefg #{request.headers[DATASHARE_CONFIG['external_identifier']]} uriabcdefgclass #{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
+    # logger.info "canyoureadyml #{DATASHARE_CONFIG['external_identifier']}  external_idabcdefg #{request.headers[DATASHARE_CONFIG['external_identifier']]} uriabcdefgclass #{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
 
-    # logger.info "uriabcdefgclass " + "#{uri.class}"
+    logger.info "uriabcdefg #{uri} uriabcdefclass #{uri.class}"
     # logger.info "external_idabcdefgclass " + "#{request.headers[DATASHARE_CONFIG['external_identifier']].class}"
     # Logger.info "uri" = uri
 
