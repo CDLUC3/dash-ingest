@@ -35,8 +35,7 @@ class RecordsController < ApplicationController
     @record.publisher = @institution.short_name
     @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
     @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
-   @record.geoLocationPoints.build
-   @record.build_geoLocationBox
+    @record.build_geoLocationBox
   end
 
   # POST - create new record
@@ -60,7 +59,6 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
-    @record.geoLocationPoints.build() if @record.geoLocationPoints.blank?
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     if @record.save
@@ -109,7 +107,6 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-   
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
   end
 
@@ -157,6 +154,12 @@ class RecordsController < ApplicationController
       end
     end
     
+    # If the user unchecked the box for geographic metadata,
+    #  make geospatialType nil. (Will trigger the destruction
+    #  of the Points/Box for the record.)
+    if params.has_key?(:geospatialType) == false
+      @record.geospatialType = nil
+    end
     @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     @record.institution_id = @user.institution_id unless @record.institution_id
@@ -182,7 +185,7 @@ class RecordsController < ApplicationController
   def record_params
     params.require(:record).permit(
         :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
-        :geoLocationPlace,
+        :geoLocationPlace, :geospatialType,
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
         citations_attributes: [ :id, :record_id, :citationName, :_destroy],

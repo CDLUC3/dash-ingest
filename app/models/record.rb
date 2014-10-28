@@ -57,6 +57,8 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :geoLocationBox, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
   attr_accessible :geoLocationBox_attributes
   before_validation :mark_points_for_destruction, :mark_box_for_destruction
+  validate :geoLocationBox if :geospatialType == 'box'
+  validates_associated :geoLocationPoints if :geospatialType == 'point'
 
 
   def must_have_creators
@@ -106,27 +108,15 @@ class Record < ActiveRecord::Base
     geoLocationPoints.each {|geoLocationPoint|
       if geospatialType != 'point' || geoLocationPoint.lat.blank? || geoLocationPoint.lng.blank?
         geoLocationPoint.mark_for_destruction
-      else
-        validates_associated :geoLocationPoints
       end
     }
   end
   
   def mark_box_for_destruction
-    if geospatialType != 'box' || geoLocationBox.sw_lat.blank? || geoLocationBox.sw_lng.blank? || geoLocationBox.ne_lat.blank? || geoLocationBox.ne_lng.blank?
+    if geospatialType != 'box'  || geoLocationBox.sw_lat.blank? || geoLocationBox.sw_lng.blank? || geoLocationBox.ne_lat.blank? || geoLocationBox.ne_lng.blank?
       geoLocationBox.mark_for_destruction
-    else
-      validates :sw_lat, numericality:
-        { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
-      validates :sw_lng, numericality: 
-        { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
-      validates :ne_lat, numericality:
-        { greater_than_or_equal_to: -90, less_than_or_equal_to: 90 }
-      validates :ne_lng, numericality: 
-        { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
     end
   end
-
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
