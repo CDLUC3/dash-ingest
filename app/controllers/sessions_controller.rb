@@ -78,7 +78,7 @@ class SessionsController < ApplicationController
 
   def institution
     uri = URI(request.original_url)
-
+    uri = uri.to_s if uri
     if ( uri == nil ) #id=uri
       return Institution.find_by_id(1)
     end
