@@ -7,14 +7,23 @@ class SessionsController < ApplicationController
     logger.debug "SHIB_FORWARD " + "#{env["HTTP_X_FORWARDED_SERVER"]}"
     new_url = env["HTTP_X_FORWARDED_SERVER"].to_s
 
-    if new_url.split(",")[0] == "dash.ucla.edu"
-      new_url = new_url.split(",")[1]
-    end
+    # if new_url.split(",")[0] == "dash.ucla.edu"
+    #   new_url = new_url.split(",")[1]
+    # end
+
+    new_url = new_url.split(",")[0]
 
     logger.info "SHIB_NEW #{new_url.inspect}"
 
+    # Institution.all.each do |i|
+    #   if Regexp.new(i.external_id_strip).match(new_url)
+    #     @institution = i
+    #     logger.info  "INS  #{@institution.inspect}"
+    #   end
+    # end
+
     Institution.all.each do |i|
-      if Regexp.new(i.external_id_strip).match(new_url)
+      if Regexp.new(i.landing_page).match(new_url)
         @institution = i
         logger.info  "INS  #{@institution.inspect}"
       end
