@@ -25,8 +25,9 @@
 	<div id="project_links">
 		<ul>
 			<%if current_user %>
-				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), 
-												("#{APP_CONFIG['root_url']}#{current_user.institution.landing_page}") %>
+				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), root_path
+												# ("#{APP_CONFIG['root_url']}#{current_user.institution.landing_page}") 
+												%>
 				</li>
 				<li><%= link_to "Logout" , logout_path %></li>
 
