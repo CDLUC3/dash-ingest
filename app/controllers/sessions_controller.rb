@@ -6,6 +6,11 @@ class SessionsController < ApplicationController
 
     logger.debug "SHIB_FORWARD " + "#{env["HTTP_X_FORWARDED_SERVER"]}"
     new_url = env["HTTP_X_FORWARDED_SERVER"].to_s
+
+    if new_url.split(",")[0] == "dash.ucla.edu"
+      new_url = new_url.split(",")[1]
+    end
+
     logger.info "SHIB_NEW #{new_url.inspect}"
 
     Institution.all.each do |i|
@@ -15,15 +20,17 @@ class SessionsController < ApplicationController
       end
     end
 
-    session['institution_id'] = @institution.id
+    session[:institution_id] = @institution.id
+    
     if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
       user = User.find_by_external_id("Fake.User@ucop.edu")
     else
 
-      user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
+      # user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
+      user = User.from_omniauth(env["omniauth.auth"], @institution.id)
     end
     session[:user_id] = user.id
-    session[:institution_id]= user.institution_id
+    # session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
 
     logger.debug "Params: #{session}"
@@ -79,7 +86,7 @@ class SessionsController < ApplicationController
   def institution
     uri = URI(request.base_url)
     uri = uri.to_s if uri
-    logger.info "uriabcdefg #{uri.inspect} "
+    # logger.info "uriabcdefg #{uri.inspect} "
     Institution.all.each do |i|
       if Regexp.new(i.external_id_strip).match(uri) 
         return i
