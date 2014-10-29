@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 
       user.provider = auth.provider
       user.uid = auth.uid
-      user.email = auth.info.email
+      user.email = auth.info.email.split(";")[0] #because ucla has two values separated by ;
       user.first_name = auth.info.first_name
       user.last_name = auth.info.last_name
       if user.provider == "shibboleth"
