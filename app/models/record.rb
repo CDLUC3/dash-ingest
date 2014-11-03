@@ -205,24 +205,24 @@ class Record < ActiveRecord::Base
           xml.size @total_size
         }
         xml.rightsList {
-          xml.rights("rightsURI" => "#{CGI::escapeHTML(self.rights_uri)}") {
-            xml.text("#{CGI::escapeHTML(self.rights)}")
+          xml.rights("rightsURI" => "#{self.rights_uri}") {
+            xml.text("#{self.rights}")
           }
         }
         xml.descriptions{
           unless self.abstract.nil?
             xml.description("descriptionType" => "Abstract") {
-              xml.text("#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
+              xml.text("#{self.abstract.gsub(/\r/,"")}")
             }
           end
           unless self.methods.nil?
             xml.description("descriptionType" => "Methods") {
-              xml.text("#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
+              xml.text("#{self.methods.gsub(/\r/,"")}")
             }
           end
           self.descriptions.each do |d|
             xml.description("descriptionType" => "Other") {
-              xml.text("#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
+              xml.text("#{d.descriptionText.gsub(/\r/,"")}")
             }
           end
         }
@@ -367,18 +367,18 @@ class Record < ActiveRecord::Base
 
         xml.send(:'dc:format', "#{resourceTypeGeneral(self.resourcetype)}")
         xml.send(:'dcterms:extent', @total_size)
-        xml.send(:'dc:rights', "#{CGI::escapeHTML(self.rights)}")
+        xml.send(:'dc:rights', "#{self.rights}")
 
-        xml.send(:'dcterms:license', "#{CGI::escapeHTML(self.rights_uri)}", "xsi:type" => "dcterms:URI")
+        xml.send(:'dcterms:license', "#{self.rights_uri}", "xsi:type" => "dcterms:URI")
 
         unless self.abstract.nil?
-          xml.send(:'dc:description', "#{CGI::escapeHTML(self.abstract.gsub(/\r/,""))}")
+          xml.send(:'dc:description', "#{self.abstract.gsub(/\r/,"")}")
         end
         unless self.methods.nil?
-          xml.send(:'dc:description', "#{CGI::escapeHTML(self.methods.gsub(/\r/,""))}")
+          xml.send(:'dc:description', "#{self.methods.gsub(/\r/,"")}")
         end
         self.descriptions.each do |d|
-          xml.send(:'dc:description', "#{CGI::escapeHTML(d.descriptionText.gsub(/\r/,""))}")
+          xml.send(:'dc:description', "#{d.descriptionText.gsub(/\r/,"")}")
         end
       }
     end
