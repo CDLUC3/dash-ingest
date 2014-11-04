@@ -6,21 +6,8 @@ class SessionsController < ApplicationController
 
     logger.debug "SHIB_FORWARD " + "#{env["HTTP_X_FORWARDED_SERVER"]}"
     new_url = env["HTTP_X_FORWARDED_SERVER"].to_s
-
-    # if new_url.split(",")[0] == "dash.ucla.edu"
-    #   new_url = new_url.split(",")[1]
-    # end
-
     new_url = new_url.split(",")[0]
-
     logger.info "SHIB_NEW #{new_url.inspect}"
-
-    # Institution.all.each do |i|
-    #   if Regexp.new(i.external_id_strip).match(new_url)
-    #     @institution = i
-    #     logger.info  "INS  #{@institution.inspect}"
-    #   end
-    # end
 
     Institution.all.each do |i|
       if Regexp.new(i.landing_page).match(new_url)
@@ -34,16 +21,11 @@ class SessionsController < ApplicationController
     if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
       user = User.find_by_external_id("Fake.User@ucop.edu")
     else
-
-      # user = User.from_omniauth(env["omniauth.auth"],session['institution_id'])
       user = User.from_omniauth(env["omniauth.auth"], @institution.id)
     end
     session[:user_id] = user.id
-    # session[:institution_id]= user.institution_id
     cookies[:dash_logged_in] = 'Yes'
-
     logger.debug "Params: #{session}"
-
     redirect_to records_path, notice: "Signed in!"
   end
 
@@ -103,6 +85,11 @@ class SessionsController < ApplicationController
         return i
       end
     end 
+  end
+
+
+  def omniauth_failure
+    redirect_to root_path
   end
 
 
