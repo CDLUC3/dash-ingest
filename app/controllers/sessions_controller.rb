@@ -71,15 +71,17 @@ class SessionsController < ApplicationController
     if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
        redirect_to sessions_create_path and return
     else
-      # grab the institution from the domain URL
+      
       @institution = institution
-
       session['institution_id']= @institution.id
 
       if !@institution.shib_entity_domain.blank?
-        #initiate shibboleth login sequence
         domain = @institution.shib_entity_domain
-        redirect_back_to_hostname = DataIngest::Application.shibboleth_host + domain
+        if @institution.abbreviation == 'UCLA'
+          redirect_back_to_hostname = DataIngest::Application.ucla_shibboleth_host + domain
+        else
+          redirect_back_to_hostname = DataIngest::Application.shibboleth_host + domain
+        end
         logger.debug "Shib Host Redirected to " + redirect_back_to_hostname
         redirect_to OmniAuth::Strategies::Shibboleth.login_path_with_entity(
                         redirect_back_to_hostname,
