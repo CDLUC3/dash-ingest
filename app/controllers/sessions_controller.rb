@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
 
 
   def create
-
     logger.debug "SHIB_FORWARD " + "#{env["HTTP_X_FORWARDED_SERVER"]}"
     new_url = env["HTTP_X_FORWARDED_SERVER"].to_s
     new_url = new_url.split(",")[0]
@@ -30,10 +29,7 @@ class SessionsController < ApplicationController
   end
 
 
-
-
   def destroy
-
     session[:user_id] = nil
     session[:institution_id] = nil
     cookies.delete(:dash_logged_in)

@@ -29,7 +29,6 @@ class RecordsController < ApplicationController
   end
 
 
-    # GET form for new record
   def new
     if ENV["RAILS_ENV"] == "test" || ENV["RAILS_ENV"] == "local"
       @user = User.find_by_external_id("Fake.User@ucop.edu")
@@ -185,7 +184,6 @@ class RecordsController < ApplicationController
     @institution = @user.institution
     @record = Record.find(params[:id])
     @record.creators.build() if @record.creators.blank?
-    #@record.citations.build() if @record.citations.length < 1
     @record.subjects.build() if @record.subjects.blank?
 
     if @record.subjects.count() == 0
@@ -340,8 +338,6 @@ public
         ActiveRecord::Base.connection.close
       end
 
-      # sleep(5)
-
       submissionLog = SubmissionLog.new
 
       # if it has taken more than 5 seconds to process, we will create an intermediary
@@ -362,14 +358,9 @@ public
 
 
   def verify_ownership
-
-    # if ENV["RAILS_ENV"] == "test"
-    #   @user = User.find_by_external_id("Fake.User-ucop.edu@ucop.edu")
-    #   session[:user_id] = @user.id
-    # else
+    
     @user = current_user
-    # end
-
+  
     @record = Record.find_by_id(params[:id])
     if @user
       @institution = @user.institution
@@ -381,8 +372,6 @@ public
       end
     end
   end
-
-
 
 
   def submission_log
