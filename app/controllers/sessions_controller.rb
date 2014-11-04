@@ -77,7 +77,7 @@ class SessionsController < ApplicationController
 
       if !@institution.shib_entity_domain.blank?
         domain = @institution.shib_entity_domain
-        if @institution.abbreviation == 'UCLA'
+        if @institution.abbreviation == 'UCLA' && ENV["RAILS_ENV"] != "production"
           redirect_back_to_hostname = DataIngest::Application.ucla_shibboleth_host + domain
         else
           redirect_back_to_hostname = DataIngest::Application.shibboleth_host + domain
