@@ -4,7 +4,7 @@ class Upload < ActiveRecord::Base
   
   attr_accessible :upload, :upload_file_size, :upload_content_type, :upload_file_name, :record_id
   has_attached_file :upload, :path => :set_default_url_on_record_id
-  validates_attachment_size :upload, :less_than => 2.gigabyte 
+  # validates_attachment_size :upload, :less_than => 2.megabyte, :message => 'This file is too big.'
  
   include Rails.application.routes.url_helpers
 
