@@ -3,7 +3,6 @@ class SessionsController < ApplicationController
 
 
   def create
-
     logger.debug "SHIB_FORWARD " + "#{env["HTTP_X_FORWARDED_SERVER"]}"
     new_url = env["HTTP_X_FORWARDED_SERVER"].to_s
     new_url = new_url.split(",")[0]
@@ -30,10 +29,7 @@ class SessionsController < ApplicationController
   end
 
 
-
-
   def destroy
-
     session[:user_id] = nil
     session[:institution_id] = nil
     cookies.delete(:dash_logged_in)
@@ -79,7 +75,7 @@ class SessionsController < ApplicationController
   def institution
     uri = URI(request.base_url)
     uri = uri.to_s if uri
-    # logger.info "uriabcdefg #{uri.inspect} "
+    logger.info "uriabcdefg #{uri.inspect} "
     Institution.all.each do |i|
       if Regexp.new(i.external_id_strip).match(uri) 
         return i

@@ -11,7 +11,6 @@ class UploadsController < ApplicationController
     
     @record = Record.find(@record_id)
 
-
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
       @new_submission = true
     else

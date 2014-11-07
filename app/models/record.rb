@@ -239,11 +239,11 @@ class Record < ActiveRecord::Base
 
     @files = self.uploads_list
 
-    content =   "%dataonem_0.1 " + "\n" +
-        "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
-        "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
-        "%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
-        "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
+    content =   "#%dataonem_0.1 " + "\n" +
+        "#%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
+        "#%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
+        "#%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
+        "#%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
         "dom:scienceDataFile | mrt:mimeType " + "\n"
 
     @files.each do |file|
@@ -257,7 +257,7 @@ class Record < ActiveRecord::Base
       end
     end
 
-    content << "%eof "
+    content << "#%eof "
 
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
       f.write(content)
