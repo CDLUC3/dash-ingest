@@ -251,7 +251,7 @@ class Record < ActiveRecord::Base
       if file
 
         content <<    "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " +
-            "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.txt | " +
+            "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.xml | " +
             "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +
             "#{file[:name]}" + " | #{file[:type]} " + "\n"
       end
