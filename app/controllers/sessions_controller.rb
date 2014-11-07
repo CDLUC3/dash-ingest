@@ -85,7 +85,8 @@ class SessionsController < ApplicationController
 
 
   def omniauth_failure
-    redirect_to root_path
+    # redirect_to root_path
+    redirect_to access_denied_path
   end
 
 
