@@ -1,0 +1,33 @@
+
+<div id="navbar">
+
+	<nav>
+		<ul>
+			<li><a href="/xtf/search?smode=aboutPage">About</a></li>			
+			<%if current_user %>
+				<li><%= link_to "Search Data", "/xtf/search?browse-all=yes" %></li>
+			<% else %>
+				<li><%= link_to "Search Data", "/xtf/search?browse-all=yes" %></li>
+			<% end %>
+			
+			<li><a href="/xtf/search?smode=stepsPage">Share Data</a></li>
+          <li><%= link_to "My Datasets", "/records" %></li>
+      </ul>
+	</nav>
+
+	<div id="project_links">
+		<ul>
+			<%if current_user %>
+				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), root_path %>
+				</li>
+				<li><%= link_to "Logout" , logout_path %></li>
+			<%else%>
+				<li></li>
+				<li></li>
+			<%end%>
+		</ul>
+	</div>
+
+</div>
+
+

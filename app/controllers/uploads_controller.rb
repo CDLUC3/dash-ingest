@@ -1,11 +1,15 @@
 class UploadsController < ApplicationController
 
   def index
+    if current_user.institution.short_name == "DataONE"
+      @dataone = true
+    else
+      @dataone = false
+    end
 
     @record_id = params[:record_id]
     
     @record = Record.find(@record_id)
-
 
     if @record.submissionLogs.empty? || @record.submissionLogs.nil?
       @new_submission = true

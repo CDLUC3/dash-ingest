@@ -8,9 +8,7 @@ gem 'mysql2'
 gem 'rubyzip',  "~> 0.9.9"
 
 group :development, :local do
-  gem 'capistrano', '~> 3.2.1'
-  gem 'capistrano-rails'
-  gem 'capistrano-bundler'
+  
   gem 'webrick', '~> 1.3.1'
   gem 'byebug'
   gem 'sextant' #you can go to http://localhost:3000/rails/routes to see routes
@@ -24,15 +22,14 @@ group :test do
   gem 'database_cleaner'
 end
 
-
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
+  gem 'selenium-webdriver', '~> 2.35.1'
+  gem 'chromedriver-helper'
 end
 
 gem 'whenever', :require => false
-
-
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -47,22 +44,21 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-fileupload-rails'
-gem 'paperclip'
+gem "paperclip", "~> 3.5.3"
 gem 'twitter-bootstrap-rails', '2.1.7'
 gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
 gem 'strong_parameters'
 gem "omniauth-google-oauth2", "~> 0.2.1"
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
+gem "omniauth-shibboleth" ,  :git => "https://bitbucket.org/cdl/omniauth-shibboleth", :branch=>'master'
 gem 'unicorn'
 gem 'carrierwave'
 gem 'custom_error_message'
+gem 'nokogiri'
+gem 'capistrano', '~> 3.2.1'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'exception_notification'
+
 
 

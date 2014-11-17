@@ -1,23 +1,50 @@
 <%= f.hidden_field "_destroy", class: 'destroyer' %>
 <div class="fields">
+
   <%= f.text_field :subjectName, :size=>"20", :class=>"input-text", :placeholder => "Keyword", 'aria-required' => 'true' %>
 
-
-  <div class="remove_subject_field">
-    <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
+  <div class="remove_subject_field"   >
+      <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields") %>
   </div>
 </div>
 <script>
 
-  $('.remove_subject_field').first().hide();
 
-  var count = $('.remove_subject_field').size();
 
-  if (count == 3) {
 
-      $('.remove_subject_field').hide();
+    $('.remove_subject_field').first().hide();
 
-  }
+       var count = [$('.remove_subject_field ').size()];
+
+         //count[1].hide();
+
+       if (count == 3) {
+
+           $('.remove_subject_field ').hide();
+
+       }
+
+
+
+                // var count = $("#remove_subject_field > a").size()
+                //var t = count - 3
+                //  var t = count
+                //if (t <= 3 ){
+                //document.write('its same')
+                //    $("#remove_subject_field a").hide()
+                // }
+                //   else if (t > 3 ){
+
+                // t - 3;
+                // event.preventDefault
+                // }
+
+                //else {
+
+                //   $("#remove_subject_field a").hide()
+                //}
+
+
 
   /*
   $(document).ready(function (event) {
@@ -45,6 +72,7 @@
       //$('#remove_subject_field').select();
       //$this.hide
       //})
+>>>>>>> master
 
     });
   });

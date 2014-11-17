@@ -11,7 +11,11 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(:version => 20140930223242) do
+=======
+ActiveRecord::Schema.define(:version => 20141016071845) do
+>>>>>>> development
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
@@ -24,16 +28,21 @@ ActiveRecord::Schema.define(:version => 20140930223242) do
   create_table "citations", :force => true do |t|
     t.text     "citationName"
     t.integer  "record_id"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "related_id_type"
+    t.string   "relation_type"
   end
 
   create_table "contributors", :force => true do |t|
     t.string   "contributorType"
     t.string   "contributorName"
     t.integer  "record_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+    t.string   "name_identifier"
+    t.string   "name_identifier_scheme"
+    t.string   "scheme_URI"
   end
 
   create_table "creators", :force => true do |t|
@@ -83,10 +92,12 @@ ActiveRecord::Schema.define(:version => 20140930223242) do
     t.string   "long_name"
     t.string   "landing_page"
     t.string   "external_id_strip"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "campus"
     t.string   "logo"
+    t.string   "shib_entity_id"
+    t.string   "shib_entity_domain"
   end
 
   create_table "records", :force => true do |t|
@@ -160,6 +171,9 @@ ActiveRecord::Schema.define(:version => 20140930223242) do
     t.integer  "institution_id"
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "uid"
+    t.string   "provider"
+    t.string   "oauth_token"
   end
 
   add_index "users", ["institution_id"], :name => "index_users_on_institution_id"

@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Access Denied: Dash - Open data for the global research community</title>
+<%= render 'layouts/head' %>
+</head>
+<body>
+<!-- begin page id -->
+<div id="login-page">
+<!-- begin outer container -->
+  <div id="outer-container">
+    <!-- begin inner container -->
+                <div id="inner-container">
+                        <div id="header">
+                                <%= render 'layouts/header' %>
+                        </div>
+                        <%= render 'layouts/navigation' %>
+                        <div id="banner">
+                                <%= image_tag("banner-home-v8.0.jpg", width: "952", height: "72", alt: "Publish and Download Research Datasets") %>
+                        </div>
+                        <div id="content">
+
+                        <div style="color:red;" id="logout-content">
+                                <h1 style="color:red;" >Access Denied</h1>
+                                <p>We were unable to authenticate you through your openid provider.</p>  
+                                <p>You can click on My Datasets and try again to login.</p>
+                        </div>
+
+                </div> <!-- end content-->
+        <!-- begin footer-->
+        <%if current_user %>
+                <%= render "layouts/brand/footer_#{current_user.institution.campus}" %>
+        <%else%>
+                <%= render "layouts/brand/footer_cdl" %>
+        <%end%>
+  <%#= render "layouts/brand/footer_cdl" %>
+        <!-- end footer-->
+        </div> <!-- end inner container -->
+  </div> <!-- end outer container -->
+</div>
+</body>
+</html>
