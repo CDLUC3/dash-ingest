@@ -291,30 +291,30 @@ class Record < ActiveRecord::Base
      
      # geoLocation
      
-     if !self.geospatialType.nil? || !self.geoLocationPlace.nil?
-       f.puts "<geoLocations>"
-         if !self.geoLocationPlace.nil?
-           f.puts "<geoLocation>"
-           f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
-           f.puts "</geoLocation>"
-         end
-         if self.geospatialType == "point"
-           self.geoLocationPoints.each do |g| 
-             f.puts "<geoLocation>"
-             f.puts "<geoLocationPoint>"
-             f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
-             f.puts "</geoLocation>"
-           end
-         elsif self.geospatialType == "box"
-           f.puts "<geoLocation>"
-           f.puts "<geoLocationBox>"
-           f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
-           f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
-           f.puts "</geoLocationBox>"
-           f.puts "</geoLocation>"
-         end
-       f.puts "</geoLocations>"
-     end
+     # if !self.geospatialType.nil? || !self.geoLocationPlace.nil?
+     #   f.puts "<geoLocations>"
+     #     if !self.geoLocationPlace.nil?
+     #       f.puts "<geoLocation>"
+     #       f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
+     #       f.puts "</geoLocation>"
+     #     end
+     #     if self.geospatialType == "point"
+     #       self.geoLocationPoints.each do |g| 
+     #         f.puts "<geoLocation>"
+     #         f.puts "<geoLocationPoint>"
+     #         f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
+     #         f.puts "</geoLocation>"
+     #       end
+     #     elsif self.geospatialType == "box"
+     #       f.puts "<geoLocation>"
+     #       f.puts "<geoLocationBox>"
+     #       f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
+     #       f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
+     #       f.puts "</geoLocationBox>"
+     #       f.puts "</geoLocation>"
+     #     end
+     #   f.puts "</geoLocations>"
+     # end
 
      f.puts "</resource>"   
           
@@ -506,10 +506,10 @@ class Record < ActiveRecord::Base
         fields << "citations"
       end
       
-      if self.geospatialType == "" || self.geospatialType.nil?
-        fields << ", " unless fields.empty?
-        fields << "geographic metadata"
-      end
+      # if self.geospatialType == "" || self.geospatialType.nil?
+      #   fields << ", " unless fields.empty?
+      #   fields << "geographic metadata"
+      # end
 
       unless fields.empty?
         fields << "."
