@@ -310,7 +310,7 @@ class Record < ActiveRecord::Base
            f.puts "<geoLocationBox>"
            f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
            f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
-           f.puts "</geoLocationPoint>"
+           f.puts "</geoLocationBox>"
            f.puts "</geoLocation>"
          end
        f.puts "</geoLocations>"
