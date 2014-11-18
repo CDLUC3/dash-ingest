@@ -210,12 +210,12 @@ class Record < ActiveRecord::Base
           }
         }
         xml.descriptions{
-          unless self.abstract.nil?
+          unless self.abstract.blank?
             xml.description("descriptionType" => "Abstract") {
               xml.text("#{self.abstract.gsub(/\r/,"")}")
             }
           end
-          unless self.methods.nil?
+          unless self.methods.blank?
             xml.description("descriptionType" => "Methods") {
               xml.text("#{self.methods.gsub(/\r/,"")}")
             }
