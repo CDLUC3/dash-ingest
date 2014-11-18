@@ -200,7 +200,6 @@ class Record < ActiveRecord::Base
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-
         unless @data_manager_name.blank? && @funder_name.blank?
           xml.contributors {
             unless @data_manager_name.blank?
@@ -215,7 +214,6 @@ class Record < ActiveRecord::Base
             end
           }
         end
-
         xml.relatedIdentifiers {
           self.citations.each do |c|
             xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}",
@@ -224,7 +222,6 @@ class Record < ActiveRecord::Base
             }
           end
         }
-
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
@@ -253,36 +250,50 @@ class Record < ActiveRecord::Base
             }
           end
         }
+
+        # geoLocation
+        # if !self.geospatialType.nil? || !self.geoLocationPlace.nil?
+        unless self.geospatialType.nil? && self.geoLocationPlace.nil?
+          
+          xml.geolocations {
+            unless self.geoLocationPlace.nil?
+              xml.geoLocation {
+                xml.geoLocationPlace "#{self.geoLocationPlace.gsub(/\r/,"")}"
+              }
+            end  
+          }
+
+          # has_many :geoLocationPoints, :dependent => :destroy
+          # has_one :geoLocationBox, :dependent => :destroy
+          #geoLocationPlace and geoLocationType are record fields
+     
+                
+         #   f.puts "<geoLocations>"
+         #     if !self.geoLocationPlace.nil?
+         #       f.puts "<geoLocation>"
+         #       f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
+         #       f.puts "</geoLocation>"
+         #     end
+         #     if self.geospatialType == "point"
+         #       self.geoLocationPoints.each do |g| 
+         #         f.puts "<geoLocation>"
+         #         f.puts "<geoLocationPoint>"
+         #         f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
+         #         f.puts "</geoLocation>"
+         #       end
+         #     elsif self.geospatialType == "box"
+         #       f.puts "<geoLocation>"
+         #       f.puts "<geoLocationBox>"
+         #       f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
+         #       f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
+         #       f.puts "</geoLocationBox>"
+         #       f.puts "</geoLocation>"
+         #     end
+         #   f.puts "</geoLocations>"
+        end
+
       }
     end
-
-    # geoLocation
-     
-     # if !self.geospatialType.nil? || !self.geoLocationPlace.nil?
-     #   f.puts "<geoLocations>"
-     #     if !self.geoLocationPlace.nil?
-     #       f.puts "<geoLocation>"
-     #       f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
-     #       f.puts "</geoLocation>"
-     #     end
-     #     if self.geospatialType == "point"
-     #       self.geoLocationPoints.each do |g| 
-     #         f.puts "<geoLocation>"
-     #         f.puts "<geoLocationPoint>"
-     #         f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
-     #         f.puts "</geoLocation>"
-     #       end
-     #     elsif self.geospatialType == "box"
-     #       f.puts "<geoLocation>"
-     #       f.puts "<geoLocationBox>"
-     #       f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
-     #       f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
-     #       f.puts "</geoLocationBox>"
-     #       f.puts "</geoLocation>"
-     #     end
-     #   f.puts "</geoLocations>"
-     # end
-
 
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
     puts builder.to_xml.to_s
