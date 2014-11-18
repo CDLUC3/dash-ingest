@@ -252,45 +252,27 @@ class Record < ActiveRecord::Base
         }
 
         # geoLocation
-        # if !self.geospatialType.nil? || !self.geoLocationPlace.nil?
         unless self.geospatialType.nil? && self.geoLocationPlace.nil?
-          
-          xml.geolocations {
+          xml.geoLocations {
             unless self.geoLocationPlace.nil?
               xml.geoLocation {
                 xml.geoLocationPlace "#{self.geoLocationPlace.gsub(/\r/,"")}"
               }
             end  
+            if self.geospatialType == "point"
+              self.geoLocationPoints.each do |g| 
+                xml.geoLocation {
+                  xml.geoLocationPoint "#{g.lat} #{g.lng}"
+                }
+              end
+            elsif self.geospatialType == "box"
+              xml.geoLocation {
+                xml.geoLocationBox "#{self.geoLocationBox.sw_lat} #{self.geoLocationBox.sw_lng} #{self.geoLocationBox.ne_lat} #{self.geoLocationBox.ne_lng}"
+              }
+            end
           }
-
-          # has_many :geoLocationPoints, :dependent => :destroy
-          # has_one :geoLocationBox, :dependent => :destroy
-          #geoLocationPlace and geoLocationType are record fields
-     
-                
-         #   f.puts "<geoLocations>"
-         #     if !self.geoLocationPlace.nil?
-         #       f.puts "<geoLocation>"
-         #       f.puts "<geoLocationPlace>#{CGI::escapeHTML(self.geoLocationPlace.gsub(/\r/,""))}</geoLocationPlace>"
-         #       f.puts "</geoLocation>"
-         #     end
-         #     if self.geospatialType == "point"
-         #       self.geoLocationPoints.each do |g| 
-         #         f.puts "<geoLocation>"
-         #         f.puts "<geoLocationPoint>"
-         #         f.puts "#{g.lat.gsub(/\r/,"")} #{g.lng.gsub(/\r/,"")}</geoLocationPoint>"
-         #         f.puts "</geoLocation>"
-         #       end
-         #     elsif self.geospatialType == "box"
-         #       f.puts "<geoLocation>"
-         #       f.puts "<geoLocationBox>"
-         #       f.puts "#{g.sw_lat.gsub(/\r/,"")} #{g.sw_lng.gsub(/\r/,"")}"
-         #       f.puts "#{g.ne_lat.gsub(/\r/,"")} #{g.ne_lng.gsub(/\r/,"")}"
-         #       f.puts "</geoLocationBox>"
-         #       f.puts "</geoLocation>"
-         #     end
-         #   f.puts "</geoLocations>"
         end
+        #end geoLocation
 
       }
     end
