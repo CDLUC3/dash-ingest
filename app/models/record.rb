@@ -234,12 +234,12 @@ class Record < ActiveRecord::Base
           }
         }
         xml.descriptions{
-          unless self.abstract.nil?
+          unless self.abstract.blank?
             xml.description("descriptionType" => "Abstract") {
               xml.text("#{self.abstract.gsub(/\r/,"")}")
             }
           end
-          unless self.methods.nil?
+          unless self.methods.blank?
             xml.description("descriptionType" => "Methods") {
               xml.text("#{self.methods.gsub(/\r/,"")}")
             }
@@ -252,9 +252,9 @@ class Record < ActiveRecord::Base
         }
 
         # geoLocation
-        unless self.geospatialType.nil? && self.geoLocationPlace.nil?
+        unless self.geospatialType.blank? && self.geoLocationPlace.blank?
           xml.geoLocations {
-            unless self.geoLocationPlace.nil?
+            unless self.geoLocationPlace.blank?
               xml.geoLocation {
                 xml.geoLocationPlace "#{self.geoLocationPlace.gsub(/\r/,"")}"
               }
