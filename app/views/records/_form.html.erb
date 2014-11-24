@@ -160,6 +160,8 @@
     </div>
 
     <%= f.hidden_field :rights_uri %>
+    
+    <%= render 'geoLocation', :f => f %>
 
     <div class="large-button-container">
       <%= f.submit "Save", :class => "btn btn-large btn-success", :name => "commit", :id => "submit_button" %>
@@ -168,6 +170,7 @@
   <% end %>
 
 </div>
+
 
 
 <script>

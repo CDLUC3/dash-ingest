@@ -44,6 +44,7 @@ class RecordsController < ApplicationController
       @record.subjects.build()
     end
     @record.publisher = @institution.short_name
+
     if @user.institution.short_name == 'DataONE'
       @record.rights = "Creative Commons Public Domain Dedication (CC0)"
       @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
@@ -51,6 +52,7 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
+    @record.build_geoLocationBox
   end
 
   
@@ -76,9 +78,9 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
+    @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     if @record.save
-
 
       unless @user.last_name.nil? || @user.last_name.blank?
         @contributor = Contributor.new(record_id: @record.id,
@@ -151,10 +153,10 @@ class RecordsController < ApplicationController
       @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
       @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
     end
-   
+    @record.build_geoLocationBox if @record.geoLocationBox.blank?
   end
 
-#deletes also one contributor
+
   def delete
     @record = Record.find(params[:id])
     @contributor = Contributor.find_all_by_record_id(@record.id).first
@@ -163,12 +165,9 @@ class RecordsController < ApplicationController
     uploads.each do |u| 
       file_path = "#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{u.record.local_id}"
       if File.exist?("#{file_path}")
-         # FileUtils.rm_rf Dir.glob("#{file_path}/*")
-         # FileUtils.rm_rf("#{file_path}/*")
          FileUtils.remove_dir("#{file_path}")
       end
     end  
-
     @contributor.destroy if @contributor
     @record.destroy
     redirect_to records_path
@@ -199,6 +198,14 @@ class RecordsController < ApplicationController
         @record.subjects.build()
       end
     end
+    
+    # If the user unchecked the box for geographic metadata,
+    #  make geospatialType nil. (Will trigger the destruction
+    #  of the Points/Box for the record.)
+    if params.has_key?(:geospatialType) == false
+      @record.geospatialType = nil
+    end
+    @record.build_geoLocationBox if @record.geoLocationBox.blank?
 
     @record.institution_id = @user.institution_id unless @record.institution_id
 
@@ -262,12 +269,23 @@ class RecordsController < ApplicationController
 
   def record_params
     params.require(:record).permit(
-        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract, 
+        :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract,
+        :geoLocationPlace, :geospatialType,
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-        citations_attributes: [ :id, :record_id, :citationName, :_destroy, :related_id_type, :relation_type],
+        citations_attributes: [ :id, :record_id, :citationName, :_destroy],
         contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
-        descriptions_attributes: [:id, :record_id, :descriptionType, :descriptionText])
+        geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
+        geoLocationBox_attributes: [:id, :record_id, :sw_lat, :sw_lng, :ne_lat, :ne_lng, :_destroy])
+
+# =======
+#         :id, :title, :resourcetype, :publisher, :rights, :rights_uri, :methods, :abstract, 
+#         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
+#         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
+#         citations_attributes: [ :id, :record_id, :citationName, :_destroy, :related_id_type, :relation_type],
+#         contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
+#         descriptions_attributes: [:id, :record_id, :descriptionType, :descriptionText])
+# >>>>>>> development
   end
 
    
@@ -310,9 +328,6 @@ public
     else
       @merritt_response = "PROCESSING"
 
-      # processing of large files can take a long time
-      # so we will handle this in a separate thread
-
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
       Thread.new do
         @record.generate_merritt_zip
@@ -348,9 +363,6 @@ public
         submissionLog.record = @record
         submissionLog.save
       end
-
-      # redirect_to :action => "submission_log", :id=> @record.id   
-      # render :action => "submission_log", :id=> @record.id  
       redirect_to logs_path(@record.id)
     end
 
@@ -382,22 +394,29 @@ public
     @record = Record.find_by_id(params[:id])
   end
 
+
   def terms_of_use
   end
+
 
   def prepare_to_submit
   end
 
+
   def upload_faq_page
   end
+
 
   def metadata_basics
   end
 
+
   def steps_to_publish
   end
 
+
   def data_use_agreement
   end
+
 
 end
