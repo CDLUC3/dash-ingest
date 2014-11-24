@@ -20,7 +20,7 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 # set :branch, 'stage'
 set :branch, 'development'
 #set :branch, 'joel'
-set :branch, 'test3'
+#set :branch, 'test3'
 
 
 # Default deploy_to directory is /var/www/my_app
