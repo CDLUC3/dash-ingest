@@ -12,8 +12,8 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
 
 
-# set :branch, ENV['BRANCH'] || 'master'
-# set  :filter,  :branches => %w{development, stage, master, test3, joel}
+set :branch, ENV['BRANCH'] || 'master'
+set  :filter,  :branches => %w{development, stage, master, test3, joel}
 
 #set :branch, 'master'
 #set  :branch, 'oauth'
