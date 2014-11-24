@@ -11,11 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-<<<<<<< HEAD
-ActiveRecord::Schema.define(:version => 20140930223242) do
-=======
 ActiveRecord::Schema.define(:version => 20141016071845) do
->>>>>>> development
 
   create_table "alternate_identifiers", :force => true do |t|
     t.string   "alternateIdentifierName"
