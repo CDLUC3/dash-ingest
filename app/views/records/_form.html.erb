@@ -2,7 +2,6 @@
 
   <%= form_for @record do |f| %>
     <%= render "shared/errors", :target => @record %>
-    <!-- <%#= render "shared/errors", :target => @creator %> -->
 
     <div class="clear"></div>
     <label for="title">
@@ -192,9 +191,6 @@
         name: 'funders',
         datumTokenizer: function(d) { return d.tokens; },
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        // remote: 'https://dash-kweiss.cdlib.org/funders?descendants=true&q=%QUERY',
-        //remote: 'https://dash-crossref.cdlib.org/funders?descendants=true&q=%QUERY',
-        // remote: 'http://search.crossref.org/funders?descendants=true&q=%QUERY',
         remote: 'https://dash-crossref.cdlib.org/funders?descendants=true&q=%QUERY',
         limit: 16,
         dupDetector: function(r, l) { return false; }
