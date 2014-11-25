@@ -210,12 +210,12 @@ class Record < ActiveRecord::Base
           }
         }
         xml.descriptions{
-          unless self.abstract.nil?
+          unless self.abstract.blank?
             xml.description("descriptionType" => "Abstract") {
               xml.text("#{self.abstract.gsub(/\r/,"")}")
             }
           end
-          unless self.methods.nil?
+          unless self.methods.blank?
             xml.description("descriptionType" => "Methods") {
               xml.text("#{self.methods.gsub(/\r/,"")}")
             }
@@ -239,11 +239,11 @@ class Record < ActiveRecord::Base
 
     @files = self.uploads_list
 
-    content =   "%dataonem_0.1 " + "\n" +
-        "%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
-        "%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
-        "%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
-        "%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
+    content =   "#%dataonem_0.1 " + "\n" +
+        "#%profile | http://uc3.cdlib.org/registry/ingest/manifest/mrt-dataone-manifest " + "\n" +
+        "#%prefix | dom: | http://uc3.cdlib.org/ontology/dataonem " + "\n" +
+        "#%prefix | mrt: | http://uc3.cdlib.org/ontology/mom " + "\n" +
+        "#%fields | dom:scienceMetadataFile | dom:scienceMetadataFormat | " +
         "dom:scienceDataFile | mrt:mimeType " + "\n"
 
     @files.each do |file|
@@ -251,13 +251,13 @@ class Record < ActiveRecord::Base
       if file
 
         content <<    "mrt-datacite.xml | http://schema.datacite.org/meta/kernel-3/metadata.xsd | " +
-            "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.txt | " +
+            "#{file[:name]}" + " | #{file[:type]} " + "\n" + "mrt-dc.xml | " +
             "http://dublincore.org/schemas/xmls/qdc/2008/02/11/qualifieddc.xsd | " +
             "#{file[:name]}" + " | #{file[:type]} " + "\n"
       end
     end
 
-    content << "%eof "
+    content << "#%eof "
 
     File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/dataone.txt", 'w') do |f|
       f.write(content)

@@ -51,6 +51,7 @@ DataIngest::Application.routes.draw do
   match 'login', :to => "login#login"
   match 'login_page', :to => "login#login_page"
   match 'logout_page', :to => "login#logout_page"
+  match 'access_denied', :to => "login#access_denied"
   
   match 'logout', :to => "sessions#destroy"
   

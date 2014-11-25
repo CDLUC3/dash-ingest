@@ -16,7 +16,7 @@ set  :filter,  :branches => %w{development, stage, master, oauth,joel,institutio
 
 #set :branch, 'master'
 #set  :branch, 'oauth'
-# set :branch, 'stage'
+set :branch, 'stage'
 # set :branch, 'development'
 #set :branch, 'joel'
 #set :branch, 'institutions'
