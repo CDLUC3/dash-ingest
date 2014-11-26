@@ -1,8 +1,10 @@
 #require 'spec_helper'
 require 'selenium-webdriver'
 require 'rspec-expectations'
+
+
 include RSpec::Matchers
- 
+
 
 # browser = Selenium::WebDriver.for :chrome
 # browser.get "http://dash-dev.cdlib.org"
@@ -21,12 +23,7 @@ include RSpec::Matchers
 # FollowLink.click
 
 
-# UserName = browser.find_element(:id, "username")
-# UserName.send_keys ""
-# Password = browser.find_element(:id, "password")
-# Password.send_keys ""
 
-# Login = browser.find_element(:class, "button")
 # Login.click
 # #browser.quit
 
@@ -37,6 +34,8 @@ def setup
     :remote,
     url: 'http://localhost:4444/wd/hub',
     desired_capabilities: :chrome) # you can also use :chrome, :safari, firefox, etc.
+  @username = ''
+  @password = ''
 end
 
 def teardown
@@ -50,7 +49,44 @@ def run
 end
 
 run do
-  @driver.get 'https://dash-stg.cdlib.org/'
-  expect(@driver.title).to eq('Dash: Data submission')
-  @driver.find_element(css: '#UC Office of the President').click
+  # @driver.get 'https://dash-stg.cdlib.org/'
+  # @driver.get 'https://dash-stg.cdlib.org/'
+  # expect(@driver.title).to eq('Dash: Data submission')
+  # @driver.get 'https://dash-stg.ucop.edu/'
+  # @driver.get 'https://dash-stg.ucop.edu/'
+  # @driver.find_element(link: 'My Datasets').click
+  # @driver.find_element(id: 'j_username').send_keys "@username"
+  # @driver.find_element(id: 'j_password').send_keys "@password"
+  # @driver.find_element(id: 'Login').click
+
+  @driver.get 'localhost:3000'
+
+  @driver.find_element(id: 'new_record').click
+  @driver.find_element(id: 'record_title').send_keys "test"
+
+
+  drop_down_list = @driver.find_element(id: 'record_resourcetype')
+
+  select_list = Selenium::WebDriver::Support::Select.new(drop_down_list)
+  select_list.select_by(:value, "Collection,Collection")
+
+  # @driver.find_element(id: 'Login').click
+  # @driver.find_element(id: 'Login').click
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -17,6 +17,7 @@ config/database.yml
 config/merritt.yml
 test/fixtures/user_credentials.yml
 spec/support/features/credentials.rb
+spec/features/credentials.rb
 
 ## Environment normalisation:
 /.bundle
