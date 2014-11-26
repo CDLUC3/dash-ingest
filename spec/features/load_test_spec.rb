@@ -50,9 +50,7 @@ end
 
 run do
   # @driver.get 'https://dash-stg.cdlib.org/'
-  # @driver.get 'https://dash-stg.cdlib.org/'
   # expect(@driver.title).to eq('Dash: Data submission')
-  # @driver.get 'https://dash-stg.ucop.edu/'
   # @driver.get 'https://dash-stg.ucop.edu/'
   # @driver.find_element(link: 'My Datasets').click
   # @driver.find_element(id: 'j_username').send_keys "@username"
@@ -70,8 +68,31 @@ run do
   select_list = Selenium::WebDriver::Support::Select.new(drop_down_list)
   select_list.select_by(:value, "Collection,Collection")
 
-  # @driver.find_element(id: 'Login').click
-  # @driver.find_element(id: 'Login').click
+  @driver.find_element(id: 'record_creators_attributes_0_creatorName').send_keys "auth1"
+  @driver.find_element(id: 'save_and_continue').click
+
+  @driver.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
+  
+  filename = 'selenium_test_spec.rb'
+  file = File.join(Dir.pwd, filename)
+  
+  
+  @driver.find_element(id: 'upload_upload').send_keys file
+  
+
+
+# scenario 'uploads file if file is present' , :js => true do 
+#     page.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
+#     file = Rails.root + "app/assets/images/dash_cdl_logo.png"
+#     attach_file('upload_upload', file)
+#     click_on 'start_button'
+#     expect(page).to have_css('#delete_button')
+#     click_on 'submit_button'
+
+#     expect(page).to have_content 'Review Before Submitting'  
+#   end
+
+
 end
 
 
