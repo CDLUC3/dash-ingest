@@ -30,10 +30,14 @@ include RSpec::Matchers
 # Selenium selenium = new DefaultSelenium("localhost", 4444, "*firefox", "https://dash-stg.cdlib.org/")
 
 def setup
-  @driver = Selenium::WebDriver.for(
-    :remote,
-    url: 'http://localhost:4444/wd/hub',
-    desired_capabilities: :chrome) # you can also use :chrome, :safari, firefox, etc.
+  # @driver = Selenium::WebDriver.for(
+  #   :remote,
+  #   url: 'https://dash-stg.cdlib.org/',
+  #   desired_capabilities: :chrome) # you can also use :chrome, :safari, firefox, etc.
+
+  @driver = Selenium::WebDriver.for :chrome
+  @driver.get "http://dash-dev.ucop.edu"
+
   @username = ''
   @password = ''
 end
@@ -49,15 +53,12 @@ def run
 end
 
 run do
-  # @driver.get 'https://dash-stg.cdlib.org/'
-  # expect(@driver.title).to eq('Dash: Data submission')
-  # @driver.get 'https://dash-stg.ucop.edu/'
-  # @driver.find_element(link: 'My Datasets').click
-  # @driver.find_element(id: 'j_username').send_keys "@username"
-  # @driver.find_element(id: 'j_password').send_keys "@password"
-  # @driver.find_element(id: 'Login').click
+  
+  @driver.find_element(link: 'My Datasets').click
+  @driver.find_element(id: 'j_username').send_keys @username
+  @driver.find_element(id: 'j_password').send_keys @password
+  @driver.find_element(id: 'Login').click
 
-  @driver.get 'localhost:3000'
 
   @driver.find_element(id: 'new_record').click
   @driver.find_element(id: 'record_title').send_keys "test"
