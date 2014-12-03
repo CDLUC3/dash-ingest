@@ -1,4 +1,4 @@
-#require 'spec_helper'
+# require 'spec_helper'
 require 'selenium-webdriver'
 require 'rspec-expectations'
 
@@ -6,37 +6,10 @@ require 'rspec-expectations'
 include RSpec::Matchers
 
 
-# browser = Selenium::WebDriver.for :chrome
-# browser.get "http://dash-dev.cdlib.org"
-
-# # Timeout = 15 sec
-# wait = Selenium::WebDriver::Wait.new(:timeout => 5)
-
-# # puts "Test Passed:" if wait.until {
-# #   browser.find_element(:xpath => "/html/body/div/div/section[2]/div[1]/div[1]/a").click
-# #
-# # }
-# CampusLink = browser.find_element(:link, "UC Berkeley")
-# CampusLink.click
-
-# FollowLink  = browser.find_element(:link, "My Datasets")
-# FollowLink.click
-
-
-
-# Login.click
-# #browser.quit
-
-# Selenium selenium = new DefaultSelenium("localhost", 4444, "*firefox", "https://dash-stg.cdlib.org/")
-
 def setup
-  # @driver = Selenium::WebDriver.for(
-  #   :remote,
-  #   url: 'https://dash-stg.cdlib.org/',
-  #   desired_capabilities: :chrome) # you can also use :chrome, :safari, firefox, etc.
 
   @driver = Selenium::WebDriver.for :chrome
-  @driver.get "http://dash-dev.ucop.edu"
+  @driver.get "https://dash-dev.ucop.edu/xtf/search"
 
   @username = ''
   @password = ''
@@ -52,6 +25,12 @@ def run
   teardown
 end
 
+
+def wait_for(seconds)
+  Selenium::WebDriver::Wait.new(timeout: seconds).until { yield }
+end
+
+
 run do
   
   @driver.find_element(link: 'My Datasets').click
@@ -63,7 +42,6 @@ run do
   @driver.find_element(id: 'new_record').click
   @driver.find_element(id: 'record_title').send_keys "test"
 
-
   drop_down_list = @driver.find_element(id: 'record_resourcetype')
 
   select_list = Selenium::WebDriver::Support::Select.new(drop_down_list)
@@ -74,24 +52,21 @@ run do
 
   @driver.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
   
-  filename = 'selenium_test_spec.rb'
-  file = File.join(Dir.pwd, filename)
+  # filename = 'selenium_test_spec.rb'
+  # file = File.join(Dir.pwd, filename)
   
-  
-  @driver.find_element(id: 'upload_upload').send_keys file
+  @driver.find_element(id: 'upload_upload').send_keys "/spec/features/selenium_test_spec.rb"
+  # @driver.find_element(id: 'upload_upload').send_keys "/spec/features/selenium_test_spec.rb"
+
+  @driver.find_element(id: 'start_button').click
+
+  wait_for(10) { @driver.find_element(id: 'delete_button').displayed? }
+
+  @driver.find_element(id: 'submit_button').click
   
 
-
-# scenario 'uploads file if file is present' , :js => true do 
-#     page.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
-#     file = Rails.root + "app/assets/images/dash_cdl_logo.png"
-#     attach_file('upload_upload', file)
-#     click_on 'start_button'
-#     expect(page).to have_css('#delete_button')
-#     click_on 'submit_button'
 
 #     expect(page).to have_content 'Review Before Submitting'  
-#   end
 
 
 end
