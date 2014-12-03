@@ -11,8 +11,10 @@ def setup
   @driver = Selenium::WebDriver.for :chrome
   @driver.get "https://dash-dev.ucop.edu/xtf/search"
 
-  @username = ''
+  users = YAML.load_file("spec/support/features/credentials.yml")
+  @username = users[ucop]
   @password = ''
+
 end
 
 def teardown
