@@ -1,4 +1,4 @@
-require 'spec_helper'
+# require 'spec_helper'
 require 'selenium-webdriver'
 
 browser = Selenium::WebDriver.for :chrome
