@@ -59,6 +59,7 @@ gem 'capistrano', '~> 3.2.1'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
 gem 'exception_notification'
+gem 'google-analytics-rails'
 
 
 
