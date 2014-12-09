@@ -132,23 +132,25 @@
     </script>
 <% end %>
 
-<%= content_tag :div, id: "geoLocPoint", style: point do %>
-  <label for="geoLocationPoint" style="margin: 0 0 0 20px;">
-    Points
-    <a href="#geoPoints_help" name="help_link" class="help_link">
-      <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-    </a>
-  </label>
+<div class="fieldset">
+  <%= content_tag :div, id: "geoLocPoint", style: point do %>
+    <label for="geoLocationPoint" style="margin: 0 0 0 20px;">
+      Points
+      <a href="#geoPoints_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a>
+    </label>
 
-  <fieldset class="geoLocationPoint">
-    <div id="geoLocationPoint" style="margin:0 0 0 20px;">
-      <%= f.fields_for :geoLocationPoints do |point_builder| %>
-        <%= render 'geoLocationPoint_fields', :f => point_builder  %>
-      <% end %>
-      <%= link_to_add_points '+Geographic Point', f, :geoLocationPoints %>
-    </div>
-  </fieldset>
-<% end %>
+    <fieldset class="geoLocationPoint">
+      <div id="geoLocationPoint" style="">
+        <%= f.fields_for :geoLocationPoints do |point_builder| %>
+          <%= render 'geoLocationPoint_fields', :f => point_builder  %>
+        <% end %>
+        <%= link_to_add_points '+Geographic Point', f, :geoLocationPoints %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>
 
 <%= content_tag :div, id: "geoLocBox", style: box do %>
   <label for="geoLocationBox" style="margin: 0 0 0 20px;">

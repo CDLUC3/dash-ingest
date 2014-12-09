@@ -1,8 +1,10 @@
 <%= f.hidden_field "_destroy", class: 'destroyer' %>
 <div class='fields geopoint' id='<%= sanitized_object_name(f.object_name) %>'>
-  <%= f.label :lat -%> <%= f.number_field :lat, :step => 'any', :min => '-90', :max => '90' -%><span class='bigComma'>,</span> <%= f.label :lng -%> <%= f.number_field :lng, :step => 'any', :min => '-180', :max => '180' %>
+  <%= f.label :lat -%> <%= f.number_field :lat, :step => 'any', :min => '-90', :max => '90' -%>
+  <span class='bigComma'>,</span> 
+  <%= f.label :lng -%> <%= f.number_field :lng, :step => 'any', :min => '-180', :max => '180' %>
 
-  <div class="remove_point_field">
+  <div class="remove_point_field" style="margin:10px 5px 15px 335px;">
   <%= link_to(content_tag(:span, "", :class => "icon remove")+ 'Remove', '#', :class => "red remove_fields geopoint") %>
  </div>
 </div>
