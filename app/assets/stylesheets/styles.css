@@ -878,6 +878,10 @@ width: 190px;
 	border-left: 1px solid #999;
 }
 
+.table-not-bordered th, .table-not-bordered td {
+	border-left: none;
+}
+
 .table th:first-child, table td:first-child {
 	border-left: none;
 }

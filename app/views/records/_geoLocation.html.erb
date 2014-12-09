@@ -89,16 +89,12 @@
   </table> -->
 
 
-  <table  style="margin: 15px 10px 35px 25px;">
+  <table  style="margin: 15px 10px 35px 25px;" class="table-not-bordered">
     <tr>
       <td>
         <%= f.label :geospatialType, "Select one or more geographic points:" %>
       </td>
       <td>
-        <%# When geospatialType is "point," hide the Box fields,
-          show the Point fields, and add a Leaflet.draw toolbar
-          with the Marker tool.
-          %>
         <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
       </td>
     <!-- </tr>
