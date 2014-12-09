@@ -61,11 +61,38 @@
       <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
     </a>
   </label>
-  <table>
+  <!-- <table>
+    <tr>
+      <td>
+        <%#= f.label :geospatialType, "Select one or more geographic points:" %>
+      </td>
+      <td>
+        <%# When geospatialType is "point," hide the Box fields,
+          show the Point fields, and add a Leaflet.draw toolbar
+          with the Marker tool.
+          %>
+        <%#= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%#= f.label :geospatialType, "Specify a geographic area:" %>
+      </td>
+      <td>
+        <%# When geospatialType is "box," hide the Point fields,
+          show the Box fields, and add a Leaflet.draw toolbar
+          with the Rectangle tool.
+          %>
+        <%#= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if ($(this).prop('checked') == true) { getDrawTool('box'); } " } %>
+      </td>
+    </tr>
+  </table> -->
+
+
+  <table  style="margin: 15px 10px 35px 25px;">
     <tr>
       <td>
         <%= f.label :geospatialType, "Select one or more geographic points:" %>
-        <%#= f.hidden_field "_destroy", class: 'destroyer' %>
       </td>
       <td>
         <%# When geospatialType is "point," hide the Box fields,
@@ -74,8 +101,8 @@
           %>
         <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
       </td>
-    </tr>
-    <tr>
+    <!-- </tr>
+    <tr> -->
       <td>
         <%= f.label :geospatialType, "Specify a geographic area:" %>
       </td>
@@ -88,6 +115,10 @@
       </td>
     </tr>
   </table>
+
+
+
+
 <% end %>
 
 <%= content_tag :div, id: "map", class: "geospatial", style: geospatialStyle do %>
