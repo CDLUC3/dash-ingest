@@ -10,7 +10,7 @@ include RSpec::Matchers
 
 def setup
 
-  @driver = Selenium::WebDriver.for :chrome
+  @driver = Selenium::WebDriver.for :firefox
   @driver.get "https://dash-dev.ucop.edu/xtf/search"
   @driver.get "localhost:3000/records"
 
@@ -52,7 +52,6 @@ run do
 
   @driver.find_element(id: 'record_creators_attributes_0_creatorName').send_keys "auth1"
   @driver.find_element(id: 'save_and_continue').click
-
   @driver.execute_script("$('span.fileinput-button').removeClass('fileinput-button');")
 
   # @driver.find_element(id: 'upload_upload').click
@@ -61,6 +60,9 @@ run do
 
 
   filename = File.join(File.expand_path(File.dirname(__FILE__)), "selenium-test_spec.rb")
+
+  # @driver.find_element(:xpath, "//*[@id=\"upload_upload\"]").clear
+  # @driver.find_element(:xpath, "//*[@id=\"upload_upload\"]").send_keys filename
 
   puts filename
   
