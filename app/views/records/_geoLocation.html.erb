@@ -1,26 +1,28 @@
 <div class="fieldset">
-  <label for="OCDataPortal">
+  <label for="OCDataPortal" style="margin: 15px 10px 0 25px;">
     Include this data in the OC Data Portal?
     <a href="#OCDataPortal_help" name="help_link" class="help_link">
       <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
     </a>
-  </label>
-  
-  <fieldset class="geoLocationPlace">
-    <%= f.label :geoLocationPlace, "Yes" %>
+  </label>  
+  <!-- <fieldset class="geoLocationPlace">
+    <%#= f.label :geoLocationPlace, "Yes" %>
+    <%#= f.check_box :geoLocationPlace, {}, "Orange County (Calif.)", "false" %>
+  </fieldset> -->
+   <div class="geoLocationPlace" style="margin: 15px 0 0 25px;"> 
     <%= f.check_box :geoLocationPlace, {}, "Orange County (Calif.)", "false" %>
-  </fieldset>
+  </div> 
 </div>
 
 <div class="fieldset">
-  <label for="geoLocation">
+  <label for="geoLocation" style="margin: 15px 10px 0 25px;">
     Is there geographic metadata associated with this record?
     <a href="#geoLocation_help" name="help_link" class="help_link">
       <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
     </a>
   </label>
   
-  <fieldset class="geoLocation">
+  <div class="geoLocation" style="margin: 15px 10px 0 25px;">
     <%# When the form is opened, the geospatial section is shown 
       automatically if the record has a geospatialType. Similarly, 
       the point and box fields are only shown when geospatialType is 
@@ -40,7 +42,7 @@
           <% box = "display: block;" %>
       <% end %>
     <% end %>
-    <label for="geoLocation">Yes</label>
+    <!-- <label for="geoLocation">Yes</label> -->
     <%# Clicking this checkbox will toggle the visibility of the
       geospatial section. If clicking unchecks the box, all fields
       in the section are cleared, as are all map objects.
@@ -49,7 +51,7 @@
       in which "display: none" breaks the loading of tile images.
       %>
     <%= check_box_tag "geoLocation", "true", hasGeo, { onClick: "$('.geospatial').toggle(); if ($(this).prop('checked') == false) { clearGeoData(); } map.invalidateSize(false);" } %>
-  </fieldset>
+  </div>
 </div>
 
 <%= content_tag :div, class: "geospatial", style: geospatialStyle do %>
