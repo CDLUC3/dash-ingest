@@ -1,9 +1,14 @@
 <div class="fieldset">
   <label for="OCDataPortal" style="margin: 15px 15px 0 25px;">
-    Include this data in the OC Data Portal?
-    <a href="#OCDataPortal_help" name="help_link" class="help_link">
-      <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-    </a>
+    <div style="">Include data in the</div>
+    <div style="float:right;">
+      <div style="float:left;margin:0 4px 0 0;"> OC Data Portal? </div>
+      <div style="float:left;text-align:right;">
+        <a href="#OCDataPortal_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </div>
+    </div>
   </label>  
   <!-- <fieldset class="geoLocationPlace">
     <%#= f.label :geoLocationPlace, "Yes" %>
@@ -23,11 +28,6 @@
   </label>
   
   <div class="geoLocation" style="margin: 15px 10px 0 25px;">
-    <%# When the form is opened, the geospatial section is shown 
-      automatically if the record has a geospatialType. Similarly, 
-      the point and box fields are only shown when geospatialType is 
-      "point" or "box" respectively.
-     %>
     <% hasGeo = false %>
     <% geospatialStyle = "display: none;" %>
     <% point = "display: none;" %>
