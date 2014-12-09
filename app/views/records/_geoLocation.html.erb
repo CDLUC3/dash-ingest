@@ -94,10 +94,10 @@
   </table> -->
 
 
-  <table  style="margin: 15px 10px 35px 25px;" class="table-not-bordered">
+  <table  style="" class="table-not-bordered">
     <tr>
       <td>
-        <%= f.label :geospatialType, "Select one or more geographic points:" %>
+        <%= f.label :geospatialType, "Select one or more geographic points:" , style: "text-align:left;" %>
       </td>
       <td>
         <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
@@ -146,7 +146,7 @@
   </label>
 
   <fieldset class="geoLocationPoint">
-    <div id="geoLocationPoint">
+    <div id="geoLocationPoint" style="margin:0 0 0 20px;">
       <%= f.fields_for :geoLocationPoints do |point_builder| %>
         <%= render 'geoLocationPoint_fields', :f => point_builder  %>
       <% end %>

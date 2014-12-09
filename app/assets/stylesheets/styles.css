@@ -880,6 +880,8 @@ width: 190px;
 
 .table-not-bordered th, .table-not-bordered td {
 	border-left: none;
+	margin: 0 0 0 0;
+	text-align: left;
 }
 
 .table th:first-child, table td:first-child {
