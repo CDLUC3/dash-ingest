@@ -55,11 +55,16 @@
 </div>
 
 <%= content_tag :div, class: "geospatial", style: geospatialStyle do %>
-  <label for="geoLocation">
-    Associated Location
-    <a href="#geoLocation_help" name="help_link" class="help_link">
-      <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-    </a>
+  <label for="geoLocation" style="float:left;">
+    <div style="">Associated </div> 
+    <div style="float:right;">
+      <div style="float:left;margin:0 3px 0 0;">Location </div>
+      <div style="float:left;text-align:right;">
+        <a href="#geoLocation_help" name="help_link" class="help_link" >
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </div>
+    </div>
   </label>
   <!-- <table>
     <tr>
