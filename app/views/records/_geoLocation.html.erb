@@ -96,22 +96,17 @@
 
   <table  style="" class="table-not-bordered">
     <tr>
-      <td>
-        <%= f.label :geospatialType, "Select one or more geographic points:" , style: "text-align:left;" %>
+      <td style="margin:10px 0 15px 10px;">
+        <%= f.label :geospatialType, "Select one or more geographic points:" , style: "text-align:left" %>
       </td>
-      <td>
+      <td  style="margin:10px 0 15px 10px;">
         <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
       </td>
-    <!-- </tr>
-    <tr> -->
-      <td>
-        <%= f.label :geospatialType, "Specify a geographic area:" %>
+
+      <td  style="margin:10px 0 15px 10px;">
+        <%= f.label :geospatialType, "Specify a geographic area:", style: "text-align:left;margin:15px 10px 0 15px;" %>
       </td>
-      <td>
-        <%# When geospatialType is "box," hide the Point fields,
-          show the Box fields, and add a Leaflet.draw toolbar
-          with the Rectangle tool.
-          %>
+      <td  style="margin:10px 0 15px 25px;">
         <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if ($(this).prop('checked') == true) { getDrawTool('box'); } " } %>
       </td>
     </tr>
