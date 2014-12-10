@@ -9,9 +9,6 @@ defaults: &DEFAULTS
        
 local:
     uploads_dir: uploads
-    # datashare_cdl_url: "http://dash-dev.cdlib.org"
-    # datashare_ucb_url: "http://dash-dev.berkeley.edu"
-    # datashare_ucla_url: "http://dash-dev.ucla.edu"
     external_identifier: "eppn"
     user_email_from_shibboleth: "mail"
     first_name_from_shibboleth: "givenName"
@@ -20,9 +17,6 @@ local:
 
 development:
     uploads_dir: uploads
-    # datashare_cdl_url: "http://dash-dev.cdlib.org"
-    # datashare_ucb_url: "http://dash-dev.berkeley.edu"
-    # datashare_ucla_url: "http://dash-dev.ucla.edu"
     external_identifier: "eppn"
     user_email_from_shibboleth: "mail"
     first_name_from_shibboleth: "givenName"
@@ -31,9 +25,6 @@ development:
 
 stage:
     uploads_dir: uploads
-    # datashare_cdl_url: "http://dash-stg.cdlib.org"
-    # datashare_ucb_url: "http://dash-stg.berkeley.edu"
-    # datashare_ucla_url: "http://dash-stg.ucla.edu"
     external_identifier: "eppn"
     user_email_from_shibboleth: "mail"
     first_name_from_shibboleth: "givenName"
@@ -43,9 +34,6 @@ stage:
     
 test:
     uploads_dir: test_uploads
-    # datashare_cdl_url: "http://dash-dev.cdlib.org"
-    # datashare_ucb_url: "http://dash-dev.berkeley.edu"
-    # datashare_ucla_url: "http://dash-dev.ucla.edu"
     external_identifier: "eppn"
     user_email_from_shibboleth: "mail"
     first_name_from_shibboleth: "givenName"
@@ -54,9 +42,6 @@ test:
 
 production:
     uploads_dir: uploads
-    # datashare_cdl_url: "http://dash-stg.cdlib.org"
-    # datashare_ucb_url: "http://dash-stg.berkeley.edu"
-    # datashare_ucla_url: "http://dash-stg.ucla.edu"
     external_identifier: "eppn"
     user_email_from_shibboleth: "mail"
     first_name_from_shibboleth: "givenName"

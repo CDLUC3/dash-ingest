@@ -24,8 +24,8 @@ test:
 
 development:
   #The host for the shibboleth sp process
-  host: dash-dev
-  ucla-host: dev.dash
+  host: dash-dev2
+  ucla-host: dev2.dash
   # fields to retrieve from the auth header
   uid_field: eppn
   info_fields:
