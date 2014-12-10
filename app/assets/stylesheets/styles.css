@@ -880,7 +880,7 @@ width: 190px;
 
 .table-not-bordered th, .table-not-bordered td {
 	border-left: none;
-	margin: 0 0 0 0;
+	margin: 0 0 25px 0;
 	text-align: left;
 }
 

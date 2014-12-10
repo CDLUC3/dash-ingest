@@ -66,33 +66,6 @@
       </div>
     </div>
   </label>
-  <!-- <table>
-    <tr>
-      <td>
-        <%#= f.label :geospatialType, "Select one or more geographic points:" %>
-      </td>
-      <td>
-        <%# When geospatialType is "point," hide the Box fields,
-          show the Point fields, and add a Leaflet.draw toolbar
-          with the Marker tool.
-          %>
-        <%#= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%#= f.label :geospatialType, "Specify a geographic area:" %>
-      </td>
-      <td>
-        <%# When geospatialType is "box," hide the Point fields,
-          show the Box fields, and add a Leaflet.draw toolbar
-          with the Rectangle tool.
-          %>
-        <%#= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if ($(this).prop('checked') == true) { getDrawTool('box'); } " } %>
-      </td>
-    </tr>
-  </table> -->
-
 
   <table  style="" class="table-not-bordered">
     <tr>
@@ -112,25 +85,24 @@
     </tr>
   </table>
 
-
-
-
 <% end %>
 
-<%= content_tag :div, id: "map", class: "geospatial", style: geospatialStyle do %>
-    <script>
-      initMap();
-      <%# If the record has a geospatialType, then load the
-        appropriate Leaflet.draw toolbar.
-        %>
-      <% case @record.geospatialType %>
-        <% when "point" %>
-          getDrawTool('point');
-        <% when "box" %>
-          getDrawTool('box');
-      <% end %>
-    </script>
-<% end %>
+<div style="margin-top:35px;">
+  <%= content_tag :div, id: "map", class: "geospatial", style: geospatialStyle do %>
+      <script>
+        initMap();
+        <%# If the record has a geospatialType, then load the
+          appropriate Leaflet.draw toolbar.
+          %>
+        <% case @record.geospatialType %>
+          <% when "point" %>
+            getDrawTool('point');
+          <% when "box" %>
+            getDrawTool('box');
+        <% end %>
+      </script>
+  <% end %>
+</div>
 
 <div class="fieldset">
   <%= content_tag :div, id: "geoLocPoint", style: point do %>
@@ -146,7 +118,7 @@
         <%= f.fields_for :geoLocationPoints do |point_builder| %>
           <%= render 'geoLocationPoint_fields', :f => point_builder  %>
         <% end %>
-        <div style="margin: 0 0 0 20px;">
+        <div style="margin: 0 0 20px 20px;">
           <%= link_to_add_points '+Geographic Point', f, :geoLocationPoints %>
         </div>
       </div>
@@ -154,23 +126,25 @@
   <% end %>
 </div>
 
-<%= content_tag :div, id: "geoLocBox", style: box do %>
-  <label for="geoLocationBox" style="margin: 0 0 0 20px;">
-    Box
-    <a href="#geoBox_help" name="help_link" class="help_link">
-      <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
-    </a>
-  </label>
+<div style="margin: -25px 0 30px 0;">
+  <%= content_tag :div, id: "geoLocBox", style: box do %>
+    <label for="geoLocationBox" style="margin: 0 0 0 20px;">
+      Box
+      <a href="#geoBox_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a>
+    </label>
 
-  <fieldset class="geoLocationBox">
-    <div id="geoLocationBox" >
-      <%= f.fields_for :geoLocationBox do |box_builder| %>
-        <%= box_builder.hidden_field "_destroy", class: 'destroyer' %>
-        <div class ='fields'>
-          <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180' %>
-          <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180' %>
-        </div>
-      <% end %>
-    </div>
-  </fieldset>
-<% end %>
+    <fieldset class="geoLocationBox">
+      <div id="geoLocationBox" >
+        <%= f.fields_for :geoLocationBox do |box_builder| %>
+          <%= box_builder.hidden_field "_destroy", class: 'destroyer' %>
+          <div class ='fields'>
+            <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180' %>
+            <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180' %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>
