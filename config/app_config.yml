@@ -10,16 +10,14 @@ local:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-dev
-  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
-  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
+  client_id:              395059284700-3bt120tssk8vau4sfm9cb9d4ctifab32.apps.googleusercontent.com
+  client_secret:          USZ3KqtmuqwWUL90AgT7F439
 
 
 development:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-dev
-  #client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
-  #client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
   client_id:              395059284700-3bt120tssk8vau4sfm9cb9d4ctifab32.apps.googleusercontent.com
   client_secret:          USZ3KqtmuqwWUL90AgT7F439
 
@@ -27,17 +25,16 @@ stage:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash-stg
-  client_id:              1021331243981-9ulb2rqptkrpb3flhboemrq0ctup8f6v.apps.googleusercontent.com
-  client_secret:          6g5f5PfPGz7Cw7sTEI1Bczrz
+  client_id:              18187250368-7eddsv9k8bn4mhh8kdo7t8g75uhuooo9.apps.googleusercontent.com
+  client_secret:          z3RAasfO-7jsNYRm6Fd3W5su
+  google_analytics_key:   UA-30638119-13
 
 production:
   feedback_email_to:      [uc3@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
   root_url:               http://dash
-  client_id:              97385814132-omb3h8so0fhsb82lr7klerm9pl8mr8is.apps.googleusercontent.com
-  client_secret:          TavWNTcyVkl3hUm8kvkKNGo0
-
-
+  client_id:              68997685259-putqitkba0a0a9so0a6gvcaprr5ek0sj.apps.googleusercontent.com
+  client_secret:          T90gJ-gAIXfiyYoKcoG7zSOF
 
 
 
@@ -47,10 +44,15 @@ campus_emails:
   ucla:       data@library.ucla.edu
   ucsd:       unknown@unknown.com
   ucsb:       unknown@unknown.com
-  ucb:        webman@library.berkeley.edu
+  ucb:        data-consult@lists.berkeley.edu
   ucd:        unknown@unknown.com
   ucm:        curation@ucmerced.edu
   ucr:        unknown@unknown.com
   ucsf:       unknown@unknown.com
-  ucsc:       unknown@unknown.com
+  ucsc:       scer@library.ucsc.edu
+  dataone:    uc3@ucop.edu
+  lbnl:       help@lbl.gov
   unknown:    unknown@unknown.com
+
+
+

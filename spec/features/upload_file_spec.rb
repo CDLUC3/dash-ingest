@@ -58,7 +58,7 @@ feature 'user uploads file' do
     click_on 'start_button'
     expect(page).to have_css('#delete_button')
     click_on 'submit_button'
-
+    
     expect(page).to have_content 'Review Before Submitting'  
   end
 

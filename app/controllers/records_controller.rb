@@ -122,6 +122,7 @@ class RecordsController < ApplicationController
 
 
   def edit
+
     @user = current_user
     @record = Record.find(params[:id])
     @description = @record.grant_number
