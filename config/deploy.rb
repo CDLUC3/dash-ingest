@@ -14,11 +14,11 @@ set :repo_url,  'git@github.com:CDLUC3/dash-ingest.git'
 
 
 set :branch, ENV['BRANCH'] || 'master'
-set  :filter,  :branches => %w{development, stage, master, oauth,joel,institutions}
+set  :filter,  :branches => %w{uci_development, development, stage, master, oauth,joel,institutions}
 
 #set :branch, 'master'
 #set  :branch, 'oauth'
-set :branch, 'development'
+set :branch, 'uci_development'
 
 
 
