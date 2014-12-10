@@ -18,8 +18,11 @@
 	<div id="project_links">
 		<ul>
 			<%if current_user %>
-				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), root_path %>
-				</li>
+			<%#if current_user.institution.abbreviation == "Irvine" %>
+					<li><%= link_to ("OC Data Portal"), " http://dash-dev.lib.uci.edu/xtf/search?smode=orangecounty-home" %></li> 
+				<%#end%>
+				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), root_path %></li>
+				
 				<li><%= link_to "Logout" , logout_path %></li>
 			<%else%>
 				<li></li>
