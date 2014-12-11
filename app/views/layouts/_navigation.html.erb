@@ -19,7 +19,9 @@
 		<ul>
 			<%if current_user %>
 			<%#if current_user.institution.abbreviation == "Irvine" %>
-					<li><%= link_to ("OC Data Portal"), " http://dash-dev.lib.uci.edu/xtf/search?smode=orangecounty-home" %></li> 
+			
+					<li><%= link_to ("OC Data Portal"),"/xtf/search?smode=orangecounty-home"%></li>
+					
 				<%#end%>
 				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), root_path %></li>
 				
