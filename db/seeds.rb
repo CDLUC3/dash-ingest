@@ -108,7 +108,7 @@ institution_list = [
     'urn:mace:incommon:ucsc.edu',
     'ucsc.edu'],
 
-  ['Irvine',
+  ['UCI',
   	'UC Irvine',
   	'University of California, Irvine',
   	'.uci.edu',
