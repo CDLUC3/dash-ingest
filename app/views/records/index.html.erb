@@ -25,7 +25,12 @@
                 <th class="data-title">Title</th>
                 <th class="data-publisher">Publisher</th>
                 <th class="data-year">Publication Year</th>
-                <th class="data-action">Action</th>
+                <th class="data-action">
+                  Action
+                  <a href="#delete_link_help" name="help_link" class="help_link">
+                    <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+                  </a>
+                </th>
               </tr>
               <% @records.each do |record| %>
                   <tr>
@@ -42,6 +47,7 @@
                       <% if ENV["RAILS_ENV"] == "local" %>
                       
                         <%= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
+          
                       <% else %>
                     
                         <%= link_to_if(!@submitted, "Delete", "/record/#{record.id}/delete", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?") %> |
@@ -71,6 +77,11 @@
     </div> <!-- end inner container -->
   </div> <!-- end outer container -->
 </div> <!-- end page -->
+
+<div id="delete_link_help" class="help_window">
+  <h2>Delete a Dataset</h2>
+  <p>To be defined.</p>
+</div>
 
 
 
