@@ -15,11 +15,6 @@ set :branch, ENV['BRANCH'] || 'master'
 set  :filter,  :branches => %w{development, stage, master, oauth,joel,institutions}
 
 set :branch, 'master'
-#set  :branch, 'oauth'
-#set :branch, 'stage'
-# set :branch, 'development'
-#set :branch, 'joel'
-#set :branch, 'institutions'
 
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'

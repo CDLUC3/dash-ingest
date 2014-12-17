@@ -17,7 +17,7 @@ local:
 development:
   feedback_email_to:      [shirin.faenza@ucop.edu, perry.willett@ucop.edu, mstrong@ucop.edu]
   feedback_email_from:    no-reply-dash@ucop.edu
-  root_url:               http://dash-dev
+  root_url:               http://dash-dev2
   client_id:              395059284700-3bt120tssk8vau4sfm9cb9d4ctifab32.apps.googleusercontent.com
   client_secret:          USZ3KqtmuqwWUL90AgT7F439
 
@@ -27,6 +27,7 @@ stage:
   root_url:               http://dash-stg
   client_id:              18187250368-7eddsv9k8bn4mhh8kdo7t8g75uhuooo9.apps.googleusercontent.com
   client_secret:          z3RAasfO-7jsNYRm6Fd3W5su
+  google_analytics_key:   UA-30638119-13
 
 production:
   feedback_email_to:      [uc3@ucop.edu]
