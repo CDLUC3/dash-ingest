@@ -28,8 +28,11 @@
                 <th class="data-action">
                   Action
                   <a href="#delete_link_help" name="help_link" class="help_link">
-                    <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+                    <%= image_tag "help-icon.png",  
+                       :title => "Click for additional help", 
+                       :alt => "Click for additional help" %>
                   </a>
+                  
                 </th>
               </tr>
               <% @records.each do |record| %>
