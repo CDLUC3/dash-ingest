@@ -25,7 +25,15 @@
                 <th class="data-title">Title</th>
                 <th class="data-publisher">Publisher</th>
                 <th class="data-year">Publication Year</th>
-                <th class="data-action">Action</th>
+                <th class="data-action">
+                  Action
+                  <a href="#delete_link_help" name="help_link" class="help_link">
+                    <%= image_tag "help-icon.png",  
+                       :title => "Click for additional help", 
+                       :alt => "Click for additional help" %>
+                  </a>
+                  
+                </th>
               </tr>
               <% @records.each do |record| %>
                   <tr>
@@ -42,6 +50,7 @@
                       <% if ENV["RAILS_ENV"] == "local" %>
                       
                         <%= link_to "Delete", "/record/#{record.id}/delete ", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?" %> |
+          
                       <% else %>
                     
                         <%= link_to_if(!@submitted, "Delete", "/record/#{record.id}/delete", :confirm => "This action will delete all metadata and remove all associated file uploads.  Confirm delete?") %> |
@@ -71,6 +80,12 @@
     </div> <!-- end inner container -->
   </div> <!-- end outer container -->
 </div> <!-- end page -->
+
+<div id="delete_link_help" class="help_window">
+  <p>Click edit to edit your dataset. You can modify datasets, both those that have been and have not been submitted.</p>
+  <p>Click delete to delete your dataset. Once your dataset has been submitted, you can no longer delete your dataset.</p>
+  <p>Click Log to view the submission log for your dataset.</p>
+</div>
 
 
 
