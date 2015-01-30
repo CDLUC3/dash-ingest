@@ -35,7 +35,7 @@ class Record < ActiveRecord::Base
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
-  validates_presence_of :creators, :message => "^You must add at least one creator."
+  validates_presence_of :creators, :message => "^You must add at least one author."
 
   before_save :mark_subjects_for_destruction,
               :mark_citations_for_destruction,
@@ -61,7 +61,7 @@ class Record < ActiveRecord::Base
   def must_have_creators
     valid = 0
     if creators.nil?
-      errors.add(:base, 'You must add at least one creator.')
+      errors.add(:base, 'You must add at least one author.')
     else
       creators.each do |creator|
         if !creator.creatorName.blank?
@@ -69,7 +69,7 @@ class Record < ActiveRecord::Base
         end
       end
       if valid == 0
-        errors.add(:base, 'You must add at least one creator.')
+        errors.add(:base, 'You must add at least one author.')
       end
     end
   end
