@@ -1,0 +1,150 @@
+<div class="fieldset">
+  <label for="OCDataPortal" style="margin: 15px 15px 0 25px;">
+    <div style="">Include data in the</div>
+    <div style="float:right;">
+      <div style="float:left;margin:0 4px 0 0;"> OC Data Portal? </div>
+      <div style="float:left;text-align:right;">
+        <a href="#OCDataPortal_help" name="help_link" class="help_link">
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </div>
+    </div>
+  </label>  
+  <!-- <fieldset class="geoLocationPlace">
+    <%#= f.label :geoLocationPlace, "Yes" %>
+    <%#= f.check_box :geoLocationPlace, {}, "Orange County (Calif.)", "false" %>
+  </fieldset> -->
+   <div class="geoLocationPlace" style="margin: 15px 0 0 25px;"> 
+    <%= f.check_box :geoLocationPlace, {}, "Orange County (Calif.)", "false" %>
+  </div> 
+</div>
+
+<div class="fieldset">
+  <label for="geoLocation" style="margin: 15px 15px 0 25px;">
+    Is there geographic metadata associated with this record?
+    <a href="#geoLocation_help" name="help_link" class="help_link">
+      <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+    </a>
+  </label>
+  
+  <div class="geoLocation" style="margin: 15px 10px 0 25px;">
+    <% hasGeo = false %>
+    <% geospatialStyle = "display: none;" %>
+    <% point = "display: none;" %>
+    <% box = "display: none;" %>
+    <% if !@record.geospatialType.blank? %>
+      <% hasGeo = true %>
+      <% geospatialStyle = "display: block;" %>
+      <% case @record.geospatialType %>
+        <% when "point" %>
+          <% point = "display: block;" %>
+        <% when "box" %>
+          <% box = "display: block;" %>
+      <% end %>
+    <% end %>
+    <!-- <label for="geoLocation">Yes</label> -->
+    <%# Clicking this checkbox will toggle the visibility of the
+      geospatial section. If clicking unchecks the box, all fields
+      in the section are cleared, as are all map objects.
+      %>
+    <%# "map.invalidateSize(false)" fixes a known Leaflet bug in
+      in which "display: none" breaks the loading of tile images.
+      %>
+    <%= check_box_tag "geoLocation", "true", hasGeo, { onClick: "$('.geospatial').toggle(); if ($(this).prop('checked') == false) { clearGeoData(); } map.invalidateSize(false);" } %>
+  </div>
+</div>
+
+<%= content_tag :div, class: "geospatial", style: geospatialStyle do %>
+  <label for="geoLocation" style="float:left;margin: 15px 15px 0 25px;">
+    <div style="">Associated </div> 
+    <div style="float:right;">
+      <div style="float:left;margin:0 3px 0 0;">Location </div>
+      <div style="float:left;text-align:right;">
+        <a href="#geoInstruct_help" name="help_link" class="help_link" >
+          <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+        </a>
+      </div>
+    </div>
+  </label>
+
+  <table  style="" class="table-not-bordered">
+    <tr>
+      <td style="margin:10px 0 15px 10px;">
+        <%= f.label :geospatialType, "Select one or more geographic points:" , style: "text-align:left" %>
+      </td>
+      <td  style="margin:10px 0 15px 10px;">
+        <%= f.radio_button :geospatialType, "point", { onClick: "$('#geoLocPoint').show(); $('#geoLocBox').hide(); if ($(this).prop('checked')) { getDrawTool('point'); }" } %>
+      </td>
+
+      <td  style="margin:10px 0 15px 10px;">
+        <%= f.label :geospatialType, "Specify a geographic area:", style: "text-align:left;margin:15px 10px 0 15px;" %>
+      </td>
+      <td  style="margin:10px 0 15px 25px;">
+        <%= f.radio_button :geospatialType, "box", { onClick: "$('#geoLocPoint').hide(); $('#geoLocBox').show(); if ($(this).prop('checked') == true) { getDrawTool('box'); } " } %>
+      </td>
+    </tr>
+  </table>
+
+<% end %>
+
+<div style="margin-top:35px;">
+  <%= content_tag :div, id: "map", class: "geospatial", style: geospatialStyle do %>
+      <script>
+        initMap();
+        <%# If the record has a geospatialType, then load the
+          appropriate Leaflet.draw toolbar.
+          %>
+        <% case @record.geospatialType %>
+          <% when "point" %>
+            getDrawTool('point');
+          <% when "box" %>
+            getDrawTool('box');
+        <% end %>
+      </script>
+  <% end %>
+</div>
+
+<div class="fieldset">
+  <%= content_tag :div, id: "geoLocPoint", style: point do %>
+    <label for="geoLocationPoint" style="margin: 0 0 0 20px;">
+      Points
+      <!-- <a href="#geoPoints_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a> -->
+    </label>
+
+    <fieldset class="geoLocationPoint">
+      <div id="geoLocationPoint" style="">
+        <%= f.fields_for :geoLocationPoints do |point_builder| %>
+          <%= render 'geoLocationPoint_fields', :f => point_builder  %>
+        <% end %>
+        <div style="margin: 0 0 20px 20px;">
+          <%= link_to_add_points '+Geographic Point', f, :geoLocationPoints %>
+        </div>
+      </div>
+    </fieldset>
+  <% end %>
+</div>
+
+<div style="margin: -25px 0 30px 0;">
+  <%= content_tag :div, id: "geoLocBox", style: box do %>
+    <label for="geoLocationBox" style="margin: 0 0 0 20px;">
+      Box
+      <!-- <a href="#geoBox_help" name="help_link" class="help_link">
+        <img src="/images/help-icon.jpg" alt="Click for additional help" title="Click for additional help"/>
+      </a> -->
+    </label>
+
+    <fieldset class="geoLocationBox">
+      <div id="geoLocationBox" >
+        <%= f.fields_for :geoLocationBox do |box_builder| %>
+          <%= box_builder.hidden_field "_destroy", class: 'destroyer' %>
+          <div class ='fields'>
+            <%= box_builder.label :sw_lat -%> <%= box_builder.number_field :sw_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :sw_lng -%> <%= box_builder.number_field :sw_lng, :step => 'any', :min => '-180', :max => '180' %>
+            <%= box_builder.label :ne_lat -%> <%= box_builder.number_field :ne_lat, :step => 'any', :min => '-90', :max => '90' -%>, <%= box_builder.label :ne_lng -%> <%= box_builder.number_field :ne_lng, :step => 'any', :min => '-180', :max => '180' %>
+          </div>
+        <% end %>
+      </div>
+    </fieldset>
+  <% end %>
+</div>

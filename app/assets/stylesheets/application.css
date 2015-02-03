@@ -12,4 +12,7 @@
  *= require jquery.fileupload-ui
  *= require_tree .
  *= require bootstrap_and_overrides
+ *= require leaflet.css
+ *= require leaflet-map.css
+ *= require leaflet.draw.css
  */

@@ -298,6 +298,10 @@ nav a {
 	border-right: 1px solid #fff;
 }
 
+#oc_data_portal {
+	border-right: 1px solid #fff;
+}
+
 #project_links {
 	float: right;
 }
@@ -876,6 +880,12 @@ width: 190px;
 
 .table th, table td {
 	border-left: 1px solid #999;
+}
+
+.table-not-bordered th, .table-not-bordered td {
+	border-left: none;
+	margin: 0 0 25px 0;
+	text-align: left;
 }
 
 .table th:first-child, table td:first-child {
