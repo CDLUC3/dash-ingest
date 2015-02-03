@@ -159,8 +159,11 @@
     </div>
 
     <%= f.hidden_field :rights_uri %>
+
+    <%if current_user.institution.abbreviation == 'UCI'%>
     
-    <%= render 'geoLocation', :f => f %>
+      <%= render 'geoLocation', :f => f %>
+    <%end%>
 
     <div class="large-button-container"  style="margin: 0 0 0 180px;">
       <%= f.submit "Save", :class => "btn btn-large btn-success", :name => "commit", :id => "submit_button" %>
