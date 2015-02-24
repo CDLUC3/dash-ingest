@@ -21,7 +21,7 @@
 				
 				<li><%= link_to ("#{current_user.institution.abbreviation} Dash"), root_path %></li>		
 					
-				<%if current_user.institution.abbreviation == "UCI" %>
+				<%if current_user.institution.campus == "uci" %>
 					<li  id="oc_data_portal"><%= link_to ("OC Data Portal"),"/xtf/search?smode=orangecounty-home"%></li>
 				<%end%>
 				<li><%= link_to "Logout" , logout_path %></li>
