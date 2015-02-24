@@ -160,7 +160,7 @@
 
     <%= f.hidden_field :rights_uri %>
 
-    <%if current_user.institution.abbreviation == 'UCI'%>
+    <%if current_user.institution.campus == 'uci'%>
     
       <%= render 'geoLocation', :f => f %>
     <%end%>
