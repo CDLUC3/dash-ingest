@@ -15,6 +15,10 @@ class Record < ActiveRecord::Base
   has_many :uploads,   :dependent => :destroy
   has_many :citations, :dependent => :destroy
 
+  has_many :geoLocationPoints, :dependent => :destroy
+  has_one :geoLocationBox, :dependent => :destroy
+ 
+
   attr_accessor :funder
   attr_accessor :grant_number
   attr_accessor :suborg
@@ -35,7 +39,7 @@ class Record < ActiveRecord::Base
   validates_presence_of :resourcetype, :message => "^Please specify the data type."
   validates_presence_of :rights, :message => "^Please specify the rights."
   validates_presence_of :rights_uri, :message => "^Please specify the rights URI."
-  validates_presence_of :creators, :message => "^You must add at least one creator."
+  validates_presence_of :creators, :message => "^You must add at least one author."
 
   before_save :mark_subjects_for_destruction,
               :mark_citations_for_destruction,
@@ -57,11 +61,21 @@ class Record < ActiveRecord::Base
   attr_accessible :descriptions_attributes
 
 
+  attr_accessible :geoLocationPlace, :geospatialType
+  accepts_nested_attributes_for :geoLocationPoints, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :geoLocationPoints_attributes
+  accepts_nested_attributes_for :geoLocationBox, allow_destroy: true, reject_if: proc { |attributes| attributes.all? { |key, value| key == '_destroy' || value.blank? } }
+  attr_accessible :geoLocationBox_attributes
+  before_validation :mark_points_for_destruction, :mark_box_for_destruction
+  validate :geoLocationBox if :geospatialType == 'box'
+  validates_associated :geoLocationPoints if :geospatialType == 'point'
+
+
 
   def must_have_creators
     valid = 0
     if creators.nil?
-      errors.add(:base, 'You must add at least one creator.')
+      errors.add(:base, 'You must add at least one author.')
     else
       creators.each do |creator|
         if !creator.creatorName.blank?
@@ -69,7 +83,7 @@ class Record < ActiveRecord::Base
         end
       end
       if valid == 0
-        errors.add(:base, 'You must add at least one creator.')
+        errors.add(:base, 'You must add at least one author.')
       end
     end
   end
@@ -115,7 +129,20 @@ class Record < ActiveRecord::Base
       end
     }
   end
-
+  
+  def mark_points_for_destruction
+    geoLocationPoints.each {|geoLocationPoint|
+      if geospatialType != 'point' || geoLocationPoint.lat.blank? || geoLocationPoint.lng.blank?
+        geoLocationPoint.mark_for_destruction
+      end
+    }
+  end
+  
+  def mark_box_for_destruction
+    if geospatialType != 'box'  || geoLocationBox.sw_lat.blank? || geoLocationBox.sw_lng.blank? || geoLocationBox.ne_lat.blank? || geoLocationBox.ne_lng.blank?
+      geoLocationBox.mark_for_destruction
+    end
+  end
 
   def set_local_id
     self.local_id = (0...10).map{ ('a'..'z').to_a[rand(26)] }.join
@@ -173,7 +200,6 @@ class Record < ActiveRecord::Base
             xml.subject "#{s.subjectName.gsub(/\r/,"")}"
           end
         }
-
         unless @data_manager_name.blank? && @funder_name.blank?
           xml.contributors {
             unless @data_manager_name.blank?
@@ -188,7 +214,6 @@ class Record < ActiveRecord::Base
             end
           }
         end
-
         xml.relatedIdentifiers {
           self.citations.each do |c|
             xml.relatedIdentifier("relatedIdentifierType" => "#{c.related_id_type}",
@@ -197,7 +222,6 @@ class Record < ActiveRecord::Base
             }
           end
         }
-
         xml.resourceType("resourceTypeGeneral" => "#{resourceTypeGeneral(self.resourcetype)}") {
           xml.text("#{resourceTypeGeneral(self.resourcetype)}")
         }
@@ -226,8 +250,33 @@ class Record < ActiveRecord::Base
             }
           end
         }
+
+        # geoLocation
+        unless self.geospatialType.blank? && self.geoLocationPlace.blank?
+          xml.geoLocations {
+            unless self.geoLocationPlace.blank?
+              xml.geoLocation {
+                xml.geoLocationPlace "#{self.geoLocationPlace.gsub(/\r/,"")}"
+              }
+            end  
+            if self.geospatialType == "point"
+              self.geoLocationPoints.each do |g| 
+                xml.geoLocation {
+                  xml.geoLocationPoint "#{g.lat} #{g.lng}"
+                }
+              end
+            elsif self.geospatialType == "box"
+              xml.geoLocation {
+                xml.geoLocationBox "#{self.geoLocationBox.sw_lat} #{self.geoLocationBox.sw_lng} #{self.geoLocationBox.ne_lat} #{self.geoLocationBox.ne_lng}"
+              }
+            end
+          }
+        end
+        #end geoLocation
+
       }
     end
+
     f = File.open("#{Rails.root}/#{DATASHARE_CONFIG['uploads_dir']}/#{self.local_id}/datacite.xml", 'w') { |f| f.print(builder.to_xml) }
     puts builder.to_xml.to_s
     builder.to_xml.to_s
@@ -293,23 +342,6 @@ class Record < ActiveRecord::Base
     end
     files
   end
-
-
-  # def file_already_submitted
-  #   current_uploads = Upload.find_all_by_record_id(self.id)
-    
-  #   current_uploads.each do |u|
-  #     unless u[:upload_file_name].include?(arch.upload_file_name)
-  #       files.push(hash)
-  #     end
-  #   end
-  #   # for i in 0..(size - 1)
-  #   #   if current_uploads[i][:upload_file_name].include?(arch.upload_file_name)
-  #   #     return true
-  #   #   end
-  #   # end
-  #   return false
-  # end
 
 
   def dublincore
@@ -440,7 +472,6 @@ class Record < ActiveRecord::Base
       f.write self.dataone
     end
 
-    
 
     Zip::ZipFile.open(zipfile_name, Zip::ZipFile::CREATE) do |zipfile|
       zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
@@ -493,8 +524,7 @@ class Record < ActiveRecord::Base
     # note that the 2>&1 is to redirect sterr to stout
 
     @user = User.find_by_external_id(external_id)
-    #@user = User.find(session[:user_id])
-
+    
     if @user
       @user_email = @user.email
     else
@@ -587,6 +617,11 @@ class Record < ActiveRecord::Base
       fields << ", " unless fields.empty?
       fields << "citations"
     end
+
+    # if self.geospatialType == "" || self.geospatialType.nil?
+      #   fields << ", " unless fields.empty?
+      #   fields << "geographic metadata"
+    # end
 
     unless fields.empty?
       fields << "."

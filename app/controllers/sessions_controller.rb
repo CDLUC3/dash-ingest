@@ -52,6 +52,7 @@ class SessionsController < ApplicationController
       
       @institution = institution
       session['institution_id']= @institution.id
+      uri = URI(request.base_url)
 
       if !@institution.shib_entity_domain.blank?
         domain = @institution.shib_entity_domain
@@ -83,6 +84,7 @@ class SessionsController < ApplicationController
         return i
       end
     end 
+    nil
   end
 
 

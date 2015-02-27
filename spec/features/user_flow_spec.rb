@@ -53,7 +53,7 @@ feature 'user' do
   	
   	expect(page).to have_content "Please specify the data type."
   	expect(page).to have_content "You must include a title for your submission."
-  	expect(page).to have_content "You must add at least one creator."
+  	expect(page).to have_content "You must add at least one author."
 	end
 
 

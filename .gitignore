@@ -21,6 +21,7 @@ test/fixtures/user_credentials.yml
 spec/support/features/credentials.rb
 spec/support/features/credentials.yml
 spec/features/credentials.rb
+spec/features/credentials.yml
 
 
 ## Environment normalisation:
@@ -43,3 +44,4 @@ test_uploads/
 config.codekit
 commands  
 *.DS_Store
+*~
