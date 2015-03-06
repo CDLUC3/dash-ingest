@@ -5,7 +5,9 @@ ruby '2.1.2'
 gem 'rails', '3.2.19'
 
 gem 'mysql2'
-gem 'rubyzip',  "~> 0.9.9"
+#gem 'rubyzip',  "~> 0.9.9"
+gem 'rubyzip',  "~> 1.1.7"
+gem 'zip-zip' # will load compatibility for old rubyzip API.
 
 group :development, :local do
   
@@ -25,7 +27,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails'
-  gem 'selenium-webdriver', '~> 2.35.1'
+  gem 'selenium-webdriver'
   gem 'chromedriver-helper'
 end
 
@@ -50,7 +52,7 @@ gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
 gem 'strong_parameters'
 gem "omniauth-google-oauth2", "~> 0.2.1"
-gem "omniauth-shibboleth" ,  :git => "https://bitbucket.org/cdl/omniauth-shibboleth", :branch=>'master'
+gem "omniauth-shibboleth" ,  "~> 1.0.8"#:git => "https://bitbucket.org/cdl/omniauth-shibboleth", :branch=>'master'
 gem 'unicorn'
 gem 'carrierwave'
 gem 'custom_error_message'
