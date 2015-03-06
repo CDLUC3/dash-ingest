@@ -14,12 +14,12 @@ class SessionsController < ApplicationController
         logger.info  "INS  #{@institution.inspect}"
       end
     end
-
-    session[:institution_id] = @institution.id
     
     if ENV["RAILS_ENV"] == "local" || ENV["RAILS_ENV"] == "test"
       user = User.find_by_external_id("Fake.User@ucop.edu")
+      session[:institution_id] = user.institution_id
     else
+      session[:institution_id] = @institution.id
       user = User.from_omniauth(env["omniauth.auth"], @institution.id)
     end
     session[:user_id] = user.id
