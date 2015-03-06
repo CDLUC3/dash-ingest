@@ -52,7 +52,7 @@ gem 'less-rails', '2.3.3'
 gem 'honeypot-captcha'
 gem 'strong_parameters'
 gem "omniauth-google-oauth2", "~> 0.2.1"
-gem "omniauth-shibboleth" ,  "~> 1.0.8"#:git => "https://bitbucket.org/cdl/omniauth-shibboleth", :branch=>'master'
+gem "omniauth-shibboleth" , :git => "https://bitbucket.org/cdl/omniauth-shibboleth", :branch=>'master'
 gem 'unicorn'
 gem 'carrierwave'
 gem 'custom_error_message'
