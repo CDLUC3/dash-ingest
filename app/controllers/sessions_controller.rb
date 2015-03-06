@@ -84,7 +84,7 @@ class SessionsController < ApplicationController
         return i
       end
     end 
-    nil
+    #nil
   end
 
 
