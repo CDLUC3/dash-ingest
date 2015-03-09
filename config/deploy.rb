@@ -16,7 +16,6 @@ set :branch, ENV['BRANCH'] || 'master'
 set  :filter,  :branches => %w{uci_development, development, stage, master, oauth,joel,institutions}
 
 
-#set :branch, 'stage'
 
 
 
