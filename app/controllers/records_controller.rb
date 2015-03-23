@@ -3,6 +3,7 @@ class RecordsController < ApplicationController
   include RecordHelper
 
   before_filter :verify_ownership
+  before_filter :check_login, only: [:show, :update, :destroy, :edit]
 
 
   def test
@@ -370,10 +371,8 @@ public
   end
 
 
-  def verify_ownership
-    
+  def verify_ownership   
     @user = current_user
-  
     @record = Record.find_by_id(params[:id])
     if @user
       @institution = @user.institution
@@ -383,6 +382,13 @@ public
       if @record.user_id != @user.id
         redirect_to "/records"
       end
+    end
+  end
+
+  def check_login   
+    if !current_user
+      #redirect_to 'https://dash.cdlib.org/'
+      redirect_to root_path
     end
   end
 
