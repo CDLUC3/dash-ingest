@@ -652,7 +652,7 @@ class Record < ActiveRecord::Base
 
 
   def related_id_types
-    ['ARK', 'DOI', 'EAN13', 'EISSN', 'HANDLE', 'ISBN', 'ISSN',
+    ['ARK', 'DOI', 'EAN13', 'EISSN', 'Handle', 'ISBN', 'ISSN',
      'ISTC', 'LISSN', 'LSID', 'PMID', 'PURL', 'UPC', 'URL', 'URN']
   end
 
