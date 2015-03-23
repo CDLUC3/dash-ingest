@@ -35,25 +35,28 @@ class RecordsController < ApplicationController
       @user = User.find_by_external_id("Fake.User@ucop.edu")
       session[:user_id] = @user.id
     end
-    @user = current_user
-    @institution = @user.institution
-    @record = Record.new
-    @record.creators.build()
-    @record.citations.build()
+    if current_user
+      @user = current_user
+      @institution = @user.institution
+      @record = Record.new
+      @record.creators.build()
+      @record.citations.build()
+      3.times do
+        @record.subjects.build()
+      end
+      @record.publisher = @institution.short_name
 
-    3.times do
-      @record.subjects.build()
-    end
-    @record.publisher = @institution.short_name
-
-    if @user.institution.short_name == 'DataONE'
-      @record.rights = "Creative Commons Public Domain Dedication (CC0)"
-      @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
+      if @user.institution.short_name == 'DataONE'
+        @record.rights = "Creative Commons Public Domain Dedication (CC0)"
+        @record.rights_uri = "http://creativecommons.org/publicdomain/zero/1.0/"
+      else
+        @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
+        @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+      end
+      @record.build_geoLocationBox
     else
-      @record.rights = "Creative Commons Attribution 4.0 International (CC-BY 4.0)"
-      @record.rights_uri = "https://creativecommons.org/licenses/by/4.0/"
+      redirect_to :controller => 'sessions', :action => 'signin'  
     end
-    @record.build_geoLocationBox
   end
 
   
