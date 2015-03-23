@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
   include RecordHelper
 
   before_filter :verify_ownership
-  before_filter :check_login, only: [:show, :update, :destroy, :edit]
+  before_filter :check_login, only: [:new, :show, :update, :destroy, :edit]
 
 
   def test
