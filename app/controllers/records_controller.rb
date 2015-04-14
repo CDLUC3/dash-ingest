@@ -278,7 +278,7 @@ class RecordsController < ApplicationController
         :geoLocationPlace, :geospatialType,
         creators_attributes: [ :id, :record_id, :creatorName, :_destroy],
         subjects_attributes: [ :id, :record_id, :subjectName, :_destroy],
-        citations_attributes: [ :id, :record_id, :citationName, :_destroy],
+        citations_attributes: [ :id, :record_id, :citationName, :_destroy, :related_id_type, :relation_type],
         contributors_attributes: [:id, :record_id, :contributorType, :contributorName],
         geoLocationPoints_attributes: [:id, :record_id, :lat, :lng, :_destroy],
         geoLocationBox_attributes: [:id, :record_id, :sw_lat, :sw_lng, :ne_lat, :ne_lng, :_destroy])

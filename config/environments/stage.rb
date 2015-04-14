@@ -39,7 +39,7 @@ DataIngest::Application.configure do
     :email => {
       :email_prefix => "[Dash Exception] ",
       :sender_address => %{"notifier"},
-      :exception_recipients => %w{shirin.faenza@ucop.edu Marisa.Strong@ucop.edu Scott.Fisher@ucop.edu}
+      :exception_recipients => %w{Bhavi.Vedula@ucop.edu Marisa.Strong@ucop.edu Scott.Fisher@ucop.edu}
     }
 
   # Do not compress assets
