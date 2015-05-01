@@ -3,4 +3,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :shibboleth, opts.symbolize_keys
   DataIngest::Application.shibboleth_host = opts['host']
   DataIngest::Application.ucla_shibboleth_host = opts['ucla-host']
+  DataIngest::Application.ucsf_shibboleth_host = opts['ucsf-host']
 end
