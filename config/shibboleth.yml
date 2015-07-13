@@ -1,5 +1,3 @@
-
-
 #These are things that configure how the omniauth plugin for shibboleth behaves
 
 local:
@@ -28,6 +26,7 @@ development:
   # ucla-host: dev2.dash
   host: dash-dev
   ucla-host: dev.dash
+  ucsf-host: datashare-dev
   # fields to retrieve from the auth header
   uid_field: eppn
   info_fields:
@@ -36,11 +35,11 @@ development:
     first_name: givenName
     last_name: sn
 
-
 stage:
   #The host for the shibboleth sp process
   host: dash-stg
   ucla-host: stg.dash
+  ucsf-host: datashare-stg
   # fields to retrieve from the auth header
   uid_field: eppn
   info_fields:
@@ -53,6 +52,7 @@ production:
   #The host for the web application, used to construct the target for the shibboleth id
   #provider's return.
   host: dash
+  ucsf-host: datashare
   # fields to retrieve from the auth header
   uid_field: eppn
   info_fields:

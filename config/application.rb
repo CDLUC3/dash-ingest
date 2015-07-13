@@ -15,7 +15,7 @@ end
 
 module DataIngest
   class Application < Rails::Application
-    attr_accessor :shibboleth_host, :ucla_shibboleth_host
+    attr_accessor :shibboleth_host, :ucla_shibboleth_host, :ucsf_shibboleth_host
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
