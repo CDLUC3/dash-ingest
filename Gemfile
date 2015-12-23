@@ -8,6 +8,7 @@ gem 'mysql2'
 #gem 'rubyzip',  "~> 0.9.9"
 gem 'rubyzip',  "~> 1.1.7"
 gem 'zip-zip' # will load compatibility for old rubyzip API.
+gem 'spawnling'
 
 group :development, :local do
   

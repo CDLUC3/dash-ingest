@@ -477,10 +477,12 @@ class Record < ActiveRecord::Base
       zipfile.add("mrt-datacite.xml", "#{file_path}/mrt-datacite.xml")
       zipfile.add("mrt-dc.xml", "#{file_path}/mrt-dc.xml")
       zipfile.add("mrt-dataone-manifest.txt", "#{file_path}/mrt-dataone-manifest.txt")
+      logger.debug("submission -- 1.1 added mrt-datacite.xml, mrt-dc.xml, mrt-dataone-manifest.txt to zip file: #{id}")
 
       self.purge_temp_files
 
       self.uploads.each do |d|
+        logger.debug("submission -- 1.2 adding #{d.upload_file_name} to zip: #{id}")
         zipfile.add("#{d.upload_file_name}", "#{file_path}/#{d.upload_file_name}")
       end
     end

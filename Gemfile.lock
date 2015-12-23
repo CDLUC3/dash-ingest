@@ -217,6 +217,7 @@ GEM
       websocket (~> 1.0)
     sextant (0.2.4)
       rails (>= 3.2)
+    spawnling (2.1.6)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -295,6 +296,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   selenium-webdriver
   sextant
+  spawnling
   sqlite3
   strong_parameters
   therubyracer
