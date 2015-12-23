@@ -481,10 +481,19 @@ class Record < ActiveRecord::Base
 
       self.purge_temp_files
 
-      self.uploads.each do |d|
-        logger.debug("submission -- 1.2 adding #{d.upload_file_name} to zip: #{id}")
-        zipfile.add("#{d.upload_file_name}", "#{file_path}/#{d.upload_file_name}")
-      end
+      #self.uploads.each do |d|
+      #  logger.debug("submission -- 1.2 adding #{d.upload_file_name} to zip: #{id}")
+      #  zipfile.add("#{d.upload_file_name}", "#{file_path}/#{d.upload_file_name}")
+      #end
+    end
+
+    # add files with shell command since rubyzip locks up with large files (2 GB or so) on server, but not on MacOS
+    self.uploads.each do |d|
+      logger.debug("submission -- 1.2 adding #{d.upload_file_name} to zip: #{id}")
+      #zipfile.add("#{d.upload_file_name}", "#{file_path}/#{d.upload_file_name}")
+      # zip -0 -g -j  /dash/apps/dash-ingest/empty.zip /dash/apps/dash-ingest/1736MBTestObject.blob
+      # system('zip', '-0', '-g', '-j', "/dash/apps/dash-ingest/empty.zip", "/dash/apps/dash-ingest/1736MBTest Object.blob")
+      system('zip', '-0', '-g', '-j', zipfile_name, File.join(file_path, d.upload_file_name) )
     end
 
     # clean up all temp files (again, required because of the glitch in chunked file uploads)
@@ -673,6 +682,24 @@ class Record < ActiveRecord::Base
               ['is documented by', 'IsDocumentedBy'],
               ['documents', 'Documents'], ['is identical to', 'IsIdenticalTo']
     ]
+  end
+
+  # escape filename for running through a shell command
+  def self.shellescape(str)
+    # An empty argument will be skipped, so return empty quotes.
+    return "''" if str.empty?
+
+    str = str.dup
+
+    # Process as a single byte sequence because not all shell
+    # implementations are multibyte aware.
+    str.gsub!(/([^A-Za-z0-9_\-.,:\/@\n])/n, "\\\\\\1")
+
+    # A LF cannot be escaped with a backslash because a backslash + LF
+    # combo is regarded as line continuation and simply ignored.
+    str.gsub!(/\n/, "'\n'")
+
+    return str
   end
 
 
