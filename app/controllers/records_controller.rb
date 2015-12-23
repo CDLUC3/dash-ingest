@@ -334,11 +334,12 @@ public
       @merritt_response = "PROCESSING"
 
       @user_email = request.headers[DATASHARE_CONFIG['user_email_from_shibboleth']]
-      Thread.new do
+      Spawnling.new(:nice => 7) do
+        logger.debug("submission -- 1. spawned a new thread: #{@record.id}")
         @record.generate_merritt_zip
-
-        @merritt_request = @record.send_archive_to_merritt (@user.external_id)
-
+        logger.debug("submission -- 2. passed @record.generate_merritt_zip: #{@record.id}")
+        @merritt_request = @record.send_archive_to_merritt(@user.external_id)
+        logger.debug("submission -- 3. passed @record.send_archive_to_merritt: #{@record.id}")
         submissionLog = SubmissionLog.new
 
         if (!@merritt_request)
@@ -350,12 +351,13 @@ public
         submissionLog.archiveresponse = @merritt_response
         submissionLog.record = @record
         submissionLog.save
+        logger.debug("submission -- 4. wrote to submission log: #{@record.id}")
         # if the submission was successful, remove the files from local
         # storage and add logging information
         if !(submissionLog.filtered_response == "Failed")
           @record.purge_files(submissionLog.id)
         end
-        ActiveRecord::Base.connection.close
+        #ActiveRecord::Base.connection.close
       end
 
       submissionLog = SubmissionLog.new
