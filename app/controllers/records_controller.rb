@@ -430,5 +430,4 @@ public
   def data_use_agreement
   end
 
-
 end
