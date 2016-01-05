@@ -12,9 +12,11 @@
 
 <div id="logout">
 
-	<%if current_user && current_user.institution %>
+	<% if (current_user && current_user.institution) || @institution
+       my_inst = ( current_user && current_user.institution ? current_user.institution : @institution )
+       %>
 
-		<p><%= image_tag "#{current_user.institution.logo}", 
+		<p><%= image_tag "#{my_inst.logo}",
 											:title => "Dash: Open data for the global research community", 
 											:alt => "Dash: Open data for the global research community" %>
 		</p>
