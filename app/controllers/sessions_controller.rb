@@ -81,29 +81,4 @@ class SessionsController < ApplicationController
     redirect_to access_denied_path
   end
 
-
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
         return i
       end
     end
-    #nil
+    nil
   end
 
 
