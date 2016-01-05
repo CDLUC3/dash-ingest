@@ -223,11 +223,12 @@
       } else if ( ($('.error').length > 0) ) {
           alert("An error occurred when uploading a file, please delete that file and try again.")
           return false;
-      } else { 
+      } else {
+        sum = 0;
         $('.size_non_humanized').each(function(){
-          sum += parseFloat($(this).text());  
+          sum += parseFloat($(this).text());
         });
-        // alert(sum); 
+        // alert(sum);
         $('.existing_uploads_size').each(function(){
           sum += parseFloat($(this).text());  
         });
