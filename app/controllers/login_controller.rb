@@ -30,6 +30,7 @@ class LoginController < ApplicationController
   
 
   def logout_page
+    @institution = institution
     render :layout => false
   end
 

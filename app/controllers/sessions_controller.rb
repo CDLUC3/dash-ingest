@@ -76,48 +76,9 @@ class SessionsController < ApplicationController
     end
   end
 
-
-  def institution
-    uri = URI(request.base_url)
-    uri = uri.to_s if uri
-    logger.info "uriabcdefg #{uri.inspect} "
-    Institution.all.each do |i|
-      if Regexp.new(i.external_id_strip).match(uri) 
-        return i
-      end
-    end 
-    #nil
-  end
-
-
   def omniauth_failure
     # redirect_to root_path
     redirect_to access_denied_path
   end
 
-
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
