@@ -10,7 +10,7 @@ set :rails_env, "production"
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
 
-server 'dash.cdlib.org', 
+server 'uc3-dash-prd.cdlib.org',
 	user: 'dash', 
 	roles: %w{web app db}
 
