@@ -23,7 +23,7 @@ set :rails_env, "stage"
 # Default deploy_to directory is /var/www/my_app
 set :deploy_to, '/apps/dash/apps/dash-ingest'
 
-server 'dash-stg.cdlib.org', 
+server 'uc3-dash-stg.cdlib.org',
 	user: 'dash', 
 
 	roles: %w{web app db}
