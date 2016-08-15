@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.1.7'
 
-gem 'rails', '3.2.19'
+gem 'rails', '3.2.22.3'
 
 gem 'mysql2'
 #gem 'rubyzip',  "~> 0.9.9"
